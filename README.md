@@ -2,7 +2,7 @@
 
 Phonon is a lightweight &amp; scalable Javascript/CSS framework to develop a single page application based on Phonegap / Apache Cordova
 
-![Alt text](http://phonon.quarkdev.com/App/public/assets/img/phonon-logo.png "Phonon")
+<img src="http://phonon.quarkdev.com/App/public/assets/img/phonon-logo.png" alt="Phonon" height="200px">
 
 # Why use Phonon
 
