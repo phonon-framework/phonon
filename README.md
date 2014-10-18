@@ -1,4 +1,4 @@
-# Phonon: the tiny but powerful Cordova framework
+# [Phonon: the tiny but powerful Cordova framework](http://phonon.quarkdev.com)
 
 Phonon is a lightweight &amp; scalable Javascript/CSS framework to develop a single page application based on Phonegap / Apache Cordova
 
@@ -35,4 +35,4 @@ Some plugins work with the Phonegap - Apache Cordova API such as Navigator, File
 
 # Documentation
 
-Please, visit the website: phonon.quarkdev.com
+Please, visit the [website of Phonon](http://phonon.quarkdev.com)
