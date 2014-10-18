@@ -43,3 +43,7 @@ Some plugins work with the Phonegap - Apache Cordova API such as Navigator, File
 # Documentation
 
 Please, visit the [website of Phonon](http://phonon.quarkdev.com).
+
+# License
+
+Phonon is licensed under the MIT License.
