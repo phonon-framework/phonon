@@ -40,7 +40,7 @@ Each Phonon component is compatible with asynchronous module definition (AMD).
 
 Some plugins work with the Phonegap - Apache Cordova API such as Navigator, FileSystem & Notifications.
 
-# Documentation
+# Documentation & Getting started
 
 Please, visit the [website of Phonon](http://phonon.quarkdev.com).
 
