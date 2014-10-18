@@ -1,0 +1,63 @@
+/*! ratchet.css v2.0.2 | MIT License | https://github.com/twbs/ratchet/blob/master/dist/css/ratchet.css */
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-touch-callout: none;
+  // / Disable soft keyboard selection on UI elements (see: http://stackoverflow.com/questions/5995210/disabling-user-selection-in-uiwebview)
+  -webkit-user-select: none; /* Disable selection/copy in UIWebView */
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-tap-highlight-color: transparent; // outline-highlight-on-focus
+}
+
+body {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 17px;
+  line-height: 21px;
+  color: #000;
+  background-color: #fff;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: #fff;
+}
+
+.content > * {
+  -webkit-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+          transform: translateZ(0);
+}
+
+// Remove the default scrollbar
+.content::-webkit-scrollbar { 
+	display: none; 
+}
+
+[contenteditable="true"], input, textarea, select {
+	-webkit-touch-callout: default;
+	-webkit-user-select: auto;
+     -moz-user-select: auto;
+      -ms-user-select: auto;
+          user-select: text;
+}
+
+hr {
+	border : 0;
+	height : 1px;
+	background : #eee 50% 0 no-repeat;
+	margin : 1em 0;
+}

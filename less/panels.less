@@ -1,0 +1,98 @@
+//------------------------//
+// Panel                  //
+//------------------------//
+
+.backdrop-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 16;
+  background: transparent; // transparent fallback
+  background-color: rgba(0, 0, 0, .25);
+
+  &.fadeout {
+    opacity: 0;
+    -webkit-transition: opacity .65s linear;
+       -moz-transition: opacity .65s linear;
+        -ms-transition: opacity .65s linear;
+            transition: opacity .65s linear;
+  }
+}
+
+.panel, .panel-expanded {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 18;
+  background: #fff;
+}
+
+.panel {
+  width: 100%;
+  height: auto;
+  max-height: 80%;
+  -webkit-transition: -webkit-transform .25s, opacity 1ms .25s;
+     -moz-transition:    -moz-transform .25s, opacity 1ms .25s;
+      -ms-transition:     -ms-transform .25s, opacity 1ms .25s;
+          transition:         transform .25s, opacity 1ms .25s;
+
+  -webkit-transform: translate3d(0, -100%, 0);
+     -moz-transform: translate3d(0, -100%, 0);
+      -ms-transform: translate3d(0, -100%, 0);
+          transform: translate3d(0, -100%, 0);
+
+  // Active panel
+  &.active {
+    opacity: 1;
+    -webkit-transition: -webkit-transform .25s;
+       -moz-transition:    -moz-transform .25s;
+            transition:         transform .25s;
+    -webkit-transform: translate3d(0, 0, 0);
+       -moz-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+
+  & .content {
+    position: relative; // !
+    overflow: hidden;
+  }
+}
+
+.panel-expanded .bar-nav {
+  position: relative;
+}
+
+.panel-expanded {
+  width: 92%;
+  max-width: 92%;
+  height: 92%;
+  min-height: 92%;
+  margin: 4%;
+
+  -webkit-box-shadow: 0px 0px 16px 6px rgba(0,0,0,0.25);
+  -moz-box-shadow: 0px 0px 16px 6px rgba(0,0,0,0.25);
+  box-shadow: 0px 0px 16px 6px rgba(0,0,0,0.25);
+
+  -webkit-transition: opacity .35s linear;
+     -moz-transition: opacity .35s linear;
+      -ms-transition: opacity .35s linear;
+          transition: opacity .35s linear;
+
+  // Active panel
+  &.active {
+    opacity: 1;
+    -webkit-transition: opacity .35s linear;
+       -moz-transition: opacity .35s linear;
+        -ms-transition: opacity .35s linear;
+            transition: opacity .35s linear;
+  }
+
+  & .content {
+    position: absolute;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+}

@@ -1,0 +1,65 @@
+/**
+ * Small fixes
+*/
+
+// Fix bug in ratchet : not equal table view margin-top if .media is present
+.content > .table-view:first-child {
+  margin-top: 0;
+}
+
+.bar {
+	z-index: 15;
+}
+
+// Fix: problem with z-index between the bar button and the popover
+.bar .btn, .bar .icon {
+	z-index: 15; // z-index of popover=20, bar=10, bar btn=20, backdrop=15
+}
+
+// Fix: button position
+.bar .btn:not(.btn-nav) {
+	padding: 8px;
+}
+
+
+// Add padding (left-right) => better touch
+.bar .icon.pull-right, .bar .icon.pull-left {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.bar .icon.pull-right {
+	margin-right: -10px;
+}
+
+.bar .icon.pull-left {
+	margin-left: -10px;
+}
+
+
+// Fix z-index between bar-tab and popover
+.bar.bar-tab {
+  z-index: 2;
+}
+
+// Fix popover on android 4.3
+.popover {
+
+	& .bar-nav {
+		z-index: 21;
+		position: relative;
+	}
+
+	& .bar ~ .table-view {
+ 		padding-top: 0;
+	}
+}
+
+.btn, .icon {
+	outline: none;
+}
+
+// Default: .6
+.btn:disabled, .btn.disabled {
+  opacity: 1;
+}
