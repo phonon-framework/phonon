@@ -10,10 +10,10 @@ Apache Cordova is a platform for building native mobile applications using HTML,
 
 By quality we mean:
 
-*Management of the page's state (onCreate, onReady, OnQuit, etc) to better perform the app processes and update the user interface. For example, updating a list after the user navigates on another page after the page transition is completed. Like this we keep the rendering quality. We also thought to consider the physical "back" button on Android thanks to the Apache Cordova's event.
-*Management of languages ​​available for the application: LinguisticJS is the module to internationalize your application.
-*Speed ​​at the launch of the application.
-*Modern UI components: made in CSS and Javascript
+* Management of the page's state (onCreate, onReady, OnQuit, etc) to better perform the app processes and update the user interface. For example, updating a list after the user navigates on another page after the page transition is completed. Like this we keep the rendering quality. We also thought to consider the physical "back" button on Android thanks to the Apache Cordova's event.
+* Management of languages ​​available for the application: LinguisticJS is the module to internationalize your application.
+* Speed ​​at the launch of the application.
+* Modern UI components: made in CSS and Javascript
 
 <img src="http://phonon.quarkdev.com/App/public/assets/img/phonon-logo.png" alt="Phonon" height="180px">
 
