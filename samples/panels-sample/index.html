@@ -5,13 +5,14 @@
         <meta name="format-detection" content="telephone=no" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
 
-        <link rel="stylesheet" type="text/css" href="../../css/phonon.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/phonon-minimal.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/panels.css" />
         <title>App</title>
     </head>
     <body>
 
         <div class="app-page app-active" id="home">
-            <header class="bar bar-nav">
+            <header class="header-bar">
                 <h1 class="title">Panel</h1>
             </header>
 
@@ -24,27 +25,27 @@
                 <h3>Expanded Panel</h3>
 
                 <button class="btn btn-block" data-panel-id="myExpandedPanelexample">Open Expanded Panel</button>
-            </div>
-        
-            <div id="myPanelexample" class="panel">
-                <header class="bar bar-nav">
-                    <h1 class="title">Panel</h1>
-                    <button class="btn pull-right" data-panel-close>Close</button>
-                </header>
 
-                <div class="content">
-                    <p class="content-padded">The contents of my panel go here. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
+                <div id="myPanelexample" class="panel">
+                    <header class="header-bar">
+                        <button class="btn-action pull-right icon icon-close" data-panel-close></button>
+                        <h1 class="title">Panel</h1>
+                    </header>
+
+                    <div class="content content-padded">
+                        <p>The contents of my panel go here. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div id="myExpandedPanelexample" class="panel-expanded">
-                <header class="bar bar-nav">
-                    <h1 class="title">Expanded Panel</h1>
-                    <button class="btn pull-right" data-panel-close>Close</button>
-                </header>
+                <div id="myExpandedPanelexample" class="panel-expanded">
+                    <header class="header-bar">
+                        <button class="btn-action pull-right icon icon-close" data-panel-close></button>
+                        <h1 class="title">Expanded Panel</h1>
+                    </header>
 
-                <div class="content">
-                    <p class="content-padded">The contents of my panel go here. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
+                    <div class="content content-padded">
+                        <p>The contents of my panel go here. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
+                    </div>
                 </div>
             </div>
         </div>

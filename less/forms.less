@@ -1,0 +1,139 @@
+@checkbox-size:    32px;
+@tick-size:		   20px;
+
+input[type="submit"], input[type="reset"], input[type="button"] {
+	width: 100%;
+}
+
+.form-group {
+	margin-bottom: 16px;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="search"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="tel"],
+input[type="color"] {
+	width: 100%;
+	height: 35px;
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+		    appearance: none;
+	line-height: 21px;
+	background-color: #fff;
+	border: none;
+	border-bottom: 1px solid #ddd;
+	outline: none;
+}
+
+.text-error {
+	display: none;
+	margin-top: 4px;
+	font-size: 13px;
+	color: #e53935;
+}
+
+.error {
+	border-bottom-width: 2px !important;
+	border-color: #e53935 !important;
+}
+
+.error + .text-error {
+	display: block;
+}
+
+textarea {
+	height: auto;
+}
+
+label input {
+	font-size: 16px;
+}
+
+input::-webkit-input-placeholder {
+	font-size: 15px;
+	padding: 0;
+	color: #b8b8b8;
+}
+
+
+select:focus,
+textarea:focus,
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus {
+	border-bottom-width: 2px;
+	border-color: #0084e7;
+}
+
+label {
+	font-size: 13px;
+	display: block;
+	clear: both;
+	color: #949494;
+}
+
+label input[type="checkbox"] {
+	margin-top: -4px;
+	margin-bottom: 16px;
+}
+
+input[type="checkbox"] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	float: right;
+	border-radius: 50%;
+	width: @checkbox-size;
+	height: @checkbox-size;
+	-webkit-transition: all .25s ease-out 0;
+	        transition: all .25s ease-out 0;
+	background: #e1e1e1;
+	border: none;
+	color: #fff;
+	outline: none;
+}
+
+input[type="checkbox"]:checked::before {
+	content: '\2713';
+}
+
+input[type="checkbox"]:checked {
+	background: #0084e7;
+
+	&::before {
+		width: @checkbox-size;
+		height: @checkbox-size;
+		position: absolute;
+		display: inline-block;
+		font-size: @tick-size;
+		text-align: center;
+		line-height: @checkbox-size;
+	}
+}
+
+.row label {
+	margin-top: 7px;
+}

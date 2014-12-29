@@ -7,18 +7,22 @@
 
         <link rel="stylesheet" type="text/css" href="../../css/phonon-minimal.css" />
         <link rel="stylesheet" type="text/css" href="../../css/icons.css" />
-        <link rel="stylesheet" type="text/css" href="../../css/lists.css" />
-        <link rel="stylesheet" type="text/css" href="../../css/grid.css" />
         <title>App</title>
     </head>
     <body>
-    
-        <div class="app-page" id="home"></div>
-        <div class="app-page" id="page-two"></div>
-        <!-- Other page containers-->
-        
-        <script type="text/javascript" src="../../js/navigator.js"></script>
-        <script type="text/javascript" src="app.js"></script>
+
+        <div class="app-page app-active" id="home">
+            <header class="header-bar">
+                <h1 class="title">Floating actions</h1>
+            </header>
+            <div class="content content-padded">
+
+                <p style="height: 1000px;">Scroll down/up to see it in action.</p>
+                <button class="floating-action icon icon-menu active btn-primary"></button>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="../../js/floating-actions.js"></script>
     </body>
 </html>
         

@@ -1,9 +1,57 @@
-/*
- * Ratchet integration
- *
- * Some modifications are required in order to set many pages
- * in a single HTML file
- */
+@-webkit-keyframes leftTransition {
+	0% {
+		opacity: 1;
+		-webkit-transform: translate3d(0, 0, 0);
+		        transform: translate3d(0, 0, 0);
+	}
+
+	100% {
+		opacity: 0;
+		-webkit-transform: translate3d(-50%, 0, 0);
+		        transform: translate3d(-50%, 0, 0);
+	}
+}
+@-webkit-keyframes rightTransition {
+	0% {
+		opacity: 1;
+		-webkit-transform: translate3d(0, 0, 0);
+		        transform: translate3d(0, 0, 0);
+	}
+
+	100% {
+		opacity: 0;
+		-webkit-transform: translate3d(50%, 0, 0);
+		        transform: translate3d(50%, 0, 0);
+	}
+}
+
+
+@keyframes leftTransition {
+	0% {
+		opacity: 1;
+		-webkit-transform: translate3d(0, 0, 0);
+		        transform: translate3d(0, 0, 0);
+	}
+
+	100% {
+		opacity: 0;
+		-webkit-transform: translate3d(-50%, 0, 0);
+		        transform: translate3d(-50%, 0, 0);
+	}
+}
+
+@keyframes rightTransition {
+  0% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(50%, 0, 0);
+            transform: translate3d(50%, 0, 0);
+  }
+}
 
 .app-page {
 	display: block;
@@ -14,13 +62,10 @@
 	width: 100%;
 
 	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	backface-visibility: hidden;
+	        backface-visibility: hidden;
 
 	-webkit-transform: translate(0, 0, 0);
-	-moz-transform: translate(0, 0, 0);
-	-ms-transform: translate(0, 0, 0);
-	transform: translate(0, 0, 0);
+	        transform: translate(0, 0, 0);
 
 	overflow: hidden;
 	z-index: 1;
@@ -33,32 +78,21 @@
 
 	/*
 	 *
-	 * Page transition
+	 * Page transition animation
 	 *
 	*/
 	&.page-sliding {
-		-webkit-transition: -webkit-transform .35s;
-		-moz-transition: -moz-transform .35s;
-		transition: transform .35s;
-		-webkit-transform: translate3d(0, 0, 0);
-		-moz-transform: translate3d(0, 0, 0);
-		-ms-transform: translate3d(0, 0, 0);
-		transform: translate3d(0, 0, 0);
 
 		&.left {
 			z-index: 3;
-			-webkit-transform: translate3d(-100%, 0, 0);
-			-moz-transform: translate3d(-100%, 0, 0);
-			-ms-transform: translate3d(-100%, 0, 0);
-			transform: translate3d(-100%, 0, 0);
+			-webkit-animation: leftTransition .3s ease-out;
+			        animation: leftTransition .3s ease-out;
 		}
 
 		&.right {
 			z-index: 4;
-			-webkit-transform: translate3d(100%, 0, 0);
-			-moz-transform: translate3d(100%, 0, 0);
-			-ms-transform: translate3d(100%, 0, 0);
-			transform: translate3d(100%, 0, 0);
+			-webkit-animation: rightTransition .3s ease-out;
+			        animation: rightTransition .3s ease-out;
 		}
 	}
 }

@@ -96,12 +96,11 @@
     var backNavigation = false;
     var defaultPage;
 
-    var transitionEnd = 'webkitTransitionEnd';
-    var isCordova = typeof window.cordova !== 'undefined' ? true : false;
+    var transitionEnd = 'webkitAnimationEnd';
 
     // fix: Firefox support + android 4
-    if (!('webkitTransitionEnd' in window) && !isCordova) {
-        transitionEnd = 'transitionend';
+    if (window.animationName !== undefined) {
+        transitionEnd = window.animationEnd;
     }
 
     /**
@@ -609,18 +608,23 @@
     /**
      * Setups the tap event
      * @param {String} amdHammerPath (optional)
+     * @param {Object} hammerOptions (optional)
      * @private
     */
-    var setupTapEvent = function (amdHammerPath) {
+    var setupTapEvent = function (amdHammerPath, hammerOptions) {
+
+        var options = hammerOptions || {};
 
         if (typeof Hammer !== 'undefined') {
-            new Hammer(document.body).on('tap', onNavigation, false);
+            var h = new Hammer(document.body).on('tap', onNavigation, false);
+            h.get('tap').set(options);
         }
         else if(typeof require === 'function') {
             require([amdHammerPath], function(Hammer) {
 
                 if(typeof Hammer !== 'undefined') {
-                    new Hammer(document.body).on('tap', onNavigation, false);
+                    var h = new Hammer(document.body).on('tap', onNavigation, false);
+                    h.get('tap').set(options);
                 } else {
                     document.addEventListener('click', onNavigation, false);
                 }
@@ -762,8 +766,8 @@
             setTemplatePath(config.templatePath);
         }
 
-        if (config.hammerPath !== undefined) {
-            setupTapEvent(config.hammerPath);
+        if (config.hammer !== undefined && typeof config.hammer.path === 'string') {
+            setupTapEvent(config.hammer.path, config.hammer.tapOptions);
         } else {
             setupTapEvent();
         }

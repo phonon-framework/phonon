@@ -90,7 +90,7 @@ var Ajax = (function () {
                 if (self.currentXhr.readyState === 4) {
                     if (self.currentXhr.status === 200) {
                         // Success
-
+                        
                         if(self.dataType === 'json') {
                             var json = self.toJSON(self.currentXhr.responseText);
                             if(json !== 'JSON_MALFORMED') {

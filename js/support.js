@@ -22,4 +22,20 @@
 		window.CustomEvent = CustomEvent;
 	}
 
+	window.animationName = 'animation';
+	window.animationEnd = 'animationend';
+
+	if(document.body.style.animationName === undefined ) {
+
+		var domPrefixes = ['webkit', 'moz'], l = domPrefixes.length, i = l - 1;
+
+		for (; i >= 0; i--) {
+			if(document.body.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
+				window.animationName = domPrefixes[i] + 'Animation';
+				window.animationEnd = domPrefixes[i] + 'AnimationEnd';
+				break;
+			}
+		}
+	}
+
 }(window, document));

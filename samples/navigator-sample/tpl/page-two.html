@@ -1,13 +1,19 @@
-<header class="bar bar-nav">
-	<button class="btn pull-left" data-navigation="$previous-page" data-autotext="true"></button>
+<header class="header-bar">
+	<button class="btn-action pull-left icon icon-arrow-back" data-navigation="$previous-page"></button>
     <h1 class="title">Page Two</h1>
 </header>
 <div class="content content-padded">
     <p>Parameter value:</p>
     <p class="result"></p>
 
-    <button class="btn order">Order</button>
-    <button class="btn cancel">Cancel</button>
+    <div class="row">
+    	<div class="phone-5 tablet-5 padded column">
+    		<button class="btn btn-block order">Order</button>
+    	</div>
+    	<div class="phone-5 tablet-5 padded column">
+    		<button class="btn btn-block btn-negative cancel">Cancel</button>
+    	</div>
+    </div>
 
-    <p><strong class="msg"></strong></p>
+    <p class="msg"></p>
 </div>

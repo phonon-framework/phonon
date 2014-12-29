@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: panels.js v0.0.1
+* Phonon: panels.js v0.0.2
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -14,14 +14,18 @@
       transitionEnd = 'transitionend';
   }
   
-  var previousPanel = false;
-  var isOpened = false;
-  var backdrop = document.createElement('div');
-  backdrop.classList.add('backdrop-panel');
+  var lastTrigger = false;
+  var moved = false;
+  var panels = [];
+
+  var createBackdrop = function () {
+    var backdrop = document.createElement('div');
+    backdrop.classList.add('backdrop-panel');
+    return backdrop;
+  };
 
   var findTrigger = function (target) {
-    var i;
-    var triggers = document.querySelectorAll('a[data-panel-id], a[data-panel-close], button[data-panel-id], button[data-panel-close]');
+    var triggers = document.querySelectorAll('[data-panel-id], [data-panel-close]'), i;
     for (; target && target !== document; target = target.parentNode) {
       for (i = triggers.length; i--;) {
         if (triggers[i] === target) {
@@ -44,8 +48,7 @@
   };
 
   var findPanel = function (target) {
-    var i;
-    var panels = document.querySelectorAll('.panel, .panel-expanded');
+    var panels = document.querySelectorAll('.panel, .panel-expanded'), i;
 
     for (; target && target !== document; target = target.parentNode) {
       for (i = panels.length; i--;) {
@@ -56,30 +59,37 @@
     }
   };
 
-  var findPage = function (target) {
+  var onItem = function (target) {
     for (; target && target !== document; target = target.parentNode) {
-      if(target.classList.contains('app-page')) {
+      if(target.nodeName === 'LI') {
         return target;
       }
     }
   };
 
-  window.addEventListener('touchstart', function (e) {
-    e = e.originalEvent || e;
+  window.addEventListener('touchstart', function (evt) {
+    evt = evt.originalEvent || evt;
 
-    var p = findPanel(e.target);
+    if(panels.length > 0) {
+      var previousPanel = panels[panels.length - 1].panel;
 
-    if (!p && isOpened) {
-      close(previousPanel);
+      if (!findPanel(evt.target)) close(previousPanel);
     }
   });
 
-  window.addEventListener('touchend', function (event) {
+  window.addEventListener('touchmove', function (evt) {
+    evt = evt.originalEvent || evt;
+    moved = true;
+  });
 
-    var trigger = findTrigger(event.target);
+  window.addEventListener('touchend', function (evt) {
+
+    var trigger = findTrigger(evt.target);
 
     if (trigger) {
-      var panel = getPanel(event);
+      var panel = getPanel(evt);
+
+      lastTrigger = trigger;
 
       if(panel) {
         if(panel.classList.contains('active')) {
@@ -89,18 +99,46 @@
         }
       }
     }
+
+    var panel = findPanel(evt.target);
+    var item = onItem(evt.target);
+
+    if(panel && item && !moved) {
+      if(item.getAttribute('selectable') !== null) {
+        
+        close(panel);
+
+        evt = new CustomEvent('select', {
+          detail: { item: item.textContent, target: evt.target },
+          bubbles: true,
+          cancelable: true
+        });
+
+        lastTrigger.textContent = item.textContent;
+
+        panel.dispatchEvent(evt);
+      }
+    }
+    moved = false;
   });
 
   function onHide() {
 
-    var page = findPage(previousPanel);
+    var page = document.querySelector('.app-page.app-active');
     if(page.querySelector('div.backdrop-panel') !== null) {
-      backdrop.classList.remove('fadeout');
-      page.removeChild(backdrop);
-    }
 
-    previousPanel.style.visibility = 'hidden';
-    this.removeEventListener(transitionEnd, onHide, false);
+      var backdrop = panels[panels.length - 1].backdrop;
+      backdrop.classList.remove('fadeout');
+
+      page.removeChild(backdrop);
+
+      var previousPanel = panels[panels.length - 1].panel;
+      previousPanel.style.visibility = 'hidden';
+
+      panels.pop();
+
+      this.removeEventListener(transitionEnd, onHide, false);
+    }
   }
 
   /**
@@ -115,15 +153,17 @@
       throw new Error('The panel with ID ' + el + ' does not exist');
     }
 
-    isOpened = true;
-
     panel.style.visibility = 'visible';
 
-    previousPanel = panel;
+
     if(!panel.classList.contains('active')) {
       panel.classList.toggle('active');
-      var page = findPage(panel);
-      page.appendChild(backdrop);
+
+      var backdrop = createBackdrop();
+
+      panels.push( {panel: panel, backdrop: backdrop} );
+
+      document.querySelector('.app-page.app-active').appendChild(backdrop);
     }
   }
   api.open = open;
@@ -134,11 +174,10 @@
       throw new Error('The panel with ID ' + el + ' does not exist');
     }
 
-    isOpened = false;
-    previousPanel = panel;
-
     if(panel.classList.contains('active')) {
       panel.classList.toggle('active');
+
+      var backdrop = panels[panels.length - 1].backdrop;
 
       backdrop.classList.add('fadeout');
 

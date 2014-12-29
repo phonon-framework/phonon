@@ -1,15 +1,7 @@
-/*! ratchet.css v2.0.2 | MIT License | https://github.com/twbs/ratchet/blob/master/dist/css/ratchet.css */
 * {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
-  -webkit-touch-callout: none;
-  // / Disable soft keyboard selection on UI elements (see: http://stackoverflow.com/questions/5995210/disabling-user-selection-in-uiwebview)
-  -webkit-user-select: none; /* Disable selection/copy in UIWebView */
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  -webkit-tap-highlight-color: transparent; // outline-highlight-on-focus
 }
 
 body {
@@ -18,11 +10,64 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 17px;
   line-height: 21px;
-  color: #000;
+  color: #333;
   background-color: #fff;
+}
+
+body, input, textarea, button, select, label, p {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  color: #333;
+}
+
+// Disable selection/copy
+textarea, button, select, p, li, h1, h2, h3, h4, h5, h6, a, input {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  line-height: 1;
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h5 {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+h6 {
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .content {
@@ -33,31 +78,61 @@ body {
   left: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  background-color: #fff;
+
+  // Remove the default scrollbar
+  &::-webkit-scrollbar { 
+    display: none; 
+  }
 }
+
+.content-padded {
+  margin: 16px;
+}
+
 
 .content > * {
   -webkit-transform: translateZ(0);
-      -ms-transform: translateZ(0);
           transform: translateZ(0);
 }
 
-// Remove the default scrollbar
-.content::-webkit-scrollbar { 
-	display: none; 
+.with-scrollbar {
+
+  &::-webkit-scrollbar {
+    width: 11px;
+    height: 18px;
+    display: block;
+  }
+
+  &::-webkit-scrollbar-track {
+
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 6px;
+    border-radius: 10px;
+    border: 4px solid rgba(0, 0, 0, 0);
+    box-shadow: inset 0 0 6px rgb(0,0,0); 
+  }
+
 }
 
-[contenteditable="true"], input, textarea, select {
+input, textarea, select {
 	-webkit-touch-callout: default;
 	-webkit-user-select: auto;
      -moz-user-select: auto;
       -ms-user-select: auto;
-          user-select: text;
+          user-select: auto;
 }
 
-hr {
-	border : 0;
-	height : 1px;
-	background : #eee 50% 0 no-repeat;
-	margin : 1em 0;
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
 }
