@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: navigator.js v0.3.9
+* Phonon: navigator.js v0.4.0
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -99,7 +99,7 @@
     var transitionEnd = 'webkitAnimationEnd';
 
     // fix: Firefox support + android 4
-    if (window.animationName !== undefined) {
+    if (window.animationEnd !== undefined) {
         transitionEnd = window.animationEnd;
     }
 
@@ -608,23 +608,18 @@
     /**
      * Setups the tap event
      * @param {String} amdHammerPath (optional)
-     * @param {Object} hammerOptions (optional)
      * @private
     */
-    var setupTapEvent = function (amdHammerPath, hammerOptions) {
-
-        var options = hammerOptions || {};
+    var setupTapEvent = function (amdHammerPath) {
 
         if (typeof Hammer !== 'undefined') {
-            var h = new Hammer(document.body).on('tap', onNavigation, false);
-            h.get('tap').set(options);
+            new Hammer(document.body).on('tap', onNavigation, false);
         }
         else if(typeof require === 'function') {
             require([amdHammerPath], function(Hammer) {
 
                 if(typeof Hammer !== 'undefined') {
-                    var h = new Hammer(document.body).on('tap', onNavigation, false);
-                    h.get('tap').set(options);
+                    new Hammer(document.body).on('tap', onNavigation, false);
                 } else {
                     document.addEventListener('click', onNavigation, false);
                 }
@@ -766,8 +761,8 @@
             setTemplatePath(config.templatePath);
         }
 
-        if (config.hammer !== undefined && typeof config.hammer.path === 'string') {
-            setupTapEvent(config.hammer.path, config.hammer.tapOptions);
+        if (config.hammerPath !== undefined) {
+            setupTapEvent(config.hammerPath);
         } else {
             setupTapEvent();
         }
