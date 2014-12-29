@@ -650,7 +650,7 @@ button,
   color: #fff;
   background-color: #0067B4;
 }
-.btn-success {
+.btn-positive {
   color: #fff;
   background-color: #009A32;
 }
@@ -659,12 +659,12 @@ button,
   background-color: #E70500;
 }
 .btn-primary,
-.btn-success,
+.btn-positive,
 .btn-negative {
   border: none;
 }
 .btn-primary:active,
-.btn-success:active,
+.btn-positive:active,
 .btn-negative:active {
   color: #fff;
 }
@@ -758,7 +758,7 @@ button,
 }
 .btn-loader:disabled.btn-action:after,
 .btn-loader:disabled.btn-primary:after,
-.btn-loader:disabled.btn-success:after,
+.btn-loader:disabled.btn-positive:after,
 .btn-loader:disabled.btn-negative:after {
   background-color: #fff;
 }
