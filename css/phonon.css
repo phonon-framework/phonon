@@ -586,6 +586,18 @@ button,
 .btn-negative:active {
   color: #fff;
 }
+.btn:active {
+  background-color: #f2f2f2;
+}
+.btn-primary:active {
+  background-color: #0060a8;
+}
+.btn-positive:active {
+  background-color: #008f2e;
+}
+.btn-negative:active {
+  background-color: #db0500;
+}
 .ripple {
   position: absolute;
   background: rgba(0, 0, 0, 0.25);
