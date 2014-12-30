@@ -16,7 +16,7 @@
 		
 		if (target.tagName.toLowerCase() !== 'button' && !target.classList.contains('btn')) return false;
 		
-		if (target.classList.contains('btn-action') || target.classList.contains('flg-action')) return false;
+		if (target.classList.contains('btn-action') || target.classList.contains('floating-action')) return false;
 
 		if (target.disabled === true) return false;
 
