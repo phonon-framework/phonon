@@ -1,3 +1,8 @@
+@space-icon-body:		10px;
+@icon-size:				24px; // please see icons.less
+@icon-padding:			14px;
+@list-margin-left:		16px;
+
 .list {
 	padding: 0;
 	margin-top: 0;
@@ -5,7 +10,7 @@
 	list-style: none;
 
 	& .pull-left {
-		margin-right: 10px;
+		margin-right: @space-icon-body;
 	}
 
 	& .pull-right {
@@ -27,7 +32,7 @@
 	}
 
 	& .media-divider {
-		padding-left: 75px;
+		padding-left: (@list-margin-left + @icon-size + (@icon-padding*2) + @space-icon-body);
 	}
 
 	& .list-cell {
@@ -65,7 +70,7 @@
 		}
 
 		& .icon {
-			padding: 14px; // icon size: 24px
+			padding: @icon-padding; // icon size: 24px
 			border: 1px solid #eee;
 			border-radius: 50%;
 		}
