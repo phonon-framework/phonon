@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: panels.js v0.0.2
+* Phonon: panels.js v0.0.3
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -71,9 +71,16 @@
     evt = evt.originalEvent || evt;
 
     if(panels.length > 0) {
-      var previousPanel = panels[panels.length - 1].panel;
+      var previousPanel = panels[panels.length - 1].panel, p = findPanel(evt.target);
 
-      if (!findPanel(evt.target)) close(previousPanel);
+      if (!p) close(previousPanel);
+
+      if (p && p !== previousPanel) {
+        // Case where there are two active panels
+        if (p.id !== previousPanel.id) {
+          close(previousPanel);
+        }
+      } 
     }
   });
 
