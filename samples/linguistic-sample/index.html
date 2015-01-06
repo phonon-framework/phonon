@@ -6,6 +6,7 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
 
         <link rel="stylesheet" type="text/css" href="../../css/phonon-minimal.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/grid.css" />
         <link rel="stylesheet" type="text/css" href="../../css/forms.css" />
         <link rel="stylesheet" type="text/css" href="../../css/lists.css" />
         <title>App</title>
@@ -23,14 +24,26 @@
                     <p class="pref-lang"></p>
                     <p class="browser-lang"></p>
                     <p class="default-lang"></p>
+                </div>
 
+                <div class="content-padded">
+                    <div class="row">
+                        <div class="phone-5 tablet-5 padded column">
+                            <button class="btn btn-block btn-primary set-en" data-l="fr" data-linguistic="text: setFrench"></button>
+                        </div>
+                        <div class="phone-5 tablet-5 padded column">
+                            <button class="btn btn-block btn-primary set-fr" data-l="en" data-linguistic="text: setEnglish"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-padded">
                     <input type="text" data-linguistic="placeholder: welcome">
+                    <input type="text" data-linguistic="value: welcome">
                 </div>
 
                 <ul class="list">
                     <li class="list-cell cell-padded" data-linguistic="text: desc"></li>
-                    <li class="list-cell cell-padded set-fr" data-l="fr" data-linguistic="text: setFrench"></li>
-                    <li class="list-cell cell-padded set-en" data-l="en" data-linguistic="text: setEnglish"></li>
                 </ul>
             </div>
         </div>
