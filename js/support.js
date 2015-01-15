@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: support.js v0.0.1
+* Phonon: support.js v0.0.3
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -22,20 +22,26 @@
 		window.CustomEvent = CustomEvent;
 	}
 
-	window.animationName = 'animation';
+	window.animationPrefix = '';
 	window.animationEnd = 'animationend';
 
-	if(document.body.style.animationName === undefined ) {
+	(function whichAnimationEvent() {
+		var el = document.createElement('div'), transitions = [
+			{ name: 'animation', event: 'animationend' } ,
+			{ name: 'MozAnimation', event: 'animationend' },
+			{ name: 'WebkitAnimation', event: 'webkitAnimationEnd' }
+		];
 
-		var domPrefixes = ['webkit', 'moz'], l = domPrefixes.length, i = l - 1;
+		var size = transitions.length, i = size - 1;
 
 		for (; i >= 0; i--) {
-			if(document.body.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
-				window.animationName = domPrefixes[i] + 'Animation';
-				window.animationEnd = domPrefixes[i] + 'AnimationEnd';
+			var t = transitions[i];
+			if(el.style[t.name] !== undefined) {
+				window.animationPrefix = (t.event.indexOf('webkit') === 0 ? 'webkit' : '');
+				window.animationEnd = t.event;
 				break;
 			}
 		}
-	}
+	})();
 
 }(window, document));
