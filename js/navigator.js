@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: navigator.js v0.4
+* Phonon: navigator.js v0.5
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -250,25 +250,33 @@
      * @private
     */
     var onNavigation = function (evt) {
+
         var hasHref = null;
 
         var target = evt.target ? evt.target : evt.toElement;
         for (; target && target !== document; target = target.parentNode) {
-            var dataTarget = target.getAttribute('data-navigation');
+            var dataTarget = target.getAttribute('data-navigation'), dataReq = target.getAttribute('data-req');
 
             if (dataTarget !== null) {
+
                 if (dataTarget === '$previous-page') {
                     backNavigation = true;
                     hasHref = getStackPreviousPage();
                     if ((hasHref.indexOf('#!') !== 0)) {
                         hasHref = '#!' + hasHref;
                     }
-                    break;
+                } else {
+                    if(dataTarget.indexOf('#!') !== 0) {
+                        hasHref = '#!' + dataTarget;
+                    } else {
+                        hasHref = dataTarget;
+                    }
                 }
-                if ((dataTarget.indexOf('#!') !== 0) && dataTarget !== '$previous-page') {
-                    hasHref = '#!' + dataTarget;
-                    break;
+
+                if(dataReq) {
+                    hasHref = hasHref + '/' + dataReq;
                 }
+                break;
             }
 
             if (target.attributes.href !== undefined && target.attributes.href.value !== null) {
@@ -618,8 +626,7 @@
         if (typeof Hammer !== 'undefined') {
             var h = new Hammer(document.body).on('tap', onNavigation, false);
             h.get('tap').set(options);
-        }
-        else if(typeof require === 'function') {
+        } else if(typeof require === 'function') {
             require([amdHammerPath], function(Hammer) {
 
                 if(typeof Hammer !== 'undefined') {
