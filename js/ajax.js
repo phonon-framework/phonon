@@ -1,9 +1,12 @@
 /* ========================================================================
-* Phonon: ajax.js v0.1.5
+* Phonon: ajax.js v0.1.6
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
+
+'use strict';
+
 var Ajax = (function () {
 
     /**
@@ -27,7 +30,7 @@ var Ajax = (function () {
         this.timeout = (config.timeout ? config.timeout : null);
         this.dataType = config.dataType.toLowerCase();
         this.crossDomain = (config.crossDomain ? true : false);
-        this.currentXhr = this.createXhr();
+        this.currentXhr = null;
     }
     /**
      * Creates the XMLHttpRequest Object
@@ -50,7 +53,6 @@ var Ajax = (function () {
     /**
      * Returns the XMLHttpRequest Object
      * @return {XMLHttpRequest}
-     * @private
     */
     Ajax.prototype.getXhr = function () {
         return this.currentXhr;
@@ -58,6 +60,7 @@ var Ajax = (function () {
 
     /**
      * Starts the request
+     * Fix: http://stackoverflow.com/questions/3781387/responsexml-always-null
      * @param {String} method
      * @param {String} url
      * @param {String} data
@@ -80,11 +83,17 @@ var Ajax = (function () {
             throw new Error('successCallback must be a function');
         }
 
+        this.currentXhr = this.createXhr();
+
         var self = this;
 
         if (this.currentXhr) {
 
             self.currentXhr.open(method, this.baseUrl + url, true);
+
+            if(self.dataType === 'xml') {
+                self.currentXhr.overrideMimeType('application/xml');
+            }
 
             self.currentXhr.onreadystatechange = function (event) {
                 if (self.currentXhr.readyState === 4) {
@@ -111,6 +120,8 @@ var Ajax = (function () {
                             errorCallback('NO_INTERNET_ACCESS', event);
                         }
                     }
+
+                    self.currentXhr = null;
                 }
             };
 
@@ -204,7 +215,11 @@ var Ajax = (function () {
      * @public
     */
     Ajax.prototype.cancel = function () {
-        this.currentXhr.abort();
+        if(this.currentXhr) {
+            this.currentXhr.abort();
+        }
     };
+
     return Ajax;
+
 })();
