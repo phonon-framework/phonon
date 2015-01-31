@@ -40,7 +40,7 @@
   color: inherit;
 }
 .list .list-cell a:active {
-  background-color: #f5f5f5;
+  background-color: #ededed;
 }
 .list .list-cell .media-body p {
   font-size: 13px;

@@ -439,17 +439,6 @@ p {
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
-.with-scrollbar::-webkit-scrollbar {
-  width: 11px;
-  height: 18px;
-  display: block;
-}
-.with-scrollbar::-webkit-scrollbar-thumb {
-  height: 6px;
-  border-radius: 10px;
-  border: 4px solid rgba(0, 0, 0, 0);
-  box-shadow: inset 0 0 6px #000000;
-}
 input,
 textarea,
 select {
