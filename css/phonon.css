@@ -1293,6 +1293,9 @@ input[type="checkbox"]:checked::before {
   position: relative;
   overflow: hidden;
 }
+.panel .content .list {
+  margin-bottom: 0;
+}
 .panel-expanded {
   width: 100%;
   height: 100%;
