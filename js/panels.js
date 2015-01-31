@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: panels.js v0.0.3
+* Phonon: panels.js v0.0.4
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -9,9 +9,10 @@
   'use strict';
 
   var transitionEnd = 'webkitTransitionEnd';
-  var isCordova = typeof window.cordova !== 'undefined' ? true : false;
-  if (!('webkitTransitionEnd' in window) && !isCordova) {
-      transitionEnd = 'transitionend';
+
+  // fix: Firefox support + android 4
+  if (window.animationPrefix !== undefined) {
+      transitionEnd = (window.animationPrefix === '' ? 'transitionend' : 'webkitTransitionEnd');
   }
   
   var lastTrigger = false;
@@ -192,6 +193,17 @@
     }
   }
   api.close = close;
+
+  function closeLastPanel () {
+    var l = panels.length;
+    if(l > 0) {
+      close(panels[l-1].panel);
+      return true;
+    } else {
+      return false;
+    }
+  }
+  api.closeLastPanel = closeLastPanel;
 
   function toggle(el) {
     var panel = (typeof el === 'string' ? document.querySelector(el) : el);
