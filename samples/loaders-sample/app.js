@@ -10,13 +10,24 @@ var task = function(evt) {
 
 	window.setTimeout(function() {
 		target.disabled = false;
-	}, 2500);
+	}, 4000);
 };
 
-var loaderOne = document.querySelector('.loader-one');
-var loaderTwo = document.querySelector('.loader-two');
-var loaderThree = document.querySelector('.loader-three');
+var btnLoaders = document.querySelectorAll('.btn-loader'), size = btnLoaders.length, i = size - 1;
+for (; i >= 0; i--) {
+	console.log('tas')
+	btnLoaders[i].addEventListener('click', task);
+}
 
-loaderOne.addEventListener('click', task);
-loaderTwo.addEventListener('click', task);
-loaderThree.addEventListener('click', task);
+document.querySelector('.show-progress').addEventListener('click', function() {
+
+	var progress = document.querySelector('.top-progress');
+
+	if(!progress.classList.contains('active')) {
+		progress.classList.add('active');
+
+		window.setTimeout(function() {
+			progress.classList.remove('active');
+		}, 4000);
+	}
+});

@@ -1,6 +1,4 @@
-//Button loaders
-@spinner-size:		36px;
-@big-spinner-size:	40px;
+@buttonBlockHeight:	48px;
 
 // Floating actions
 @icon-size:			24px; // see icons.less
@@ -29,13 +27,14 @@ button, .btn {
 }
 
 .btn:disabled, .btn-block:disabled {
-	opacity: .65;
+	opacity: .8;
 }
 
 .btn-block {
 	display: block;
 	width: 100%;
-	padding: 16px 0;
+	height: @buttonBlockHeight;
+	padding: 0;
 }
 
 .btn-primary {
@@ -153,69 +152,4 @@ button, .btn {
 		border-left: 6px solid transparent;
 		border-bottom: 6px solid #bbb;
 	}
-}
-
-.btn-loader {
-
-  &:disabled {
-
-    border-radius: inherit;
-
-    // Hide text
-    color: transparent;
-
-    &:after {
-      position: absolute;
-      top: calc(~'50% - 18px');
-      left: calc(~'50% - 18px');
-
-      width: @spinner-size;
-      height: @spinner-size;
-
-      display: block;
-      content: '';
-
-      background-color: #3f3f3f;
-      border-radius: 50%;
-
-      -webkit-animation: scaleout 1.0s infinite ease-in-out;
-      -moz-animation: scaleout 1.0s infinite ease-in-out;
-      animation: scaleout 1.0s infinite ease-in-out;
-    }
-
-    &.btn-action:after, &.btn-primary:after, &.btn-positive:after, &.btn-negative:after {
-      background-color: #fff;
-    }
-
-    &.btn-action:after {
-      left: calc(~'50% - 24px');
-    }
-
-    &.btn-block:after {
-      width: @big-spinner-size;
-      height: @big-spinner-size;
-      top: calc(~'50% - 20px');
-      left: calc(~'50% - 20px');
-    }
-  }
-}
-
-@-webkit-keyframes scaleout {
-  0% {
-    -webkit-transform: scale(0.0)
-  }
-  100% {
-    -webkit-transform: scale(1.0);
-    opacity: 0;
-  }
-}
-
-@keyframes scaleout {
-  0% { 
-    transform: scale(0.0);
-  }
-  100% {
-    transform: scale(1.0);
-    opacity: 0;
-  }
 }

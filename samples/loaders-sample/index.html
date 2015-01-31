@@ -6,21 +6,42 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
 
         <link rel="stylesheet" type="text/css" href="../../css/phonon-minimal.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/loaders.css" />
         <title>App</title>
     </head>
     <body>
 
         <div class="app-page app-active" id="home">
             <header class="header-bar">
-                <button class="btn-action pull-right btn-loader loader-one">Loader1</button>
-                <h1 class="title">Button loaders</h1>
+                <h1 class="title">Loaders</h1>
             </header>
 
-            <div class="content content-padded">
+            <div class="content">
 
-                <button class="btn btn-block btn-primary btn-loader loader-two">Loader2</button>
+                <div class="top-progress"></div>
 
-                <button class="btn btn-loader loader-three">Loader3</button>
+                <!-- margin-top added to seperate elements -->
+                <div class="content-padded" style="margin-top:48px;">
+
+                    <button class="btn btn-block btn-loader">
+                        Click me
+                        <span class="btn-progress"></span>
+                    </button>
+                    <button class="btn btn-block btn-primary btn-loader">
+                        Click me
+                        <span class="btn-progress"></span>
+                    </button>
+                    <button class="btn btn-block btn-positive btn-loader">
+                        Click me
+                        <span class="btn-progress"></span>
+                    </button>
+                    <button class="btn btn-block btn-negative btn-loader">
+                        Click me
+                        <span class="btn-progress"></span>
+                    </button>
+
+                    <button class="btn btn-block btn-primary show-progress">Show progress</button>
+                </div>
             </div>
         </div>
 
