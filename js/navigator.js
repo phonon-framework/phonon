@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: navigator.js v0.6
+* Phonon: navigator.js v0.6.5
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -827,7 +827,7 @@
             autoPanelClose = true;
         }
 
-        if(config.pageAnimation === false) {
+        if(config.pageAnimations === false) {
             transitionEnd = null;
         }
 
