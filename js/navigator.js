@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: navigator.js v0.5
+* Phonon: navigator.js v0.6
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -95,6 +95,9 @@
     var waitOnQuit = false;
     var backNavigation = false;
     var defaultPage;
+
+    var autoPanelClose = false;
+    var amdPanelPath;
 
     var transitionEnd = 'webkitAnimationEnd';
 
@@ -255,7 +258,7 @@
 
         var target = evt.target ? evt.target : evt.toElement;
         for (; target && target !== document; target = target.parentNode) {
-            var dataTarget = target.getAttribute('data-navigation'), dataReq = target.getAttribute('data-req');
+            var dataTarget = target.getAttribute('data-navigation'), dataReq = target.getAttribute('data-param');
 
             if (dataTarget !== null) {
 
@@ -299,10 +302,9 @@
     };
 
     /**
-     * Back-button event listener (Phonegap) for the navigation history
+     * If no active panels, start the navigation history
     */
-    var onBackButton = function () {
-
+    var startBackNavigation = function () {
         if(defaultPage !== currentPageObject.name && !waitOnQuit) {
             waitOnQuit = true;
             backNavigation = true;
@@ -312,6 +314,35 @@
             } else {
                 quit();
             }
+        }
+    };
+
+    /**
+     * Back-button event listener for the navigation history
+     * Closes the last active panel if decided in the configuration settings
+    */
+    var onBackButton = function () {
+        if(autoPanelClose) {
+            if(typeof require === 'function') {
+
+                if(!amdPanelPath) {
+                    console.error('config.panels.cancelClose is true, but the AMD path to Phonon Panels is not set');
+                    return;
+                }
+                require([amdPanelPath], function(Panel) {
+                    if(!Panel.closeLastPanel()) {
+                        // No active panels
+                        startBackNavigation();
+                    }
+                });
+            } else {
+                if(!Phonon.Panel.closeLastPanel()) {
+                    // No active panels
+                    startBackNavigation();
+                }
+            }
+        } else {
+            startBackNavigation();
         }
     };
 
@@ -431,7 +462,9 @@
             pageObject.activity.onHidenCallback(elPage);
         }
 
-        _message = null;
+        if(_message && _message.receiver === pageObject.name) {
+            _message = null;
+        }
     };
 
     /**
@@ -458,38 +491,6 @@
         } else {
             return previousPageObject.name;
         }
-    }
-
-    function forwardAnimation() {
-        // Remove page content classes
-        this.classList.remove('page-sliding');
-        this.classList.remove('left');
-
-        // Toggle visibility
-        previousPageEl.classList.remove('app-active');
-
-        dispatchHiddenCallback(previousPageEl, previousPageObject);
-        dispatchTransitionEndCallback(currentPageEl, currentPageObject);
-
-        onTransition = false;
-
-        this.removeEventListener(transitionEnd, forwardAnimation, false);
-    }
-
-    function backAnimation() {
-        // Remove page content classes
-        this.classList.remove('page-sliding');
-        this.classList.remove('right');
-
-        // Toggle visibility
-        previousPageEl.classList.remove('app-active');
-
-        dispatchHiddenCallback(previousPageEl, previousPageObject);
-        dispatchTransitionEndCallback(currentPageEl, currentPageObject);
-
-        onTransition = false;
-
-        this.removeEventListener(transitionEnd, backAnimation, false);
     }
 
     /**
@@ -542,6 +543,43 @@
         }
     }
 
+    function forwardAnimation() {
+
+        if(this) {
+            this.classList.remove('page-sliding');
+            this.classList.remove('left');
+        }
+
+        previousPageEl.classList.remove('app-active');
+
+        dispatchHiddenCallback(previousPageEl, previousPageObject);
+        dispatchTransitionEndCallback(currentPageEl, currentPageObject);
+
+        onTransition = false;
+
+        if(this) {
+            this.removeEventListener(transitionEnd, forwardAnimation, false);
+        }
+    }
+
+    function backAnimation() {
+
+        if(this) {
+            this.classList.remove('page-sliding');
+            this.classList.remove('right');
+        }
+
+        previousPageEl.classList.remove('app-active');
+
+        dispatchHiddenCallback(previousPageEl, previousPageObject);
+        dispatchTransitionEndCallback(currentPageEl, currentPageObject);
+
+        onTransition = false;
+
+        if(this) {
+            this.removeEventListener(transitionEnd, backAnimation, false);
+        }
+    }
 
     /**
      * Starts the page transition
@@ -555,17 +593,28 @@
 
         // Show current page : apply a different transition according the state (back, forward)
         if (backNavigation) {
-            previousPageEl.classList.add('page-sliding');
-            previousPageEl.classList.add('right');
 
             currentPageEl.classList.add('app-active');
-            previousPageEl.addEventListener(transitionEnd, backAnimation, false);
+
+            if(transitionEnd) {
+                previousPageEl.classList.add('page-sliding');
+                previousPageEl.classList.add('right');
+                previousPageEl.addEventListener(transitionEnd, backAnimation, false);
+            } else {
+                backAnimation();
+            }
         } else {
-            previousPageEl.classList.add('page-sliding');
-            previousPageEl.classList.add('left');
 
             currentPageEl.classList.add('app-active');
-            previousPageEl.addEventListener(transitionEnd, forwardAnimation, false);
+
+            if(transitionEnd) {
+                previousPageEl.classList.add('page-sliding');
+                previousPageEl.classList.add('left');
+                previousPageEl.addEventListener(transitionEnd, forwardAnimation, false);
+
+            } else {
+                forwardAnimation();
+            }
         }
         backNavigation = false;
     }
@@ -771,6 +820,25 @@
         */
         if (config.templatePath !== undefined) {
             setTemplatePath(config.templatePath);
+        }
+
+        // Case: no AMD & Panels are present
+        if(window.Phonon && window.Phonon.Panel) {
+            autoPanelClose = true;
+        }
+
+        if(config.pageAnimation === false) {
+            transitionEnd = null;
+        }
+
+        if(config.panels) {
+
+            if(config.panels.autoClose !== undefined) {
+                autoPanelClose = config.panels.autoClose;
+            }
+            if (config.panels.path) {
+                amdPanelPath = config.panels.path;
+            }
         }
 
         if (config.hammer !== undefined && typeof config.hammer.path === 'string') {
