@@ -25,7 +25,8 @@ if(isCordova) {
 
 Phonon.Navigator.init({
 	defaultPage: 'home',
-	templatePath: 'tpl'
+	templatePath: 'tpl',
+	pageAnimations: true
 });
 
 /**
