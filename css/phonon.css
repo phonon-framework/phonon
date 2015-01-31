@@ -668,7 +668,7 @@ button,
 .btn-loader:disabled {
   height: 58px;
 }
-.top-progress,
+.top-loader,
 .btn-progress {
   visibility: hidden;
   left: 0;
@@ -682,10 +682,10 @@ button,
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
 }
-.top-progress {
+.top-loader {
   position: fixed;
 }
-.top-progress.active,
+.top-loader.active,
 .btn-loader:disabled .btn-progress {
   visibility: visible;
   -webkit-animation: loading 2s infinite ease;

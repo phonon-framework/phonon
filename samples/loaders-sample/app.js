@@ -15,13 +15,12 @@ var task = function(evt) {
 
 var btnLoaders = document.querySelectorAll('.btn-loader'), size = btnLoaders.length, i = size - 1;
 for (; i >= 0; i--) {
-	console.log('tas')
 	btnLoaders[i].addEventListener('click', task);
 }
 
-document.querySelector('.show-progress').addEventListener('click', function() {
+document.querySelector('.show-toploader').addEventListener('click', function() {
 
-	var progress = document.querySelector('.top-progress');
+	var progress = document.querySelector('.top-loader');
 
 	if(!progress.classList.contains('active')) {
 		progress.classList.add('active');
