@@ -63,24 +63,6 @@
   }
 }
 
-.btn-primary {
-  & .determinate, & .indeterminate {
-    background-color: #004a82;
-  }
-}
-
-.btn-positive {
-  & .determinate, & .indeterminate {
-    background-color: #006621;
-  }
-}
-
-.btn-negative {
-  & .determinate, & .indeterminate {
-    background-color: #b50300;
-  }
-}
-
 @-webkit-keyframes indeterminate {
   0% {
     left: -35%;
@@ -153,6 +135,11 @@
   -webkit-transition: height 500ms;
   transition: height 500ms;
 
+  & .progress {
+    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.5)
+  }
+
   &:disabled, &.in-progress {
     height: 48px + @buttonProgressHeight;
 
@@ -191,5 +178,24 @@
         }
       }
     }
+  }
+}
+
+// Colors
+.btn-primary {
+  & .determinate, & .indeterminate {
+    background-color: #004a82;
+  }
+}
+
+.btn-positive {
+  & .determinate, & .indeterminate {
+    background-color: #006621;
+  }
+}
+
+.btn-negative {
+  & .determinate, & .indeterminate {
+    background-color: #b50300;
   }
 }

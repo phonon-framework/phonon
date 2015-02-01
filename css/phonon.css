@@ -710,18 +710,6 @@ button,
   -webkit-animation-delay: 1.15s;
   animation-delay: 1.15s;
 }
-.btn-primary .determinate,
-.btn-primary .indeterminate {
-  background-color: #004a82;
-}
-.btn-positive .determinate,
-.btn-positive .indeterminate {
-  background-color: #006621;
-}
-.btn-negative .determinate,
-.btn-negative .indeterminate {
-  background-color: #b50300;
-}
 @-webkit-keyframes indeterminate {
   0% {
     left: -35%;
@@ -782,6 +770,10 @@ button,
   -webkit-transition: height 500ms;
   transition: height 500ms;
 }
+.btn-progress .progress {
+  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.5);
+}
 .btn-progress:disabled,
 .btn-progress.in-progress {
   height: 54px;
@@ -819,6 +811,18 @@ button,
   animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
   -webkit-animation-delay: 1.15s;
   animation-delay: 1.15s;
+}
+.btn-primary .determinate,
+.btn-primary .indeterminate {
+  background-color: #004a82;
+}
+.btn-positive .determinate,
+.btn-positive .indeterminate {
+  background-color: #006621;
+}
+.btn-negative .determinate,
+.btn-negative .indeterminate {
+  background-color: #b50300;
 }
 .list {
   padding: 0;
