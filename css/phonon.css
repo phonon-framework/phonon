@@ -656,59 +656,8 @@ button,
   border-bottom: 6px solid #bbb;
 }
 /*
- * Button loaders + top progress
-*/
-/*
-.btn-progress {
-  -webkit-transition: height 500ms;
-  transition: height 500ms;
-}
-
-.btn-progress:disabled {
-  height: 48px + @buttonProgressHeight;
-}
-*/
-/*
-.btn-progress {
-  visibility: hidden;
-  left: 0;
-  width: 0;
-  height: @buttonProgressHeight;
-  z-index: 20;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.btn-progress {
-  position: absolute;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.btn-loader:disabled .btn-progress {
-  visibility: visible;
-  -webkit-animation: loading 2s infinite ease;
-          animation: loading 5s infinite ease;
-}
-*/
-/*
-@-webkit-keyframes loading {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
-@keyframes loading {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
+ * Linear progress bars: inspired by MaterializeCSS
+ * https://github.com/Dogfalo/materialize 
 */
 .progress {
   position: relative;
@@ -761,12 +710,17 @@ button,
   -webkit-animation-delay: 1.15s;
   animation-delay: 1.15s;
 }
-.btn-progress .progress {
-  background-color: rgba(255, 255, 255, 0.65);
+.btn-primary .determinate,
+.btn-primary .indeterminate {
+  background-color: #004a82;
 }
-.btn-progress .progress .determinate,
-.btn-progress .progress .indeterminate {
-  background-color: rgba(0, 0, 0, 0.3);
+.btn-positive .determinate,
+.btn-positive .indeterminate {
+  background-color: #006621;
+}
+.btn-negative .determinate,
+.btn-negative .indeterminate {
+  background-color: #b50300;
 }
 @-webkit-keyframes indeterminate {
   0% {
