@@ -32,35 +32,18 @@
   }
 
   & .indeterminate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 40%;
     background-color: #2895e7;
   }
 
   &.active .indeterminate {
-    &:before {
-      content: '';
-      position: absolute;
-      background-color: inherit;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      will-change: left, right;
-      -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-      animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-    }
-
-    &:after {
-      content: '';
-      position: absolute;
-      background-color: inherit;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      will-change: left, right;
-      -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-      animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-      -webkit-animation-delay: 1.15s;
-      animation-delay: 1.15s; 
-    }
+    -webkit-animation: indeterminate-short 1.3s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation: indeterminate-short 1.3s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
   }
 }
 
@@ -152,31 +135,8 @@
       margin-bottom: 0;
 
       & .indeterminate {
-        &:before {
-          content: '';
-          position: absolute;
-          background-color: inherit;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          will-change: left, right;
-          -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-          animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-        }
-
-        &:after {
-          content: '';
-          position: absolute;
-          background-color: inherit;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          will-change: left, right;
-          -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-          animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-          -webkit-animation-delay: 1.15s;
-          animation-delay: 1.15s; 
-        }
+        -webkit-animation: indeterminate-short 1.3s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+        animation: indeterminate-short 1.3s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
       }
     }
   }
