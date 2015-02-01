@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+        <link rel="stylesheet" type="text/css" href="../../css/phonon-minimal.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/preloaders.css" />
+        <title>App</title>
+    </head>
+    <body>
+
+        <div class="app-page app-active" id="home">
+            <header class="header-bar">
+                <h1 class="title">Preloaders</h1>
+            </header>
+
+            <div class="content content-padded">
+
+
+
+                <div class="progress active">
+                    <div class="indeterminate"></div>
+                </div>
+
+                <div class="progress active">
+                    <div class="determinate" style="width: 60%;"></div>
+                </div>
+
+                <button class="btn btn-block btn-progress">
+                    Click me
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                </button>
+                <button class="btn btn-block btn-primary btn-progress">
+                    Click me
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                </button>
+                <button class="btn btn-block btn-positive btn-progress">
+                    Click me
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                </button>
+                <button class="btn btn-block btn-negative btn-progress">
+                    Click me
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- if you don't use RequireJS -->
+        <script type="text/javascript" src="app.js"></script>
+    </body>
+</html>
+        

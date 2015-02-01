@@ -1,0 +1,187 @@
+@buttonProgressHeight:  6px;
+
+/*
+ * Linear progress bars: inspired by MaterializeCSS
+ * https://github.com/Dogfalo/materialize 
+*/
+.progress {
+  position: relative;
+  z-index: 20;
+  height: @buttonProgressHeight;
+  display: none;
+  width: 100%;
+  background-color: #cbe9ff;
+  border-radius: 2px;
+  background-clip: padding-box;
+  margin-bottom: 10px;
+  overflow: hidden;
+
+  &.active {
+    display: block;
+  }
+
+  & .determinate {
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    bottom: 0;
+    background-color: #2895e7;
+    -webkit-transition: width 0.3s linear;
+    transition: width 0.3s linear;
+  }
+
+  & .indeterminate {
+    background-color: #2895e7;
+  }
+
+  &.active .indeterminate {
+    &:before {
+      content: '';
+      position: absolute;
+      background-color: inherit;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      will-change: left, right;
+      -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+      animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      background-color: inherit;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      will-change: left, right;
+      -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+      animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+      -webkit-animation-delay: 1.15s;
+      animation-delay: 1.15s; 
+    }
+  }
+}
+
+.btn-progress {
+  & .progress {
+    background-color: rgba(255, 255, 255, 0.65);
+
+    & .determinate, & .indeterminate {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+@-webkit-keyframes indeterminate {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+
+@keyframes indeterminate {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+
+@-webkit-keyframes indeterminate-short {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+
+@keyframes indeterminate-short {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+
+.btn-progress {
+  -webkit-transition: height 500ms;
+  transition: height 500ms;
+
+  &:disabled, &.in-progress {
+    height: 48px + @buttonProgressHeight;
+
+    & .progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      display: inline-block;
+      margin-bottom: 0;
+
+      & .indeterminate {
+        &:before {
+          content: '';
+          position: absolute;
+          background-color: inherit;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          will-change: left, right;
+          -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+          animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+        }
+
+        &:after {
+          content: '';
+          position: absolute;
+          background-color: inherit;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          will-change: left, right;
+          -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+          animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+          -webkit-animation-delay: 1.15s;
+          animation-delay: 1.15s; 
+        }
+      }
+    }
+  }
+}

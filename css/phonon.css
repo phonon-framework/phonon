@@ -544,9 +544,8 @@ button,
   white-space: nowrap;
   vertical-align: top;
 }
-.btn:disabled,
-.btn-block:disabled {
-  opacity: .8;
+.btn:not(.btn-progress):disabled {
+  opacity: .75;
 }
 .btn-block {
   display: block;
@@ -555,20 +554,18 @@ button,
   padding: 0;
 }
 .btn-primary {
-  color: #fff;
   background-color: #0067B4;
 }
 .btn-positive {
-  color: #fff;
   background-color: #009A32;
 }
 .btn-negative {
-  color: #fff;
   background-color: #E70500;
 }
 .btn-primary,
 .btn-positive,
 .btn-negative {
+  color: #fff;
   border: none;
 }
 .btn-primary:active,
@@ -661,36 +658,39 @@ button,
 /*
  * Button loaders + top progress
 */
-.btn-loader {
+/*
+.btn-progress {
   -webkit-transition: height 500ms;
   transition: height 500ms;
 }
-.btn-loader:disabled {
-  height: 58px;
+
+.btn-progress:disabled {
+  height: 48px + @buttonProgressHeight;
 }
-.top-loader,
+*/
+/*
 .btn-progress {
   visibility: hidden;
   left: 0;
   width: 0;
-  height: 10px;
+  height: @buttonProgressHeight;
   z-index: 20;
   background-color: rgba(0, 0, 0, 0.2);
 }
+
 .btn-progress {
   position: absolute;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
 }
-.top-loader {
-  position: fixed;
-}
-.top-loader.active,
+
 .btn-loader:disabled .btn-progress {
   visibility: visible;
   -webkit-animation: loading 2s infinite ease;
-  animation: loading 5s infinite ease;
+          animation: loading 5s infinite ease;
 }
+*/
+/*
 @-webkit-keyframes loading {
   0% {
     width: 0;
@@ -699,6 +699,7 @@ button,
     width: 100%;
   }
 }
+
 @keyframes loading {
   0% {
     width: 0;
@@ -706,6 +707,164 @@ button,
   100% {
     width: 100%;
   }
+}
+
+*/
+.progress {
+  position: relative;
+  z-index: 20;
+  height: 6px;
+  display: none;
+  width: 100%;
+  background-color: #cbe9ff;
+  border-radius: 2px;
+  background-clip: padding-box;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.progress.active {
+  display: block;
+}
+.progress .determinate {
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  bottom: 0;
+  background-color: #2895e7;
+  -webkit-transition: width 0.3s linear;
+  transition: width 0.3s linear;
+}
+.progress .indeterminate {
+  background-color: #2895e7;
+}
+.progress.active .indeterminate:before {
+  content: '';
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  will-change: left, right;
+  -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+  animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+.progress.active .indeterminate:after {
+  content: '';
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  will-change: left, right;
+  -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  -webkit-animation-delay: 1.15s;
+  animation-delay: 1.15s;
+}
+.btn-progress .progress {
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.btn-progress .progress .determinate,
+.btn-progress .progress .indeterminate {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+@-webkit-keyframes indeterminate {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+@keyframes indeterminate {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+@-webkit-keyframes indeterminate-short {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+@keyframes indeterminate-short {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+.btn-progress {
+  -webkit-transition: height 500ms;
+  transition: height 500ms;
+}
+.btn-progress:disabled,
+.btn-progress.in-progress {
+  height: 54px;
+}
+.btn-progress:disabled .progress,
+.btn-progress.in-progress .progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: inline-block;
+  margin-bottom: 0;
+}
+.btn-progress:disabled .progress .indeterminate:before,
+.btn-progress.in-progress .progress .indeterminate:before {
+  content: '';
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  will-change: left, right;
+  -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+  animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+.btn-progress:disabled .progress .indeterminate:after,
+.btn-progress.in-progress .progress .indeterminate:after {
+  content: '';
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  will-change: left, right;
+  -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  -webkit-animation-delay: 1.15s;
+  animation-delay: 1.15s;
 }
 .list {
   padding: 0;

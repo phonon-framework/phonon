@@ -26,8 +26,8 @@ button, .btn {
 	vertical-align: top;
 }
 
-.btn:disabled, .btn-block:disabled {
-	opacity: .8;
+.btn:not(.btn-progress):disabled {
+	opacity: .75;
 }
 
 .btn-block {
@@ -38,21 +38,19 @@ button, .btn {
 }
 
 .btn-primary {
-	color: #fff;
 	background-color: #0067B4;
 }
 
 .btn-positive {
-	color: #fff;
 	background-color: #009A32;
 }
 
 .btn-negative {
-	color: #fff;
 	background-color: #E70500;
 }
 
 .btn-primary, .btn-positive, .btn-negative {
+	color: #fff;
 	border: none;
 }
 
