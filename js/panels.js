@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: panels.js v0.0.4
+* Phonon: panels.js v0.0.5
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -9,8 +9,7 @@
   'use strict';
 
   var transitionEnd = 'webkitTransitionEnd';
-
-  // fix: Firefox support + android 4
+  
   if (window.animationPrefix !== undefined) {
       transitionEnd = (window.animationPrefix === '' ? 'transitionend' : 'webkitTransitionEnd');
   }
@@ -62,7 +61,7 @@
 
   var onItem = function (target) {
     for (; target && target !== document; target = target.parentNode) {
-      if(target.nodeName === 'LI') {
+      if(target.getAttribute('selectable') === 'true') {
         return target;
       }
     }
@@ -112,20 +111,18 @@
     var item = onItem(evt.target);
 
     if(panel && item && !moved) {
-      if(item.getAttribute('selectable') !== null) {
         
-        close(panel);
+      close(panel);
 
-        evt = new CustomEvent('select', {
-          detail: { item: item.textContent, target: evt.target },
-          bubbles: true,
-          cancelable: true
-        });
+      evt = new CustomEvent('select', {
+        detail: { item: item.textContent, target: evt.target },
+        bubbles: true,
+        cancelable: true
+      });
 
-        lastTrigger.textContent = item.textContent;
+      lastTrigger.textContent = item.textContent;
 
-        panel.dispatchEvent(evt);
-      }
+      panel.dispatchEvent(evt);
     }
     moved = false;
   });
