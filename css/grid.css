@@ -55,33 +55,39 @@
     float: left;
   }
   .phone-1 {
-    width: 10%;
+    width: 8.333333333333332%;
   }
   .phone-2 {
-    width: 20%;
+    width: 16.666666666666664%;
   }
   .phone-3 {
-    width: 30%;
+    width: 25%;
   }
   .phone-4 {
-    width: 40%;
+    width: 33.33333333333333%;
   }
   .phone-5 {
-    width: 50%;
+    width: 41.66666666666667%;
   }
   .phone-6 {
-    width: 60%;
+    width: 50%;
   }
   .phone-7 {
-    width: 70%;
+    width: 58.333333333333336%;
   }
   .phone-8 {
-    width: 80%;
+    width: 66.66666666666666%;
   }
   .phone-9 {
-    width: 90%;
+    width: 75%;
   }
   .phone-10 {
+    width: 83.33333333333334%;
+  }
+  .phone-11 {
+    width: 91.66666666666666%;
+  }
+  .phone-12 {
     width: 100%;
   }
 }
@@ -107,33 +113,39 @@
     float: left;
   }
   .tablet-1 {
-    width: 10%;
+    width: 8.333333333333332%;
   }
   .tablet-2 {
-    width: 20%;
+    width: 16.666666666666664%;
   }
   .tablet-3 {
-    width: 30%;
+    width: 25%;
   }
   .tablet-4 {
-    width: 40%;
+    width: 33.33333333333333%;
   }
   .tablet-5 {
-    width: 50%;
+    width: 41.66666666666667%;
   }
   .tablet-6 {
-    width: 60%;
+    width: 50%;
   }
   .tablet-7 {
-    width: 70%;
+    width: 58.333333333333336%;
   }
   .tablet-8 {
-    width: 80%;
+    width: 66.66666666666666%;
   }
   .tablet-9 {
-    width: 90%;
+    width: 75%;
   }
   .tablet-10 {
+    width: 83.33333333333334%;
+  }
+  .tablet-11 {
+    width: 91.66666666666666%;
+  }
+  .tablet-12 {
     width: 100%;
   }
 }
