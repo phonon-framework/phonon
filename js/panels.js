@@ -162,7 +162,7 @@
 
 
     if(!panel.classList.contains('active')) {
-      panel.classList.toggle('active');
+      panel.classList.add('active');
 
       var backdrop = createBackdrop();
 
@@ -180,7 +180,7 @@
     }
 
     if(panel.classList.contains('active')) {
-      panel.classList.toggle('active');
+      panel.classList.remove('active');
 
       var backdrop = panels[panels.length - 1].backdrop;
 
