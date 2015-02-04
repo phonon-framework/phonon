@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: navigator.js v0.6.5
+* Phonon: navigator.js v0.6.6
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -91,7 +91,7 @@
     var currentPageEl;
     var previousPageEl;
 
-    var _message = null;
+    var messages = [];
     var waitOnQuit = false;
     var backNavigation = false;
     var defaultPage;
@@ -102,7 +102,7 @@
     var transitionEnd = 'webkitAnimationEnd';
 
     // fix: Firefox support + android 4
-    if (window.animationPrefix !== undefined) {
+    if (window.animationPrefix) {
         transitionEnd = window.animationEnd;
     }
 
@@ -461,10 +461,6 @@
         if (pageObject.activity !== undefined && pageObject.activity.onHidenCallback !== undefined) {
             pageObject.activity.onHidenCallback(elPage);
         }
-
-        if(_message && _message.receiver === pageObject.name) {
-            _message = null;
-        }
     };
 
     /**
@@ -543,7 +539,7 @@
         }
     }
 
-    function forwardAnimation() {
+    function forwardAnimation(evt, tg) {
 
         if(this) {
             this.classList.remove('page-sliding');
@@ -647,22 +643,6 @@
     }
 
     /**
-     * Retrieves the page receiver's message
-     * @public
-    */
-    function getMessage() {
-        if (_message !== null) {
-            if (_message.receiver === currentPageObject.name) {
-                return _message.message;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * Setups the tap event
      * @param {String} amdHammerPath (optional)
      * @param {Object} hammerOptions (optional)
@@ -690,7 +670,35 @@
         }
     };
 
+    /**
+     * Retrieves the page receiver's message
+     * @public
+    */
+    function getMessage() {
+
+        var size = messages.length, i = size - 1;
+
+        for (; i >= 0; i--) {
+            var obj = messages[i];
+            if (obj.receiver === currentPageObject.name) {
+                messages.splice(i, 1);
+                return obj.message;
+            }
+        }
+    }
+
     var api = {};
+
+    /**
+     * Sets a message for the target page
+     * @param {String} pageReceiver
+     * @param {Object|String} message
+     * @public
+    */
+    function setMessage(pageReceiver, message) {
+        messages.push( { sender: currentPageObject.name, receiver: pageReceiver, message: message } );
+    }
+    api.setMessage = setMessage;
 
     /**
      * Starts the first page
@@ -757,7 +765,7 @@
         if (typeof pageObject.asynchronous !== 'boolean') {
             throw new TypeError('asynchronous must be a boolean');
         }
-        if (callback !== undefined && typeof callback !== 'function') {
+        if (typeof callback !== 'function') {
             throw new TypeError('callback must be a function');
         }
 
@@ -789,17 +797,6 @@
         }
     }
     api.changePage = changePage;
-
-    /**
-     * Sets a message for the target page
-     * @param {String} pageReceiver
-     * @param {Object|String} message
-     * @public
-    */
-    function setMessage(pageReceiver, message) {
-        _message = { sender: currentPageObject.name, receiver: pageReceiver, message: message };
-    }
-    api.setMessage = setMessage;
 
     /**
      * Initializes the Navigator
