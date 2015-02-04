@@ -16,6 +16,7 @@
 .panel,
 .panel-expanded {
   position: fixed;
+  opacity: 0;
   top: 0;
   left: 0;
   z-index: 25;
@@ -25,14 +26,15 @@
   width: 100%;
   height: auto;
   max-height: 80%;
-  -webkit-transition: -webkit-transform 0.25s, opacity 1ms 0.25s;
-  transition: transform 0.25s, opacity 1ms .25s;
+  -webkit-transition: -webkit-transform 0.3s, opacity 1ms 0.3s;
+  transition: transform 0.3s, opacity 1ms .3s;
   -webkit-transform: translate3d(0, -100%, 0);
   transform: translate3d(0, -100%, 0);
 }
 .panel.active {
-  -webkit-transition: -webkit-transform 0.25s, opacity 1ms 0.25s;
-  transition: transform 0.25s, opacity 1ms .25s;
+  opacity: 1;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
@@ -50,14 +52,15 @@
   bottom: 0;
   -webkit-transform: translate3d(100%, 0, 0);
   transform: translate3d(100%, 0, 0);
-  -webkit-transition: -webkit-transform 0.25s, opacity 1ms 0.25s;
-  transition: transform 0.25s, opacity 1ms .25s;
+  -webkit-transition: -webkit-transform 0.3s, opacity 1ms 0.3s;
+  transition: transform 0.3s, opacity 1ms .3s;
 }
 .panel-expanded.active {
-  -webkit-transition: -webkit-transform 0.25s;
-  transition: transform 0.25s;
+  opacity: 1;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
 }
 .panel-expanded .content {
   position: absolute;
