@@ -911,8 +911,8 @@ button,
 }
 @font-face {
   font-family: 'MaterialDesignIcons';
-  src: url('../fonts/material-design-icons.eot?-613f9d');
-  src: url('../fonts/material-design-icons.eot?#iefix-613f9d') format('embedded-opentype'), url('../fonts/material-design-icons.woff?-613f9d') format('woff'), url('../fonts/material-design-icons.ttf?-613f9d') format('truetype'), url('../fonts/material-design-icons.svg?-613f9d#material-design-icons') format('svg');
+  src: url('../../fonts/material-design-icons.eot?-613f9d');
+  src: url('../../fonts/material-design-icons.eot?#iefix-613f9d') format('embedded-opentype'), url('../../fonts/material-design-icons.woff?-613f9d') format('woff'), url('../../fonts/material-design-icons.ttf?-613f9d') format('truetype'), url('../../fonts/material-design-icons.svg?-613f9d#material-design-icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
