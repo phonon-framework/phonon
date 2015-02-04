@@ -1,13 +1,12 @@
 /* ========================================================================
-* Phonon: ajax.js v0.1.6
+* Phonon: ajax.js v0.1.7
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
+(function (window, document) {
 
-'use strict';
-
-var Ajax = (function () {
+    'use strict';
 
     /**
      * @constructor
@@ -220,6 +219,18 @@ var Ajax = (function () {
         }
     };
 
-    return Ajax;
+    // Expose the Router either via AMD, CommonJS or the global object
+    if (typeof define === 'function' && define.amd) {
+        define(function () {
+            return Ajax;
+        });
+    } else if (typeof module === 'object' && module.exports) {
+        module.exports = Ajax;
+    } else {
+        if(window.Phonon === undefined) {
+            window.Phonon = {};
+        }
+        window.Phonon.Ajax = Ajax;
+    }
 
-})();
+}(window, document));
