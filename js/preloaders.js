@@ -91,7 +91,7 @@
 		if(window.Phonon === undefined) {
 			window.Phonon = {};
 		}
-		window.Phonon.Panel = api;
+		window.Phonon.Preloader = api;
 	}
 
 }(window, document));
