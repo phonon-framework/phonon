@@ -1416,7 +1416,6 @@ input[type="checkbox"]:checked::before {
   top: 0;
   left: 0;
   visibility: hidden;
-  opacity: 0;
   z-index: 25;
   background: #fff;
 }
@@ -1424,15 +1423,15 @@ input[type="checkbox"]:checked::before {
   width: 100%;
   height: auto;
   max-height: 80%;
-  -webkit-transition: -webkit-transform 0.25s, opacity 1ms 0.25s;
-  transition: transform .25s, opacity 1ms .25s;
+  -webkit-transition: -webkit-transform 0.25s;
+  transition: transform 0.25s;
   -webkit-transform: translate3d(0, -100%, 0);
   transform: translate3d(0, -100%, 0);
 }
 .panel.active {
-  opacity: 1;
+  visibility: visible;
   -webkit-transition: -webkit-transform 0.25s;
-  transition: transform .25s;
+  transition: transform 0.25s;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
@@ -1449,15 +1448,15 @@ input[type="checkbox"]:checked::before {
   top: 0;
   bottom: 0;
   box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.25);
-  -webkit-transition: -webkit-transform 0.25s, opacity 0.25s ease;
-  transition: transform .25s, opacity .25s ease;
   -webkit-transform: translate3d(100%, 0, 0);
   transform: translate3d(100%, 0, 0);
+  -webkit-transition: -webkit-transform 0.25s;
+  transition: transform 0.25s;
 }
 .panel-expanded.active {
-  opacity: 1;
+  visibility: visible;
   -webkit-transition: -webkit-transform 0.25s;
-  transition: transform .25s;
+  transition: transform 0.25s;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
@@ -1465,10 +1464,6 @@ input[type="checkbox"]:checked::before {
   position: absolute;
   overflow-y: scroll;
   overflow-x: hidden;
-}
-.app-page .header-bar ~ .panel-expanded {
-  top: 60px;
-  bottom: 60px;
 }
 table,
 .table {
