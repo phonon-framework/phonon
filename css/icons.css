@@ -74,3 +74,11 @@
 .icon-star-outline:before {
   content: "\e613";
 }
+i.icon {
+  font-style: normal;
+  display: inline-block;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+}
