@@ -1,85 +1,78 @@
-@space-icon-body:		10px;
-@icon-size:				24px; // please see icons.less
-@icon-padding:			12px;
-@list-margin-left:		16px;
+@divider-height:		52px;
+@item-height:			78px;
+@cell-content-padding:	8px;
 
 .list {
+
 	padding: 0;
 	margin-top: 0;
 	margin-bottom: 15px;
 	list-style: none;
 
-	& .pull-left {
-		margin-right: @space-icon-body;
-	}
+	& li {
 
-	& .pull-right {
-		position: absolute;
-		right: 16px;
-	}
+		height: @item-height;
+		line-height: @item-height;
 
-	& .list-divider, & .media-divider {
-		font-size: 16px;
-		padding: 12px 16px 8px 16px;
-		margin-left: 0;
-		font-weight: 500;
-		background-color: #f5f5f5;
-		color: #8f8f8f;
-
-		&:active {
-			background-color: #f5f5f5;
-		}
-	}
-
-	& .media-divider {
-		padding-left: (@list-margin-left + @icon-size + (@icon-padding*2) + @space-icon-body);
-	}
-
-	& .list-cell {
 		position: relative;
+		display: block;
+
 		background-color: #fff;
+		border-bottom: 1px solid #ddd;
+
+		overflow: hidden;
+		white-space: nowrap;
 
 		& a {
 			width: 100%;
 			height: 100%;
-			padding: 16px;
-			position: relative;
 			display: block;
-			color: inherit;
+			position: relative;
 
 			&:active {
-				background-color: #ededed;
+				background-color: #eee;
 			}
 		}
 
-		& .media-body {
-
-			& p {
-				font-size: 13px;
-				color: #585858;
-			}
+		& .pull-left, & .pull-right {
+			width: @item-height;
+			height: @item-height;
+			line-height: @item-height;
+			vertical-align: middle;
+			text-align: center;
+			z-index: 1;
+			background-color: #fff;
 		}
 
-		& .media-body, & .media-body p {
-			margin: 0;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
+		& .cell-content {
+			display: inline-block;
+			padding: @cell-content-padding 0;
+			line-height: @item-height;
 		}
 
-		& .icon {
-			padding: @icon-padding; // icon size: 24px
-			border: 1px solid #eee;
-			border-radius: 50%;
+		& .title, & .body {
+			line-height: (@item-height - (@cell-content-padding*2))/2;
+			display: block;
+		}
+
+		& .body {
+			font-size: 13px;
+			color: #777;
 		}
 	}
 
-	& .pull-left, & .media-body {
-		padding-top: 6px;
+	& .divider {
+		height: @divider-height;
+		line-height: @divider-height;
+		font-size: 16px;
+		background-color: #f5f5f5;
 	}
 
-	& .cell-padded {
-		padding: 16px;
+	& .divider, & .padded-for-cell, & a.padded-for-cell {
+		padding: 0 15px;
+	}
+
+	& a.padded-for-cell {
+		display: inline-block;
 	}
 }
-

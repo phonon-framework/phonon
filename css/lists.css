@@ -4,64 +4,60 @@
   margin-bottom: 15px;
   list-style: none;
 }
-.list .pull-left {
-  margin-right: 10px;
-}
-.list .pull-right {
-  position: absolute;
-  right: 16px;
-}
-.list .list-divider,
-.list .media-divider {
-  font-size: 16px;
-  padding: 12px 16px 8px 16px;
-  margin-left: 0;
-  font-weight: 500;
-  background-color: #f5f5f5;
-  color: #8f8f8f;
-}
-.list .list-divider:active,
-.list .media-divider:active {
-  background-color: #f5f5f5;
-}
-.list .media-divider {
-  padding-left: 74px;
-}
-.list .list-cell {
-  position: relative;
-  background-color: #fff;
-}
-.list .list-cell a {
-  width: 100%;
-  height: 100%;
-  padding: 16px;
+.list li {
+  height: 78px;
+  line-height: 78px;
   position: relative;
   display: block;
-  color: inherit;
-}
-.list .list-cell a:active {
-  background-color: #ededed;
-}
-.list .list-cell .media-body p {
-  font-size: 13px;
-  color: #585858;
-}
-.list .list-cell .media-body,
-.list .list-cell .media-body p {
-  margin: 0;
-  white-space: nowrap;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
   overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.list .list-cell .icon {
-  padding: 12px;
-  border: 1px solid #eee;
-  border-radius: 50%;
+.list li a {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
 }
-.list .pull-left,
-.list .media-body {
-  padding-top: 6px;
+.list li a:active {
+  background-color: #eee;
 }
-.list .cell-padded {
-  padding: 16px;
+.list li .pull-left,
+.list li .pull-right {
+  width: 78px;
+  height: 78px;
+  line-height: 78px;
+  vertical-align: middle;
+  text-align: center;
+  z-index: 1;
+  background-color: #fff;
+}
+.list li .cell-content {
+  display: inline-block;
+  padding: 8px 0;
+  line-height: 78px;
+}
+.list li .title,
+.list li .body {
+  line-height: 31px;
+  display: block;
+}
+.list li .body {
+  font-size: 13px;
+  color: #777;
+}
+.list .divider {
+  height: 52px;
+  line-height: 52px;
+  font-size: 16px;
+  background-color: #f5f5f5;
+}
+.list .divider,
+.list .padded-for-cell,
+.list a.padded-for-cell {
+  padding: 0 15px;
+}
+.list a.padded-for-cell {
+  display: inline-block;
 }
