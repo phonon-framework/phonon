@@ -1,6 +1,7 @@
-@divider-height:		52px;
-@item-height:			78px;
-@cell-content-padding:	8px;
+@divider-height:			48px;
+@item-height:				52px;
+@item-expanded-height:		78px;
+@cell-content-padding:		8px;
 
 .list {
 
@@ -51,13 +52,24 @@
 		}
 
 		& .title, & .body {
-			line-height: (@item-height - (@cell-content-padding*2))/2;
+			line-height: (@item-expanded-height - (@cell-content-padding*2))/2;
 			display: block;
 		}
 
 		& .body {
 			font-size: 13px;
 			color: #777;
+		}
+	}
+
+	& .expanded-cell {
+		height: @item-expanded-height;
+		line-height: @item-expanded-height;
+
+		& .pull-left, & .pull-right {
+			width: @item-expanded-height;
+			height: @item-expanded-height;
+			line-height: @item-expanded-height;
 		}
 	}
 
