@@ -1,10 +1,10 @@
 /* ========================================================================
-* Phonon: preloaders.js v0.0.1
+* Phonon: preloaders.js v0.0.3
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-(function (window, document) {
+;(function (window, document, Phonon) {
 
 	'use strict';
 
@@ -78,7 +78,6 @@
 	}
 	api.hide = hide;
 
-
 	// Expose the Router either via AMD, CommonJS or the global object
 	if (typeof define === 'function' && define.amd) {
 		define(function () {
@@ -87,11 +86,8 @@
 	} else if (typeof module === 'object' && module.exports) {
 		module.exports = api;
 	} else {
-
-		if(window.Phonon === undefined) {
-			window.Phonon = {};
-		}
-		window.Phonon.Preloader = api;
+		Phonon.Preloader = api;
+		window.Phonon = Phonon;
 	}
 
-}(window, document));
+}(window, document, window.Phonon || {}));

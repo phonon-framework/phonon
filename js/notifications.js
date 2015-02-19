@@ -1,10 +1,10 @@
 /* ========================================================================
-* Phonon: notifications.js v0.1.3
+* Phonon: notifications.js v0.1.4
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-(function (window, document) {
+;(function (window, document, Phonon, undefined) {
 
     'use strict';
 
@@ -139,10 +139,8 @@
     } else if (typeof module === 'object' && module.exports) {
         module.exports = api;
     } else {
-        if(window.Phonon === undefined) {
-            window.Phonon = {};
-        }
-        window.Phonon.Notification = api;
+        Phonon.Notification = api;
+        window.Phonon = Phonon;
     }
 
-}(window, document));
+}(window, document, window.Phonon || {}));

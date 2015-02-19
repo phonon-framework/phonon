@@ -1,16 +1,15 @@
 /* ========================================================================
-* Phonon: floating-actions.js v0.0.1
+* Phonon: floating-actions.js v0.0.3
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-(function (window, document) {
+;(function (window, document, Phonon) {
 
 	'use strict';
 
 	var lastPosition = 0;
 	var lastContentHeight = 0;
-	var hasTouchEvent = false;
 
 	var onScroll = function (evt) {
 		evt = evt.originalEvent || evt;
@@ -36,7 +35,7 @@
 	};
 
     var isElement = function (o) {
-        return (typeof Node === "object" ? o instanceof Node : o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName === "string");
+        return (typeof Node === 'object' ? o instanceof Node : o && typeof o === 'object' && typeof o.nodeType === 'number' && typeof o.nodeName === 'string');
     };
 
 	/**
@@ -53,7 +52,7 @@
 		if(isElement(page)) {
 			var c = page.querySelector('.content');
 			if(c) {
-				c.addEventListener('scroll', onScroll, false)
+				c.addEventListener('scroll', onScroll, false);
 			} else {
 				console.error('The given page does not contain the .content class');
 			}
@@ -63,15 +62,14 @@
 	}
 	api.listenTo = listenTo;
 
-	var findFloatingActions = function () {
-		var pages = document.querySelectorAll('.app-page'), i, l = pages.length;
-		for (i = l - 1; i >= 0; i--) {
-			var p = pages[i];
+	var pages = document.querySelectorAll('.app-page'), l = pages.length, i = l - 1;
+	for (; i >= 0; i--) {
+		var p = pages[i];
 
-			if(p.querySelector('.floating-action'))
-				listenTo(p);
+		if(p.querySelector('.floating-action')) {
+			listenTo(p);
 		}
-	}();
+	}
 
     // Expose the Router either via AMD, CommonJS or the global object
     if (typeof define === 'function' && define.amd) {
@@ -81,10 +79,8 @@
     } else if (typeof module === 'object' && module.exports) {
         module.exports = api;
     } else {
-        if(window.Phonon === undefined) {
-            window.Phonon = {};
-        }
-        window.Phonon.FloatingAction = api;
+        Phonon.FloatingAction = api;
+        window.Phonon = Phonon;
     }
 
-}(window, document));
+}(window, document, window.Phonon || {}));

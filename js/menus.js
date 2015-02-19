@@ -1,10 +1,10 @@
 /* ========================================================================
-* Phonon: menus.js v0.0.3
+* Phonon: menus.js v0.0.4
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-(function (window, document) {
+;(function (window, document, Phonon, undefined) {
 
   'use strict';
 
@@ -179,10 +179,8 @@
   } else if (typeof module === 'object' && module.exports) {
     module.exports = api;
   } else {
-    if(window.Phonon === undefined) {
-        window.Phonon = {};
-    }
-    window.Phonon.Menu = api;
+    Phonon.Menu = api;
+    window.Phonon = Phonon;
   }
 
-}(window, document));
+}(window, document, window.Phonon || {}));

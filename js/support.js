@@ -4,7 +4,7 @@
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-(function (window, document) {
+;(function (window, document, undefined) {
 
 	'use strict';
 

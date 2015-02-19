@@ -1,11 +1,11 @@
 /* ========================================================================
-* Phonon: ripple.js v0.0.2
+* Phonon: ripple.js v0.0.3
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * Inspiration: http://www.cssscript.com/demo/android-l-ripple-click-effect-with-javascript-and-css3/
 * ======================================================================== */
-(function (window, document) {
+;(function (window, document) {
 
 	'use strict';
 

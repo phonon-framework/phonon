@@ -1,10 +1,10 @@
 /* ========================================================================
-* Phonon: ajax.js v0.1.7
+* Phonon: ajax.js v0.1.8
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-(function (window, document) {
+;(function (window, document, Phonon) {
 
     'use strict';
 
@@ -227,10 +227,8 @@
     } else if (typeof module === 'object' && module.exports) {
         module.exports = Ajax;
     } else {
-        if(window.Phonon === undefined) {
-            window.Phonon = {};
-        }
-        window.Phonon.Ajax = Ajax;
+        Phonon.Ajax = Ajax;
+        window.Phonon = Phonon;
     }
 
-}(window, document));
+}(window, document, window.Phonon || {}));

@@ -1,10 +1,10 @@
 /* ========================================================================
-* Phonon: navigator.js v0.6.6
+* Phonon: navigator.js v0.6.7
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-(function (window, document) {
+;(function (window, document, Phonon, undefined) {
 
     'use strict';
 
@@ -863,10 +863,8 @@
         module.exports = api;
     }
     else {
-        if(window.Phonon === undefined) {
-            window.Phonon = {};
-        }
-        window.Phonon.Navigator = api;
+        Phonon.Navigator = api;
+        window.Phonon = Phonon;
     }
 
-}(window, document));
+}(window, document, window.Phonon || {}));

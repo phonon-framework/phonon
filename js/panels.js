@@ -1,16 +1,16 @@
 /* ========================================================================
-* Phonon: panels.js v0.0.5
+* Phonon: panels.js v0.0.6
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-(function (window, document) {
+;(function (window, document, Phonon, undefined) {
 
   'use strict';
 
   var transitionEnd = 'webkitTransitionEnd';
   
-  if (window.animationPrefix !== undefined) {
+  if (window.animationPrefix) {
       transitionEnd = (window.animationPrefix === '' ? 'transitionend' : 'webkitTransitionEnd');
   }
   
@@ -91,10 +91,10 @@
 
   window.addEventListener('touchend', function (evt) {
 
-    var trigger = findTrigger(evt.target);
+    var trigger = findTrigger(evt.target), panel = null;
 
     if (trigger) {
-      var panel = getPanel(evt);
+      panel = getPanel(evt);
 
       lastTrigger = trigger;
 
@@ -107,7 +107,7 @@
       }
     }
 
-    var panel = findPanel(evt.target);
+    panel = findPanel(evt.target);
     var item = onItem(evt.target);
 
     if(panel && item && !moved) {
@@ -219,10 +219,8 @@
   } else if (typeof module === 'object' && module.exports) {
     module.exports = api;
   } else {
-    if(window.Phonon === undefined) {
-        window.Phonon = {};
-    }
-    window.Phonon.Panel = api;
+    Phonon.Panel = api;
+    window.Phonon = Phonon;
   }
 
-}(window, document));
+}(window, document, window.Phonon || {}));
