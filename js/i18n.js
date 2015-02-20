@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: i18n.js v0.2.0
+* Phonon: i18n.js v0.2.1
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -243,14 +243,14 @@
      * Sets the preferred language
      * @param {String} l the new language
     */
-    function setPreference(l) {
-        if (typeof l !== 'string') {
+    function setPreference(preference) {
+        if (typeof preference !== 'string') {
             throw new Error('The language must be a string');
         }
-        if (l.length > 2) {
-            l = l.substring(0, 2);
+        if (preference.length > 2) {
+            preference = preference.substring(0, 2);
         }
-        _options.preferredLocale = l.toLowerCase();
+        _options.preferredLocale = preference.toLowerCase();
     }
     api.setPreference = setPreference;
 
@@ -272,16 +272,54 @@
     }
     api.getLocale = getLocale;
 
-    // Expose the API either via AMD, CommonJS or the global object
+
+    Phonon.i18n = function (options) {
+
+        if(typeof options === 'object') {
+            init(options);
+        }
+
+        return {
+            getAll: function (callback) {
+                getAll(callback);
+                return this;
+            },
+            get: function (key, callback) {
+                get(key, callback);
+                return this;
+            },
+            bind: function (el, callback) {
+                bind(el, callback);
+                return this;
+            },
+            setPreference: function (preference) {
+                setPreference(preference);
+                return this;
+            },
+            getPreference: function () {
+                return getPreference();
+            },
+            getLocale: function () {
+                return getLocale();
+            }
+        };
+    };
+    window.Phonon = Phonon;
+
     if (typeof define === 'function' && define.amd) {
         define(function () {
-            return api;
+            if(Phonon.returnGlobalNamespace === true) {
+                return Phonon;
+            } else {
+                return Phonon.i18n;
+            }
         });
     } else if (typeof module === 'object' && module.exports) {
-        module.exports = api;
-    } else {
-        Phonon.i18n = api;
-        window.Phonon = Phonon;
+        if(Phonon.returnGlobalNamespace === true) {
+            module.exports = Phonon;
+        } else {
+            module.exports = Phonon.i18n;
+        }
     }
 
 }(window, document, window.Phonon || {}));

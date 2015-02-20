@@ -219,16 +219,23 @@
         }
     };
 
-    // Expose the Router either via AMD, CommonJS or the global object
+    Phonon.Ajax = Ajax;
+    window.Phonon = Phonon;
+    
     if (typeof define === 'function' && define.amd) {
         define(function () {
-            return Ajax;
+            if(Phonon.returnGlobalNamespace === true) {
+                return Phonon;
+            } else {
+                return Phonon.Ajax;
+            }
         });
     } else if (typeof module === 'object' && module.exports) {
-        module.exports = Ajax;
-    } else {
-        Phonon.Ajax = Ajax;
-        window.Phonon = Phonon;
+        if(Phonon.returnGlobalNamespace === true) {
+            module.exports = Phonon;
+        } else {
+            module.exports = Phonon.Ajax;
+        }
     }
 
 }(window, document, window.Phonon || {}));

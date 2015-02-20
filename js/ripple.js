@@ -36,7 +36,7 @@
 		ripple.style.left = left + 'px';
 		ripple.classList.add('show');
 		return false;
-	}
+	};
 
 	document.addEventListener('touchend', ripple, false);
 

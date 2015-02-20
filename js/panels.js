@@ -10,8 +10,8 @@
 
   var transitionEnd = 'webkitTransitionEnd';
   
-  if (window.animationPrefix) {
-      transitionEnd = (window.animationPrefix === '' ? 'transitionend' : 'webkitTransitionEnd');
+  if (Phonon.animationPrefix) {
+      transitionEnd = (Phonon.animationPrefix === '' ? 'transitionend' : 'webkitTransitionEnd');
   }
   
   var lastTrigger = false;
@@ -150,8 +150,6 @@
    * Public API
   */
 
-  var api = {};
-
   function open (el) {
     var panel = (typeof el === 'string' ? document.querySelector(el) : el);
     if(panel === null) {
@@ -171,7 +169,6 @@
       document.querySelector('.app-page.app-active').appendChild(backdrop);
     }
   }
-  api.open = open;
 
   function close (el) {
     var panel = (typeof el === 'string' ? document.querySelector(el) : el);
@@ -189,7 +186,19 @@
       backdrop.addEventListener(transitionEnd, onHide, false);
     }
   }
-  api.close = close;
+
+  function toggle(el) {
+    var panel = (typeof el === 'string' ? document.querySelector(el) : el);
+    if(panel === null) {
+      throw new Error('The panel with ID ' + el + ' does not exist');
+    }
+    
+    if(panel.classList.contains('active')) {
+      close(panel);
+    } else {
+      open(panel);
+    }
+  }
 
   function closeLastPanel () {
     var l = panels.length;
@@ -200,27 +209,49 @@
       return false;
     }
   }
-  api.closeLastPanel = closeLastPanel;
 
-  function toggle(el) {
+
+  Phonon.Panel = function (el) {
     var panel = (typeof el === 'string' ? document.querySelector(el) : el);
     if(panel === null) {
       throw new Error('The panel with ID ' + el + ' does not exist');
     }
-    panel.classList.contains('active') ? close(panel) : open(panel);
-  }
-  api.toggle = toggle;
 
-  // Expose the Router either via AMD, CommonJS or the global object
+    return {
+      open: function () {
+        open(panel);
+        return this;
+      },
+      close: function () {
+        close(panel);
+        return this;
+      },
+      toggle: function () {
+        toggle(panel);
+        return this;
+      },
+      closeLastPanel: function () {
+        closeLastPanel();
+        return this;
+      }
+    };
+  };
+  window.Phonon = Phonon;
+
   if (typeof define === 'function' && define.amd) {
-    define(function () {
-        return api;
-    });
+      define(function () {
+          if(Phonon.returnGlobalNamespace === true) {
+              return Phonon;
+          } else {
+              return Phonon.Panel;
+          }
+      });
   } else if (typeof module === 'object' && module.exports) {
-    module.exports = api;
-  } else {
-    Phonon.Panel = api;
-    window.Phonon = Phonon;
+      if(Phonon.returnGlobalNamespace === true) {
+          module.exports = Phonon;
+      } else {
+          module.exports = Phonon.Panel;
+      }
   }
 
 }(window, document, window.Phonon || {}));

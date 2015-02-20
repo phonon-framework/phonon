@@ -4,7 +4,7 @@
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-;(function (window, document, undefined) {
+;(function (window, document, Phonon, undefined) {
 
 	'use strict';
 
@@ -22,8 +22,10 @@
 		window.CustomEvent = CustomEvent;
 	}
 
-	window.animationPrefix = '';
-	window.animationEnd = 'animationend';
+	Phonon.returnGlobalNamespace = false;
+
+	Phonon.animationPrefix = '';
+	Phonon.animationEnd = 'animationend';
 
 	(function whichAnimationEvent() {
 		var el = document.createElement('div'), transitions = [
@@ -37,11 +39,19 @@
 		for (; i >= 0; i--) {
 			var t = transitions[i];
 			if(el.style[t.name] !== undefined) {
-				window.animationPrefix = (t.event.indexOf('webkit') === 0 ? 'webkit' : '');
-				window.animationEnd = t.event;
+				Phonon.animationPrefix = (t.event.indexOf('webkit') === 0 ? 'webkit' : '');
+				Phonon.animationEnd = t.event;
 				break;
 			}
 		}
+
+		window.Phonon = Phonon;
 	})();
 
-}(window, document));
+	return {
+		setGlobalNamespace: function (value) {
+			window.Phonon.returnGlobalNamespace = value;
+		}
+	}
+
+}(window, document, window.Phonon || {}));

@@ -1,8 +1,8 @@
 'use strict';
 
-var req1 = new Ajax({baseUrl: 'http://localhost/UniProgress/', timeout: 5000, dataType: 'json', crossDomain: true});
+var req1 = new Phonon.Ajax({baseUrl: 'http://www.unige.ch/', timeout: 5000, dataType: 'xml', crossDomain: true});
 
-req1.get('actu?type=news', null, function(res) {
+req1.get('feed/rss', null, function(res) {
 
 	console.log('OK');
 	console.log(res);

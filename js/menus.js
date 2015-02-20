@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: menus.js v0.0.4
+* Phonon: menus.js v0.0.5
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -101,8 +101,6 @@
    * Public API
   */
 
-  var api = {};
-
   function open (el, direction) {
     var menu = (typeof el === 'string' ? document.querySelector(el) : el);
     if(menu === null) {
@@ -141,7 +139,6 @@
       page.appendChild(backdrop);
     }
   }
-  api.open = open;
 
   function close (el) {
     var menu = (typeof el === 'string' ? document.querySelector(el) : el);
@@ -160,27 +157,57 @@
       }, 250);
     }
   }
-  api.close = close;
 
   function toggle(el) {
     var menu = (typeof el === 'string' ? document.querySelector(el) : el);
     if(menu === null) {
       throw new Error('The menu with ID ' + el + ' does not exist');
     }
-    menu.classList.contains('active') ? close(menu) : open(menu);
-  }
-  api.toggle = toggle;
 
-  // Expose the Router either via AMD, CommonJS or the global object
+    if(menu.classList.contains('active')) {
+      close(menu);
+    } else {
+      open(menu);
+    }
+  }
+
+  Phonon.Menu = function (el) {
+    var menu = (typeof el === 'string' ? document.querySelector(el) : el);
+    if(menu === null) {
+      throw new Error('The menu with ID ' + el + ' does not exist');
+    }
+
+    return {
+      open: function () {
+        open(menu);
+        return this;
+      },
+      close: function () {
+        close(menu);
+        return this;
+      },
+      toggle: function () {
+        toggle(menu);
+        return this;
+      }
+    };
+  };
+  window.Phonon = Phonon;
+
   if (typeof define === 'function' && define.amd) {
-    define(function () {
-        return api;
-    });
+      define(function () {
+          if(Phonon.returnGlobalNamespace === true) {
+              return Phonon;
+          } else {
+              return Phonon.Menu;
+          }
+      });
   } else if (typeof module === 'object' && module.exports) {
-    module.exports = api;
-  } else {
-    Phonon.Menu = api;
-    window.Phonon = Phonon;
+      if(Phonon.returnGlobalNamespace === true) {
+          module.exports = Phonon;
+      } else {
+          module.exports = Phonon.Menu;
+      }
   }
 
 }(window, document, window.Phonon || {}));

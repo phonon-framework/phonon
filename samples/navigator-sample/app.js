@@ -12,7 +12,7 @@ function write (el, text) {
 }
 
 var onDeviceReady = function () {
-	Phonon.Navigator.start('home');
+	Phonon.Navigator().start('home');
 }
 
 var isCordova = typeof window.cordova !== 'undefined' ? true : false;
@@ -23,7 +23,7 @@ if(isCordova) {
 	window.addEventListener('load', onDeviceReady, false);
 }
 
-Phonon.Navigator.init({
+Phonon.Navigator({
 	defaultPage: 'home',
 	templatePath: 'tpl',
 	pageAnimations: true
@@ -32,7 +32,7 @@ Phonon.Navigator.init({
 /**
  * This page is synchronous
 */
-Phonon.Navigator.on({page: 'home', template: 'home', asynchronous: false}, function(activity) {
+Phonon.Navigator().on({page: 'home', template: 'home', asynchronous: false}, function(activity) {
 
 	activity.onCreate(function(self, el, req) {
 		console.log('home: onCreate');
@@ -60,7 +60,7 @@ Phonon.Navigator.on({page: 'home', template: 'home', asynchronous: false}, funct
  * call runReady() inside the onCreate callback
  * and startTransition() inside the onReady callback manually after asynchronous tasks are done
 */
-Phonon.Navigator.on({page: 'page-two', template: 'page-two', asynchronous: true}, function(activity) {
+Phonon.Navigator().on({page: 'page-two', template: 'page-two', asynchronous: true}, function(activity) {
 
 	var msg;
 	var userAction = false;

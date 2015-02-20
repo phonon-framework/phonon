@@ -10,8 +10,8 @@
 
 	var transitionEnd = 'webkitTransitionEnd';
 
-	if (window.animationPrefix) {
-		transitionEnd = (window.animationPrefix === '' ? 'transitionend' : 'webkitTransitionEnd');
+	if (Phonon.animationPrefix) {
+		transitionEnd = (Phonon.animationPrefix === '' ? 'transitionend' : 'webkitTransitionEnd');
 	}
 
 
@@ -78,16 +78,40 @@
 	}
 	api.hide = hide;
 
-	// Expose the Router either via AMD, CommonJS or the global object
+
+	Phonon.Preloader = function (el) {
+		var preloader = (typeof el === 'string' ? document.querySelector(el) : el);
+		if(preloader === null) {
+			throw new Error('The preloader with ID ' + el + ' does not exist');
+		}
+
+		return {
+			show: function () {
+				show(preloader);
+				return this;
+			},
+			hide: function () {
+				hide(preloader);
+				return this;
+			}
+		};
+	};
+	window.Phonon = Phonon;
+
 	if (typeof define === 'function' && define.amd) {
-		define(function () {
-			return api;
-		});
+	  define(function () {
+	      if(Phonon.returnGlobalNamespace === true) {
+	          return Phonon;
+	      } else {
+	          return Phonon.Preloader;
+	      }
+	  });
 	} else if (typeof module === 'object' && module.exports) {
-		module.exports = api;
-	} else {
-		Phonon.Preloader = api;
-		window.Phonon = Phonon;
+	  if(Phonon.returnGlobalNamespace === true) {
+	      module.exports = Phonon;
+	  } else {
+	      module.exports = Phonon.Preloader;
+	  }
 	}
 
 }(window, document, window.Phonon || {}));

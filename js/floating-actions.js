@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: floating-actions.js v0.0.3
+* Phonon: floating-actions.js v0.0.4
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -42,8 +42,6 @@
     * Public API
     */
 
-    var api = {};
-
     /**
      * Event listener for a floating action
      * @param {DOMElement} page
@@ -60,7 +58,6 @@
 			throw new Error('The page must be a DOMElement not a ' + typeof page);
 		}
 	}
-	api.listenTo = listenTo;
 
 	var pages = document.querySelectorAll('.app-page'), l = pages.length, i = l - 1;
 	for (; i >= 0; i--) {
@@ -71,16 +68,30 @@
 		}
 	}
 
-    // Expose the Router either via AMD, CommonJS or the global object
+	Phonon.FloatingAction = function () {
+		return {
+			listenTo: function (page) {
+				listenTo(page);
+				return this;
+			}
+		};
+	};
+	window.Phonon = Phonon;
+	
     if (typeof define === 'function' && define.amd) {
         define(function () {
-            return api;
+            if(Phonon.returnGlobalNamespace === true) {
+                return Phonon;
+            } else {
+                return Phonon.FloatingAction;
+            }
         });
     } else if (typeof module === 'object' && module.exports) {
-        module.exports = api;
-    } else {
-        Phonon.FloatingAction = api;
-        window.Phonon = Phonon;
+        if(Phonon.returnGlobalNamespace === true) {
+            module.exports = Phonon;
+        } else {
+            module.exports = Phonon.FloatingAction;
+        }
     }
 
 }(window, document, window.Phonon || {}));

@@ -102,8 +102,8 @@
     var transitionEnd = 'webkitAnimationEnd';
 
     // fix: Firefox support + android 4
-    if (window.animationPrefix) {
-        transitionEnd = window.animationEnd;
+    if (Phonon.animationPrefix) {
+        transitionEnd = Phonon.animationEnd;
     }
 
     /**
@@ -853,18 +853,30 @@
     window.addEventListener('hashchange', matchRoutes);
     document.addEventListener('backbutton', onBackButton);
 
-    // Expose the Router either via AMD, CommonJS or the global object
+
+    Phonon.Navigator = function (options) {
+
+        if(typeof options === 'object') {
+            init(options);
+        }
+        return api;
+    };
+    window.Phonon = Phonon;
+
     if (typeof define === 'function' && define.amd) {
-        define(function () {
-            return api;
-        });
-    }
-    else if (typeof module === 'object' && module.exports){
-        module.exports = api;
-    }
-    else {
-        Phonon.Navigator = api;
-        window.Phonon = Phonon;
+      define(function () {
+          if(Phonon.returnGlobalNamespace === true) {
+              return Phonon;
+          } else {
+              return Phonon.Navigator;
+          }
+      });
+    } else if (typeof module === 'object' && module.exports) {
+      if(Phonon.returnGlobalNamespace === true) {
+          module.exports = Phonon;
+      } else {
+          module.exports = Phonon.Navigator;
+      }
     }
 
 }(window, document, window.Phonon || {}));

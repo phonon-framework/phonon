@@ -131,16 +131,25 @@
 	}
 	api.showPrompt = showPrompt;
 
-    // Expose the Router either via AMD, CommonJS or the global object
+    Phonon.Notification = function () {
+    	return api;
+    };
+    window.Phonon = Phonon;
+    
     if (typeof define === 'function' && define.amd) {
         define(function () {
-            return api;
+            if(Phonon.returnGlobalNamespace === true) {
+                return Phonon;
+            } else {
+                return Phonon.Notification;
+            }
         });
     } else if (typeof module === 'object' && module.exports) {
-        module.exports = api;
-    } else {
-        Phonon.Notification = api;
-        window.Phonon = Phonon;
+        if(Phonon.returnGlobalNamespace === true) {
+            module.exports = Phonon;
+        } else {
+            module.exports = Phonon.Notification;
+        }
     }
 
 }(window, document, window.Phonon || {}));
