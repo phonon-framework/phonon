@@ -10,7 +10,7 @@
 
   var transitionEnd = 'webkitTransitionEnd';
   
-  if (Phonon.animationPrefix) {
+  if (Phonon.animationEnd) {
       transitionEnd = (Phonon.animationPrefix === '' ? 'transitionend' : 'webkitTransitionEnd');
   }
   

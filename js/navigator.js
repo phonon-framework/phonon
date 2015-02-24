@@ -102,7 +102,7 @@
     var transitionEnd = 'webkitAnimationEnd';
 
     // fix: Firefox support + android 4
-    if (Phonon.animationPrefix) {
+    if (Phonon.animationEnd) {
         transitionEnd = Phonon.animationEnd;
     }
 

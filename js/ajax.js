@@ -98,7 +98,7 @@
                 if (self.currentXhr.readyState === 4) {
                     if (self.currentXhr.status === 200) {
                         // Success
-                        
+
                         if(self.dataType === 'json') {
                             var json = self.toJSON(self.currentXhr.responseText);
                             if(json !== 'JSON_MALFORMED') {
@@ -106,7 +106,7 @@
                             } else {
                                 if (typeof errorCallback === 'function') {
                                     errorCallback(json, event);
-                                }    
+                                }
                             }
                         } else if(self.dataType === 'xml'){
                             successCallback(self.currentXhr.responseXML);
@@ -221,7 +221,7 @@
 
     Phonon.Ajax = Ajax;
     window.Phonon = Phonon;
-    
+
     if (typeof define === 'function' && define.amd) {
         define(function () {
             if(Phonon.returnGlobalNamespace === true) {
@@ -237,5 +237,9 @@
             module.exports = Phonon.Ajax;
         }
     }
+
+    var a = '
+
+
 
 }(window, document, window.Phonon || {}));
