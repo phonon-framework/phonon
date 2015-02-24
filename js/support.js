@@ -45,12 +45,31 @@
 			}
 		}
 
+
+		Phonon.Support = function () {
+			return {
+				setGlobalNamespace: function (value) {
+					window.Phonon.returnGlobalNamespace = value;
+				}
+			};
+		};
+
 		window.Phonon = Phonon;
 	})();
 
-	return {
-		setGlobalNamespace: function (value) {
-			window.Phonon.returnGlobalNamespace = value;
+	if (typeof define === 'function' && define.amd) {
+		define(function () {
+			if(Phonon.returnGlobalNamespace === true) {
+				return Phonon;
+			} else {
+				return Phonon.Support;
+			}
+		});
+	} else if (typeof module === 'object' && module.exports) {
+		if(Phonon.returnGlobalNamespace === true) {
+			module.exports = Phonon;
+		} else {
+			module.exports = Phonon.Support;
 		}
 	}
 
