@@ -238,8 +238,4 @@
         }
     }
 
-    var a = '
-
-
-
 }(window, document, window.Phonon || {}));
