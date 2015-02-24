@@ -331,8 +331,6 @@
                 }
                 require([amdPanelPath], function(Phonon) {
                     var p = (Phonon.Panel ? Phonon.Panel : Phonon);
-
-                    alert(p)
                     if(!p().closeLastPanel()) {
                         // No active panels
                         startBackNavigation();
@@ -855,7 +853,7 @@
     }
 
     window.addEventListener('hashchange', matchRoutes);
-    document.addEventListener('keypress', onBackButton);
+    document.addEventListener('backbutton', onBackButton);
 
 
     Phonon.Navigator = function (options) {
