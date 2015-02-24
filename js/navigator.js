@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: navigator.js v0.6.7
+* Phonon: navigator.js v0.6.8
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -329,14 +329,18 @@
                     console.error('config.panels.cancelClose is true, but the AMD path to Phonon Panels is not set');
                     return;
                 }
-                require([amdPanelPath], function(Panel) {
-                    if(!Panel.closeLastPanel()) {
+                require([amdPanelPath], function(Phonon) {
+                    var p = (Phonon.Panel ? Phonon.Panel : Phonon);
+
+                    alert(p)
+                    if(!p().closeLastPanel()) {
                         // No active panels
                         startBackNavigation();
                     }
                 });
             } else {
-                if(!Phonon.Panel.closeLastPanel()) {
+                var p = (Phonon.Panel ? Phonon.Panel : Phonon);
+                if(!p().closeLastPanel()) {
                     // No active panels
                     startBackNavigation();
                 }
@@ -851,7 +855,7 @@
     }
 
     window.addEventListener('hashchange', matchRoutes);
-    document.addEventListener('backbutton', onBackButton);
+    document.addEventListener('keypress', onBackButton);
 
 
     Phonon.Navigator = function (options) {
