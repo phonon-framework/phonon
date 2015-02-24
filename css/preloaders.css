@@ -36,8 +36,8 @@
   background-color: #2895e7;
 }
 .progress.active .indeterminate {
-  -webkit-animation: indeterminate 2s linear infinite;
-  animation: indeterminate 2s linear infinite;
+  -webkit-animation: indeterminate 1.5s linear infinite;
+  animation: indeterminate 1.5s linear infinite;
 }
 @-webkit-keyframes indeterminate {
   from {
