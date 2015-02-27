@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: panels.js v0.0.6
+* Phonon: panels.js v0.0.7
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -230,10 +230,7 @@
         toggle(panel);
         return this;
       },
-      closeLastPanel: function () {
-        closeLastPanel();
-        return this;
-      }
+      closeLastPanel: closeLastPanel
     };
   };
   window.Phonon = Phonon;
