@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: panels.js v0.0.7
+* Phonon: panels.js v0.0.8
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -17,6 +17,7 @@
   var lastTrigger = false;
   var moved = false;
   var panels = [];
+  var busy = false;
 
   var createBackdrop = function () {
     var backdrop = document.createElement('div');
@@ -142,6 +143,8 @@
 
       panels.pop();
 
+      busy = false;
+
       this.removeEventListener(transitionEnd, onHide, false);
     }
   }
@@ -154,6 +157,10 @@
     var panel = (typeof el === 'string' ? document.querySelector(el) : el);
     if(panel === null) {
       throw new Error('The panel with ID ' + el + ' does not exist');
+    }
+
+    if(busy) {
+      return;
     }
 
     panel.style.visibility = 'visible';
@@ -176,7 +183,14 @@
       throw new Error('The panel with ID ' + el + ' does not exist');
     }
 
-    if(panel.classList.contains('active')) {
+    if(busy) {
+      return;
+    }
+
+    if(panel.classList.contains('active') && !busy) {
+      
+      busy = true;
+
       panel.classList.remove('active');
 
       var backdrop = panels[panels.length - 1].backdrop;
