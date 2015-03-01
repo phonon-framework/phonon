@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: floating-actions.js v0.0.4
+* Phonon: floating-actions.js v0.0.5
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -17,17 +17,22 @@
 
 		lastContentHeight = pageContent.offsetHeight;
 
-		var flga = document.querySelector('.app-page.app-active .floating-action');
+		var actions = document.querySelectorAll('.app-page.app-active .floating-action');
 
-		if (!flga) return;
+		if (!actions) return;
 
-		if(lastPosition > pageContent.scrollTop) {
-			if(!flga.classList.contains('active')) {
-				flga.classList.add('active');
-			}
-		} else {
-			if(flga.classList.contains('active')) {
-				flga.classList.remove('active');
+		var size = actions.length, i = size - 1;
+		for (; i >= 0; i--) {
+			var action = actions[i];
+		
+			if(lastPosition > pageContent.scrollTop) {
+				if(!action.classList.contains('active')) {
+					action.classList.add('active');
+				}
+			} else {
+				if(action.classList.contains('active')) {
+					action.classList.remove('active');
+				}
 			}
 		}
 

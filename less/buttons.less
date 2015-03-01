@@ -113,17 +113,12 @@ button, .btn {
 	right: 16px;
 	bottom: 16px;
 
-	-webkit-transform: translate3d(0, (@floating-circle * 2) + @icon-size + @bottom-space, 0);
-	transform: translate3d(0, (@floating-circle * 2) + @icon-size + @bottom-space, 0);
+	opacity: 0.5;
+    -webkit-transition: opacity .25s linear;
+            transition: opacity .25s linear;
 
-    -webkit-transition: -webkit-transform 0.4s;
-            transition: -webkit-transform 0.4s;
-	        transition:         transform 0.4s;
-
-	&.active {
+	&.active, &:active {
 		opacity: 1;
-		-webkit-transform: translate3d(0, 0, 0);
-		        transform: translate3d(0, 0, 0);	
 	}
 }
 

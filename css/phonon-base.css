@@ -702,16 +702,13 @@ button,
   z-index: 10;
   right: 16px;
   bottom: 16px;
-  -webkit-transform: translate3d(0, 72px, 0);
-  transform: translate3d(0, 72px, 0);
-  -webkit-transition: -webkit-transform 0.4s;
-  transition: -webkit-transform 0.4s;
-  transition: transform 0.4s;
+  opacity: 0.5;
+  -webkit-transition: opacity .25s linear;
+  transition: opacity .25s linear;
 }
-.floating-action.active {
+.floating-action.active,
+.floating-action:active {
   opacity: 1;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
 }
 .select-toggle {
   width: 100%;
