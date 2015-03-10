@@ -1,14 +1,6 @@
 "use strict";
 
-/* ========================================================================
-* Phonon: floating-actions.js v0.0.5
-* http://phonon.quarkdev.com
-* ========================================================================
-* Licensed under MIT (http://phonon.quarkdev.com)
-* ======================================================================== */
 ;(function (window, document, Phonon) {
-
-	"use strict";
 
 	var lastPosition = 0;
 	var lastContentHeight = 0;
@@ -114,3 +106,9 @@
 		}
 	}
 })(window, document, window.Phonon || {});
+/* ========================================================================
+* Phonon: floating-actions.js v0.0.5
+* http://phonon.quarkdev.com
+* ========================================================================
+* Licensed under MIT (http://phonon.quarkdev.com)
+* ======================================================================== */

@@ -1,14 +1,6 @@
 "use strict";
 
-/* ========================================================================
-* Phonon: support.js v0.0.3
-* http://phonon.quarkdev.com
-* ========================================================================
-* Licensed under MIT (http://phonon.quarkdev.com)
-* ======================================================================== */
 ;(function (window, document, Phonon, undefined) {
-
-	"use strict";
 
 	/**
   * CustomEvent polyfill
@@ -72,3 +64,9 @@
 		}
 	}
 })(window, document, window.Phonon || {});
+/* ========================================================================
+* Phonon: support.js v0.0.3
+* http://phonon.quarkdev.com
+* ========================================================================
+* Licensed under MIT (http://phonon.quarkdev.com)
+* ======================================================================== */

@@ -1,14 +1,6 @@
 "use strict";
 
-/* ========================================================================
-* Phonon: navigator.js v0.6.8
-* http://phonon.quarkdev.com
-* ========================================================================
-* Licensed under MIT (http://phonon.quarkdev.com)
-* ======================================================================== */
 ;(function (window, document, Phonon, undefined) {
-
-    "use strict";
 
     /**
      * "Encapsulated" class
@@ -23,6 +15,7 @@
         function Activity() {
             this._isCreated = false;
         }
+
         Activity.prototype.isCreated = function () {
             return this._isCreated;
         };
@@ -178,7 +171,7 @@
         var matches = null;
         var i = 0;
 
-        for (; matches = nameRegexp.exec(route);) {
+        while (matches = nameRegexp.exec(route)) {
             groups[matches[1]] = i++;
             routeRegex = routeRegex.replace(matches[0], "([^/.\\\\]+)");
         }
@@ -218,7 +211,8 @@
             throw new TypeError("path must be a string");
         }
 
-        if (!(path.indexOf("/", path.length - "/".length) !== -1)) {
+        var withSlash = path.indexOf("/", path.length - "/".length) !== -1;
+        if (!withSlash) {
             path = path + "/";
         }
         _templatePath = path;
@@ -289,7 +283,8 @@
             }
 
             if (target.attributes.href !== undefined && target.attributes.href.value !== null) {
-                if (!(target.attributes.href.value.indexOf("#!") !== 0)) {
+                var withHash = target.attributes.href.value.indexOf("#!") !== 0;
+                if (!withHash) {
                     // page target
                     hasHref = target.attributes.href.value;
                     break;
@@ -550,11 +545,12 @@
         }
     }
 
-    function forwardAnimation(evt, tg) {
+    function forwardAnimation() {
 
-        if (this) {
-            this.classList.remove("page-sliding");
-            this.classList.remove("left");
+        if (transitionEnd !== null) {
+            previousPageEl.classList.remove("page-sliding");
+            previousPageEl.classList.remove("left");
+            previousPageEl.removeEventListener(transitionEnd, forwardAnimation, false);
         }
 
         previousPageEl.classList.remove("app-active");
@@ -563,17 +559,14 @@
         dispatchTransitionEndCallback(currentPageEl, currentPageObject);
 
         onTransition = false;
-
-        if (this) {
-            this.removeEventListener(transitionEnd, forwardAnimation, false);
-        }
     }
 
     function backAnimation() {
 
-        if (this) {
-            this.classList.remove("page-sliding");
-            this.classList.remove("right");
+        if (transitionEnd !== null) {
+            previousPageEl.classList.remove("page-sliding");
+            previousPageEl.classList.remove("right");
+            previousPageEl.removeEventListener(transitionEnd, backAnimation, false);
         }
 
         previousPageEl.classList.remove("app-active");
@@ -582,10 +575,6 @@
         dispatchTransitionEndCallback(currentPageEl, currentPageObject);
 
         onTransition = false;
-
-        if (this) {
-            this.removeEventListener(transitionEnd, backAnimation, false);
-        }
     }
 
     /**
@@ -617,9 +606,10 @@
             if (transitionEnd) {
                 previousPageEl.classList.add("page-sliding");
                 previousPageEl.classList.add("left");
+
                 previousPageEl.addEventListener(transitionEnd, forwardAnimation, false);
             } else {
-                forwardAnimation();
+                forwardAnimation(previousPageEl);
             }
         }
         backNavigation = false;
@@ -890,3 +880,9 @@
         }
     }
 })(window, document, window.Phonon || {});
+/* ========================================================================
+* Phonon: navigator.js v0.6.8
+* http://phonon.quarkdev.com
+* ========================================================================
+* Licensed under MIT (http://phonon.quarkdev.com)
+* ======================================================================== */

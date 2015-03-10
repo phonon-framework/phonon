@@ -5,9 +5,10 @@
 * Licensed under MIT (http://phonon.quarkdev.com)
 * Inspiration: http://www.cssscript.com/demo/android-l-ripple-click-effect-with-javascript-and-css3/
 * ======================================================================== */
-;(function (window, document) {
 
-	'use strict';
+'use strict';
+
+;(function (window, document) {
 
 	var ripple = function (evt) {
 		var target = evt.target;

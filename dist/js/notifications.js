@@ -1,14 +1,6 @@
 "use strict";
 
-/* ========================================================================
-* Phonon: notifications.js v0.1.4
-* http://phonon.quarkdev.com
-* ========================================================================
-* Licensed under MIT (http://phonon.quarkdev.com)
-* ======================================================================== */
 ;(function (window, document, Phonon, undefined) {
-
-	"use strict";
 
 	/**
   * @private
@@ -135,3 +127,9 @@
 		}
 	}
 })(window, document, window.Phonon || {});
+/* ========================================================================
+* Phonon: notifications.js v0.1.4
+* http://phonon.quarkdev.com
+* ========================================================================
+* Licensed under MIT (http://phonon.quarkdev.com)
+* ======================================================================== */

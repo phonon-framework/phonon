@@ -1,14 +1,6 @@
 "use strict";
 
-/* ========================================================================
-* Phonon: preloaders.js v0.0.3
-* http://phonon.quarkdev.com
-* ========================================================================
-* Licensed under MIT (http://phonon.quarkdev.com)
-* ======================================================================== */
 ;(function (window, document, Phonon) {
-
-	"use strict";
 
 	var transitionEnd = "webkitTransitionEnd";
 
@@ -133,3 +125,9 @@
 		}
 	}
 })(window, document, window.Phonon || {});
+/* ========================================================================
+* Phonon: preloaders.js v0.0.3
+* http://phonon.quarkdev.com
+* ========================================================================
+* Licensed under MIT (http://phonon.quarkdev.com)
+* ======================================================================== */

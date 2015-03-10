@@ -1,14 +1,6 @@
 "use strict";
 
-/* ========================================================================
-* Phonon: menus.js v0.0.5
-* http://phonon.quarkdev.com
-* ========================================================================
-* Licensed under MIT (http://phonon.quarkdev.com)
-* ======================================================================== */
 ;(function (window, document, Phonon, undefined) {
-
-  "use strict";
 
   var touchMove = false;
   var previousMenu = false;
@@ -243,3 +235,9 @@
     }
   }
 })(window, document, window.Phonon || {});
+/* ========================================================================
+* Phonon: menus.js v0.0.5
+* http://phonon.quarkdev.com
+* ========================================================================
+* Licensed under MIT (http://phonon.quarkdev.com)
+* ======================================================================== */

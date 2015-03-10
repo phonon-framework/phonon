@@ -1,15 +1,6 @@
 "use strict";
 
-/* ========================================================================
-* Phonon: ripple.js v0.0.3
-* http://phonon.quarkdev.com
-* ========================================================================
-* Licensed under MIT (http://phonon.quarkdev.com)
-* Inspiration: http://www.cssscript.com/demo/android-l-ripple-click-effect-with-javascript-and-css3/
-* ======================================================================== */
 ;(function (window, document) {
-
-	"use strict";
 
 	var ripple = (function (_ripple) {
 		var _rippleWrapper = function ripple(_x) {
@@ -52,3 +43,10 @@
 
 	document.addEventListener("touchend", ripple, false);
 })(window, document);
+/* ========================================================================
+* Phonon: ripple.js v0.0.3
+* http://phonon.quarkdev.com
+* ========================================================================
+* Licensed under MIT (http://phonon.quarkdev.com)
+* Inspiration: http://www.cssscript.com/demo/android-l-ripple-click-effect-with-javascript-and-css3/
+* ======================================================================== */

@@ -1,14 +1,6 @@
 "use strict";
 
-/* ========================================================================
-* Phonon: panels.js v0.0.8
-* http://phonon.quarkdev.com
-* ========================================================================
-* Licensed under MIT (http://phonon.quarkdev.com)
-* ======================================================================== */
 ;(function (window, document, Phonon, undefined) {
-
-  "use strict";
 
   var transitionEnd = "webkitTransitionEnd";
 
@@ -299,3 +291,9 @@
     }
   }
 })(window, document, window.Phonon || {});
+/* ========================================================================
+* Phonon: panels.js v0.0.8
+* http://phonon.quarkdev.com
+* ========================================================================
+* Licensed under MIT (http://phonon.quarkdev.com)
+* ======================================================================== */

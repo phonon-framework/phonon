@@ -4,9 +4,10 @@
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-;(function (window, document, Phonon) {
 
-	'use strict';
+'use strict';
+
+;(function (window, document, Phonon) {
 
 	var lastPosition = 0;
 	var lastContentHeight = 0;

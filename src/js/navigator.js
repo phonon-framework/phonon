@@ -4,9 +4,10 @@
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-;(function (window, document, Phonon, undefined) {
 
-    'use strict';
+"use strict";
+
+;(function (window, document, Phonon, undefined) {
 
     /**
      * "Encapsulated" class
@@ -21,6 +22,7 @@
         function Activity() {
             this._isCreated = false;
         }
+        
         Activity.prototype.isCreated = function () {
             return this._isCreated;
         };
@@ -99,7 +101,7 @@
     var autoPanelClose = false;
     var amdPanelPath;
 
-    var transitionEnd = 'webkitAnimationEnd';
+    var transitionEnd = "webkitAnimationEnd";
 
     // fix: Firefox support + android 4
     if (Phonon.animationEnd) {
@@ -113,7 +115,7 @@
      * @param {String} pageRoute
      * @private
     */
-    var pushNewPage = function (pageObject, pageCallback, pageRoute) {
+    var pushNewPage = function pushNewPage(pageObject, pageCallback, pageRoute) {
         var page = { name: pageObject.page, template: pageObject.template, asynchronous: pageObject.asynchronous, route: pageRoute, callback: pageCallback };
 
         if (pageRoute === undefined) {
@@ -130,8 +132,9 @@
      * @return {Object}
      * @private
     */
-    var getPageObject = function (pageName) {
-        var i, l = pages.length - 1;
+    var getPageObject = function getPageObject(pageName) {
+        var i,
+            l = pages.length - 1;
         for (i = l; i >= 0; i--) {
             var p = pages[i];
             if (p.name === pageName) {
@@ -148,7 +151,7 @@
      * @return {boolean|Object} False id does not match else return capture
      * @private
     */
-    var matchRoute = function (url, route) {
+    var matchRoute = function matchRoute(url, route) {
         var routeMatch = new RegExp(route.regex).exec(url);
 
         if (routeMatch === null) {
@@ -168,31 +171,33 @@
      * @return {Route} a route with regex and groups
      * @private
     */
-    var parseRoute = function (route) {
-        var nameRegexp = new RegExp(':([^/.\\\\]+)', 'g');
+    var parseRoute = function parseRoute(route) {
+        var nameRegexp = new RegExp(":([^/.\\\\]+)", "g");
         var routeRegex = route;
         var groups = {};
         var matches = null;
         var i = 0;
 
-        for (; matches = nameRegexp.exec(route);) {
+        while ((matches = nameRegexp.exec(route))) {
             groups[matches[1]] = i++;
-            routeRegex = routeRegex.replace(matches[0], '([^/.\\\\]+)');
+            routeRegex = routeRegex.replace(matches[0], "([^/.\\\\]+)");
         }
 
-        routeRegex += '$'; // Only do a full string match
-        return { 'groups': groups, 'regex': routeRegex };
+        routeRegex += "$"; // Only do a full string match
+        return { groups: groups, regex: routeRegex };
     };
 
     /**
      * Checks each route with the current hash and calls the load function if the route is matching
     */
-    var matchRoutes = function () {
-        var hash = window.location.hash.substr(2), i, l = pages.length;
+    var matchRoutes = function matchRoutes() {
+        var hash = window.location.hash.substr(2),
+            i,
+            l = pages.length;
         for (i = l - 1; i >= 0; i--) {
             var page = pages[i];
 
-            if (page.name === (hash.substring(0, hash.indexOf('/')) || hash)) {
+            if (page.name === (hash.substring(0, hash.indexOf("/")) || hash)) {
                 if (page.name !== page.route) {
                     var res = matchRoute(hash, parseRoute(page.route));
                     load(page.name, res);
@@ -208,13 +213,14 @@
      * Sets the path where templates are stored
      * @param {String} path
     */
-    var setTemplatePath = function (path) {
-        if (typeof path !== 'string') {
-            throw new TypeError('path must be a string');
+    var setTemplatePath = function setTemplatePath(path) {
+        if (typeof path !== "string") {
+            throw new TypeError("path must be a string");
         }
 
-        if (!(path.indexOf('/', path.length - '/'.length) !== -1)) {
-            path = path + '/';
+        var withSlash = path.indexOf("/", path.length - "/".length) !== -1;
+        if (!withSlash) {
+            path = path + "/";
         }
         _templatePath = path;
     };
@@ -225,13 +231,13 @@
     * @param: {String} filename
     * @param: {Function} callback
     */
-    var getTemplate = function (filename, callback) {
+    var getTemplate = function getTemplate(filename, callback) {
         var xhr = new XMLHttpRequest();
 
-        var path = (_templatePath === undefined ? filename : _templatePath + filename);
+        var path = _templatePath === undefined ? filename : _templatePath + filename;
 
-        xhr.open('GET', path + '.html', true);
-        xhr.overrideMimeType('text/html; charset=utf-8');
+        xhr.open("GET", path + ".html", true);
+        xhr.overrideMimeType("text/html; charset=utf-8");
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
@@ -239,7 +245,7 @@
                     // Success
                     callback(xhr.responseText);
                 } else {
-                    console.error('The template file could not be loaded, please check that the file exists');
+                    console.error("The template file could not be loaded, please check that the file exists");
                     return;
                 }
             }
@@ -252,38 +258,40 @@
      * @param {Event} evt
      * @private
     */
-    var onNavigation = function (evt) {
+    var onNavigation = function onNavigation(evt) {
 
         var hasHref = null;
 
         var target = evt.target ? evt.target : evt.toElement;
         for (; target && target !== document; target = target.parentNode) {
-            var dataTarget = target.getAttribute('data-navigation'), dataReq = target.getAttribute('data-param');
+            var dataTarget = target.getAttribute("data-navigation"),
+                dataReq = target.getAttribute("data-param");
 
             if (dataTarget !== null) {
 
-                if (dataTarget === '$previous-page') {
+                if (dataTarget === "$previous-page") {
                     backNavigation = true;
                     hasHref = getStackPreviousPage();
-                    if ((hasHref.indexOf('#!') !== 0)) {
-                        hasHref = '#!' + hasHref;
+                    if (hasHref.indexOf("#!") !== 0) {
+                        hasHref = "#!" + hasHref;
                     }
                 } else {
-                    if(dataTarget.indexOf('#!') !== 0) {
-                        hasHref = '#!' + dataTarget;
+                    if (dataTarget.indexOf("#!") !== 0) {
+                        hasHref = "#!" + dataTarget;
                     } else {
                         hasHref = dataTarget;
                     }
                 }
 
-                if(dataReq) {
-                    hasHref = hasHref + '/' + dataReq;
+                if (dataReq) {
+                    hasHref = hasHref + "/" + dataReq;
                 }
                 break;
             }
 
             if (target.attributes.href !== undefined && target.attributes.href.value !== null) {
-                if (!(target.attributes.href.value.indexOf('#!') !== 0)) {
+                var withHash = target.attributes.href.value.indexOf("#!") !== 0;
+                if (!withHash) {
                     // page target
                     hasHref = target.attributes.href.value;
                     break;
@@ -304,8 +312,8 @@
     /**
      * If no active panels, start the navigation history
     */
-    var startBackNavigation = function () {
-        if(defaultPage !== currentPageObject.name && !waitOnQuit) {
+    var startBackNavigation = function startBackNavigation() {
+        if (defaultPage !== currentPageObject.name && !waitOnQuit) {
             waitOnQuit = true;
             backNavigation = true;
 
@@ -321,24 +329,24 @@
      * Back-button event listener for the navigation history
      * Closes the last active panel if decided in the configuration settings
     */
-    var onBackButton = function () {
-        if(autoPanelClose) {
-            if(typeof require === 'function') {
+    var onBackButton = function onBackButton() {
+        if (autoPanelClose) {
+            if (typeof require === "function") {
 
-                if(!amdPanelPath) {
-                    console.error('config.panels.cancelClose is true, but the AMD path to Phonon Panels is not set');
+                if (!amdPanelPath) {
+                    console.error("config.panels.cancelClose is true, but the AMD path to Phonon Panels is not set");
                     return;
                 }
-                require([amdPanelPath], function(Phonon) {
-                    var p = (Phonon.Panel ? Phonon.Panel : Phonon);
-                    if(!p().closeLastPanel()) {
+                require([amdPanelPath], function (Phonon) {
+                    var p = Phonon.Panel ? Phonon.Panel : Phonon;
+                    if (!p().closeLastPanel()) {
                         // No active panels
                         startBackNavigation();
                     }
                 });
             } else {
-                var p = (Phonon.Panel ? Phonon.Panel : Phonon);
-                if(!p().closeLastPanel()) {
+                var p = Phonon.Panel ? Phonon.Panel : Phonon;
+                if (!p().closeLastPanel()) {
                     // No active panels
                     startBackNavigation();
                 }
@@ -354,16 +362,18 @@
      * @param {String} elPage
      * @private
     */
-    var setAutotext = function (elPage) {
-        var anchors = elPage.querySelectorAll('a, button'), size = anchors.length - 1, i = size;
+    var setAutotext = function setAutotext(elPage) {
+        var anchors = elPage.querySelectorAll("a, button"),
+            size = anchors.length - 1,
+            i = size;
 
         for (; i >= 0; i--) {
             var elLink = anchors[i];
 
             // If autotext, rename button with previous page name
-            var autotext = elLink.getAttribute('data-autotext');
+            var autotext = elLink.getAttribute("data-autotext");
             if (autotext) {
-                if(!('textContent' in elLink)) {
+                if (!("textContent" in elLink)) {
                     elLink.innerText = previousPageObject.name;
                 } else {
                     elLink.textContent = previousPageObject.name;
@@ -379,7 +389,7 @@
      * @param {String} params
      * @private
     */
-    var callFronCallback = function (elPage, pageObject, params) {
+    var callFronCallback = function callFronCallback(elPage, pageObject, params) {
         /*
         * the activity object is available from the general page scope
         * But according the different states, the methods availability change in the state callbacks
@@ -394,7 +404,7 @@
             pageObject.activity.onCreateCallback({ runReady: runReady, getMessage: getMessage }, elPage, params);
         }
         if (pageObject.activity !== undefined && pageObject.activity.onReadyCallback !== undefined && pageObject.asynchronous === false) {
-            setTimeout(function() {
+            setTimeout(function () {
                 pageObject.activity.onReadyCallback({ startTransition: startTransition, getMessage: getMessage }, elPage, params);
             }, 50);
         }
@@ -407,12 +417,12 @@
      * @param {String} params
      * @private
     */
-    var dispatchFrontCallbacks = function (elPage, pageObject, params) {
+    var dispatchFrontCallbacks = function dispatchFrontCallbacks(elPage, pageObject, params) {
         if (pageObject === undefined) {
             return;
         }
 
-        var isCreated = pageObject.hasOwnProperty('activity');
+        var isCreated = pageObject.hasOwnProperty("activity");
 
         if (!isCreated) {
             pageObject.activity = new Activity();
@@ -439,7 +449,7 @@
      * Dispatches the transition end callback (OnTransitionEnd)
      * @private
     */
-    var dispatchTransitionEndCallback = function (elPage, pageObject) {
+    var dispatchTransitionEndCallback = function dispatchTransitionEndCallback(elPage, pageObject) {
         if (pageObject === undefined) {
             return;
         }
@@ -454,7 +464,7 @@
      * Dispatches the onHidden callback
      * @private
     */
-    var dispatchHiddenCallback = function (elPage, pageObject) {
+    var dispatchHiddenCallback = function dispatchHiddenCallback(elPage, pageObject) {
         if (pageObject === undefined) {
             return;
         }
@@ -469,7 +479,7 @@
      * Dispatches the onQuit callback
      * @private
     */
-    var dispatchQuitCallback = function () {
+    var dispatchQuitCallback = function dispatchQuitCallback() {
         currentPageObject.activity.onQuitCallback({ quit: quit, cancel: cancelQuit });
     };
 
@@ -478,10 +488,11 @@
      * @return: the previous page
      * @private
     */
-    function getStackPreviousPage () {
-        if(currentPageObject) {
-            var i = pageHistory.indexOf(currentPageObject.name), prevPage = getPageObject(pageHistory[i-1]);
-            if(prevPage) {
+    function getStackPreviousPage() {
+        if (currentPageObject) {
+            var i = pageHistory.indexOf(currentPageObject.name),
+                prevPage = getPageObject(pageHistory[i - 1]);
+            if (prevPage) {
                 return prevPage.name;
             } else {
                 return previousPageObject.name;
@@ -503,7 +514,7 @@
 
         pageHistory.push(pageName);
 
-        if(currentPageObject) {
+        if (currentPageObject) {
             previousPageObject = currentPageObject;
             previousPageEl = document.getElementById(currentPageObject.name);
         }
@@ -511,11 +522,11 @@
         currentPageObject = getPageObject(pageName);
         currentPageEl = document.getElementById(currentPageObject.name);
 
-        if(!currentPageObject) {
-            throw new Error(pageName + ' does not have a namespace, please use Navigator.on() function');
+        if (!currentPageObject) {
+            throw new Error(pageName + " does not have a namespace, please use Navigator.on() function");
         }
 
-        if(defaultPage === currentPageObject.name && pageHistory.length > 1) {
+        if (defaultPage === currentPageObject.name && pageHistory.length > 1) {
             backNavigation = true;
             // Reset history
             pageHistory = [defaultPage];
@@ -528,7 +539,7 @@
         }
 
         // Scroll to top
-        var currentContent = currentPageEl.querySelector('.content');
+        var currentContent = currentPageEl.querySelector(".content");
         if (currentContent !== null && currentContent.scrollTop !== 0) {
             currentContent.scrollTop = 0;
         }
@@ -541,42 +552,36 @@
         }
     }
 
-    function forwardAnimation(evt, tg) {
+    function forwardAnimation() {
 
-        if(this) {
-            this.classList.remove('page-sliding');
-            this.classList.remove('left');
+        if(transitionEnd !== null) {
+            previousPageEl.classList.remove("page-sliding");
+            previousPageEl.classList.remove("left");
+            previousPageEl.removeEventListener(transitionEnd, forwardAnimation, false);
         }
 
-        previousPageEl.classList.remove('app-active');
+        previousPageEl.classList.remove("app-active");
 
         dispatchHiddenCallback(previousPageEl, previousPageObject);
         dispatchTransitionEndCallback(currentPageEl, currentPageObject);
 
         onTransition = false;
-
-        if(this) {
-            this.removeEventListener(transitionEnd, forwardAnimation, false);
-        }
     }
 
     function backAnimation() {
 
-        if(this) {
-            this.classList.remove('page-sliding');
-            this.classList.remove('right');
+        if(transitionEnd !== null) {
+            previousPageEl.classList.remove("page-sliding");
+            previousPageEl.classList.remove("right");
+            previousPageEl.removeEventListener(transitionEnd, backAnimation, false);
         }
 
-        previousPageEl.classList.remove('app-active');
+        previousPageEl.classList.remove("app-active");
 
         dispatchHiddenCallback(previousPageEl, previousPageObject);
         dispatchTransitionEndCallback(currentPageEl, currentPageObject);
 
         onTransition = false;
-
-        if(this) {
-            this.removeEventListener(transitionEnd, backAnimation, false);
-        }
     }
 
     /**
@@ -592,26 +597,26 @@
         // Show current page : apply a different transition according the state (back, forward)
         if (backNavigation) {
 
-            currentPageEl.classList.add('app-active');
+            currentPageEl.classList.add("app-active");
 
-            if(transitionEnd) {
-                previousPageEl.classList.add('page-sliding');
-                previousPageEl.classList.add('right');
+            if (transitionEnd) {
+                previousPageEl.classList.add("page-sliding");
+                previousPageEl.classList.add("right");
                 previousPageEl.addEventListener(transitionEnd, backAnimation, false);
             } else {
                 backAnimation();
             }
         } else {
 
-            currentPageEl.classList.add('app-active');
+            currentPageEl.classList.add("app-active");
 
-            if(transitionEnd) {
-                previousPageEl.classList.add('page-sliding');
-                previousPageEl.classList.add('left');
+            if (transitionEnd) {
+                previousPageEl.classList.add("page-sliding");
+                previousPageEl.classList.add("left");
+
                 previousPageEl.addEventListener(transitionEnd, forwardAnimation, false);
-
             } else {
-                forwardAnimation();
+                forwardAnimation(previousPageEl);
             }
         }
         backNavigation = false;
@@ -622,7 +627,8 @@
     */
     function runReady() {
         if (currentPageObject.activity !== undefined && currentPageObject.activity.onReadyCallback !== undefined) {
-            var el = document.getElementById(currentPageObject.name), hash = location.hash.substr(2);
+            var el = document.getElementById(currentPageObject.name),
+                hash = location.hash.substr(2);
             var routeRegex = parseRoute(currentPageObject.route);
             var params = matchRoute(hash, routeRegex);
 
@@ -650,25 +656,25 @@
      * @param {Object} hammerOptions (optional)
      * @private
     */
-    var setupTapEvent = function (amdHammerPath, hammerOptions) {
+    var setupTapEvent = function setupTapEvent(amdHammerPath, hammerOptions) {
 
         var options = hammerOptions || {};
 
-        if (typeof Hammer !== 'undefined') {
-            var h = new Hammer(document.body).on('tap', onNavigation, false);
-            h.get('tap').set(options);
-        } else if(typeof require === 'function') {
-            require([amdHammerPath], function(Hammer) {
+        if (typeof Hammer !== "undefined") {
+            var h = new Hammer(document.body).on("tap", onNavigation, false);
+            h.get("tap").set(options);
+        } else if (typeof require === "function") {
+            require([amdHammerPath], function (Hammer) {
 
-                if(typeof Hammer !== 'undefined') {
-                    var h = new Hammer(document.body).on('tap', onNavigation, false);
-                    h.get('tap').set(options);
+                if (typeof Hammer !== "undefined") {
+                    var h = new Hammer(document.body).on("tap", onNavigation, false);
+                    h.get("tap").set(options);
                 } else {
-                    document.addEventListener('click', onNavigation, false);
+                    document.addEventListener("click", onNavigation, false);
                 }
             });
         } else {
-            document.addEventListener('click', onNavigation, false);
+            document.addEventListener("click", onNavigation, false);
         }
     };
 
@@ -678,7 +684,8 @@
     */
     function getMessage() {
 
-        var size = messages.length, i = size - 1;
+        var size = messages.length,
+            i = size - 1;
 
         for (; i >= 0; i--) {
             var obj = messages[i];
@@ -698,7 +705,7 @@
      * @public
     */
     function setMessage(pageReceiver, message) {
-        messages.push( { sender: currentPageObject.name, receiver: pageReceiver, message: message } );
+        messages.push({ sender: currentPageObject.name, receiver: pageReceiver, message: message });
     }
     api.setMessage = setMessage;
 
@@ -709,23 +716,23 @@
     */
     function start(pageName) {
         if (isStarted) {
-            throw new Error('The first page has already been instantiated');
+            throw new Error("The first page has already been instantiated");
         }
         var firstPageObject = getPageObject(pageName);
-        if(!firstPageObject) {
-            throw new Error(pageName + ' does not have a namespace, please use Navigator.on() function');
+        if (!firstPageObject) {
+            throw new Error(pageName + " does not have a namespace, please use Navigator.on() function");
         }
         var firstPageEl = document.getElementById(pageName);
 
-        if (!firstPageEl.classList.contains('app-active')) {
-            firstPageEl.classList.add('app-active');
+        if (!firstPageEl.classList.contains("app-active")) {
+            firstPageEl.classList.add("app-active");
         }
 
-        if(window.location.hash === '#!' + pageName) {
+        if (window.location.hash === "#!" + pageName) {
             load(pageName);
         } else {
             // Reset the hash
-            window.location.hash = '#!' + pageName;
+            window.location.hash = "#!" + pageName;
         }
 
         isStarted = true;
@@ -758,17 +765,17 @@
      * @public
     */
     function on(pageObject, callback, route) {
-        if (typeof pageObject.page !== 'string') {
-            throw new TypeError('page name must be a string');
+        if (typeof pageObject.page !== "string") {
+            throw new TypeError("page name must be a string");
         }
         if (pageObject.asynchronous === undefined) {
             pageObject.asynchronous = false;
         }
-        if (typeof pageObject.asynchronous !== 'boolean') {
-            throw new TypeError('asynchronous must be a boolean');
+        if (typeof pageObject.asynchronous !== "boolean") {
+            throw new TypeError("asynchronous must be a boolean");
         }
-        if (typeof callback !== 'function') {
-            throw new TypeError('callback must be a function');
+        if (typeof callback !== "function") {
+            throw new TypeError("callback must be a function");
         }
 
         pushNewPage(pageObject, callback, route);
@@ -782,20 +789,20 @@
      * @public
     */
     function changePage(pageName, param) {
-        if (typeof pageName !== 'string') {
-            throw new TypeError('page name must be a string');
+        if (typeof pageName !== "string") {
+            throw new TypeError("page name must be a string");
         }
 
         if (!onTransition) {
-            if(pageName === currentPageObject.name) {
-                console.error('The current page is already ' + pageName);
+            if (pageName === currentPageObject.name) {
+                console.error("The current page is already " + pageName);
             }
-            if(!getPageObject(pageName)) {
-                throw new Error(pageName + ' does not have a namespace, please use Navigator.on() function');
+            if (!getPageObject(pageName)) {
+                throw new Error(pageName + " does not have a namespace, please use Navigator.on() function");
             }
-            var hash = (param === undefined ? pageName : pageName + '/' + param);
-            hash = hash.replace('//', '/');
-            window.location.hash = '#!' + hash;
+            var hash = param === undefined ? pageName : pageName + "/" + param;
+            hash = hash.replace("//", "/");
+            window.location.hash = "#!" + hash;
         }
     }
     api.changePage = changePage;
@@ -806,11 +813,11 @@
      * @public
     */
     function init(config) {
-        if (typeof config !== 'object') {
-            throw new TypeError('config must be an object');
+        if (typeof config !== "object") {
+            throw new TypeError("config must be an object");
         }
-        if (typeof config.defaultPage !== 'string') {
-            throw new TypeError('default page is not set');
+        if (typeof config.defaultPage !== "string") {
+            throw new TypeError("default page is not set");
         }
         defaultPage = config.defaultPage;
 
@@ -822,17 +829,17 @@
         }
 
         // Case: no AMD & Panels are present
-        if(window.Phonon && window.Phonon.Panel) {
+        if (window.Phonon && window.Phonon.Panel) {
             autoPanelClose = true;
         }
 
-        if(config.pageAnimations === false) {
+        if (config.pageAnimations === false) {
             transitionEnd = null;
         }
 
-        if(config.panels) {
+        if (config.panels) {
 
-            if(config.panels.autoClose !== undefined) {
+            if (config.panels.autoClose !== undefined) {
                 autoPanelClose = config.panels.autoClose;
             }
             if (config.panels.path) {
@@ -840,7 +847,7 @@
             }
         }
 
-        if (config.hammer !== undefined && typeof config.hammer.path === 'string') {
+        if (config.hammer !== undefined && typeof config.hammer.path === "string") {
             setupTapEvent(config.hammer.path, config.hammer.tapOptions);
         } else {
             setupTapEvent();
@@ -848,37 +855,35 @@
     }
     api.init = init;
 
-    if (!('onhashchange' in window)) {
-        throw new Error('Your browser does not support the hashchange event');
+    if (!("onhashchange" in window)) {
+        throw new Error("Your browser does not support the hashchange event");
     }
 
-    window.addEventListener('hashchange', matchRoutes);
-    document.addEventListener('backbutton', onBackButton);
-
+    window.addEventListener("hashchange", matchRoutes);
+    document.addEventListener("backbutton", onBackButton);
 
     Phonon.Navigator = function (options) {
 
-        if(typeof options === 'object') {
+        if (typeof options === "object") {
             init(options);
         }
         return api;
     };
     window.Phonon = Phonon;
 
-    if (typeof define === 'function' && define.amd) {
-      define(function () {
-          if(Phonon.returnGlobalNamespace === true) {
-              return Phonon;
-          } else {
-              return Phonon.Navigator;
-          }
-      });
-    } else if (typeof module === 'object' && module.exports) {
-      if(Phonon.returnGlobalNamespace === true) {
-          module.exports = Phonon;
-      } else {
-          module.exports = Phonon.Navigator;
-      }
+    if (typeof define === "function" && define.amd) {
+        define(function () {
+            if (Phonon.returnGlobalNamespace === true) {
+                return Phonon;
+            } else {
+                return Phonon.Navigator;
+            }
+        });
+    } else if (typeof module === "object" && module.exports) {
+        if (Phonon.returnGlobalNamespace === true) {
+            module.exports = Phonon;
+        } else {
+            module.exports = Phonon.Navigator;
+        }
     }
-
-}(window, document, window.Phonon || {}));
+})(window, document, window.Phonon || {});
