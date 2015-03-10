@@ -1,8 +1,7 @@
 {
   "name": "Phonon-Framework",
-  "version": "0.0.3",
+  "version": "0.0.9.5",
   "description": "Phonon is a lightweight & scalable Javascript/CSS3/HTML5 mobile framework to develop a single page application based on Phonegap / Apache Cordova.",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
