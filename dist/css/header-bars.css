@@ -1,1 +1,66 @@
-.btn-action,.btn-action.icon{line-height:48px}.header-bar{position:fixed;top:0;left:0;right:0;z-index:20;height:48px;background-color:#0084e7;box-shadow:0 0 4px #8a8a8a;border-bottom:#2e2bc9;-webkit-backface-visibility:hidden;backface-visibility:hidden}.header-bar .title{position:absolute;display:block;width:60%;left:20%;right:20%;padding:0;font-size:17px;font-weight:700;line-height:48px;letter-spacing:.7px;color:#fff;text-align:center;white-space:nowrap}.header-bar .arrow:after{position:relative;width:0;height:0;top:15px;left:6px;content:'';border-right:4px solid transparent;border-top:5px solid #fff;border-left:4px solid transparent}.header-bar~.content{margin-top:48px}.header-bar~.content-padded{margin-top:64px}.btn-action{position:relative;z-index:20;padding:0 16px;font-size:13px;font-weight:400;color:#fff;background-color:transparent;border:none;border-radius:0}.btn-action.pull-left{margin-right:26px}.btn-action:active{background-color:#0080e0}
+.header-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  height: 48px;
+  background-color: #0084e7;
+  box-shadow: 0 0 4px #8a8a8a;
+  border-bottom: #2e2bc9;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.header-bar .title {
+  position: absolute;
+  display: block;
+  width: 60%;
+  left: 20%;
+  right: 20%;
+  padding: 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: .7px;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+}
+.header-bar .arrow:after {
+  position: relative;
+  width: 0;
+  height: 0;
+  top: 15px;
+  left: 6px;
+  content: '';
+  border-right: 4px solid transparent;
+  border-top: 5px solid #fff;
+  border-left: 4px solid transparent;
+}
+.header-bar ~ .content {
+  margin-top: 48px;
+}
+.header-bar ~ .content-padded {
+  margin-top: 64px;
+}
+.btn-action {
+  position: relative;
+  z-index: 20;
+  padding: 0 16px;
+  line-height: 48px;
+  font-size: 13px;
+  font-weight: 400;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+}
+.btn-action.pull-left {
+  margin-right: 26px;
+}
+.btn-action:active {
+  background-color: #0080e0;
+}
+.btn-action.icon {
+  line-height: 48px;
+}

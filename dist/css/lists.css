@@ -1,1 +1,72 @@
-.list li,.list li a{display:block;position:relative}.list{padding:0;margin-top:0;margin-bottom:15px;list-style:none}.list li{height:52px;line-height:52px;background-color:#fff;border-bottom:1px solid #ddd;overflow:hidden;white-space:nowrap}.list li a{width:100%;height:100%}.list li a:active{background-color:#eee}.list li .pull-left,.list li .pull-right{width:52px;height:52px;line-height:52px;vertical-align:middle;text-align:center;z-index:1;background-color:#fff}.list li .cell-content{display:inline-block;padding:8px 15px;line-height:52px}.list li .body,.list li .title{line-height:31px;display:block}.list li .body{font-size:13px;color:#777}.list .expanded-cell{height:78px;line-height:78px}.list .expanded-cell .pull-left,.list .expanded-cell .pull-right{width:78px;height:78px;line-height:78px}.list .divider{height:48px;line-height:48px;font-size:16px;background-color:#f5f5f5}.list .divider,.list .padded-for-cell{padding:0 15px}.list a.padded-for-cell{display:inline-block}
+.list {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 15px;
+  list-style: none;
+}
+.list li {
+  height: 52px;
+  line-height: 52px;
+  position: relative;
+  display: block;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.list li a {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+}
+.list li a:active {
+  background-color: #eee;
+}
+.list li .pull-left,
+.list li .pull-right {
+  width: 52px;
+  height: 52px;
+  line-height: 52px;
+  vertical-align: middle;
+  text-align: center;
+  z-index: 1;
+  background-color: #fff;
+}
+.list li .cell-content {
+  display: inline-block;
+  padding: 8px 15px;
+  line-height: 52px;
+}
+.list li .title,
+.list li .body {
+  line-height: 31px;
+  display: block;
+}
+.list li .body {
+  font-size: 13px;
+  color: #777;
+}
+.list .expanded-cell {
+  height: 78px;
+  line-height: 78px;
+}
+.list .expanded-cell .pull-left,
+.list .expanded-cell .pull-right {
+  width: 78px;
+  height: 78px;
+  line-height: 78px;
+}
+.list .divider {
+  height: 48px;
+  line-height: 48px;
+  font-size: 16px;
+  background-color: #f5f5f5;
+}
+.list .divider,
+.list .padded-for-cell {
+  padding: 0 15px;
+}
+.list a.padded-for-cell {
+  display: inline-block;
+}
