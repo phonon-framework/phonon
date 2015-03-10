@@ -16,7 +16,8 @@ gulp.task('styles', function () {
 });
 
 gulp.task('min-styles', function () {
-	return gulp.src('./dist/css/**/*.css')
+	return gulp.src('./src/less/**/*.less')
+		.pipe(less())
 		.pipe(cssmin().on('error', function(err) {
 			console.log(err);
 		}))
