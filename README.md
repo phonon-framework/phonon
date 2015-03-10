@@ -17,6 +17,14 @@ By quality we mean:
 
 <img src="http://phonon.quarkdev.com/App/public/assets/img/phonon-logo.png" alt="Phonon" height="180px">
 
+# Installation
+
+Required: You need to have npm and gulp installed
+
+ - `npm install` to install all modules
+ - `gulp` to compile and minimify all sources
+ 
+
 # Why use Phonon
 
 ## Scalability
