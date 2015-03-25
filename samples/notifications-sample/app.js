@@ -1,33 +1,21 @@
 'use strict';
 
-var btnAlert = document.querySelector('.alert');
-var btnPrompt = document.querySelector('.prompt');
-var btnConfirm = document.querySelector('.confirm');
+Phonon.Notification(document.querySelector('#welcome')).show();
 
-btnAlert.addEventListener('click', function() {
-	Phonon.Notification().showAlert('Hello!', 'This is an alert dialog', 'Close :)', function() {
 
-	});
+var myNotif = document.querySelector('#my-notif');
+
+myNotif.addEventListener('phonon-notif:opened', function (evt) {
+    console.log('opened!');
+    console.log(evt.target);
+});
+myNotif.addEventListener('phonon-notif:hidden', function (evt) {
+    console.log('hidden!');
+    console.log(evt.target);
 });
 
-btnPrompt.addEventListener('click', function() {
-	Phonon.Notification().showPrompt('Hello!', 'This is a prompt dialog', '', ['Button1', 'Button2'], function(res) {
 
-		var buttonIndex = res.buttonIndex;
-		var input = res.input1;
-
-		Phonon.Notification().showAlert('Result', 'Button index: ' + buttonIndex + '\n' + 'input: ' + input, 'OK');
-	});
-});
-
-btnConfirm.addEventListener('click', function() {
-	Phonon.Notification().showConfirm('Hello!', 'This is a confirm dialog', ['Button1', 'Button2'], function(res) {
-
-		if(res == 1) {
-			Phonon.Notification().showAlert('Result', 'Accepted', 'OK');
-		}
-		else {
-			Phonon.Notification().showAlert('Result', 'Canceled', 'OK');
-		}
-	});
+document.querySelector('#show-notif-btn').addEventListener('click', function (evt) {
+	evt.preventDefault();
+	Phonon.Notification(myNotif).show();
 });

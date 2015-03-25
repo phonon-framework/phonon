@@ -6,6 +6,8 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
 
         <link rel="stylesheet" type="text/css" href="../../dist/css/phonon-base.css" />
+        <link rel="stylesheet" type="text/css" href="../../dist/css/icons.css" />
+        <link rel="stylesheet" type="text/css" href="../../dist/css/notifications.css" />
         <title>App</title>
     </head>
     <body>
@@ -16,9 +18,21 @@
             </header>
             <div class="content content-padded">
 
-                <button class="btn btn-block btn-primary alert">Show Alert</button>
-                <button class="btn btn-block btn-positive prompt">Show Prompt</button>
-                <button class="btn btn-block btn-negative confirm">Show Confirm</button>
+                <div class="notification" id="welcome">
+                    <p>Welcome!</p>
+                </div>
+
+                <p>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+                </p>
+
+                <button class="btn btn-block btn-primary" id="show-notif-btn">Show a notification</button>
+
+                <div class="notification pull-bottom" id="my-notif">
+                    <i class="icon icon-star"></i>
+                    <p>Hello World!</p>
+                    <button class="btn pull-right icon icon-close" data-hide-notif="true"></button>
+                </div>
 
             </div>
         </div>

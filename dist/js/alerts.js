@@ -10,7 +10,7 @@
 
   var lastTrigger = false;
   var moved = false;
-  var panels = [];
+  var alerts = [];
   var busy = false;
 
   var createBackdrop = function createBackdrop() {
@@ -31,25 +31,25 @@
     }
   };
 
-  var getPanel = function getPanel(event) {
-    var panelToggle = findTrigger(event.target);
-    if (panelToggle) {
-      var panelId = panelToggle.getAttribute("data-alert-id");
-      if (panelId) {
-        return document.querySelector("#" + panelId);
+  var getAlert = function getAlert(event) {
+    var alertToggle = findTrigger(event.target);
+    if (alertToggle) {
+      var alertId = alertToggle.getAttribute("data-alert-id");
+      if (alertId) {
+        return document.querySelector("#" + alertId);
       } else {
-        return findPanel(event.target);
+        return findAlert(event.target);
       }
     }
   };
 
-  var findPanel = function findPanel(target) {
-    var panels = document.querySelectorAll(".alert"),
+  var findAlert = function findAlert(target) {
+    var alerts = document.querySelectorAll(".alert"),
         i;
 
     for (; target && target !== document; target = target.parentNode) {
-      for (i = panels.length; i--;) {
-        if (panels[i] === target && target.classList.contains("active")) {
+      for (i = alerts.length; i--;) {
+        if (alerts[i] === target && target.classList.contains("active")) {
           return target;
         }
       }
@@ -67,16 +67,18 @@
   window.addEventListener("touchstart", function (evt) {
     evt = evt.originalEvent || evt;
 
-    if (panels.length > 0) {
-      var previousPanel = panels[panels.length - 1].panel,
-          p = findPanel(evt.target);
+    if (alerts.length > 0) {
+      var previousAlert = alerts[alerts.length - 1].alert,
+          p = findAlert(evt.target);
 
-      if (!p) close(previousPanel);
+      if (!p) {
+        if (previousAlert.getAttribute("data-cancelable") !== "false") close(previousAlert);
+      }
 
-      if (p && p !== previousPanel) {
-        // Case where there are two active panels
-        if (p.id !== previousPanel.id) {
-          close(previousPanel);
+      if (p && p !== previousAlert) {
+        // Case where there are two active alerts
+        if (p.id !== previousAlert.id) {
+          close(previousAlert);
         }
       }
     }
@@ -90,28 +92,28 @@
   window.addEventListener("touchend", function (evt) {
 
     var trigger = findTrigger(evt.target),
-        panel = null;
+        alert = null;
 
     if (trigger) {
-      panel = getPanel(evt);
+      alert = getAlert(evt);
 
       lastTrigger = trigger;
 
-      if (panel) {
-        if (panel.classList.contains("active")) {
-          close(panel);
+      if (alert) {
+        if (alert.classList.contains("active")) {
+          close(alert);
         } else {
-          open(panel);
+          open(alert);
         }
       }
     }
 
-    panel = findPanel(evt.target);
+    alert = findAlert(evt.target);
     var item = onItem(evt.target);
 
-    if (panel && item && !moved) {
+    if (alert && item && !moved) {
 
-      close(panel);
+      close(alert);
 
       evt = new CustomEvent("select", {
         detail: { item: item.textContent, target: evt.target },
@@ -121,7 +123,7 @@
 
       lastTrigger.textContent = item.textContent;
 
-      panel.dispatchEvent(evt);
+      alert.dispatchEvent(evt);
     }
     moved = false;
   });
@@ -131,16 +133,16 @@
     var page = document.querySelector(".app-page.app-active");
     if (page.querySelector("div.backdrop-alert") !== null) {
 
-      var backdrop = panels[panels.length - 1].backdrop;
+      var backdrop = alerts[alerts.length - 1].backdrop;
       backdrop.classList.remove("fadeout");
 
       page.removeChild(backdrop);
 
-      var previousPanel = panels[panels.length - 1].panel;
-      previousPanel.style.visibility = "hidden";
-      previousPanel.classList.remove("close");
+      var previousAlert = alerts[alerts.length - 1].alert;
+      previousAlert.style.visibility = "hidden";
+      previousAlert.classList.remove("close");
 
-      panels.pop();
+      alerts.pop();
 
       busy = false;
 
@@ -169,49 +171,52 @@
   */
 
   function open(el) {
-    var panel = typeof el === "string" ? document.querySelector(el) : el;
-    if (panel === null) {
-      throw new Error("The panel with ID " + el + " does not exist");
+    var alert = typeof el === "string" ? document.querySelector(el) : el;
+
+    console.log(alert);
+
+    if (alert === null) {
+      throw new Error("The alert with ID " + el + " does not exist");
     }
 
     if (busy) {
       return;
     }
 
-    panel.style.visibility = "visible";
+    alert.style.visibility = "visible";
 
-    if (!panel.classList.contains("active")) {
+    if (!alert.classList.contains("active")) {
 
-      center(panel);
+      center(alert);
 
-      panel.classList.add("active");
+      alert.classList.add("active");
 
       var backdrop = createBackdrop();
 
-      panels.push({ panel: panel, backdrop: backdrop });
+      alerts.push({ alert: alert, backdrop: backdrop });
 
       document.querySelector(".app-page.app-active").appendChild(backdrop);
     }
   }
 
   function close(el) {
-    var panel = typeof el === "string" ? document.querySelector(el) : el;
-    if (panel === null) {
-      throw new Error("The panel with ID " + el + " does not exist");
+    var alert = typeof el === "string" ? document.querySelector(el) : el;
+    if (alert === null) {
+      throw new Error("The alert with ID " + el + " does not exist");
     }
 
     if (busy) {
       return;
     }
 
-    if (panel.classList.contains("active") && !busy) {
+    if (alert.classList.contains("active") && !busy) {
 
       busy = true;
 
-      panel.classList.remove("active");
-      panel.classList.add("close");
+      alert.classList.remove("active");
+      alert.classList.add("close");
 
-      var backdrop = panels[panels.length - 1].backdrop;
+      var backdrop = alerts[alerts.length - 1].backdrop;
 
       backdrop.classList.add("fadeout");
 
@@ -220,22 +225,22 @@
   }
 
   function toggle(el) {
-    var panel = typeof el === "string" ? document.querySelector(el) : el;
-    if (panel === null) {
-      throw new Error("The panel with ID " + el + " does not exist");
+    var alert = typeof el === "string" ? document.querySelector(el) : el;
+    if (alert === null) {
+      throw new Error("The alert with ID " + el + " does not exist");
     }
 
-    if (panel.classList.contains("active")) {
-      close(panel);
+    if (alert.classList.contains("active")) {
+      close(alert);
     } else {
-      open(panel);
+      open(alert);
     }
   }
 
   Phonon.Alert = function (el) {
-    var panel = typeof el === "string" ? document.querySelector(el) : el;
-    if (panel === null) {
-      throw new Error("The panel with ID " + el + " does not exist");
+    var alert = typeof el === "string" ? document.querySelector(el) : el;
+    if (alert === null) {
+      throw new Error("The alert with ID " + el + " does not exist");
     }
 
     return {
@@ -250,7 +255,7 @@
 
         return _openWrapper;
       })(function () {
-        open(panel);
+        open(alert);
         return this;
       }),
       close: (function (_close) {
@@ -264,7 +269,7 @@
 
         return _closeWrapper;
       })(function () {
-        close(panel);
+        close(alert);
         return this;
       }),
       toggle: (function (_toggle) {
@@ -278,7 +283,7 @@
 
         return _toggleWrapper;
       })(function () {
-        toggle(panel);
+        toggle(alert);
         return this;
       })
     };

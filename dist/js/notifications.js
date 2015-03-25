@@ -1,114 +1,128 @@
 "use strict";
 
-;(function (window, document, Phonon, undefined) {
+;(function (window, document, Phonon) {
 
-	/**
-  * @private
- */
-	var isCordova = typeof window.cordova !== "undefined" ? true : false;
+	var transitionEnd = "webkitTransitionEnd";
 
-	/**
+	if (Phonon.animationEnd) {
+		transitionEnd = Phonon.animationPrefix === "" ? "transitionend" : "webkitTransitionEnd";
+	}
+
+	function onShow() {
+		var self = this;
+		self.classList.add("showing");
+
+		var evt = new CustomEvent("phonon-notif:opened", {
+			detail: { target: self },
+			bubbles: true,
+			cancelable: true
+		});
+		self.dispatchEvent(evt);
+
+		self.removeEventListener(transitionEnd, onShow, false);
+	}
+
+	function onHide() {
+		var self = this;
+		self.classList.remove("showing");
+
+		var evt = new CustomEvent("phonon-notif:hidden", {
+			detail: { target: self },
+			bubbles: true,
+			cancelable: true
+		});
+		self.dispatchEvent(evt);
+
+		self.removeEventListener(transitionEnd, onHide, false);
+	}
+
+	var getNotification = function getNotification(target) {
+		for (; target && target !== document; target = target.parentNode) {
+			if (target.classList.contains("notification")) {
+				return target;
+			}
+		}
+	};
+
+	window.addEventListener("touchend", function (evt) {
+
+		var target = evt.target;
+
+		if (target.getAttribute("data-hide-notif") === "true") {
+			var notification = getNotification(target);
+			if (notification) hide(notification);
+		}
+	});
+
+	/*
   * Public API
  */
-	var api = {};
 
-	/**
-  * Displays an alert dialog
-  * @param {String} title dialog title
-  * @param {String} message dialog message
-  * @param {String} buttonOK button name
-  * @param {Function} callback
-  * @public
- */
-	function showAlert(title, message, buttonOK, callback) {
+	function show(el) {
+		var notification = typeof el === "string" ? document.querySelector(el) : el;
+		if (notification === null) {
+			throw new Error("The notification with ID " + el + " does not exist");
+		}
 
-		title = title || "Alert";
-		message = message || " ";
-		buttonOK = buttonOK || "OK";
-		callback = typeof callback !== "undefined" ? callback : null;
+		if (!notification.classList.contains("show")) {
+			notification.classList.add("show");
 
-		if (isCordova) {
-			navigator.notification.alert(message, callback, title, buttonOK);
-		} else {
-			alert(title + "\n\n" + message);
-			if (callback !== null) callback();
+			notification.addEventListener(transitionEnd, onShow, false);
 		}
 	}
-	api.showAlert = showAlert;
 
-	/**
-  * Displays a confirmation dialog
-  * @param {String} title : dialog title
-  * @param {String} message : dialog message
-  * @param {Array} arrayButtonNames array of button names (positive button, then the negative)
-  * @return callback {Number} the button iIndex (1=ok, 2=cancel)
-  * @public
- */
-	function showConfirm(title, message, arrayButtonNames, callback) {
-
-		title = title || "Confirm";
-		message = message || " ";
-		arrayButtonNames = arrayButtonNames || ["OK", "Cancel"];
-		if (!arrayButtonNames instanceof Array) {
-			throw new Error("Button names must be an array of two values or an empty array");
+	function hide(el) {
+		var notification = typeof el === "string" ? document.querySelector(el) : el;
+		if (notification === null) {
+			throw new Error("The notification with ID " + el + " does not exist");
 		}
-		if (arrayButtonNames.length != 2) {
-			arrayButtonNames = ["OK", "Cancel"];
-		}
-		callback = typeof callback !== "undefined" ? callback : null;
 
-		if (isCordova) {
+		if (notification.classList.contains("show")) {
+			notification.classList.remove("showing");
+			notification.classList.remove("show");
 
-			navigator.notification.confirm(message, callback, title, arrayButtonNames);
-		} else {
-			var result = confirm(title + "\n\n" + message);
-			if (callback !== null) callback(result);
+			notification.addEventListener(transitionEnd, onHide, false);
 		}
 	}
-	api.showConfirm = showConfirm;
 
-	/**
-  * Displays a prompt dialog
-  * @param {String} title dialog title 
-  * @param {String} message dialog message
-  * @param {String} defaultText the default input value
-  * @param {String} arrayButtonNames array of buttons names
-  * @return callback an object containing the buttonIndex (1=ok, 2=cancel), the inserted value
-  * Callback to invoke with index of button pressed (1, 2, or 3) or
-  * when the dialog is dismissed without a button press (0)
- */
-	function showPrompt(title, message, defaultText, arrayButtonNames, callback) {
-
-		title = title || "Confirm";
-		message = message || " ";
-		defaultText = defaultText || "";
-		arrayButtonNames = arrayButtonNames || ["OK", "Cancel"];
-		if (!arrayButtonNames instanceof Array) {
-			throw new Error("Button names must be an array of two values or an empty array");
+	Phonon.Notification = function (el) {
+		var notif = typeof el === "string" ? document.querySelector(el) : el;
+		if (notif === null) {
+			throw new Error("The notification with ID " + el + " does not exist");
 		}
-		if (arrayButtonNames.length != 2) {
-			arrayButtonNames = ["OK", "Cancel"];
-		}
-		callback = typeof callback !== "undefined" ? callback : null;
 
-		if (isCordova) {
+		return {
+			show: (function (_show) {
+				var _showWrapper = function show() {
+					return _show.apply(this, arguments);
+				};
 
-			navigator.notification.prompt(message, callback, title, arrayButtonNames, defaultText);
-		} else {
-			var text = prompt(title + "\n\n" + message, defaultText);
+				_showWrapper.toString = function () {
+					return _show.toString();
+				};
 
-			var obj = {};
-			obj.buttonIndex = text !== null ? 1 : 2;
-			obj.input1 = text;
+				return _showWrapper;
+			})(function () {
+				show(notif);
+				return this;
+			}),
+			hide: (function (_hide) {
+				var _hideWrapper = function hide() {
+					return _hide.apply(this, arguments);
+				};
 
-			if (callback !== null) callback(obj);
-		}
-	}
-	api.showPrompt = showPrompt;
+				_hideWrapper.toString = function () {
+					return _hide.toString();
+				};
 
-	Phonon.Notification = function () {
-		return api;
+				return _hideWrapper;
+			})(function () {
+				hide(notif);
+				return this;
+			})
+		};
 	};
+
 	window.Phonon = Phonon;
 
 	if (typeof define === "function" && define.amd) {
@@ -128,7 +142,7 @@
 	}
 })(window, document, window.Phonon || {});
 /* ========================================================================
-* Phonon: notifications.js v0.1.4
+* Phonon: notifications.js v0.0.1
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
