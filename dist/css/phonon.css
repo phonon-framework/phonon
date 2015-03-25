@@ -1072,6 +1072,7 @@ i.icon {
   max-height: 65%;
   position: absolute;
   opacity: 0;
+  visibility: hidden;
   top: 0;
   left: 0;
   z-index: 28;

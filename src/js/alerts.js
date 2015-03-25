@@ -175,8 +175,6 @@
 
   function open (el) {
     var alert = (typeof el === 'string' ? document.querySelector(el) : el);
-
-    console.log(alert)
     
     if(alert === null) {
       throw new Error('The alert with ID ' + el + ' does not exist');
