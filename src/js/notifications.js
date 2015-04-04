@@ -9,7 +9,6 @@
 
 ;(function (window, document, Phonon) {
 
-
 	var transitionEnd = 'webkitTransitionEnd';
 
 	if (Phonon.animationEnd) {
@@ -26,6 +25,15 @@
 			cancelable: true
 		});
 		self.dispatchEvent(evt);
+
+		var timeout = self.getAttribute('data-timeout');
+		if(isNaN(parseInt(timeout))) {
+			console.error('Attribute data-timeout must be a number');
+		} else {
+			window.setTimeout(function() {
+				hide(self);
+			}, timeout);
+		}
 
 		self.removeEventListener(transitionEnd, onShow, false);
 	}
