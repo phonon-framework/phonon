@@ -1,5 +1,5 @@
 /* ========================================================================
-* Phonon: ajax.js v0.1.8
+* Phonon: ajax.js v0.1.9
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
@@ -86,6 +86,7 @@
         this.currentXhr = this.createXhr();
 
         var self = this;
+        var errorFlag = 'NO_INTERNET_ACCESS';
 
         if (this.currentXhr) {
 
@@ -117,7 +118,9 @@
                     } else {
                         // An error has occured
                         if (typeof errorCallback === 'function') {
-                            errorCallback('NO_INTERNET_ACCESS', event);
+                            window.setTimeout(function() {
+                                errorCallback(errorFlag, event);
+                            }, 1);
                         }
                     }
 
@@ -128,16 +131,15 @@
             if (self.timeout) {
                 self.currentXhr.timeout = self.timeout;
                 self.currentXhr.ontimeout = function () {
-                    if (typeof errorCallback === 'function') {
-                        errorCallback('TIMEOUT_EXCEEDED');
-                    }
+                    errorFlag = 'TIMEOUT_EXCEEDED';
                 };
             }
             self.currentXhr.send(data);
 
         } else {
             if (typeof errorCallback === 'function') {
-                errorCallback('XMLHTTPREQUEST_UNAVAILABLE');
+                errorFlag = 'XMLHTTPREQUEST_UNAVAILABLE';
+                errorCallback(errorFlag);
             }
         }
     };
