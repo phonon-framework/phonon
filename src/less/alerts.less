@@ -10,7 +10,7 @@
   bottom: 0;
   z-index: 26;
   background: transparent; // transparent fallback
-  background-color: rgba(0, 0, 0, .25);
+  background-color: rgba(0, 0, 0, .35);
 
   &.fadeout {
     opacity: 0;
@@ -31,7 +31,9 @@
   left: 0;
   z-index: 28;
 
-
+  border-radius: 2px;
+  box-shadow: 0 2px 4px #8a8a8a;
+  
   //overflow: auto;
 
   background-color: #fff;
@@ -64,12 +66,28 @@
     overflow-y: auto;
     overflow-x: hidden;
 
-    & .row {
-    	border-top: 1px solid #e8e8e8;
+    & h1, & h2, & h3 {
+      margin-bottom: 22px;
     }
 
-    & .row, & a {
-    	margin-bottom: 0;
+    & .buttons {
+      list-style: none;
+      text-align: right;
+
+      & li {
+        display: inline-block;
+
+        & a {
+          padding: 0 28px;
+          margin: 0;
+          text-transform: uppercase;
+          color: #333;
+
+          &:active {
+            background-color: #f2f2f2;
+          }
+        }
+      }
     }
 
     & a {
