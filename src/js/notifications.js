@@ -51,6 +51,7 @@
 		});
 		self.dispatchEvent(evt);
 
+		self.style.visibility = 'hidden';
 
 		self.removeEventListener(transitionEnd, onHide, false);
 	}
@@ -85,6 +86,8 @@
 
 		if(!notification.classList.contains('show')) {
 			notification.classList.add('show');
+			
+			notification.style.visibility = 'visible';
 
 			notification.addEventListener(transitionEnd, onShow, false);
 		}

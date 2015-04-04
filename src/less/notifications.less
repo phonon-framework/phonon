@@ -15,7 +15,6 @@
 	background-color: rgba(0, 0, 0, 0.75);
 
 	&.show {
-		visibility: visible;
 		height: @notification-height;
 		line-height: @notification-height;
 	}
@@ -24,7 +23,9 @@
 		bottom: 0;
 	}
 
-	& i, & p, & .btn {
+	& i, & .btn, & p {
+		visibility: hidden;
+		opacity: 0;
 		background-color: transparent;
 		color: #fff;
 		display: inline-block;
@@ -41,12 +42,9 @@
 		vertical-align: middle;
 	}
 
-	& i, & .btn {
-		opacity: 0;
-	}
-
 	&.showing {
-		& i, & .btn {
+		& i, & .btn, & p {
+			visibility: visible;
 			opacity: 1;
 			-webkit-transition: opacity 350ms;
 			        transition: opacity 350ms;

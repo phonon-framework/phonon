@@ -11,7 +11,6 @@
   background-color: rgba(0, 0, 0, 0.75);
 }
 .notification.show {
-  visibility: visible;
   height: 56px;
   line-height: 56px;
 }
@@ -19,8 +18,10 @@
   bottom: 0;
 }
 .notification i,
-.notification p,
-.notification .btn {
+.notification .btn,
+.notification p {
+  visibility: hidden;
+  opacity: 0;
   background-color: transparent;
   color: #fff;
   display: inline-block;
@@ -34,12 +35,10 @@
   margin-bottom: 0;
   vertical-align: middle;
 }
-.notification i,
-.notification .btn {
-  opacity: 0;
-}
 .notification.showing i,
-.notification.showing .btn {
+.notification.showing .btn,
+.notification.showing p {
+  visibility: visible;
   opacity: 1;
   -webkit-transition: opacity 350ms;
   transition: opacity 350ms;
