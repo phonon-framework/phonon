@@ -1059,7 +1059,7 @@ i.icon {
   bottom: 0;
   z-index: 26;
   background: transparent;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.35);
 }
 .backdrop-alert.fadeout {
   opacity: 0;
@@ -1076,6 +1076,8 @@ i.icon {
   top: 0;
   left: 0;
   z-index: 28;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px #8a8a8a;
   background-color: #fff;
   /*
   -webkit-transition: opacity 250ms;
@@ -1099,12 +1101,26 @@ i.icon {
   overflow-y: auto;
   overflow-x: hidden;
 }
-.alert .content .row {
-  border-top: 1px solid #e8e8e8;
+.alert .content h1,
+.alert .content h2,
+.alert .content h3 {
+  margin-bottom: 22px;
 }
-.alert .content .row,
-.alert .content a {
-  margin-bottom: 0;
+.alert .content .buttons {
+  list-style: none;
+  text-align: right;
+}
+.alert .content .buttons li {
+  display: inline-block;
+}
+.alert .content .buttons li a {
+  padding: 0 28px;
+  margin: 0;
+  text-transform: uppercase;
+  color: #333;
+}
+.alert .content .buttons li a:active {
+  background-color: #f2f2f2;
 }
 .alert .content a {
   width: 100%;
@@ -1446,8 +1462,10 @@ input[type="checkbox"]:checked::before {
   line-height: 56px;
 }
 .notification i {
+  font-size: 18px;
   margin-right: 12px;
-  vertical-align: bottom;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
 .notification i,
 .notification .btn {

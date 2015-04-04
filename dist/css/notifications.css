@@ -29,8 +29,10 @@
   line-height: 56px;
 }
 .notification i {
+  font-size: 18px;
   margin-right: 12px;
-  vertical-align: bottom;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
 .notification i,
 .notification .btn {
