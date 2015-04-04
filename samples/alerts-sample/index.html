@@ -21,44 +21,45 @@
             <div class="content content-padded">
 
                 <button class="btn btn-block" data-alert-id="simple-alert">Simple Alert</button>
-                <button class="btn btn-block" data-alert-id="button-alert">Button Alert</button>
+                <button class="btn btn-block" data-alert-id="simple-alert-header">Simple Alert with Header</button>
                 <button class="btn btn-block" data-alert-id="list-alert">List Alert</button>
 
-                <div id="simple-alert" class="alert">
-                    <header class="header-bar">
-                        <h1 class="title">Alert</h1>
-                    </header>
-
+                <div id="simple-alert" class="alert" data-cancelable="false">
                     <div class="content content-padded">
-                        <p>Hello World!</p>
+
+                        <h3>Hello</h3>
+
+                        <p>If you tap outside this alert, the alert won't close.</p>
+
+                        <ul class="buttons">
+                            <li><a data-alert-close="true">OK</a></li>
+                            <li><a>Deny</a></li>
+                        </ul>
                     </div>
                 </div>
 
-                <div id="button-alert" class="alert">
+                <div id="simple-alert-header" class="alert">
                     <header class="header-bar">
                         <h1 class="title">Alert</h1>
                     </header>
 
                     <div class="content content-padded">
-                        <p>Hello World!</p>
 
-                        <div class="row">
-                            <div class="phone-6 padded column">
-                                <a class="" data-alert-close="true">OK</a>
-                            </div>
-                            <div class="phone-6 padded column">
-                                <a class="">Deny</a>
-                            </div>
-                        </div>
+                        <p>In this one, you can tap outside the dialog and it will be closed.</p>
+
+                         <ul class="buttons">
+                            <li><a data-alert-close="true">OK</a></li>
+                            <li><a>Deny</a></li>
+                        </ul>
                     </div>
                 </div>
 
                 <div id="list-alert" class="alert">
                     <div class="content">
                         <ul class="list">
-                            <li><a href="#item" class="padded-for-cell">Rename</a></li>
-                            <li><a href="#item" class="padded-for-cell">Delete</a></li>
-                            <li><a href="#item" class="padded-for-cell">Share</a></li>
+                            <li><a href="#item" class="padded-for-cell" data-alert-close="true">Rename</a></li>
+                            <li><a href="#item" class="padded-for-cell" data-alert-close="true">Delete</a></li>
+                            <li><a href="#item" class="padded-for-cell" data-alert-close="true">Share</a></li>
                         </ul>
                     </div>
                 </div>
