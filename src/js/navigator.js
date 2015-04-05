@@ -101,12 +101,7 @@
     var autoPanelClose = false;
     var amdPanelPath;
 
-    var transitionEnd = "webkitAnimationEnd";
-
-    // fix: Firefox support + android 4
-    if (Phonon.animationEnd) {
-        transitionEnd = Phonon.animationEnd;
-    }
+    var transitionEnd;
 
     /**
      * Add a page inside the page array
@@ -709,6 +704,29 @@
     }
     api.setMessage = setMessage;
 
+    /*
+     * Enables or disables page animations
+     * @param {Boolean} animate
+     * @public
+    */
+    function animatePages(animate) {
+        if(typeof animate !== "boolean") {
+            throw new Error("The parameter must be a boolean, " + typeof animate + " given");
+        }
+
+        if(animate) {
+            transitionEnd = "webkitAnimationEnd";
+
+            // fix: Firefox support + android 4
+            if (Phonon.animationEnd) {
+                transitionEnd = Phonon.animationEnd;
+            }
+        } else {
+            transitionEnd = null;
+        }
+    }
+    api.animatePages = animatePages;
+
     /**
      * Starts the first page
      * @param {String} pageName
@@ -862,6 +880,16 @@
     window.addEventListener("hashchange", matchRoutes);
     document.addEventListener("backbutton", onBackButton);
 
+
+    /*
+     * Basic config
+    */
+    animatePages(true);
+
+    /**
+     * The public module
+     * @param {Object} options
+    */
     Phonon.Navigator = function (options) {
 
         if (typeof options === "object") {
@@ -879,11 +907,14 @@
                 return Phonon.Navigator;
             }
         });
-    } else if (typeof module === "object" && module.exports) {
+    }
+
+    if (typeof module === "object" && module.exports) {
         if (Phonon.returnGlobalNamespace === true) {
             module.exports = Phonon;
         } else {
             module.exports = Phonon.Navigator;
         }
     }
+
 })(window, document, window.Phonon || {});
