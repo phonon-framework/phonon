@@ -39,6 +39,6 @@
 		return false;
 	};
 
-	document.addEventListener('touchend', ripple, false);
+	document.addEventListener('touchstart', ripple, false);
 
 }(window, document));
