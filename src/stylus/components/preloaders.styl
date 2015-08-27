@@ -1,0 +1,67 @@
+@require '../_variables.styl';
+
+/*
+ * Circle progress
+*/
+
+.circle-progress
+  width preloader-spinner-size
+  height preloader-spinner-size
+  position relative
+  text-align center
+  display block
+  left 50%
+  right 0
+  margin-left -(preloader-spinner-size/2)
+
+  z-index 20
+  opacity 0
+  transition opacity 0.65s ease
+  background-color #fff
+  border-radius 50%
+
+  &.active
+    
+    opacity 1
+    
+    .spinner
+      position relative
+      display block
+      width 100%
+      height 100%
+      border-radius 50%
+      border-top 3px solid primary
+      border-right 3px solid primary
+      border-bottom 3px solid primary
+      border-left 3px solid preloader-spinner-background
+      animation circleLoading 900ms infinite linear
+
+
+@keyframes circleLoading
+  0%
+    transform rotate(0deg)
+  100%
+    transform rotate(360deg)
+  
+.progress
+  position relative
+  left 0
+  right 0
+  z-index 20
+  height preloader-bar-height
+  display none
+  width 100%
+  background-color rgba(255, 255, 255, 0.40)
+  border-radius 2px
+  background-clip padding-box
+  overflow hidden
+
+  &.active
+    display block
+
+  .determinate
+    position absolute
+    top 0
+    bottom 0
+    background-color primary
+    transition width 0.2s linear

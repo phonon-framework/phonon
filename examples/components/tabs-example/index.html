@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
+
+        <link rel="stylesheet" href="../../../dist/css/phonon.css"/>
+        <title>Tabs</title>
+    </head>
+    <body>
+
+        <home data-page="true">
+            <header class="header-bar">
+                <div class="center">
+                <h1 class="title">Tabs <span class="tab-number">1</span></h1>
+                </div>
+            </header>
+            <nav class="tabs header-tabs">
+                <div class="tab-items">
+                    <a class="tab-item active">Home</a>
+                    <a class="tab-item"><i class="icon icon-edit"></i></a>
+                    <a class="tab-item"><i class="icon icon-edit"></i></a>
+                </div>
+                <div class="tab-indicator"></div>
+            </nav>
+            <div class="content" data-tab-contents="true" data-disable-swipe="false">
+                <div class="tab-content">
+                    <div class="padded-full">
+                        <h1>Tab 1</h1>
+                        <p>Swipe me!</p>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="padded-full">
+                        <h1>Tab 2</h1>
+                        <p>Swipe me!</p>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="padded-full">
+                        <h1>Tab 3</h1>
+                        <p>Swipe me!</p>
+                    </div>
+                </div>
+            </div> 
+        </home>
+
+        <script src="../../../dist/js/phonon-core.js"></script>
+        <script src="../../../dist/js/components/tabs.js"></script>
+
+        <script>
+
+            phonon.options({
+                navigator: {
+                    defaultPage: 'home'
+                },
+                i18n: null
+            });
+
+            phonon.navigator().on({page: 'home'}, function(activity) {
+
+                activity.onTabChanged(function(tabNumber) {
+                    document.querySelector('.tab-number').innerHTML = tabNumber;
+                });
+            });
+
+            phonon.navigator().start();
+
+        </script>
+    </body>
+</html>
+        

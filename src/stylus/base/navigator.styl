@@ -1,0 +1,59 @@
+@require '_variables.styl';
+
+@keyframes leftTransition
+	0% 
+		opacity 1
+		transform translate3d(0, 0, 0)
+	
+	100% 
+		opacity 0
+		transform translate3d(-50%, 0, 0)
+
+
+@keyframes rightTransition 
+	0% 
+		opacity 1
+		transform translate3d(0, 0, 0)
+	
+	100% 
+		opacity 0
+		transform translate3d(50%, 0, 0)
+	
+
+.app-page
+	display block
+	visibility hidden
+	position absolute
+
+	width 100%
+	height 100%
+
+	backface-visibility hidden
+	
+	transform translate3d(0, 0, 0)
+
+	overflow hidden
+	z-index 1
+	background-color window-background-color
+
+	&.app-active 
+		visibility visible
+		z-index 2
+	
+
+	/*
+	 *
+	 * Page transition animation
+	 *
+	*/
+	&.page-sliding 
+
+		&.left 
+			z-index 3
+			animation leftTransition 300ms ease-out
+
+		&.right 
+			z-index 4
+			animation rightTransition 300ms ease-out
+		
+	

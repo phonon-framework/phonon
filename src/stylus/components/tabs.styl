@@ -1,0 +1,62 @@
+@require '../_variables.styl';
+
+.tabs
+  position fixed
+  top auto
+  right 0
+  left 0
+  bottom 0
+  z-index 10
+  height tab-height
+  background-color tab-background-color
+  backface-visibility hidden
+  display table
+  width 100%
+  height 50px
+  padding 0
+  table-layout fixed
+  
+  .tab-items
+    
+    .tab-item
+      position relative
+      display table-cell
+      width 1%
+      height tab-height
+      color primary
+      text-align center
+      text-transform uppercase
+      vertical-align middle
+      
+      padding 0
+      
+      .icon
+        position relative
+        top 3px
+        width tab-icon-size
+        height tab-icon-size
+      
+  
+  .tab-indicator
+    width 50%
+    position absolute
+    z-index 11
+    top auto
+    left 0
+    right 0
+    margin-top auto
+    margin-bottom -(tab-indicator-height)
+    height tab-indicator-height
+    background-color tab-indicator-color
+    
+    translate-3d(0, 0, 0)
+
+    webkit-transform-one(300ms)
+
+.header-tabs
+  top auto
+  bottom 0
+  
+  .tab-indicator
+    margin-top -(tab-indicator-height)
+    margin-bottom auto

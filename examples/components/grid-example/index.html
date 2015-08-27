@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+        <link rel="stylesheet" href="../../../dist/css/phonon.css" />
+        <title>Grid</title>
+    </head>
+    <body>
+
+        <home data-page="true">
+            <header class="header-bar">
+                <div class="center">
+                    <h1 class="title">Grid</h1>
+                </div>
+            </header>
+            <div class="content">
+                <div class="padded-full">
+                
+                    <div class="row text-center">
+                        <div class="tablet-4 large-6 column" style="background-color:#ccc;">phone-12 tablet-4 large-6</div>
+                        <div class="tablet-4 large-2 column" style="background-color:#ddd;">phone-12 tablet-4 large-2</div>
+                        <div class="tablet-4 large-4 column" style="background-color:#eee;">phone-12 tablet-4 large-4</div>
+                    </div>
+
+                    <div class="padded-bottom"></div>
+
+                    <div class="row text-center">
+                        <div class="phone-6 tablet-2 column" style="background-color:#ccc;">phone-6 tablet-2</div>
+                        <div class="phone-4 tablet-4 column" style="background-color:#ddd;">phone-4 tablet-4</div>
+                        <div class="phone-2 tablet-6 column" style="background-color:#eee;">phone-2 tablet-6</div>
+                    </div>
+
+                    <div class="padded-bottom"></div>
+                    
+                    <div class="row text-center">
+                        <div class="tablet-6 column" style="background-color:#ccc;">phone-12 tablet-6</div>
+                        <div class="tablet-6 column" style="background-color:#ddd;">phone-12 tablet-6</div>
+                    </div>
+
+                    <div class="padded-bottom"></div>
+
+                    <div class="row text-center">
+                        <div class="phone-4 tablet-6 column" style="background-color:#ccc;">
+                            <div class="padded-full">
+                                phone-4 tablet-6 padded</div>
+                            </div>
+                        <div class="phone-8 tablet-6 column" style="background-color:#ddd;">
+                            <div class="padded-full">
+                                phone-8 tablet-6 padded
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </home>
+
+        <script src="../../../dist/js/phonon-core.js"></script>
+        <script src="../../../dist/js/components/notifications.js"></script>
+
+        <script>
+
+            phonon.options({
+                navigator: {
+                    defaultPage: 'home'
+                },
+                i18n: null
+            });
+
+            phonon.navigator().start();
+
+        </script>
+    </body>
+</html>
+        

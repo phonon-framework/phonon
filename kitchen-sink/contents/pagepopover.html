@@ -1,0 +1,32 @@
+<pagepopover class="app-page">
+    <header class="header-bar">
+        <button class="btn icon icon-arrow-back pull-left" data-navigation="$previous-page"></button>
+    	<button class="btn pull-right icon icon-menu" data-popover-id="my-popover"></button>
+        <h1 class="title pull-left arrow" data-popover-id="my-popover">Title</h1>
+    </header>
+    <div class="content">
+
+    	<!-- Hidden popovers in the page content -->
+        <div class="popover" id="my-popover">
+            <ul class="list">
+                <li><a class="padded-list">Item</a></li>
+                <li><a class="padded-list">Help & Feedback</a></li>
+                <li><a class="padded-list">Settings</a></li>
+                <li><a class="padded-list">Sign out</a></li>
+            </ul>
+        </div>
+
+        <div class="popover" id="btn-popover">
+            <ul class="list">
+                <li><a class="padded-list">Item 1</a></li>
+                <li><a class="padded-list">Item 2</a></li>
+                <li><a class="padded-list">Item 3</a></li>
+                <li><a class="padded-list">Item 4</a></li>
+            </ul>
+        </div>
+
+    	<div class="padded-full">
+    		<button class="btn btn-popover fit-parent primary" data-autobind="true" data-popover-id="btn-popover">Select</button>
+        </div>
+    </div>
+</pagepopover>

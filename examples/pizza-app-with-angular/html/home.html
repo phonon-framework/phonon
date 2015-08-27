@@ -1,0 +1,14 @@
+<header class="header-bar">
+    <div class="center">
+        <h1 class="title">{{pageName}}</h1>
+    </div>
+</header>
+<div class="content">
+
+    <ul class="list">
+        <li class="divider">Select a pizza</li>
+
+        <li ng-repeat="(key, value) in pizzas"><a class="padded-list" ng-href="{{value.url}}">{{value.name}}</a></li>
+    </ul>
+
+</div>

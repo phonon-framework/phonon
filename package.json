@@ -14,12 +14,13 @@
   "homepage": "https://github.com/quark-dev/Phonon-Framework",
   "devDependencies": {
     "gulp": "3.8.x",
-    "gulp-babel": "^4.0.0",
-    "gulp-jshint": "^1.9.2",
-    "gulp-less": "3.0.x",
-    "gulp-minify": "0.0.5",
+    "gulp-concat": "2.6.0",
     "gulp-cssmin": "0.1.x",
+    "gulp-minify": "0.0.5",
     "gulp-rename": "1.x.x",
-    "gulp-watch": "4.1.x"
+    "gulp-stylus": "^2.0.1",
+    "gulp-uglify": "^1.2.0",
+    "gulp-postcss": "^5.1.10",
+    "gulp-autoprefixer": "^2.3.1"
   }
 }

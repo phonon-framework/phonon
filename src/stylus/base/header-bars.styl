@@ -1,0 +1,94 @@
+@require '_variables.styl';
+
+.header-bar 
+  position fixed
+  right 0
+  left 0
+  z-index 20
+
+  width 100%
+  height header-height
+  
+  background-color primary
+
+  border-bottom header-border-bottom-height solid header-border-bottom-color
+  
+  backface-visibility hidden
+
+  .center
+    position absolute
+    text-align center
+    top 0
+    right 0
+    left 0
+    overflow hidden
+    min-width 30px
+
+  .pull-left
+    padding-left padding-phone
+    
+  .pull-right
+    padding-right padding-phone
+
+  .title 
+    z-index 21
+    font-size 20px
+    color #fff
+    height header-height
+    line-height header-height
+
+  .arrow
+    cursor pointer
+  
+    &:after 
+      position relative
+      width 0
+      height 0
+      top (header-height / 2) - 10px
+      left 6px
+      content ''
+      border-right 4px solid transparent
+      border-top 5px solid #fff
+      border-left 4px solid transparent
+
+  .btn
+    position relative
+    z-index 22
+    padding 0 button-padding
+    height header-height - header-border-bottom-height
+    line-height header-height
+    color #fff
+    background-color transparent
+    border none
+    border-radius 0
+
+    &:active
+      opacity 1
+      background-color primary
+      background-color rgba(0, 0, 0, 0.1)
+    
+  .search-input
+    width 75%
+    position absolute
+    height header-height
+    color #fff
+    background-color transparent
+    border none
+    
+    &::-webkit-input-placeholder
+      color #fff
+    &:-moz-placeholder
+      color #fff
+    &::-moz-placeholder
+      color #fff
+    &:-ms-input-placeholder
+      color #fff
+      
+  ~ .content
+    margin-top header-height
+    
+  ~ .header-tabs
+    top header-height
+  
+  ~ .header-tabs ~ .content
+    margin-top header-height + tab-height

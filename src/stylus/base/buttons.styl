@@ -1,0 +1,67 @@
+@require '_variables.styl';
+
+.btn 
+	position relative
+	padding 0 12px
+	display inline-block
+	
+	min-height button-height
+	line-height button-height
+	
+	color #333
+	text-align center
+	vertical-align top
+	
+	cursor pointer
+	outline none
+	
+	text-transform uppercase
+	
+	border none
+	border-radius 3px
+	background-color #f1f1f1
+	
+	transition background-color 250ms ease-in-out
+	
+.btn:not(.btn-progress):disabled
+	opacity .75
+	
+.btn-flat
+	background-color transparent !important
+
+.btn:active 
+	opacity 0.85
+
+.floating-action
+	position fixed
+	padding floating-circle
+	border-radius 50%
+	box-shadow 0 2px 3px #8a8a8a
+	z-index 10
+	
+	right 0
+	bottom 0
+
+	color #fff
+	
+	opacity 0.5
+	
+	// transform is used when a notification is shown (push up)
+	transform notification-animation-speed, opacity .25s linear
+	
+	&.active, &:active
+		opacity 1
+	
+.buttons
+	list-style none
+	text-align right
+	margin 0
+	padding 0
+
+	li
+		display inline-block
+
+	a
+		font-weight 700
+		min-width 60px
+		padding 0 8px
