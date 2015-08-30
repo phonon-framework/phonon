@@ -13,7 +13,7 @@
 * tabs
 * floating labels
 * RiotJS support for tags
-* [AngularJS support](https://github.com/quark-dev/Phonon-Framework/issues/3) (angular's hash-prefix too)
-* flexible side panels [2](https://github.com/quark-dev/Phonon-Framework/issues/2)
+* AngularJS support [#3](https://github.com/quark-dev/Phonon-Framework/issues/3)
+* flexible side panels [#2](https://github.com/quark-dev/Phonon-Framework/issues/2)
 
 **For older releases**: please visit the [old website](http://phonon.quarkdev.com/0.9/).

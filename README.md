@@ -1,29 +1,41 @@
-# [Phonon: the tiny but powerful Cordova framework](http://phonon.quarkdev.com)
+# [Phonon: the light weight, scalable, flexible and customizable HTML5 Web - Mobile Framework ](http://phonon.quarkdev.com)
 
-Phonon is a lightweight & scalable Javascript/CSS3/HTML5 framework to develop a single page application based on Apache Cordova (Phonegap).
-This mobile framework offers quality UI components made in CSS and Javascript that operate as native components and modules to meet several known problems in the design of hybrid applications.
-In addition, some extra features are operational with Apache Cordova.
+Originally, **Phonon** has been created for **building hybrid apps** with **Apache Cordova** by using **web technologies such as HTML, CSS and JavaScript**. Phonon gives an intuitive and amuzing way of building apps. For example, the app's workflow can be defined with page events. This framework is also an **UI framework** proposing many features that are generic, which means they don't differ from mobile platforms. On the other hand, you can define your style according to the platform, because Phonon adds the OS class in the body tag.
+The main JavaScript file called **phonon-core.js** is only 23 kB! This file is the minimal file for running Phonon with basic CSS only components. Then you can load each component that you need.
+Since the version **1.0.0** released in August 2015, Phonon became **browser-friendly** which means you can build hybrid apps with Cordova or web apps! 
 
-If you are new to Apache:
-Apache Cordova is a platform for building native mobile applications using HTML, CSS and JavaScript.
-[Learn more](http://cordova.apache.org/)
+## Quick Start
 
-By quality we mean:
+The best place to start with Phonon is the [Getting Started section](http://phonon.quarkdev.com/#getting-started) on the website.
 
-* Management of the page's state (onCreate, onReady, OnQuit, etc) to better perform the app processes and update the user interface. For example, updating a list after the user navigates on another page after the page transition is completed. Like this we keep the rendering quality. We also thought to consider the physical "back" button on Android thanks to the Apache Cordova's event.
-* Management of available languages for the application: LinguisticJS is the module to internationalize your application.
-* Speed at the launch of the application.
-* Modern UI components: made in CSS and Javascript
+## Documentation
 
-<img src="http://phonon.quarkdev.com/App/public/assets/img/phonon-logo.png" alt="Phonon" height="180px">
+Please, visit [the website](http://phonon.quarkdev.com/docs/).
 
-# Installation
+## Demos
 
-Required: You need to have npm and gulp installed
+Code examples can be found in [the docs](http://phonon.quarkdev.com/docs/) or in the **examples** folder in this repository.
+
+ - Try the [kitchen sink](http://phonon.quarkdev.com/App/public/phonon/kitchen-sink/).
+
+## Installation
+
+Ready to use files are available in the **dist folder**. You only need to copy/paste them.
+On the other hand, if you want to compile your own CSS/JS files with Gulp, the streaming build system, please install **npm** and **gulp**.
 
  - `npm install` to install all modules
- - `gulp` to compile and minimify all sources
+ - `gulp build` to compile and minimify all sources
  
+## Compatibility
+
+For more information, please see the [compatibility section](http://phonon.quarkdev.com/#compatibility).
+
+ - Android 4.1+
+ - iOS 7+
+ - IE10+ (IE9 is partially supported)
+ - Chrome 30+
+ - Firefox 10+
+ - Opera 12+
 
 # Why use Phonon
 
@@ -32,23 +44,23 @@ Required: You need to have npm and gulp installed
 Javascript: Phonon plugins are independent each other.
 It is fine to use only one Phonon feature or component, but you will fall in love with all the features. :)
 
-CSS: Phonon works perfectly with [Ratchet components](https://github.com/twbs/ratchet), but if you don't want to use this beautiful framework, it is okay. Just include phonon-minimal.css.
 
-Additionally, you can choose your pattern in order to bind your UI dynamically.
-Phonon is very open to the world of patterns.
+## Library Agnostic
 
-## (A)synchronous Javascript
+Use your favorite MVW, MVVM, MVC with Phonon! In fact, Phonon plays well with **RiotJS** and **AngularJS**.
 
-Navigator permits you to manage asynchronous and synchronous pages so that it becomes easy to organize your app tasks or processes as you desire.
-[Learn more](http://phonon.quarkdev.com/docs/navigator)
+ - [Live example with RiotJS](http://phonon.quarkdev.com/App/public/phonon/examples/pizza-app-with-riot/)
+ - [Live example with AngularJS](http://phonon.quarkdev.com/App/public/phonon/examples/pizza-app-with-angular/)
 
-## Internalization
 
-A Phonon app is almost perfect, but an internationalized Phonon application, it's even better! 
-The Linguistic plugin permits to manage your language files and to bind the correct language values inside your HTML view with attributes.
-[Learn more](http://phonon.quarkdev.com/docs/linguistic)
+## Internationalization
+
+A Phonon app is almost perfect, but an **internationalized Phonon application**, it's even better! 
+The **i18n module** permits to manage your language files and to bind the correct language values inside your HTML templates with attributes.
+[Learn more](http://phonon.quarkdev.com/docs/i18n/)
 
 ## Light-weight framework
+
 The Phonon framework is really light, because its components can be loaded independently.
 
 ## 100% modular
@@ -56,15 +68,3 @@ The Phonon framework is really light, because its components can be loaded indep
 **Do you love RequireJS? We do.**
 Using a modular script loader like RequireJS will improve the speed and quality of your code. 
 Each Phonon component is compatible with asynchronous module definition (AMD).
-
-## Cordova based plugins
-
-Some plugins work with the Phonegap - Apache Cordova API such as Navigator, FileSystem & Notifications.
-
-# Documentation & Getting started
-
-Please, visit the [website of Phonon](http://phonon.quarkdev.com).
-
-# License
-
-Phonon is licensed under the MIT License.
