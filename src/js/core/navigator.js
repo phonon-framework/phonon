@@ -334,10 +334,12 @@
     if(riotEnabled) {
 
       riot.compile(function() {
-        var tag = riot.mount(pageName, {i18n: json});
-        phonon.tagManager.addTag(tag, pageName);
+        phonon.i18n().getAll(function(json) {
+          var tag = riot.mount(pageName, {i18n: json});
+          phonon.tagManager.addTag(tag, pageName);
 
-        fn();
+          fn();
+        });
       });
     }
 
@@ -699,9 +701,13 @@
     }
   }
 
+  /**
+   * @param {String | HashEvent} virtualHash
+   */
   function onRoute(virtualHash) {
 
-    var hash = (typeof virtualHash === 'undefined' ? window.location.href.split('#')[1] || '' : virtualHash);    
+    var hash = (typeof virtualHash === 'string' ? virtualHash : window.location.href.split('#')[1] || '');
+
     var parsed = hash.split('/');
 
     var page = parsed[0];

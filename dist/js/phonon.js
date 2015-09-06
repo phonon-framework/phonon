@@ -965,7 +965,6 @@ phonon.tagManager = (function () {
   var pageHistory = [];
   var started = false;
   var onActiveTransition = false;
-  var json = null;
 
   var currentPage = null;
   var previousPage = null;
@@ -1288,10 +1287,12 @@ phonon.tagManager = (function () {
     if(riotEnabled) {
 
       riot.compile(function() {
-        var tag = riot.mount(pageName, {i18n: json});
-        phonon.tagManager.addTag(tag, pageName);
+        phonon.i18n().getAll(function(json) {
+          var tag = riot.mount(pageName, {i18n: json});
+          phonon.tagManager.addTag(tag, pageName);
 
-        fn();
+          fn();
+        });
       });
     }
 
@@ -1591,15 +1592,7 @@ phonon.tagManager = (function () {
       document.body.classList.add(osClass);
     }
 
-    if(opts.useI18n) {
-
-      phonon.i18n().getAll(function(j) {
-        json = j;
-        initFirstPage();
-      });
-    } else {
-      initFirstPage();
-    }
+    initFirstPage();
   }
 
   function initFirstPage() {
@@ -1625,7 +1618,7 @@ phonon.tagManager = (function () {
 
           callReady(currentPage);
 
-          // Call Ready Callbacks once
+          // Call global-ready callbacks once
           phonon.dispatchGlobalReady();
 
           var startHash = opts.hashPrefix + opts.defaultPage;
@@ -1661,9 +1654,13 @@ phonon.tagManager = (function () {
     }
   }
 
+  /**
+   * @param {String | HashEvent} virtualHash
+   */
   function onRoute(virtualHash) {
 
-    var hash = (typeof virtualHash === 'undefined' ? window.location.href.split('#')[1] || '' : virtualHash);    
+    var hash = (typeof virtualHash === 'string' ? virtualHash : window.location.href.split('#')[1] || '');
+
     var parsed = hash.split('/');
 
     var page = parsed[0];
@@ -1754,15 +1751,13 @@ phonon.tagManager = (function () {
    */
   document.on('tap', navigationListener);
 
-  window.on('hashchange', function() {
-    /*
-     * we do not call onRoute() directly because it is used in callClose
-     * in order to prevent the back button on navigator:
-     * the hash changes, but it is refused by this module (not trusted behavior)
-     * so we need to call this function with a "virtual hash" as argument
-     */
-    onRoute();
-  });
+  /*
+   * we do not call onRoute() directly because it is used in callClose
+   * in order to prevent the back button on navigator:
+   * the hash changes, but it is refused by this module (not trusted behavior)
+   * so we need to call this function with a "virtual hash" as argument
+   */
+  window.on('hashchange', onRoute);
 
   document.on('backbutton', function() {
     var pObj = getLastPage();
