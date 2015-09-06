@@ -2289,11 +2289,31 @@ phonon.tagManager = (function () {
 		}
 	}
 
+	function isInputFilled(input) {
+		if(input.value.trim() !== '' && !input.parentNode.classList.contains('input-filled')) {
+			input.parentNode.classList.add('input-filled');
+		}
+	}
+
+	/*
+	 * Attachs events once
+	 */
 	document.on('pagecreated', function(evt) {
 		var page = document.querySelector(evt.detail.page);
 		var inputs = page.querySelectorAll('input.with-label'), i = inputs.length - 1;
 		for (; i >= 0; i--) {
 			addListener(inputs[i]);
+		}
+	});
+
+	/*
+	 * Checks if inputs are filled
+	 */
+	document.on('pageopened', function(evt) {
+		var page = document.querySelector(evt.detail.page);
+		var inputs = page.querySelectorAll('input.with-label'), i = inputs.length - 1;
+		for (; i >= 0; i--) {
+			isInputFilled(inputs[i]);
 		}
 	});
 
