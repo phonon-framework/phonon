@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+        <link rel="stylesheet" href="../../dist/css/phonon.css" />
+        <title>App</title>
+    </head>
+    <body>
+        
+        <!-- Panel tags go here -->
+
+        <!-- Side Panel tags go here -->
+
+        <!-- Notification tags go here -->
+
+        <!-- Dialog tags go here -->
+
+
+        <!-- the home page is the default one. This page does not require to call its content because we define on its tag.-->
+        <home data-page="true">
+            
+            <header class="header-bar">
+                <div class="center">
+                    <h1 class="title">Phonon Example</h1>
+                </div>
+            </header>
+            <div class="content">
+
+                <ul class="list">
+                    <li class="divider">Select a pizza</li>
+                    <li><a class="padded-list" href="#!pagetwo/margherita">Margherita</a></li>
+                    <li><a class="padded-list" href="#!pagetwo/calzone">Cheese Calzone</a></li>
+                    <li><a class="padded-list" href="#!pagetwo/pesto">Pesto Pizza</a></li>
+                    <li><a class="padded-list" href="#!pagetwo/roma">Roma</a></li>
+                    <li><a class="padded-list" href="#!pagetwo/prosciutto">Prosciutto</a></li>
+                    <li><a class="padded-list" href="#!pagetwo/funghi">Funghi</a></li>
+                </ul>
+
+            </div>
+        </home>
+
+        <!-- for the second page, Phonon will load its content. --> 
+        <pagetwo data-page="true"></pagetwo>
+        
+        <!-- load requirejs and app.js -->
+        <script data-main="app.js" src="require.js"></script>
+    </body>
+</html>
+        
