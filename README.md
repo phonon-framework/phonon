@@ -6,7 +6,7 @@ Since the version **1.0.0** released in August 2015, Phonon became **browser-fri
 
 ## Quick Start
 
-The best place to start with Phonon is the [Getting Started section](http://phonon.quarkdev.com/#getting-started) in the website.
+The best place to start with Phonon is the [Getting Started section](http://phonon.quarkdev.com/#getting-started)
 
 ## Documentation
 
@@ -21,7 +21,7 @@ Code examples can be found in [the docs](http://phonon.quarkdev.com/docs/) or in
 ## Installation
 
 Ready to use files are available in the **dist folder**. You only need to copy/paste them.
-On the other hand, if you want to compile your own CSS/JS files with Gulp, the streaming build system, please install **npm** and **gulp**.
+On the other hand, if you want to compile your own CSS/JS files with Gulp (the streaming build system) please install **npm** and **gulp**.
 
  - `npm install` to install all modules
  - `gulp build` to compile and minimify all sources
@@ -41,16 +41,17 @@ For more information, please see the [compatibility section](http://phonon.quark
 
 ## Scalability
 
-Javascript: Phonon plugins are independent each other.
+Javascript: Phonon modules are independent each other.
 It is fine to use only one Phonon feature or component, but you will fall in love with all the features. :)
 
 
 ## Library Agnostic
 
-Use your favorite MVW, MVVM, MVC with Phonon! In fact, Phonon plays well with **RiotJS** and **AngularJS**.
+Use your favorite design pattern (MVW, MVVM, MVC, ...) or a module loader with Phonon! For example, Phonon plays well with **RiotJS**, **AngularJS** and **RequireJS**.
 
  - [Live example with RiotJS](http://phonon.quarkdev.com/App/public/phonon/examples/pizza-app-with-riot/)
  - [Live example with AngularJS](http://phonon.quarkdev.com/App/public/phonon/examples/pizza-app-with-angular/)
+ - [Live example with RequireJS](http://phonon.quarkdev.com/App/public/phonon/examples/pizza-app-with-require/)
 
 
 ## Internationalization
@@ -61,7 +62,7 @@ The **i18n module** permits to manage your language files and to bind the correc
 
 ## Light-weight framework
 
-The Phonon framework is really light, because its components can be loaded independently.
+The Phonon framework is very light (phonon-core.js is only **23 kB**!).
 
 ## 100% modular
 
