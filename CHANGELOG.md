@@ -1,3 +1,8 @@
+### 1.0.1 (2015-09-10)
+
+* feature: hash routing is now an option
+* feature: i18n module uses cache
+
 ### 1.0.0 (2015-08-24)
 
 #### Features
