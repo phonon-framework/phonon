@@ -672,6 +672,8 @@ phonon.tagManager = (function () {
 
 ;(function (window, document) {
 
+    var jsonCache = null;
+
     var opts = {
         localeFallback: null,
         localePreferred: window.navigator.userLanguage || window.navigator.language,
@@ -723,6 +725,41 @@ phonon.tagManager = (function () {
         el.setAttribute('placeholder', text);
     };
 
+    /**
+     * Reads data-i18n attributes and set JSON values 
+     * @param {Array} elements
+     * @param {JSON} json
+     * @private
+     */
+    var computeNodes = function (elements, json) {
+
+        var i = elements.length - 1;
+
+        for (; i >= 0; i--) {
+            var el = elements[i];
+            var data = el.getAttribute('data-i18n').trim();
+            var r = /(?:\s|^)(\w+):\s*(.*?)(?=\s+\w+:|$)/g, m;
+
+            while (m = r.exec(data)) {
+                var key = m[1].trim();
+                var value = m[2].trim().replace(',', '');
+                if (json[value] !== undefined) {
+                    if (key === 'text') {
+                        setText(el, json[value]);
+                    } else if (key === 'value') {
+                        setValue(el, json[value]);
+                    } else if (key === 'placeholder') {
+                        setPlaceholder(el, json[value]);
+                    } else {
+                        throw new Error('The property: ' + key + ' is unknown');
+                    }
+                } else {
+                    console.error('The value: ' + value + ' does not exist in the JSON file');
+                }
+            }
+        }
+    };
+
 
     /**
      * Public API
@@ -764,6 +801,11 @@ phonon.tagManager = (function () {
             throw new Error('callback must be a function');
         }
 
+        if(jsonCache !== null) {
+            callback(jsonCache);
+            return;
+        }
+
         var xhr = new XMLHttpRequest();
 
         var locale = opts.localePreferred ? opts.localePreferred : opts.localeFallback;
@@ -774,6 +816,8 @@ phonon.tagManager = (function () {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
+
+                    jsonCache = JSON.parse(xhr.responseText);
                     callback(JSON.parse(xhr.responseText));
 
                 } else {
@@ -786,6 +830,7 @@ phonon.tagManager = (function () {
                         console.log('The language [' + locale + '] is not available, loading ' + opts.localeFallback);
 
                         getAll(function (json) {
+                            jsonCache = json;
                             callback(json);
                         });
                     } else {
@@ -809,6 +854,21 @@ phonon.tagManager = (function () {
         }
 
         var isArray = (key instanceof Array ? true : false);
+
+        if(jsonCache !== null) {
+            if(!isArray) {
+                callback(jsonCache[key]);
+            } else {
+
+                var l = key.length, i = l - 1, obj = {};
+
+                for (; i >= 0; i--) {
+                    obj[key[i]] = jsonCache[key[i]];
+                }
+                callback(obj);
+            }
+            return;
+        }
 
         getAll(function(json) {
             if(!isArray) {
@@ -846,42 +906,19 @@ phonon.tagManager = (function () {
             throw new TypeError('Not valid element object ' + element);
         }
 
-        var elements = element.querySelectorAll('[data-i18n]'), i = elements.length - 1;
+        var elements = element.querySelectorAll('[data-i18n]');
 
-        getAll(function (json) {
+        if(jsonCache === null) {
 
-            var res = { status: 'success' };
+            getAll(function (json) {
 
-            for (; i >= 0; i--) {
-                var el = elements[i];
-                var data = el.getAttribute('data-i18n').trim();
-                var r = /(?:\s|^)(\w+):\s*(.*?)(?=\s+\w+:|$)/g, m;
-
-                while (m = r.exec(data)) {
-                    var key = m[1].trim();
-                    var value = m[2].trim().replace(',', '');
-                    if (json[value] !== undefined) {
-                        if (key === 'text') {
-                            setText(el, json[value]);
-                        } else if (key === 'value') {
-                            setValue(el, json[value]);
-                        } else if (key === 'placeholder') {
-                            setPlaceholder(el, json[value]);
-                        } else {
-                            throw new Error('The property: ' + key + ' is unknown');
-                        }
-                    } else {
-                        var msg = 'The value: ' + value + ' does not exist in the JSON file';
-                        console.error(msg);
-                        res = { status: 'error', message: msg };
-                    }
-                }
-            }
-
-            if (typeof callbackFunction === 'function') {
-                callbackFunction(res);
-            }
-        });
+                computeNodes(elements, json);
+                if (typeof callbackFunction === 'function') callbackFunction();
+            });
+        } else {
+            computeNodes(elements, jsonCache);
+            if (typeof callbackFunction === 'function') callbackFunction();
+        }
     }
     api.bind = bind;
 
@@ -894,6 +931,8 @@ phonon.tagManager = (function () {
             throw new Error('The language must be a string');
         }
         opts.localePreferred = preference;
+        // reset the cache
+        jsonCache = null;
 
         return api;
     }
