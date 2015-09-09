@@ -980,7 +980,8 @@ phonon.tagManager = (function () {
     animatePages: true,
     templateRootDirectory: '',
     useI18n: true,
-    enableBrowserBackButton: false
+    enableBrowserBackButton: false,
+    useHash: true
   };
 
   /**
@@ -1229,7 +1230,7 @@ phonon.tagManager = (function () {
 
       var currentHash = window.location.hash.split('#')[1];
 
-      if(currentHash === hash) {
+      if(currentHash === hash || !opts.useHash) {
         onRoute(hash);
       } else {
         window.location.hash = hash;
@@ -1622,7 +1623,7 @@ phonon.tagManager = (function () {
           phonon.dispatchGlobalReady();
 
           var startHash = opts.hashPrefix + opts.defaultPage;
-          if(window.location.hash !== startHash) {
+          if(window.location.hash !== startHash && opts.useHash) {
             window.location.hash = opts.hashPrefix + opts.defaultPage;
           }
         } else {
@@ -1645,7 +1646,7 @@ phonon.tagManager = (function () {
       if(currentPageObject.async) {
         callClose(currentPage, pageObject.name, hash);
       } else {
-        if(window.location.hash.indexOf(pageObject.name) === -1) {
+        if(window.location.hash.indexOf(pageObject.name) === -1 && opts.useHash) {
           window.location.hash = hash;
         }
       }
@@ -1736,8 +1737,6 @@ phonon.tagManager = (function () {
 
       if(isPageReady(pageName, params, action)) {
         onBeforeTransition(pageName, params, action);
-      } else {
-        window.location.hash = opts.hashPrefix + '$' + previousPage;
       }
 
       if(!opts.enableBrowserBackButton) {
@@ -1757,7 +1756,7 @@ phonon.tagManager = (function () {
    * the hash changes, but it is refused by this module (not trusted behavior)
    * so we need to call this function with a "virtual hash" as argument
    */
-  window.on('hashchange', onRoute);
+  if(opts.useHash) window.on('hashchange', onRoute);
 
   document.on('backbutton', function() {
     var pObj = getLastPage();
