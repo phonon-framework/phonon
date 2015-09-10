@@ -1,6 +1,6 @@
 {
   "name": "Phonon-Framework",
-  "version": "0.1.0",
+  "version": "1.0.2",
   "description": "Phonon is a lightweight & scalable Javascript/CSS3/HTML5 mobile framework to develop a single page application based on Phonegap / Apache Cordova.",
   "repository": {
     "type": "git",
@@ -13,14 +13,13 @@
   },
   "homepage": "https://github.com/quark-dev/Phonon-Framework",
   "devDependencies": {
-    "gulp": "3.8.x",
-    "gulp-concat": "2.6.0",
+    "gulp": "3.9.x",
+    "gulp-concat": "^2.6.0",
     "gulp-cssmin": "0.1.x",
-    "gulp-minify": "0.0.5",
     "gulp-rename": "1.x.x",
-    "gulp-stylus": "^2.0.1",
-    "gulp-uglify": "^1.2.0",
-    "gulp-postcss": "^5.1.10",
-    "gulp-autoprefixer": "^2.3.1"
+    "gulp-stylus": "^2.0.4",
+    "gulp-uglify": "^1.4.0",
+    "gulp-postcss": "^6.0.0",
+    "autoprefixer": "^6.0.2"
   }
 }
