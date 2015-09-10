@@ -273,7 +273,7 @@ phonon.ajax = (function () {
 
 		var method = opts.method;
 		var url = opts.url;
-		var crossDomain = (opts.crossDomain === 'boolean' ? opts.crossDomain : false);
+		var crossDomain = (typeof opts.crossDomain === 'boolean' ? opts.crossDomain : false);
 		var contentType = opts.contentType;
 		var dataType = opts.dataType;
 		var data = opts.data;
