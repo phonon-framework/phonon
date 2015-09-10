@@ -255,10 +255,10 @@ input,
 textarea,
 select {
   -webkit-touch-callout: default;
-  -webkit-user-select: all;
-     -moz-user-select: all;
-      -ms-user-select: all;
-          user-select: all;
+  -moz-user-select: all;
+   -ms-user-select: all;
+       user-select: all;
+  -webkit-user-select: auto;
 }
 a {
   color: #0084e7;
