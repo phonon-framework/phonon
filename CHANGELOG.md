@@ -1,3 +1,8 @@
+### 1.0.2 (2015-09-10)
+
+* fix: unable to filled inputs on Safari [#12](https://github.com/quark-dev/Phonon-Framework/issues/12)
+* update dev dependencies (packages.json)
+
 ### 1.0.1 (2015-09-10)
 
 * feature: hash routing is now an option
@@ -8,7 +13,7 @@
 #### Features
 
 * 65% rewritten
-* works well on modern browsers and on cordova 
+* works well on modern browsers and on cordova
 * Gulp and Stylus preprocessors
 * customize your app with variables
 * new notifications. The old notification plugin has been renamed to Cordova Notifications. Note that this plugin is now depreciated
