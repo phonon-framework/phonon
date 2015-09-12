@@ -273,7 +273,7 @@ phonon.ajax = (function () {
 
 		var method = opts.method;
 		var url = opts.url;
-		var crossDomain = (opts.crossDomain === 'boolean' ? opts.crossDomain : false);
+		var crossDomain = (typeof opts.crossDomain === 'boolean' ? opts.crossDomain : false);
 		var contentType = opts.contentType;
 		var dataType = opts.dataType;
 		var data = opts.data;
@@ -1327,12 +1327,17 @@ phonon.tagManager = (function () {
     if(riotEnabled) {
 
       riot.compile(function() {
-        phonon.i18n().getAll(function(json) {
-          var tag = riot.mount(pageName, {i18n: json});
-          phonon.tagManager.addTag(tag, pageName);
 
+        if(opts.useI18n) {
+          alert()
+          phonon.i18n().getAll(function(json) {
+            phonon.tagManager.addTag(riot.mount(pageName, {i18n: json}), pageName);
+            fn();
+          });
+        } else {
+          phonon.tagManager.addTag(riot.mount(pageName, {i18n: null}), pageName);
           fn();
-        });
+        }
       });
     }
 

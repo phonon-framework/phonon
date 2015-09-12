@@ -1327,12 +1327,16 @@ phonon.tagManager = (function () {
     if(riotEnabled) {
 
       riot.compile(function() {
-        phonon.i18n().getAll(function(json) {
-          var tag = riot.mount(pageName, {i18n: json});
-          phonon.tagManager.addTag(tag, pageName);
 
+        if(opts.useI18n) {
+          phonon.i18n().getAll(function(json) {
+            phonon.tagManager.addTag(riot.mount(pageName, {i18n: json}), pageName);
+            fn();
+          });
+        } else {
+          phonon.tagManager.addTag(riot.mount(pageName, {i18n: null}), pageName);
           fn();
-        });
+        }
       });
     }
 
