@@ -284,6 +284,9 @@
       }
     }
 
+    // cancel the page transition
+    if(isComponentVisible()) return;
+
     var page = getPageObject(pageName);
 
     // close the page directly
@@ -416,25 +419,20 @@
     pages.push(page);
   }
 
-  function isPageReady() {
+  /**
+   * Checks if a "front" UI component is active
+   * Returns true if an UI component is active, false otherwise
+   * @return {Boolean}
+   */
+  function isComponentVisible() {
 
     // close active dialogs, popovers, panels and side-panels
-    if(typeof phonon.dialog !== 'undefined' && phonon.dialog().closeActive()) {
-      return false;
-    }
-    if(typeof phonon.popover !== 'undefined' && phonon.popover().closeActive()) {
-      return false;
-    }
-    if(typeof phonon.panel !== 'undefined' && phonon.panel().closeActive()) {
-      return false;
-    }
-    if(typeof phonon.sidePanel !== 'undefined' && phonon.sidePanel().closeActive()) {
-      return false;
-    }
+    if(typeof phonon.dialog !== 'undefined' && phonon.dialog().closeActive()) return true;
+    if(typeof phonon.popover !== 'undefined' && phonon.popover().closeActive()) return true;
+    if(typeof phonon.panel !== 'undefined' && phonon.panel().closeActive()) return true;
+    if(typeof phonon.sidePanel !== 'undefined' && phonon.sidePanel().closeActive()) return true;
 
-    safeLink = true;
-
-    return true;
+    return false;
   }
 
   function getLastPage() {
@@ -473,6 +471,7 @@
         break;
       }
       if(dataNav) {
+        safeLink = true;
         nav = dataNav;
         break;
       }
@@ -507,9 +506,7 @@
       }
     }
 
-    if(isPageReady(page, params)) {
-      callClose(currentPage, page, opts.hashPrefix + page + '/' + params);
-    }
+    callClose(currentPage, page, opts.hashPrefix + page + '/' + params);
   }
 
   function startTransition(previousPage, pageName, params, action) {
@@ -561,9 +558,7 @@
 
   function onBeforeTransition(pageName, params, action) {
 
-    if(onActiveTransition) {
-      return;
-    }
+    if(onActiveTransition) return;
 
     var page = getPageObject(pageName);
 
@@ -749,6 +744,14 @@
 
     if(pageObject) {
 
+      /*
+       * [1] change page only if changePage() is called programatically
+       * [2] back button: if UI components are visible like dialogs, cancel the page transition
+       * [3] the back button can be the physical button on Android or the browser's back button
+       */
+
+      isComponentVisible();
+
       if(pageObject.name === currentPage) {
         if(typeof params !== 'undefined') {
           callHash(pageName, params, action);
@@ -786,13 +789,9 @@
         pageHistory.push( {page: pageObject.name, params: params + '/' + action} );
       }
 
-      if(isPageReady(pageName, params, action)) {
-        onBeforeTransition(pageName, params, action);
-      }
+      onBeforeTransition(pageName, params, action);
 
-      if(!opts.enableBrowserBackButton) {
-        safeLink = false;
-      }
+      if(!opts.enableBrowserBackButton) safeLink = false;
     }
   }
 
@@ -814,9 +813,8 @@
     if(currentPage === opts.defaultPage) {
       return;
     }
-    if(isPageReady(pObj.page, '')) {
-      callClose(currentPage, pObj.page, opts.hashPrefix + pObj.page + '/' + pObj.params);
-    }
+    
+    callClose(currentPage, pObj.page, opts.hashPrefix + pObj.page + '/' + pObj.params);
   });
 
 
@@ -831,7 +829,18 @@
       start: start,
       changePage: function(pageName, pageParams) {
         safeLink = true;
-        changePage(pageName, pageParams);
+
+        /*
+         * wait the end of front components animations like dialogs, panels, etc before changing the page
+         * [1] avoid several animations at the same time
+         * [2] it is more logical to see them disappearing before the page changes
+         */
+
+        var wait = (isComponentVisible() ? 400 : 1);
+
+        window.setTimeout(function() {
+          changePage(pageName, pageParams);
+        }, wait);
       },
       on: function(options, callback) {
         if(typeof options.page !== 'string') {

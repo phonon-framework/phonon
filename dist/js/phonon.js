@@ -1276,6 +1276,9 @@ phonon.tagManager = (function () {
       }
     }
 
+    // cancel the page transition
+    if(activeComponents()) return;
+
     var page = getPageObject(pageName);
 
     // close the page directly
@@ -1329,7 +1332,6 @@ phonon.tagManager = (function () {
       riot.compile(function() {
 
         if(opts.useI18n) {
-          alert()
           phonon.i18n().getAll(function(json) {
             phonon.tagManager.addTag(riot.mount(pageName, {i18n: json}), pageName);
             fn();
@@ -1409,25 +1411,15 @@ phonon.tagManager = (function () {
     pages.push(page);
   }
 
-  function isPageReady() {
+  function activeComponents() {
 
     // close active dialogs, popovers, panels and side-panels
-    if(typeof phonon.dialog !== 'undefined' && phonon.dialog().closeActive()) {
-      return false;
-    }
-    if(typeof phonon.popover !== 'undefined' && phonon.popover().closeActive()) {
-      return false;
-    }
-    if(typeof phonon.panel !== 'undefined' && phonon.panel().closeActive()) {
-      return false;
-    }
-    if(typeof phonon.sidePanel !== 'undefined' && phonon.sidePanel().closeActive()) {
-      return false;
-    }
+    if(typeof phonon.dialog !== 'undefined' && phonon.dialog().closeActive()) return true;
+    if(typeof phonon.popover !== 'undefined' && phonon.popover().closeActive()) return true;
+    if(typeof phonon.panel !== 'undefined' && phonon.panel().closeActive()) return true;
+    if(typeof phonon.sidePanel !== 'undefined' && phonon.sidePanel().closeActive()) return true;
 
-    safeLink = true;
-
-    return true;
+    return false;
   }
 
   function getLastPage() {
@@ -1466,6 +1458,7 @@ phonon.tagManager = (function () {
         break;
       }
       if(dataNav) {
+        safeLink = true;
         nav = dataNav;
         break;
       }
@@ -1500,9 +1493,7 @@ phonon.tagManager = (function () {
       }
     }
 
-    if(isPageReady(page, params)) {
-      callClose(currentPage, page, opts.hashPrefix + page + '/' + params);
-    }
+    callClose(currentPage, page, opts.hashPrefix + page + '/' + params);
   }
 
   function startTransition(previousPage, pageName, params, action) {
@@ -1554,9 +1545,7 @@ phonon.tagManager = (function () {
 
   function onBeforeTransition(pageName, params, action) {
 
-    if(onActiveTransition) {
-      return;
-    }
+    if(onActiveTransition) return;
 
     var page = getPageObject(pageName);
 
@@ -1742,6 +1731,14 @@ phonon.tagManager = (function () {
 
     if(pageObject) {
 
+      /*
+       * [1] change page only if changePage() is called programatically
+       * [2] back button: if UI components are visible like dialogs, cancel the page transition
+       * [3] the back button can be the physical button on Android or the browser's back button
+       */
+
+      activeComponents();
+
       if(pageObject.name === currentPage) {
         if(typeof params !== 'undefined') {
           callHash(pageName, params, action);
@@ -1779,13 +1776,9 @@ phonon.tagManager = (function () {
         pageHistory.push( {page: pageObject.name, params: params + '/' + action} );
       }
 
-      if(isPageReady(pageName, params, action)) {
-        onBeforeTransition(pageName, params, action);
-      }
+      onBeforeTransition(pageName, params, action);
 
-      if(!opts.enableBrowserBackButton) {
-        safeLink = false;
-      }
+      if(!opts.enableBrowserBackButton) safeLink = false;
     }
   }
 
@@ -1807,9 +1800,8 @@ phonon.tagManager = (function () {
     if(currentPage === opts.defaultPage) {
       return;
     }
-    if(isPageReady(pObj.page, '')) {
-      callClose(currentPage, pObj.page, opts.hashPrefix + pObj.page + '/' + pObj.params);
-    }
+    
+    callClose(currentPage, pObj.page, opts.hashPrefix + pObj.page + '/' + pObj.params);
   });
 
 
@@ -1824,7 +1816,18 @@ phonon.tagManager = (function () {
       start: start,
       changePage: function(pageName, pageParams) {
         safeLink = true;
-        changePage(pageName, pageParams);
+
+        /*
+         * wait the end of front components animations like dialogs, panels, etc before changing the page
+         * [1] avoid several animations at the same time
+         * [2] it is more logical to see them disappearing before the page changes
+         */
+
+        var wait = (activeComponents() ? 350 : 1);
+
+        window.setTimeout(function() {
+          changePage(pageName, pageParams);
+        }, wait);
       },
       on: function(options, callback) {
         if(typeof options.page !== 'string') {

@@ -1,12 +1,22 @@
+### 1.0.3 (2015-09-21)
+
+#### Bug Fixes
+
+* unable to call changePage() when a dialog is active [#9](https://github.com/quark-dev/Phonon-Framework/issues/9)
+
 ### 1.0.2 (2015-09-10)
 
-* fix: unable to filled inputs on Safari [#12](https://github.com/quark-dev/Phonon-Framework/issues/12)
+#### Bug Fixes
+
+* unable to fill inputs on Safari [#12](https://github.com/quark-dev/Phonon-Framework/issues/12)
 * update dev dependencies (packages.json)
 
 ### 1.0.1 (2015-09-10)
 
-* feature: hash routing is now an option
-* feature: i18n module uses cache
+#### Features
+
+* hash routing is now an option
+* i18n module uses cache
 
 ### 1.0.0 (2015-08-24)
 
