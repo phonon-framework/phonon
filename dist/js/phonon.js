@@ -1277,7 +1277,7 @@ phonon.tagManager = (function () {
     }
 
     // cancel the page transition
-    if(activeComponents()) return;
+    if(isComponentVisible()) return;
 
     var page = getPageObject(pageName);
 
@@ -1411,7 +1411,12 @@ phonon.tagManager = (function () {
     pages.push(page);
   }
 
-  function activeComponents() {
+  /**
+   * Checks if a "front" UI component is active
+   * Returns true if an UI component is active, false otherwise
+   * @return {Boolean}
+   */
+  function isComponentVisible() {
 
     // close active dialogs, popovers, panels and side-panels
     if(typeof phonon.dialog !== 'undefined' && phonon.dialog().closeActive()) return true;
@@ -1737,7 +1742,7 @@ phonon.tagManager = (function () {
        * [3] the back button can be the physical button on Android or the browser's back button
        */
 
-      activeComponents();
+      isComponentVisible();
 
       if(pageObject.name === currentPage) {
         if(typeof params !== 'undefined') {
@@ -1823,7 +1828,7 @@ phonon.tagManager = (function () {
          * [2] it is more logical to see them disappearing before the page changes
          */
 
-        var wait = (activeComponents() ? 350 : 1);
+        var wait = (isComponentVisible() ? 400 : 1);
 
         window.setTimeout(function() {
           changePage(pageName, pageParams);

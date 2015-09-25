@@ -1,3 +1,10 @@
+### 1.0.4 (2015-09-25)
+
+#### Bug Fixes
+
+* Fixes navigator defensive condition before changing page
+* Use JSON.stringify to process xhr's body when content-type is application/json
+
 ### 1.0.3 (2015-09-21)
 
 #### Bug Fixes

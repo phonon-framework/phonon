@@ -283,7 +283,7 @@ phonon.ajax = (function () {
 
         if(typeof method !== 'string') throw new TypeError('method must be a string');
         if(typeof url !== 'string') throw new TypeError('url must be a string');
-        if(typeof data === 'object') data = objToString(data);
+        if(typeof data === 'object') data = contentType==="application/json"?JSON.stringify(data):objToString(data);
         if(typeof success !== 'function') throw new TypeError('success must be a function');
 
         var xhr = createXhr(crossDomain);
@@ -1684,7 +1684,8 @@ phonon.tagManager = (function () {
       if(currentPageObject.async) {
         callClose(currentPage, pageObject.name, hash);
       } else {
-        if(window.location.hash.indexOf(pageObject.name) === -1 && opts.useHash) {
+        var parsed = window.location.hash.split('/');
+        if(parsed[0].indexOf(pageObject.name) === -1 && opts.useHash) {
           window.location.hash = hash;
         }
       }
