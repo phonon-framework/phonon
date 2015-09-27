@@ -64,8 +64,8 @@
             action = null
         })
 
-        this.on('hashchanged', function(req) {
-            self.pizza = req.params
+        this.on('hashchanged', function(pizza) {
+            self.pizza = pizza
             self.update()
         })
 

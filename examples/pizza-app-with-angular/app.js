@@ -88,8 +88,8 @@
 		        action = null;
 		    });
 
-		    activity.onHashChanged(function(req) {
-		        document.querySelector('.pizza').textContent = req.params;
+		    activity.onHashChanged(function(pizza) {
+		        document.querySelector('.pizza').textContent = pizza;
 		    });
 		});
 

@@ -59,8 +59,8 @@ app.on({page: 'pagetwo', preventClose: true, content: 'pagetwo.html', readyDelay
         action = null;
     });
 
-    activity.onHashChanged(function(req) {
-        document.querySelector('.pizza').textContent = req.params;
+    activity.onHashChanged(function(pizza) {
+        document.querySelector('.pizza').textContent = pizza;
     });
 });
 

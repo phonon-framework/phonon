@@ -283,7 +283,7 @@ phonon.ajax = (function () {
 
         if(typeof method !== 'string') throw new TypeError('method must be a string');
         if(typeof url !== 'string') throw new TypeError('url must be a string');
-        if(typeof data === 'object') data = objToString(data);
+        if(typeof data === 'object') data = contentType==="application/json"?JSON.stringify(data):objToString(data);
         if(typeof success !== 'function') throw new TypeError('success must be a function');
 
         var xhr = createXhr(crossDomain);
@@ -577,14 +577,17 @@ phonon.tagManager = (function () {
 
 	var trigger = function(pageName, eventName, eventParams) {
 
-      var i = tags.length - 1;
+		var arr = [];
+		var i = tags.length - 1;
 
-      for (; i >= 0; i--) {
-        if(tags[i].tagName === pageName) {
-          tags[i].trigger( eventName , eventParams );
-          break;
-        }
-      }
+		for (; i >= 0; i--) {
+			if(tags[i].tagName === pageName) {
+				arr.push(eventName);
+				var conc = arr.concat(eventParams);
+				tags[i].trigger.apply(this, conc);
+				break;
+			}
+		}
 	};
 
 	return {
@@ -1030,70 +1033,70 @@ phonon.tagManager = (function () {
    */
   var Activity = (function () {
 
-      /**
-       * @constructor
-       */
-      function Activity() {}
+    /**
+     * @constructor
+     */
+    function Activity() {}
 
-      /**
-       * 
-       * @param {Function} callback
-       */
-      Activity.prototype.onCreate = function (callback) {
-          this.onCreateCallback = callback;
+    /**
+     * 
+     * @param {Function} callback
+     */
+    Activity.prototype.onCreate = function (callback) {
+      this.onCreateCallback = callback;
+    };
+
+    /**
+     * onReady is called after onCreate and for each page refresh (optional)
+     * @param {Function} callback
+     */
+    Activity.prototype.onReady = function (callback) {
+      this.onReadyCallback = callback;
+    };
+
+    /**
+     * Called when the user leaves the page
+     * @param {Function} callback
+     */
+    Activity.prototype.onClose = function (callback) {
+      this.onCloseCallback = function (self) {
+        callback(self);
       };
+    };
 
-      /**
-       * onReady is called after onCreate and for each page refresh (optional)
-       * @param {Function} callback
-       */
-      Activity.prototype.onReady = function (callback) {
-          this.onReadyCallback = callback;
+    /**
+     * Called when the page is completely hidden
+     * @param {Function} callback
+     */
+    Activity.prototype.onHidden = function (callback) {
+      this.onHiddenCallback = callback;
+    };
+
+    /**
+     * Called when the page transition is finished
+     * @param {Function} callback
+     */
+    Activity.prototype.onTransitionEnd = function (callback) {
+      this.onTransitionEndCallback = callback;
+    };
+
+    /**
+     * Called when the page hash changes
+     * @param {Function} callback
+     */
+    Activity.prototype.onHashChanged = function (callback) {
+      this.onHashChangedCallback = function (req) {
+        callback.apply(this, req);
       };
+    };
 
-      /**
-       * Called when the user leaves the page
-       * @param {Function} callback
-       */
-      Activity.prototype.onClose = function (callback) {
-          this.onCloseCallback = function (self) {
-              callback(self);
-          };
+    Activity.prototype.onTabChanged = function (callback) {
+      this.onTabChangedCallback = function (tabNumber) {
+        callback(tabNumber);
       };
+    };
 
-      /**
-       * Called when the page is completely hidden
-       * @param {Function} callback
-       */
-      Activity.prototype.onHidden = function (callback) {
-          this.onHiddenCallback = callback;
-      };
-
-      /**
-       * Called when the page transition is finished
-       * @param {Function} callback
-       */
-      Activity.prototype.onTransitionEnd = function (callback) {
-          this.onTransitionEndCallback = callback;
-      };
-
-      /**
-       * Called when the page hash changes
-       * @param {Function} callback
-       */
-      Activity.prototype.onHashChanged = function (callback) {
-          this.onHashChangedCallback = function (req) {
-              callback(req);
-          };
-      };
-
-      Activity.prototype.onTabChanged = function (callback) {
-          this.onTabChangedCallback = function (tabNumber) {
-              callback(tabNumber);
-          };
-      };
-
-      return Activity;
+    return Activity;
   })();
 
   /**
@@ -1303,19 +1306,19 @@ phonon.tagManager = (function () {
     }
   }
 
-  function callHash(pageName, params, action) {
+  function callHash(pageName, params) {
 
-    var api = {params: params, action: action};
+    if(typeof params === 'undefined') return;
 
     if(riotEnabled) {
-      phonon.tagManager.trigger(pageName, 'hashchanged', api);
+      phonon.tagManager.trigger(pageName, 'hashchanged', params);
     }
 
     var page = getPageObject(pageName);
 
     // Call the onHashChanged callback
     if(page.activity instanceof Activity && typeof page.activity.onHashChangedCallback === 'function') {
-      page.activity.onHashChangedCallback(api);
+      page.activity.onHashChangedCallback(params);
     }
   }
 
@@ -1498,13 +1501,13 @@ phonon.tagManager = (function () {
       }
     }
 
-    callClose(currentPage, page, opts.hashPrefix + page + '/' + params);
+    callClose(currentPage, page, opts.hashPrefix + page + params);
   }
 
-  function startTransition(previousPage, pageName, params, action) {
+  function startTransition(previousPage, pageName, params) {
 
     callReady(pageName);
-    callHash(pageName, params, action);
+    callHash(pageName, params);
 
     var previousPageEl = getPageEl(previousPage);
     var elCurrentPage = getPageEl(pageName);
@@ -1548,7 +1551,7 @@ phonon.tagManager = (function () {
     }
   }
 
-  function onBeforeTransition(pageName, params, action) {
+  function onBeforeTransition(pageName, params) {
 
     if(onActiveTransition) return;
 
@@ -1567,10 +1570,10 @@ phonon.tagManager = (function () {
           page.mounted = true;
 
           callCreate(pageName);
-          startTransition(previousPage, pageName, params, action);
+          startTransition(previousPage, pageName, params);
         });
       } else {
-        startTransition(previousPage, pageName, params, action);
+        startTransition(previousPage, pageName, params);
       }
     } else {
       throw new Error('The following page: ' + pageName + ' does not exists');
@@ -1589,9 +1592,7 @@ phonon.tagManager = (function () {
     }
 
     // navigation listeners are accepted (safe)
-    if(opts.enableBrowserBackButton) {
-      safeLink = true;
-    }
+    if(opts.enableBrowserBackButton) safeLink = true;
 
     // Add page nodes
     var pages = document.querySelectorAll('[data-page]');
@@ -1684,7 +1685,8 @@ phonon.tagManager = (function () {
       if(currentPageObject.async) {
         callClose(currentPage, pageObject.name, hash);
       } else {
-        if(window.location.hash.indexOf(pageObject.name) === -1 && opts.useHash) {
+        var parsed = window.location.hash.split('/');
+        if(parsed[0].indexOf(pageObject.name) === -1 && opts.useHash) {
           window.location.hash = hash;
         }
       }
@@ -1701,17 +1703,14 @@ phonon.tagManager = (function () {
     var hash = (typeof virtualHash === 'string' ? virtualHash : window.location.href.split('#')[1] || '');
 
     var parsed = hash.split('/');
-
+    var params = parsed.slice(1, parsed.length);
     var page = parsed[0];
-    var params = (typeof parsed[1] === 'undefined' ? '' : parsed[1]);
-    var action = (typeof parsed[2] === 'undefined' ? '' : parsed[2]);
 
     // angular hash system
     var withSlash = opts.hashPrefix.indexOf('/');
     if(withSlash !== -1) {
-        page = params;
-        params = action;
-        action = (typeof parsed[3] === 'undefined' ? '' : parsed[3]);
+      page = (typeof parsed[1] === 'undefined' ? '' : parsed[1]);
+      params = parsed.slice(2, parsed.length);
     }
 
     // is page?
@@ -1726,11 +1725,10 @@ phonon.tagManager = (function () {
       pageName = page.substring(withSlash+1, page.length);
     } else {
       if(opts.hashPrefix.length > 0 && page[0] !== opts.hashPrefix[0]) {
-          return;
+        return;
       }
       pageName = page.substring(opts.hashPrefix.length, page.length);
     }
-
 
     var pageObject = getPageObject(pageName);
 
@@ -1745,9 +1743,7 @@ phonon.tagManager = (function () {
       isComponentVisible();
 
       if(pageObject.name === currentPage) {
-        if(typeof params !== 'undefined') {
-          callHash(pageName, params, action);
-        }
+        callHash(pageName, params);
         return;
       }
 
@@ -1778,10 +1774,10 @@ phonon.tagManager = (function () {
       }
 
       if(!inArray) {
-        pageHistory.push( {page: pageObject.name, params: params + '/' + action} );
+        pageHistory.push( {page: pageObject.name, params: params} );
       }
 
-      onBeforeTransition(pageName, params, action);
+      onBeforeTransition(pageName, params);
 
       if(!opts.enableBrowserBackButton) safeLink = false;
     }

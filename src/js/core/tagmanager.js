@@ -17,14 +17,17 @@ phonon.tagManager = (function () {
 
 	var trigger = function(pageName, eventName, eventParams) {
 
-      var i = tags.length - 1;
+		var arr = [];
+		var i = tags.length - 1;
 
-      for (; i >= 0; i--) {
-        if(tags[i].tagName === pageName) {
-          tags[i].trigger( eventName , eventParams );
-          break;
-        }
-      }
+		for (; i >= 0; i--) {
+			if(tags[i].tagName === pageName) {
+				arr.push(eventName);
+				var conc = arr.concat(eventParams);
+				tags[i].trigger.apply(this, conc);
+				break;
+			}
+		}
 	};
 
 	return {
