@@ -1501,7 +1501,18 @@ phonon.tagManager = (function () {
       }
     }
 
-    callClose(currentPage, page, opts.hashPrefix + page + params);
+    var hash = opts.hashPrefix + page;
+
+    console.error(params);
+
+    if(params !== '') {
+      hash = hash + '/' + params;
+      hash = hash.replace('//', '/');
+    }
+
+    alert(hash)
+
+    callClose(currentPage, page, hash);
   }
 
   function startTransition(previousPage, pageName, params) {

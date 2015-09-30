@@ -506,7 +506,14 @@
       }
     }
 
-    callClose(currentPage, page, opts.hashPrefix + page + params);
+    var hash = opts.hashPrefix + page;
+
+    if(params !== '') {
+      hash = hash + '/' + params;
+      hash = hash.replace('//', '/');
+    }
+
+    callClose(currentPage, page, hash);
   }
 
   function startTransition(previousPage, pageName, params) {
