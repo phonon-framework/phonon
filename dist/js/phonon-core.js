@@ -1301,7 +1301,7 @@ phonon.tagManager = (function () {
       page.activity.onCloseCallback(api);
     } else {
       if(!riotEnabled) {
-        throw new Error('The page ' + pageName + ' prevents close, but its callback (onClose) is undefined');
+        throw new Error('The page ' + page.name + ' prevents close, but its callback (onClose) is undefined');
       }
     }
   }
@@ -1472,8 +1472,10 @@ phonon.tagManager = (function () {
       }
     }
 
-    if(validHref) {
-      evt.preventDefault();
+    if(validHref && opts.useHash) {
+
+      // onRoute will be called
+      return;
     }
 
     if(nav === null && !validHref) {
@@ -1494,7 +1496,7 @@ phonon.tagManager = (function () {
     } else {
 
       // regex
-      var match = target.href.match(/#!([A-Za-z0-9\-\.]+)?(.*)/);
+      var match = target.href.match('/#' + opts.hashPrefix + '([A-Za-z0-9\-\.]+)?(.*)/');
       if(match) {
         page = match[1];
         params = match[2];
@@ -1511,10 +1513,7 @@ phonon.tagManager = (function () {
     callClose(currentPage, page, hash);
   }
 
-  function startTransition(previousPage, pageName, params) {
-
-    callReady(pageName);
-    callHash(pageName, params);
+  function startTransition(previousPage, pageName) {
 
     var previousPageEl = getPageEl(previousPage);
     var elCurrentPage = getPageEl(pageName);
@@ -1558,32 +1557,49 @@ phonon.tagManager = (function () {
     }
   }
 
-  function onBeforeTransition(pageName, params) {
+  function onBeforeTransition(pageName) {
 
     if(onActiveTransition) return;
 
     var page = getPageObject(pageName);
 
-    if(page) {
+    if(started) {
 
       onActiveTransition = true;
 
       previousPage = currentPage;
       currentPage = pageName;
+    }
 
-      if(!page.mounted) {
-        mount(page.name, function() {
+    if(!page.mounted) {
 
-          page.mounted = true;
+      mount(page.name, function() {
 
-          callCreate(pageName);
-          startTransition(previousPage, pageName, params);
-        });
-      } else {
-        startTransition(previousPage, pageName, params);
-      }
+        page.mounted = true;
+
+        callCreate(pageName);
+        callReady(pageName);
+
+        // Call global-ready callbacks once
+        if(!started) phonon.dispatchGlobalReady();
+
+        if(started) startTransition(previousPage, pageName);
+
+        if(!started) {
+
+          started = true;
+
+          var el = getPageEl(pageName);
+          if(!el.classList.contains('app-active')) {
+            el.classList.add('app-active');
+          }
+        }
+
+      });
     } else {
-      throw new Error('The following page: ' + pageName + ' does not exists');
+
+      callReady(pageName);
+      startTransition(previousPage, pageName);
     }
   }
 
@@ -1622,9 +1638,6 @@ phonon.tagManager = (function () {
       throw new Error('The app has been already started');
     }
 
-    // Set the default page as current page
-    currentPage = opts.defaultPage;
-
     // android, ios or browser
     var osName = phonon.device.os.toLowerCase();
     var osClass = 'web';
@@ -1639,46 +1652,8 @@ phonon.tagManager = (function () {
       document.body.classList.add(osClass);
     }
 
-    initFirstPage();
+    onRoute();
   }
-
-  function initFirstPage() {
-    
-    mount(currentPage, function() {
-
-      // update the mount state
-      var pageObject = getPageObject(currentPage);
-      pageObject.mounted = true;
-
-      callCreate(currentPage);
-
-      if(currentPage === opts.defaultPage && !started) {
-
-        var el = getPageEl(currentPage);
-        started = true;
-
-        if(el) {
-
-          if(!el.classList.contains('app-active')) {
-            el.classList.add('app-active');
-          }
-
-          callReady(currentPage);
-
-          // Call global-ready callbacks once
-          phonon.dispatchGlobalReady();
-
-          var startHash = opts.hashPrefix + opts.defaultPage;
-          if(window.location.hash !== startHash && opts.useHash) {
-            window.location.hash = opts.hashPrefix + opts.defaultPage;
-          }
-        } else {
-          throw new Error('Page does not exists');
-        }
-      }
-    });
-  }
-
 
   function changePage(pageName, pageParams) {
 
@@ -1709,6 +1684,8 @@ phonon.tagManager = (function () {
 
     var hash = (typeof virtualHash === 'string' ? virtualHash : window.location.href.split('#')[1] || '');
 
+    var pageName;
+
     var parsed = hash.split('/');
     var params = parsed.slice(1, parsed.length);
     var page = parsed[0];
@@ -1718,26 +1695,39 @@ phonon.tagManager = (function () {
     if(withSlash !== -1) {
       page = (typeof parsed[1] === 'undefined' ? '' : parsed[1]);
       params = parsed.slice(2, parsed.length);
-    }
-
-    // is page?
-
-    var pageName;
-
-    if(withSlash !== -1) {
-      if(page[0] !== opts.hashPrefix[withSlash+1]) {
-        return;
-      }
-
       pageName = page.substring(withSlash+1, page.length);
     } else {
-      if(opts.hashPrefix.length > 0 && page[0] !== opts.hashPrefix[0]) {
-        return;
-      }
+      // default hash system
       pageName = page.substring(opts.hashPrefix.length, page.length);
     }
 
+
     var pageObject = getPageObject(pageName);
+
+    /*
+     * if we get an invalid URL,
+     * then we start the default page
+     */
+    if(!started && !pageObject) {
+
+      // fallback default page
+      currentPage = opts.defaultPage;
+
+      pageObject = getPageObject(opts.defaultPage);
+
+      /*
+       * updates the URL if necessary 
+       */
+      if(opts.useHash) {
+
+        // the onRoute will be called again
+        window.location.hash = opts.hashPrefix + opts.defaultPage;
+        return;
+      }
+    } else if(!started && pageObject) {
+      // update default value
+      currentPage = pageObject.name;
+    }
 
     if(pageObject) {
 
@@ -1749,8 +1739,8 @@ phonon.tagManager = (function () {
 
       isComponentVisible();
 
-      if(pageObject.name === currentPage) {
-        callHash(pageName, params);
+      if(pageObject.name === currentPage && started) {
+        callHash(pageObject.name, params);
         return;
       }
 
@@ -1781,10 +1771,13 @@ phonon.tagManager = (function () {
       }
 
       if(!inArray) {
-        pageHistory.push( {page: pageObject.name, params: params} );
+        var strParams = params.join('');
+        pageHistory.push( {page: pageObject.name, params: strParams} );
       }
 
-      onBeforeTransition(pageName, params);
+      onBeforeTransition(pageObject.name);
+
+      callHash(currentPage, params);
 
       if(!opts.enableBrowserBackButton) safeLink = false;
     }
