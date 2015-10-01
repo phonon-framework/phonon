@@ -1,9 +1,37 @@
+### 1.0.5 (2015-10-01)
+
+#### Bug Fixes
+
+* page navigation with links when the browser's back-button is disabled [#21](https://github.com/quark-dev/Phonon-Framework/issues/21)
+
+#### Features
+
+##### Parameters
+
+Parameters are now passed as arguments in the onHashChanged callback, instead of onHashChanged(req). In other words, parameters are directly accessible. For example, with the given URL: http://localhost/myapp/#!mypage/hello/world, parameters can be accessed like this:
+
+```javascript
+onHashChanged(function(req1, req2) {
+	// req1 = hello
+	// req2 = world
+});
+
+```
+
+Thanks to *jsantari* for this [suggestion](https://github.com/quark-dev/Phonon-Framework/issues/23).
+
+
+### Using URLs - parameters
+
+it is now possible to use URLs - parameters to access other pages directly (without accessing the default page with a page redirection). Thanks to *HugoCrd* for the [discussion](https://github.com/quark-dev/Phonon-Framework/issues/19).
+
+
 ### 1.0.4 (2015-09-25)
 
 #### Bug Fixes
 
-* Fixes navigator defensive condition before changing page
-* Use JSON.stringify to process xhr's body when content-type is application/json
+* fixes navigator defensive condition before changing page
+* use JSON.stringify to process xhr's body when content-type is application/json
 
 ### 1.0.3 (2015-09-21)
 
