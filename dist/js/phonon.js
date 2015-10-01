@@ -1475,6 +1475,7 @@ phonon.tagManager = (function () {
     if(validHref && opts.useHash) {
 
       // onRoute will be called
+      safeLink = true;
       return;
     }
 
@@ -1744,7 +1745,7 @@ phonon.tagManager = (function () {
         return;
       }
 
-      if(!safeLink) {
+      if(started && !safeLink) {
         return;
       }
 

@@ -1454,6 +1454,12 @@ phonon.tagManager = (function () {
 
   function navigationListener(evt) {
 
+    /*
+     * user interactions are safed (with or without data-navigation | href)
+     * the goal is to prevent the backward button if enableBrowserBackButton = false
+     */
+    safeLink = true;
+
     var target = evt.target;
     var nav = null;
     var validHref = false;
@@ -1466,7 +1472,6 @@ phonon.tagManager = (function () {
         break;
       }
       if(dataNav) {
-        safeLink = true;
         nav = dataNav;
         break;
       }
@@ -1744,7 +1749,7 @@ phonon.tagManager = (function () {
         return;
       }
 
-      if(!safeLink) {
+      if(started && !safeLink) {
         return;
       }
 
