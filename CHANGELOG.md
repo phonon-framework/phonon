@@ -1,3 +1,9 @@
+### 1.0.6 (2015-10-17)
+
+#### Bug Fixes
+
+* page navigation with $previous-page and parameters [#26](https://github.com/quark-dev/Phonon-Framework/issues/26)
+
 ### 1.0.5 (2015-10-01)
 
 #### Bug Fixes
