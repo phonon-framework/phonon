@@ -1039,7 +1039,7 @@ phonon.tagManager = (function () {
     function Activity() {}
 
     /**
-     * 
+     *
      * @param {Function} callback
      */
     Activity.prototype.onCreate = function (callback) {
@@ -1194,7 +1194,7 @@ phonon.tagManager = (function () {
         bubbles: true,
         cancelable: true
     });
-    
+
     document.dispatchEvent(pageEvent);
   }
 
@@ -1372,7 +1372,7 @@ phonon.tagManager = (function () {
             var attr = attrs.item(i);
             if(attr.nodeName !== 'class' && attr.nodeValue !== 'app-page') elPage.setAttribute(attr.nodeName, attr.nodeValue);
           }
-          
+
           if(opts.useI18n) {
             phonon.i18n().bind(virtualElPage, function() {
               elPage.innerHTML = virtualElPage.innerHTML;
@@ -1382,7 +1382,7 @@ phonon.tagManager = (function () {
             elPage.innerHTML = virtualElPage.innerHTML;
             fn();
           }
-        
+
         });
       } else {
         fn();
@@ -1433,7 +1433,7 @@ phonon.tagManager = (function () {
   function getLastPage() {
     var page = {page: opts.defaultPage, params: ''};
     if(pageHistory.length > 0) {
-      
+
       var inddex = -1;
       var i = pageHistory.length - 1;
 
@@ -1721,7 +1721,7 @@ phonon.tagManager = (function () {
       pageObject = getPageObject(opts.defaultPage);
 
       /*
-       * updates the URL if necessary 
+       * updates the URL if necessary
        */
       if(opts.useHash) {
 
@@ -1776,7 +1776,7 @@ phonon.tagManager = (function () {
       }
 
       if(!inArray) {
-        var strParams = params.join('');
+        var strParams = params.join('/');
         pageHistory.push( {page: pageObject.name, params: strParams} );
       }
 
@@ -1806,7 +1806,7 @@ phonon.tagManager = (function () {
     if(currentPage === opts.defaultPage) {
       return;
     }
-    
+
     callClose(currentPage, pObj.page, opts.hashPrefix + pObj.page + '/' + pObj.params);
   });
 

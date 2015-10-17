@@ -44,7 +44,7 @@
     function Activity() {}
 
     /**
-     * 
+     *
      * @param {Function} callback
      */
     Activity.prototype.onCreate = function (callback) {
@@ -199,7 +199,7 @@
         bubbles: true,
         cancelable: true
     });
-    
+
     document.dispatchEvent(pageEvent);
   }
 
@@ -377,7 +377,7 @@
             var attr = attrs.item(i);
             if(attr.nodeName !== 'class' && attr.nodeValue !== 'app-page') elPage.setAttribute(attr.nodeName, attr.nodeValue);
           }
-          
+
           if(opts.useI18n) {
             phonon.i18n().bind(virtualElPage, function() {
               elPage.innerHTML = virtualElPage.innerHTML;
@@ -387,7 +387,7 @@
             elPage.innerHTML = virtualElPage.innerHTML;
             fn();
           }
-        
+
         });
       } else {
         fn();
@@ -438,7 +438,7 @@
   function getLastPage() {
     var page = {page: opts.defaultPage, params: ''};
     if(pageHistory.length > 0) {
-      
+
       var inddex = -1;
       var i = pageHistory.length - 1;
 
@@ -726,7 +726,7 @@
       pageObject = getPageObject(opts.defaultPage);
 
       /*
-       * updates the URL if necessary 
+       * updates the URL if necessary
        */
       if(opts.useHash) {
 
@@ -781,7 +781,7 @@
       }
 
       if(!inArray) {
-        var strParams = params.join('');
+        var strParams = params.join('/');
         pageHistory.push( {page: pageObject.name, params: strParams} );
       }
 
@@ -811,7 +811,7 @@
     if(currentPage === opts.defaultPage) {
       return;
     }
-    
+
     callClose(currentPage, pObj.page, opts.hashPrefix + pObj.page + '/' + pObj.params);
   });
 
