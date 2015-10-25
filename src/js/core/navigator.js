@@ -824,6 +824,7 @@
 
     return {
       currentPage: currentPage,
+      previousPage: previousPage,
       start: start,
       changePage: function(pageName, pageParams) {
         safeLink = true;

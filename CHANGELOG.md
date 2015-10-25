@@ -1,3 +1,9 @@
+### 1.0.7 (2015-10-25)
+
+#### Bug Fixes
+
+* page navigation when a side panel is opened [#28](https://github.com/quark-dev/Phonon-Framework/issues/28)
+
 ### 1.0.6 (2015-10-17)
 
 #### Bug Fixes

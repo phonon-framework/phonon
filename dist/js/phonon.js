@@ -1819,6 +1819,7 @@ phonon.tagManager = (function () {
 
     return {
       currentPage: currentPage,
+      previousPage: previousPage,
       start: start,
       changePage: function(pageName, pageParams) {
         safeLink = true;
@@ -3225,7 +3226,7 @@ phonon.tagManager = (function () {
             // @phonon
             createBackdrop: function() {
                 if(!backdrop) {
-                
+
                     var bd = document.createElement('div');
                     bd.classList.add('backdrop-panel');
                     backdrop = bd;
@@ -3234,16 +3235,19 @@ phonon.tagManager = (function () {
                 }
             },
             removeBackdrop: function() {
-                
+
                 if(backdrop) {
 
                     // Set backdrop to null immediately
                     var _backdrop = backdrop;
                     backdrop = null;
 
+                    // query the current page in case of page navigation with a side panel link
+                    var page = document.querySelector('.app-active');
+
                     var closed = function () {
                         _backdrop.classList.remove('fadeout');
-                        document.querySelector('.app-active').removeChild(_backdrop);
+                        page.removeChild(_backdrop);
                         _backdrop.off(phonon.event.transitionEnd, closed);
                     };
 
@@ -3383,7 +3387,7 @@ phonon.tagManager = (function () {
                         cache.animatingInterval = setInterval(function() {
                             utils.dispatchEvent('animating');
                         }, 1);
-                        
+
                         utils.events.addEvent(settings.element, utils.transitionCallback(), action.translate.easeCallback);
                         action.translate.x(n);
                     }
@@ -3395,7 +3399,7 @@ phonon.tagManager = (function () {
                     if( (settings.disable==='left' && n>0) ||
                         (settings.disable==='right' && n<0)
                     ){ return; }
-                    
+
                     if( !settings.hyperextensible ){
                         if( n===settings.maxPosition || n>settings.maxPosition ){
                             n=settings.maxPosition;
@@ -3403,7 +3407,7 @@ phonon.tagManager = (function () {
                             n=settings.minPosition;
                         }
                     }
-                    
+
                     n = parseInt(n, 10);
                     if(isNaN(n)){
                         n = 0;
@@ -3437,25 +3441,25 @@ phonon.tagManager = (function () {
                     // No drag on ignored elements
                     var target = e.target ? e.target : e.srcElement,
                         ignoreParent = utils.parentUntil(target, 'data-snap-ignore');
-                    
+
                     if (ignoreParent) {
                         utils.dispatchEvent('ignore');
                         return;
                     }
-                    
-                    
+
+
                     if(settings.dragger){
                         var dragParent = utils.parentUntil(target, settings.dragger);
-                        
+
                         // Only use dragger if we're in a closed state
-                        if( !dragParent && 
-                            (cache.translation !== settings.minPosition && 
+                        if( !dragParent &&
+                            (cache.translation !== settings.minPosition &&
                             cache.translation !== settings.maxPosition
                         )){
                             return;
                         }
                     }
-                    
+
                     utils.dispatchEvent('start');
                     settings.element.style[cache.vendor+'Transition'] = '';
                     cache.isDragging = true;
@@ -3788,7 +3792,7 @@ phonon.tagManager = (function () {
      * Render the sidebar of the current page
     */
     function render(evt) {
-        
+
         var currentPage = (typeof evt !== 'undefined' ? evt.detail.page : phonon.navigator().currentPage);
         var pageEl = document.querySelector(currentPage);
         var tabs = pageEl.querySelector('[data-tab-contents="true"]');
@@ -3838,7 +3842,7 @@ phonon.tagManager = (function () {
                 // On phone, the sidebar is draggable only if tabs are not present
                 if(!tabs && isPhone) {
                     sb.snapper.settings( {touchToDrag: true} );
-                    sb.snapper.enable(); 
+                    sb.snapper.enable();
                 }
             }
         }
@@ -3880,7 +3884,7 @@ phonon.tagManager = (function () {
         var i = spEls.length - 1;
 
         for (; i >= 0; i--) {
-            
+
             var el = spEls[i];
             var disable = el.getAttribute('data-disable');
             var page = el.getAttribute('data-page');
@@ -3908,7 +3912,7 @@ phonon.tagManager = (function () {
     }
 
     function close(sb) {
-        sb.snapper.close(sb.direction);
+        sb.snapper.close();
         sidePanelActive = null;
         document.off(phonon.event.end, onBackdrop);
     }
@@ -3945,14 +3949,14 @@ phonon.tagManager = (function () {
             }
         }
     });
-    
+
     var onBackdrop = function(evt) {
 
         var target = evt.target;
         var onSidebar = false;
 
         if(sidePanelActive === null) return;
-        
+
         for (; target && target !== document; target = target.parentNode) {
             if (target.classList.contains('side-panel')) {
                 onSidebar = true;
@@ -3984,13 +3988,13 @@ phonon.tagManager = (function () {
 
                         var data = sb.snapper.state();
 
-                        if(data.state === 'opened') {
+                        if(data.state !== 'closed') {
                             if(isPhone) {
-                                sb.snapper.close(sb.direction);
+                                close(sb);
                                 return true;
                             }
                             if(!isPhone && exposeAside !== 'left' && exposeAside !== 'right') {
-                                sb.snapper.close(sb.direction);
+                                close(sb);
                                 return true;
                             }
                         }
@@ -4007,6 +4011,7 @@ phonon.tagManager = (function () {
     document.on('pageopened', render);
 
 }(typeof window !== 'undefined' ? window : this, window.phonon || {}));
+
 /*!
  * ---------------------------- DRAGEND JS -------------------------------------
  *
