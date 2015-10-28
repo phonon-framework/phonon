@@ -1179,11 +1179,6 @@ phonon.tagManager = (function () {
 
     var page = getPageObject(pageName);
 
-    // Page Scope is called once during the onCreate process
-    if(typeof page.callback === 'function') {
-      page.callback(page.activity);
-    }
-
     // Call the onCreate callback
     if(page.activity instanceof Activity && typeof page.activity.onCreateCallback === 'function') {
       page.activity.onCreateCallback();
@@ -1240,6 +1235,7 @@ phonon.tagManager = (function () {
   }
 
   function callHiddenCallback(pageName) {
+
     if(riotEnabled) {
       phonon.tagManager.trigger(pageName, 'hidden');
     }
@@ -1778,6 +1774,17 @@ phonon.tagManager = (function () {
       if(!inArray) {
         var strParams = params.join('/');
         pageHistory.push( {page: pageObject.name, params: strParams} );
+      }
+
+      /*
+       * Page Scope is called once before calling callbacks
+       * since v1.0.8, we call the page scope here when the page is not yet mounted
+       * because before this version, the onCreate callback was called before the onHash callback
+       * since v1.0.2 the order has changed => the onHash callback is called before page callbacks (onCreate, etc.)
+       * see issues: #16 and #31
+       */
+      if(typeof pageObject.callback === 'function' && !pageObject.mounted) {
+        pageObject.callback(pageObject.activity);
       }
 
       onBeforeTransition(pageObject.name);
