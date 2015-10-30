@@ -386,7 +386,7 @@ button {
   padding: 0 12px;
   display: inline-block;
   min-height: 42px;
-  line-height: 42px;
+  line-height: 1;
   color: #333;
   text-align: center;
   vertical-align: top;
@@ -397,6 +397,12 @@ button {
   border-radius: 3px;
   background-color: #f1f1f1;
   transition: background-color 250ms ease-in-out;
+}
+.btn .icon {
+  line-height: 1;
+  display: inline-block;
+  font-size: inherit;
+  color: inherit;
 }
 .btn:not(.btn-progress):disabled {
   opacity: 0.75;
