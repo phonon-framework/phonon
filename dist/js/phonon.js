@@ -613,16 +613,16 @@ phonon.tagManager = (function () {
 	/**
 	 * Shortcuts for dialog
 	 */
-	phonon.alert = function(text, title, cancelable) {
-		return phonon.dialog().alert(text, title, cancelable);
+	phonon.alert = function(text, title, cancelable, textOk) {
+		return phonon.dialog().alert(text, title, cancelable, textOk);
 	};
 
-	phonon.confirm = function(text, title, cancelable) {
-		return phonon.dialog().confirm(text, title, cancelable);
+	phonon.confirm = function(text, title, cancelable, textOk, textCancel) {
+		return phonon.dialog().confirm(text, title, cancelable, textOk, textCancel);
 	};
 
-	phonon.prompt = function(text, title, cancelable) {
-		return phonon.dialog().prompt(text, title, cancelable);
+	phonon.prompt = function(text, title, cancelable, textOk, textCancel) {
+		return phonon.dialog().prompt(text, title, cancelable, textOk, textCancel);
 	};
 
 	phonon.indicator = function(title, cancelable) {
@@ -655,6 +655,7 @@ phonon.tagManager = (function () {
 			}
 		});
 	};
+
 	
 	window.phonon = phonon
 
@@ -1940,11 +1941,13 @@ phonon.tagManager = (function () {
     return false;
   };
 
-  var buildDialog = function (type, text, title, cancelable) {
+  var buildDialog = function (type, text, title, cancelable, textOk, textCancel) {
     text = (typeof text === 'string' ? '<p>'+text+'</p>' : '');
     var noTitle = typeof title;
     title = (noTitle === 'string' ? title : type);
     cancelable = (typeof cancelable === 'boolean' ? cancelable : true);
+    textOk = (typeof textOk === 'string' ? textOk : 'Ok');
+    textCancel = (typeof textCancel === 'string' ? textCancel : 'Ok');
 
     var div = document.createElement('div');
     div.setAttribute('class', 'dialog');
@@ -1953,7 +1956,7 @@ phonon.tagManager = (function () {
 
     var nodeTitle = (noTitle === undefined ? '' : '<h3>'+title+'</h3>');
     var nodeCancelable = (cancelable ? 'data-dialog-close="true"' : '');
-    var btnCancel = '<li><a class="btn btn-flat btn-cancel" '+nodeCancelable+' >Cancel</a></li>';
+    var btnCancel = '<li><a class="btn btn-flat btn-cancel" '+nodeCancelable+' >' + textCancel + '</a></li>';
     var input = '';
     var indicator = '';
 
@@ -1968,7 +1971,7 @@ phonon.tagManager = (function () {
 
     var actions = (type === 'indicator' ? '' : '<ul class="buttons">'+
               btnCancel+
-              '<li><a class="btn btn-flat primary btn-confirm" data-dialog-close="true">OK</a></li>'+
+              '<li><a class="btn btn-flat primary btn-confirm" data-dialog-close="true">' + textOk + '</a></li>'+
           '</ul>');
 
     var alert = '<div class="content">' +
@@ -1988,7 +1991,7 @@ phonon.tagManager = (function () {
     return div;
   };
 
-  
+
   document.on(phonon.event.start, function (evt) {
 
     if(dialogs.length > 0) {
@@ -1999,7 +2002,7 @@ phonon.tagManager = (function () {
 
           // close the previous active dialog
           close(previousDialog);
-          
+
           // dispatch the cancel event
           var evt = new CustomEvent('cancel', {
             detail: { target: previousDialog },
@@ -2015,7 +2018,7 @@ phonon.tagManager = (function () {
         if (p.id !== previousDialog.id) {
           close(previousDialog);
         }
-      } 
+      }
     }
   });
 
@@ -2166,8 +2169,8 @@ phonon.tagManager = (function () {
           }
           return closable;
         },
-        alert: function(text, title, cancelable) {
-          var dialog = buildDialog('alert', text, title, cancelable);
+        alert: function(text, title, cancelable, textOk) {
+          var dialog = buildDialog('alert', text, title, cancelable, textOk);
           open(dialog);
           return {
             on: function(eventName, callback) {
@@ -2175,8 +2178,8 @@ phonon.tagManager = (function () {
             }
           };
         },
-        confirm: function(text, title, cancelable) {
-          var dialog = buildDialog('confirm', text, title, cancelable);
+        confirm: function(text, title, cancelable, textOk, textCancel) {
+          var dialog = buildDialog('confirm', text, title, cancelable, textOk, textCancel);
           open(dialog);
           return {
             on: function(eventName, callback) {
@@ -2184,8 +2187,8 @@ phonon.tagManager = (function () {
             }
           };
         },
-        prompt: function(text, title, cancelable) {
-          var dialog = buildDialog('prompt', text, title, cancelable);
+        prompt: function(text, title, cancelable, textOk, textCancel) {
+          var dialog = buildDialog('prompt', text, title, cancelable, textOk, textCancel);
           open(dialog);
           return {
             on: function(eventName, callback) {
@@ -2247,6 +2250,7 @@ phonon.tagManager = (function () {
   }
 
 }(typeof window !== 'undefined' ? window : this, window.phonon || {}));
+
 /* ========================================================================
  * Phonon: floating-actions.js v0.0.5
  * http://phonon.quarkdev.com

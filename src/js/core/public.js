@@ -14,16 +14,16 @@
 	/**
 	 * Shortcuts for dialog
 	 */
-	phonon.alert = function(text, title, cancelable) {
-		return phonon.dialog().alert(text, title, cancelable);
+	phonon.alert = function(text, title, cancelable, textOk) {
+		return phonon.dialog().alert(text, title, cancelable, textOk);
 	};
 
-	phonon.confirm = function(text, title, cancelable) {
-		return phonon.dialog().confirm(text, title, cancelable);
+	phonon.confirm = function(text, title, cancelable, textOk, textCancel) {
+		return phonon.dialog().confirm(text, title, cancelable, textOk, textCancel);
 	};
 
-	phonon.prompt = function(text, title, cancelable) {
-		return phonon.dialog().prompt(text, title, cancelable);
+	phonon.prompt = function(text, title, cancelable, textOk, textCancel) {
+		return phonon.dialog().prompt(text, title, cancelable, textOk, textCancel);
 	};
 
 	phonon.indicator = function(title, cancelable) {
