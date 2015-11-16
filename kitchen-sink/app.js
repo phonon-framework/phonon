@@ -60,6 +60,7 @@ app.on({page: 'pagefla', content: 'pagefla.html'});
 app.on({page: 'pagegrid', content: 'pagegrid.html'});
 
 app.on({page: 'pagelist', content: 'pagelist.html'});
+app.on({page: 'pageaccordion', content: 'pageaccordion.html'});
 
 app.on({page: 'pagenotif', content: 'pagenotif.html', readyDelay: 500}, function(activity) {
 
@@ -68,7 +69,7 @@ app.on({page: 'pagenotif', content: 'pagenotif.html', readyDelay: 500}, function
 		document.querySelector('#show-auto-notif').on('tap', function() {
 			phonon.notif('HELLO', 3000, false);
 		});
-		
+
 		document.querySelector('#show-notif').on('tap', function() {
 			phonon.notif('#notif-example').show();
 		});

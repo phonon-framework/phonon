@@ -5,7 +5,8 @@
   -webkit-overflow-scrolling: touch;
 }
 .list li {
-  height: 51px;
+  height: auto;
+  min-height: 51px;
   line-height: 52px;
   position: relative;
   display: block;
@@ -36,6 +37,19 @@
   display: inline-block;
   padding: 8px 15px;
   line-height: 78px;
+}
+.list li .accordion-content {
+  position: absolute;
+  height: auto;
+  visibility: hidden;
+  transition: max-height 300ms ease-in-out;
+  padding: 0 15px;
+  background-color: #f9f9f9;
+}
+.list li .accordion-active {
+  position: relative;
+  visibility: visible;
+  transition: max-height 300ms ease-in-out;
 }
 .list li .title,
 .list li .body {

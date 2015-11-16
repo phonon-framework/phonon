@@ -655,8 +655,7 @@ button {
     left: 28%;
   }
   .expose-aside-right {
-    width: 72%;
-    margin-right: 28%;
+    width: 100%;
   }
   .expose-aside-right .tabs {
     width: 72%;

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+        <link rel="stylesheet" href="../../../dist/css/phonon.css"/>
+        <title>Accordion</title>
+    </head>
+    <body>
+
+        <home data-page="true">
+            <header class="header-bar">
+                <div class="center">
+                    <h1 class="title">Accordion</h1>
+                </div>
+            </header>
+            <div class="content">
+
+                <ul class="list">
+                    <li>
+                        <i class="pull-right icon icon-expand-more"></i>
+                        <a href="#link1" class="padded-list">Link 1</a>
+                        <div class="accordion-content">
+                          Element 1
+                        </div>
+                    </li>
+                    <li>
+                        <i class="pull-right icon icon-expand-more"></i>
+                        <a href="#link2" class="padded-list">Link 2</a>
+                        <div class="accordion-content">
+                          Element 2
+                        </div>
+                    </li>
+                    <li>
+                        <i class="pull-right icon icon-expand-more"></i>
+                        <a href="#link3" class="padded-list">Link 3</a>
+                        <div class="accordion-content">
+                          Element 3
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </home>
+
+        <script src="../../../dist/js/phonon-core.js"></script>
+        <script src="../../../dist/js/components/accordion.js"></script>
+
+        <script>
+
+            phonon.options({
+                navigator: {
+                    defaultPage: 'home'
+                },
+                i18n: null
+            });
+
+            phonon.navigator().start();
+
+        </script>
+    </body>
+</html>

@@ -1,3 +1,14 @@
+### 1.0.8 (2015-11-16)
+
+#### Features
+
+* accordion lists [#29](https://github.com/quark-dev/Phonon-Framework/issues/29)
+
+#### Bug Fixes
+
+* tab alignment and width is not correct on ipad [#32](https://github.com/quark-dev/Phonon-Framework/pull/32)
+
+
 ### 1.0.7 (2015-10-25)
 
 #### Bug Fixes
