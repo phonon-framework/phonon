@@ -1,3 +1,14 @@
+### 1.0.9 (2015-11-18)
+
+#### Features
+
+* ajax: custom headers are now supported
+
+#### Bug Fixes
+
+* cancelable dialogs: cancel-callback was not fired
+* dialogs: action buttons were not aligned vertically 
+
 ### 1.0.8 (2015-11-16)
 
 #### Features
