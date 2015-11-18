@@ -1972,7 +1972,7 @@ phonon.tagManager = (function () {
 }(typeof window !== 'undefined' ? window : this));
 
 /* ========================================================================
- * Phonon: dialogs.js v0.0.5
+ * Phonon: dialogs.js v0.0.6
  * http://phonon.quarkdev.com
  * ========================================================================
  * Licensed under MIT (http://phonon.quarkdev.com)
@@ -1983,6 +1983,15 @@ phonon.tagManager = (function () {
 
   var lastTrigger = false;
   var dialogs = [];
+
+  function addCancelCallback(dialog, cancelCallback) {
+    for (var i = 0; i < dialogs.length; i++) {
+      if(dialogs[i].dialog === dialog) {
+        dialogs[i].cancelCallback = cancelCallback;
+        break;
+      }
+    }
+  }
 
   var createBackdrop = function (id) {
     var backdrop = document.createElement('div');
@@ -2040,12 +2049,12 @@ phonon.tagManager = (function () {
   };
 
   var buildDialog = function (type, text, title, cancelable, textOk, textCancel) {
-    text = (typeof text === 'string' ? '<p>'+text+'</p>' : '');
+    text = (typeof text === 'string' ? '<p>' + text + '</p>' : '');
     var noTitle = typeof title;
     title = (noTitle === 'string' ? title : type);
     cancelable = (typeof cancelable === 'boolean' ? cancelable : true);
     textOk = (typeof textOk === 'string' ? textOk : 'Ok');
-    textCancel = (typeof textCancel === 'string' ? textCancel : 'Ok');
+    textCancel = (typeof textCancel === 'string' ? textCancel : 'Cancel');
 
     var div = document.createElement('div');
     div.setAttribute('class', 'dialog');
@@ -2053,8 +2062,7 @@ phonon.tagManager = (function () {
     div.id = 'auto-gen-' + type;
 
     var nodeTitle = (noTitle === undefined ? '' : '<h3>'+title+'</h3>');
-    var nodeCancelable = (cancelable ? 'data-dialog-close="true"' : '');
-    var btnCancel = '<li><a class="btn btn-flat btn-cancel" '+nodeCancelable+' >' + textCancel + '</a></li>';
+    var btnCancel = '<li><a class="btn btn-flat btn-cancel" data-dialog-close="true">' + textCancel + '</a></li>';
     var input = '';
     var indicator = '';
 
@@ -2093,28 +2101,23 @@ phonon.tagManager = (function () {
   document.on(phonon.event.start, function (evt) {
 
     if(dialogs.length > 0) {
-      var previousDialog = dialogs[dialogs.length - 1].dialog, p = findDialog(evt.target);
+      var previous = dialogs[dialogs.length - 1], p = findDialog(evt.target);
 
       if (!p) {
-        if(previousDialog.getAttribute('data-cancelable') !== 'false') {
+        if(previous.dialog.getAttribute('data-cancelable') !== 'false') {
 
           // close the previous active dialog
-          close(previousDialog);
+          close(previous.dialog);
 
-          // dispatch the cancel event
-          var evt = new CustomEvent('cancel', {
-            detail: { target: previousDialog },
-            bubbles: true,
-            cancelable: true
-          });
-          previousDialog.dispatchEvent(evt);
+          // call the cancel callback
+          if(typeof previous.cancelCallback === 'function') previous.cancelCallback();
         }
       }
 
-      if (p && p !== previousDialog) {
+      if (p && p !== previous.dialog) {
         // Case where there are two active dialogs
-        if (p.id !== previousDialog.id) {
-          close(previousDialog);
+        if (p.id !== previous.dialog.id) {
+          close(previous.dialog);
         }
       }
     }
@@ -2136,22 +2139,6 @@ phonon.tagManager = (function () {
         } else {
           open(dialog);
         }
-
-        if(!lastTrigger.classList.contains('btn-confirm') && !lastTrigger.classList.contains('btn-cancel')) return;
-
-        var eventName = (lastTrigger.classList.contains('btn-confirm') ? 'confirm' : 'cancel');
-        var input = dialog.querySelector('input');
-        var inputValue = undefined;
-
-        if(input) inputValue = input.value;
-
-        // dispatch event
-        var evt = new CustomEvent(eventName, {
-          detail: { inputValue: inputValue, target: dialog },
-          bubbles: true,
-          cancelable: true
-        });
-        dialog.dispatchEvent(evt);
       }
     }
   });
@@ -2201,7 +2188,6 @@ phonon.tagManager = (function () {
       if(preloader) phonon.preloader(preloader).show();
 
       var backdrop = createBackdrop(dialog.id);
-
       dialogs.push( {dialog: dialog, backdrop: backdrop} );
 
       document.body.appendChild(backdrop);
@@ -2242,10 +2228,17 @@ phonon.tagManager = (function () {
     };
 
     if(eventName === 'confirm') {
-      dialog.querySelector('.btn-confirm').on('tap', fireEvent);
+      var btnConfirm = dialog.querySelector('.btn-confirm');
+      if(btnConfirm) {
+        btnConfirm.on('tap', fireEvent);
+      }
     } else {
+
+      // keep cancel callback for backdrop taps
+      addCancelCallback(dialog, callback);
+
       var btnCancel = dialog.querySelector('.btn-cancel');
-      if(btnCancel !== null) {
+      if(btnCancel) {
         btnCancel.on('tap', fireEvent);
       }
     }
@@ -2299,7 +2292,7 @@ phonon.tagManager = (function () {
           open(dialog);
           return {
             on: function(eventName, callback) {
-              on(dialog, eventName, callback, true);
+              on(dialog, eventName, callback);
               return this;
             },
             open: function() {

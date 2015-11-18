@@ -440,7 +440,10 @@ button {
 .buttons li {
   display: inline-block;
 }
-.buttons a {
+.buttons li a {
+  height: 48px;
+  line-height: 48px;
+  vertical-align: middle;
   font-weight: 700;
   min-width: 60px;
   padding: 0 8px;
