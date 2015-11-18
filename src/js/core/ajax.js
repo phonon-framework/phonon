@@ -70,6 +70,7 @@ phonon.ajax = (function () {
 		var timeout = opts.timeout;
 		var success = opts.success;
 		var error = opts.error;
+		var headers = opts.headers;
 
         if(typeof method !== 'string') throw new TypeError('method must be a string');
         if(typeof url !== 'string') throw new TypeError('url must be a string');
@@ -90,9 +91,18 @@ phonon.ajax = (function () {
                 if(xhr.overrideMimeType) xhr.overrideMimeType('application/xml; charset=utf-8');
             }
 
+						if(typeof headers === 'object') {
+							var key;
+							for(key in headers) {
+								xhr.setRequestHeader(key, headers[key]);
+							}
+						}
+
             xhr.onreadystatechange = function(event) {
                 if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
+
+										// Success 2xx
+                    if (xhr.status[0] === 2) {
                         // Success
 
                         if(dataType === 'json') {
