@@ -1570,9 +1570,19 @@ phonon.tagManager = (function () {
     }
   }
 
-  function onBeforeTransition(pageName) {
+  /**
+   * Calls page events (onCreate, onReady) after
+   * the page is actually ready (set its template)
+   * @param {String} pageName
+   * @param {Function} callback
+   */
+  function onBeforeTransition(pageName, callback) {
 
-    if(onActiveTransition) return;
+    if(onActiveTransition) {
+      if(typeof callback === 'function') {
+        return callback();
+      }
+    }
 
     var page = getPageObject(pageName);
 
@@ -1608,11 +1618,20 @@ phonon.tagManager = (function () {
           }
         }
 
+        // call the callback after the mount
+        if(typeof callback === 'function') {
+          callback();
+        }
       });
     } else {
 
       callReady(pageName);
       startTransition(previousPage, pageName);
+
+      // call the callback directly
+      if(typeof callback === 'function') {
+        callback();
+      }
     }
   }
 
@@ -1793,15 +1812,23 @@ phonon.tagManager = (function () {
        * since v1.0.8, we call the page scope here when the page is not yet mounted
        * because before this version, the onCreate callback was called before the onHash callback
        * since v1.0.2 the order has changed => the onHash callback is called before page callbacks (onCreate, etc.)
-       * see issues: #16 and #31
+       * see issues: #16, #31 and #38
        */
       if(typeof pageObject.callback === 'function' && !pageObject.mounted) {
         pageObject.callback(pageObject.activity);
       }
 
-      onBeforeTransition(pageObject.name);
+      if(!pageObject.mounted) {
 
-      callHash(currentPage, params);
+        onBeforeTransition(pageObject.name, function() {
+          callHash(pageObject.name, params);
+        });
+
+      } else {
+
+        onBeforeTransition(pageObject.name);
+        callHash(pageObject.name, params);
+      }
 
       if(!opts.enableBrowserBackButton) safeLink = false;
     }

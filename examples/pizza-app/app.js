@@ -33,7 +33,7 @@ app.on({page: 'pagetwo', preventClose: true, content: 'pagetwo.html', readyDelay
     var onAction = function(evt) {
         var target = evt.target;
         action = 'ok';
-        
+
         if(target.getAttribute('data-order') === 'order') {
             phonon.alert('Thank you for your order!', 'Dear customer');
 
