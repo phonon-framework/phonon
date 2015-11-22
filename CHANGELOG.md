@@ -2,7 +2,7 @@
 
 #### Features
 
-* ajax: custom headers are now supported
+* close dialogs when the enter key is pressed
 
 #### Bug Fixes
 

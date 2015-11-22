@@ -150,7 +150,7 @@
     }
   });
 
-  document.on('tap', function (evt) {
+  document.on('tap', function(evt) {
 
     var trigger = findTrigger(evt.target), dialog = null;
 
@@ -168,6 +168,21 @@
         }
       }
     }
+  });
+
+  document.on('keypress', function(evt) {
+
+    if(dialogs.length > 0) {
+
+      if(evt.which == 13 || evt.keyCode == 13) {
+        var previous = dialogs[dialogs.length - 1];
+        close(previous.dialog);
+
+        return false;
+      }
+    }
+
+    return true;
   });
 
   function onHide() {
