@@ -1,4 +1,8 @@
-### 1.1.0 (2015-11-22)
+### 1.1.0 (2015-11-25)
+
+#### Bug Fixes
+
+* ajax: status code is now correctly checked
 
 #### Features
 

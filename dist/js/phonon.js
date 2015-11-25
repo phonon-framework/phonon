@@ -237,11 +237,11 @@ phonon.ajax = (function () {
      * @private
      */
     var toJSON = function(responseText) {
-        var response;
+        var response = null;
         try  {
             response = JSON.parse(responseText);
         } catch (e) {
-            response = 'JSON_MALFORMED';
+            response = null;
         }
         return response;
     };
@@ -309,26 +309,35 @@ phonon.ajax = (function () {
 						}
 
             xhr.onreadystatechange = function(event) {
+
                 if (xhr.readyState === 4) {
 
-										// Success 2xx
-                    if (xhr.status[0] === 2) {
-                        // Success
+										var res = null;
 
-                        if(dataType === 'json') {
-                            var json = toJSON(xhr.responseText);
-                            if(json !== 'JSON_MALFORMED') success(json);
-                            else {
-                                if (typeof error === 'function') error(json, event);
-                            }
-                        } else if(dataType === 'xml') success(xhr.responseXML);
-                        else success(xhr.responseText);
+										if(dataType === 'json') {
+											res = toJSON(xhr.responseText);
+											if(res === null) {
+												flagError = 'JSON_MALFORMED';
+											}
+										} else if(dataType === 'xml') {
+											res = xhr.responseXML;
+										} else {
+											res = xhr.responseText;
+										}
+
+										var status = xhr.status.toString();
+
+										// Success 2xx
+                    if (status[0] === '2') {
+
+											success(res, xhr);
 
                     } else {
-                        // page not found (error: 404)
+
+                        // error
                         if (typeof error === 'function') {
                             window.setTimeout(function() {
-                                error(flagError, event);
+                                error(res, flagError, xhr);
                             }, 1);
                         }
                     }
