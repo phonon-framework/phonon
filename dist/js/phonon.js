@@ -1411,7 +1411,9 @@ phonon.tagManager = (function () {
     var req = new XMLHttpRequest();
     if(req.overrideMimeType) req.overrideMimeType('text/html; charset=utf-8');
     req.onreadystatechange = function() {
-      if (req.readyState === 4 && req.status === 200) fn(req.responseText);
+      if(req.readyState === 4 && (req.status === 200 || !req.status && req.responseText.length)) {
+        fn(req.responseText, opts, url);
+      }
     };
     req.open('GET', opts.templateRootDirectory + url, true);
     req.send('');

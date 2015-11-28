@@ -1,3 +1,9 @@
+### 1.1.1 (2015-11-28)
+
+#### Bug Fixes
+
+* page templates fix: XMLHttpRequest does not return a status code when accessing local files in iOS 9.1 [#41](https://github.com/quark-dev/Phonon-Framework/issues/41)
+
 ### 1.1.0 (2015-11-25)
 
 #### Bug Fixes
