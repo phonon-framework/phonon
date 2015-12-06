@@ -12,7 +12,7 @@
   display: block;
   border-bottom: 1px solid #eee;
   overflow: hidden;
-  white-space: nowrap;
+  white-space: normal;
 }
 .list li a {
   width: 100%;
