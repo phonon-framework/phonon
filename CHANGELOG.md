@@ -1,8 +1,21 @@
+### 1.1.3 (2015-12-06)
+
+#### Bug Fixes
+
+* unable to scroll vertically with tabs [#41](https://github.com/quark-dev/Phonon-Framework/issues/41)
+* text length in list items [#42](https://github.com/quark-dev/Phonon-Framework/issues/42)
+
+### 1.1.2 (2015-11-28)
+
+#### Bug Fixes
+
+* JSON parser for ajax response
+
 ### 1.1.1 (2015-11-28)
 
 #### Bug Fixes
 
-* page templates fix: XMLHttpRequest does not return a status code when accessing local files in iOS 9.1 [#41](https://github.com/quark-dev/Phonon-Framework/issues/41)
+* XMLHttpRequest does not return a status code when accessing local files in iOS 9.1 [#41](https://github.com/quark-dev/Phonon-Framework/issues/41)
 
 ### 1.1.0 (2015-11-25)
 
