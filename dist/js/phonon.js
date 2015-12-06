@@ -4481,7 +4481,7 @@ phonon.tagManager = (function () {
             return false;
         }
 
-        var el = document.createElement('p'), 
+        var el = document.createElement('p'),
             has3d,
             transforms = {
                 'webkitTransform':'-webkit-transform',
@@ -4563,6 +4563,10 @@ phonon.tagManager = (function () {
         };
       },
 
+      // @phonon
+      _xDown: 0,
+      _yDown: 0,
+
       // Observe
       //
       // Sets the observers for drag, resize and key events
@@ -4590,6 +4594,10 @@ phonon.tagManager = (function () {
           event.stopPropagation();
         }
 
+        // @phonon
+        this._xDown = event.touches[0].clientX;
+        this._yDown = event.touches[0].clientY;
+
         addEventListener(doc.body, moveEvent, this._onMove);
         addEventListener(doc.body, endEvent, this._onEnd);
 
@@ -4606,14 +4614,24 @@ phonon.tagManager = (function () {
         // ensure swiping with one touch and not pinching
         if ( event.touches && event.touches.length > 1 || event.scale && event.scale !== 1) return;
 
-        event.preventDefault();
-        if (this.settings.stopPropagation) {
-          event.stopPropagation();
+        // ensure vertical scrolling works
+        var xUp = event.touches[0].clientX;
+        var yUp = event.touches[0].clientY;
+
+        var xDiff = this._xDown - xUp;
+        var yDiff = this._yDown - yUp;
+
+        // @phonon: prevent default only if it is a horizontal swipe fix #43
+        if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
+          event.preventDefault();
+          if (this.settings.stopPropagation) {
+            event.stopPropagation();
+          }
         }
 
         var parsedEvent = this._parseEvent(event),
             coordinates = this._checkOverscroll( parsedEvent.direction , - parsedEvent.distanceX, - parsedEvent.distanceY );
-
+        
         // @phonon => disable extensible tab content
         if(this.page === 0 && parsedEvent.direction === 'right') {
           return;
@@ -4907,13 +4925,13 @@ phonon.tagManager = (function () {
         var style;
 
         if (has3d()) {
-          style = this.settings.direction === "horizontal" ? 
+          style = this.settings.direction === "horizontal" ?
               "translate3d(" + coordinates.x + "px, 0, 0)" :
               "translate3d(0, " + coordinates.y + "px, 0)";
 
         } else {
-          style = this.settings.direction === "horizontal" ? 
-              "translateX(" + coordinates.x + "px)" : 
+          style = this.settings.direction === "horizontal" ?
+              "translateX(" + coordinates.x + "px)" :
               "translateY(" + coordinates.y + "px)";
         }
 
@@ -5035,7 +5053,7 @@ phonon.tagManager = (function () {
           this.scrollToPage( this.settings.scrollToPage );
           delete this.settings.scrollToPage;
         }
-		
+
         if (this.settings.destroy) {
           this.destroy();
           delete this.settings.destroy;
@@ -5173,7 +5191,7 @@ phonon.tagManager = (function () {
 
         	  // content
             tabs[i].dragend.scrollToPage(tabNumber);
-	        	
+
 	        	break;
 	        }
 	    }
@@ -5206,7 +5224,7 @@ phonon.tagManager = (function () {
 	            updateIndicator(pageName, tabNumber);
 	        }
 	    };
-	    
+
 	    tabs.push( {page: pageName, dragend: new Dragend(tabsEl, options), currentTab: 1} );
 	}
 
