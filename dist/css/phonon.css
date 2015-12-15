@@ -199,7 +199,7 @@ select,
 label,
 p {
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: normal;
   color: #333;
 }
@@ -1546,6 +1546,7 @@ table,
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   background-color: #333;
+  transition: width 0.3s ease;
 }
 .side-panel .list li {
   border-color: #444;

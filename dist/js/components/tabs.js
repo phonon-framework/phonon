@@ -415,8 +415,8 @@
         }
 
         // @phonon
-        this._xDown = event.touches[0].clientX;
-        this._yDown = event.touches[0].clientY;
+        this._xDown = (event.touches ? event.touches[0].clientX : event.clientX);
+        this._yDown = (event.touches ? event.touches[0].clientY : event.clientY);
 
         addEventListener(doc.body, moveEvent, this._onMove);
         addEventListener(doc.body, endEvent, this._onEnd);
@@ -434,9 +434,9 @@
         // ensure swiping with one touch and not pinching
         if ( event.touches && event.touches.length > 1 || event.scale && event.scale !== 1) return;
 
-        // ensure vertical scrolling works
-        var xUp = event.touches[0].clientX;
-        var yUp = event.touches[0].clientY;
+        // @phonon ensure vertical scrolling works
+        var xUp = (event.touches ? event.touches[0].clientX : event.clientX);
+        var yUp = (event.touches ? event.touches[0].clientY : event.clientY);
 
         var xDiff = this._xDown - xUp;
         var yDiff = this._yDown - yUp;
@@ -451,7 +451,7 @@
 
         var parsedEvent = this._parseEvent(event),
             coordinates = this._checkOverscroll( parsedEvent.direction , - parsedEvent.distanceX, - parsedEvent.distanceY );
-        
+
         // @phonon => disable extensible tab content
         if(this.page === 0 && parsedEvent.direction === 'right') {
           return;
@@ -1000,16 +1000,18 @@
 
             var tabIndicator = document.querySelector(pageName).querySelector('.tab-indicator');
 
-            var zeroTabNumber = tabNumber - 1;
+            if(tabIndicator) {
+              var zeroTabNumber = tabNumber - 1;
 
-            // indicator
-            tabIndicator.style.webkitTransform = 'translateX('+zeroTabNumber+'00%)';
-            tabIndicator.style.MozTransform = 'translateX('+zeroTabNumber+'00%)';
-            tabIndicator.style.msTransform = 'translateX('+zeroTabNumber+'00%)';
-            tabIndicator.style.OTransform = 'translateX('+zeroTabNumber+'00%)';
-            tabIndicator.style.transform = 'translateX('+zeroTabNumber+'00%)';
+              // indicator
+              tabIndicator.style.webkitTransform = 'translateX('+zeroTabNumber+'00%)';
+              tabIndicator.style.MozTransform = 'translateX('+zeroTabNumber+'00%)';
+              tabIndicator.style.msTransform = 'translateX('+zeroTabNumber+'00%)';
+              tabIndicator.style.OTransform = 'translateX('+zeroTabNumber+'00%)';
+              tabIndicator.style.transform = 'translateX('+zeroTabNumber+'00%)';
+            }
 
-        	  // content
+        	  // update tab content
             tabs[i].dragend.scrollToPage(tabNumber);
 
 	        	break;
@@ -1029,6 +1031,11 @@
 	    var tabIndicator = pageEl.querySelector('.tab-indicator');
 	    var preventDrag = (tabsEl.getAttribute('data-disable-swipe') === 'true' ? true : false);
 
+      var currentTab = parseInt(tabsEl.getAttribute('data-tab-default'));
+      if(isNaN(currentTab) || currentTab > tabItems.length) {
+        currentTab = 1;
+      }
+
 	    tabIndicator.style.width = (100/tabItems.length) + '%';
 
 	    var options = {
@@ -1045,7 +1052,12 @@
 	        }
 	    };
 
-	    tabs.push( {page: pageName, dragend: new Dragend(tabsEl, options), currentTab: 1} );
+	    tabs.push( {page: pageName, dragend: new Dragend(tabsEl, options), currentTab: currentTab} );
+
+      // Dragend gives "10ms" for the DOM update
+      window.setTimeout(function() {
+        updateIndicator(pageName, currentTab);
+      }, 10);
 	}
 
 	/**
