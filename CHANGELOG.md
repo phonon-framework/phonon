@@ -1,3 +1,7 @@
+### 1.1.5 (2015-12-20)
+
+* pre-populated inputs [#51](https://github.com/quark-dev/Phonon-Framework/pull/51)
+
 ### 1.1.4 (2015-12-20)
 
 #### Bug Fixes

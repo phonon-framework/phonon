@@ -37,6 +37,12 @@
 		var inputs = page.querySelectorAll('input.with-label'), i = inputs.length - 1;
 		for (; i >= 0; i--) {
 			addListener(inputs[i]);
+
+			/*
+			 * Do this once at start also, otherwise pre-populated inputs
+			 * will have labels directly overlapping on top of the input value on page load.
+			*/
+			isInputFilled(inputs[i]);
 		}
 	});
 
