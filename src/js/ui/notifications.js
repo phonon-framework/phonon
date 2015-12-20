@@ -41,7 +41,7 @@
 
 				window.setTimeout(function() {
 					hide(self);
-				}, timeout);
+				}, parseInt(timeout));
 			}
 		}
 
@@ -54,7 +54,7 @@
 
 		// reset
 		self.style.zIndex = 18;
-		
+
 		var height = self.clientHeight;
 
 		// for the notif
@@ -102,7 +102,7 @@
 		}
 		return -1;
 	}
-	
+
 	var getNotification = function(target) {
 		for (; target && target !== document; target = target.parentNode) {
 			if(target.classList.contains('notification')) {
@@ -115,10 +115,10 @@
 		if(typeof text !== 'string') text = '';
 		timeout = (typeof timeout === 'number' ? timeout : 5000);
 
-        var progress = '<div class="progress"><div class="determinate"></div></div>';
-        var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">CANCEL</button>' : '');
+    var progress = '<div class="progress"><div class="determinate"></div></div>';
+    var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">CANCEL</button>' : '');
 
-        var div = document.createElement('div');
+    var div = document.createElement('div');
 		div.setAttribute('class', 'notification');
 		div.setAttribute('data-autodestroy', 'true');
 		if(timeout) div.setAttribute('data-timeout', timeout);
@@ -150,11 +150,11 @@
 		if(!notification.classList.contains('show')) {
 			notification.classList.add('show');
 
-			// Fix animation			
+			// Fix animation
 			notification.style.zIndex = (18 + notifs.length);
 
 			// Fix space
-			
+
 			var value = 0;
 			if(notifs.length > 0) {
 				var lastNotif = notifs[notifs.length - 1];
@@ -187,7 +187,7 @@
 		if(notification.classList.contains('show')) {
 
 			notification.classList.remove('show');
-			
+
 			notification.on(phonon.event.transitionEnd, onHide, false);
 
 			// put floating actions back in their place
@@ -210,7 +210,7 @@
 			var nBuild = buildNotif(text, timeout, showButton);
 			window.setTimeout(function() {
 				show(document.querySelector('#'+nBuild.id));
-			}, 1);
+			}, 10);
 			return;
 		}
 

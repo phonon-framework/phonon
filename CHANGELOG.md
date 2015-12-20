@@ -1,3 +1,11 @@
+### 1.1.4 (2015-12-20)
+
+#### Bug Fixes
+
+* strange horizontal scroll with side panels on Android 5+ [#44](https://github.com/quark-dev/Phonon-Framework/issues/44)
+* progress bar are not showing sometimes in notifications [#46](https://github.com/quark-dev/Phonon-Framework/issues/46)
+* events inside tabs are not working (on create callback) [#52](https://github.com/quark-dev/Phonon-Framework/issues/52)
+
 ### 1.1.3 (2015-12-06)
 
 #### Bug Fixes

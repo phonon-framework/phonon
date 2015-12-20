@@ -3,17 +3,23 @@
 *, *:before, *:after
   box-sizing border-box
 
+// fixes scroll-x with side panels, see issue #44
+html, body
+  position relative
+  height 100%
+  width 100%
+  overflow-x hidden
+
+
 html
-  overflow: hidden
-  -ms-touch-action: pan-y
-  touch-action: pan-y
+  -ms-touch-action pan-y
+  touch-action pan-y
 
 body
   top 0
   right 0
   bottom 0
   left 0
-  overflow hidden
 
   margin 0
   padding 0
@@ -39,46 +45,46 @@ body, input, textarea, button, select, label, p
   font-family font-family-base
   font-size font-size-base
   font-weight normal
-  color: #333
+  color #333
 
 h1, h2, h3, h4, h5, h6
-  margin-top: 0
-  margin-bottom: 10px
-  line-height: 1
-  font-weight: normal
+  margin-top 0
+  margin-bottom 10px
+  line-height 1
+  font-weight normal
 
 h1
-  font-size: 36px
+  font-size 36px
 
 h2
-  font-size: 30px
+  font-size 30px
 
 h3
-  font-size: 24px
+  font-size 24px
 
 h4
-  font-size: 18px
+  font-size 18px
 
 h5
-  margin-top: 20px
-  font-size: 14px
+  margin-top 20px
+  font-size 14px
 
 h6
-  margin-top: 20px
-  font-size: 12px
+  margin-top 20px
+  font-size 12px
 
 p
-  margin-top: 0
-  margin-bottom: 10px
+  margin-top 0
+  margin-bottom 10px
 
 .content
-  position: absolute
-  top: 0
-  right: 0
-  bottom: 0
-  left: 0
-  overflow: auto
-  -webkit-overflow-scrolling: touch
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  overflow auto
+  -webkit-overflow-scrolling touch
 
 .content > *
   transform translateZ(0)
@@ -86,11 +92,11 @@ p
 input, textarea, select
   -webkit-touch-callout default
   user-select all
-  -webkit-user-select: auto
+  -webkit-user-select auto
 
 a
-  color: primary
-  text-decoration: none
+  color primary
+  text-decoration none
 
 button
   border none

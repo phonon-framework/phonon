@@ -184,18 +184,24 @@
 
     var page = getPageObject(pageName);
 
-    // Call the onCreate callback
-    if(page.activity instanceof Activity && typeof page.activity.onCreateCallback === 'function') {
-      page.activity.onCreateCallback();
-    }
-
     var pageEvent = new window.CustomEvent('pagecreated', {
         detail: { page: pageName },
         bubbles: true,
         cancelable: true
     });
 
+    /*
+     * dispatch the event before calling the activity's callback
+     * so that UI components are ready to use
+     * issue #52 is related to this
+    */
     document.dispatchEvent(pageEvent);
+
+    // Call the onCreate callback
+    if(page.activity instanceof Activity && typeof page.activity.onCreateCallback === 'function') {
+      page.activity.onCreateCallback();
+    }
+
   }
 
   function callReady(pageName) {
@@ -209,11 +215,6 @@
         phonon.tagManager.trigger(pageName, 'ready');
       }
 
-      // Call the onReady callback
-      if(page.activity instanceof Activity && typeof page.activity.onReadyCallback === 'function') {
-        page.activity.onReadyCallback();
-      }
-
       // Dispatch the global event pageopened
       var pageEvent = new window.CustomEvent('pageopened', {
           detail: { page: pageName },
@@ -223,6 +224,11 @@
 
       document.dispatchEvent(pageEvent);
 
+      // Call the onReady callback
+      if(page.activity instanceof Activity && typeof page.activity.onReadyCallback === 'function') {
+        page.activity.onReadyCallback();
+      }
+      
     }, page.readyDelay);
   }
 

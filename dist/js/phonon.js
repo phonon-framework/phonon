@@ -1200,18 +1200,24 @@ phonon.tagManager = (function () {
 
     var page = getPageObject(pageName);
 
-    // Call the onCreate callback
-    if(page.activity instanceof Activity && typeof page.activity.onCreateCallback === 'function') {
-      page.activity.onCreateCallback();
-    }
-
     var pageEvent = new window.CustomEvent('pagecreated', {
         detail: { page: pageName },
         bubbles: true,
         cancelable: true
     });
 
+    /*
+     * dispatch the event before calling the activity's callback
+     * so that UI components are ready to use
+     * issue #52 is related to this
+    */
     document.dispatchEvent(pageEvent);
+
+    // Call the onCreate callback
+    if(page.activity instanceof Activity && typeof page.activity.onCreateCallback === 'function') {
+      page.activity.onCreateCallback();
+    }
+
   }
 
   function callReady(pageName) {
@@ -1225,11 +1231,6 @@ phonon.tagManager = (function () {
         phonon.tagManager.trigger(pageName, 'ready');
       }
 
-      // Call the onReady callback
-      if(page.activity instanceof Activity && typeof page.activity.onReadyCallback === 'function') {
-        page.activity.onReadyCallback();
-      }
-
       // Dispatch the global event pageopened
       var pageEvent = new window.CustomEvent('pageopened', {
           detail: { page: pageName },
@@ -1239,6 +1240,11 @@ phonon.tagManager = (function () {
 
       document.dispatchEvent(pageEvent);
 
+      // Call the onReady callback
+      if(page.activity instanceof Activity && typeof page.activity.onReadyCallback === 'function') {
+        page.activity.onReadyCallback();
+      }
+      
     }, page.readyDelay);
   }
 
@@ -2581,7 +2587,7 @@ phonon.tagManager = (function () {
 
 				window.setTimeout(function() {
 					hide(self);
-				}, timeout);
+				}, parseInt(timeout));
 			}
 		}
 
@@ -2594,7 +2600,7 @@ phonon.tagManager = (function () {
 
 		// reset
 		self.style.zIndex = 18;
-		
+
 		var height = self.clientHeight;
 
 		// for the notif
@@ -2642,7 +2648,7 @@ phonon.tagManager = (function () {
 		}
 		return -1;
 	}
-	
+
 	var getNotification = function(target) {
 		for (; target && target !== document; target = target.parentNode) {
 			if(target.classList.contains('notification')) {
@@ -2655,10 +2661,10 @@ phonon.tagManager = (function () {
 		if(typeof text !== 'string') text = '';
 		timeout = (typeof timeout === 'number' ? timeout : 5000);
 
-        var progress = '<div class="progress"><div class="determinate"></div></div>';
-        var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">CANCEL</button>' : '');
+    var progress = '<div class="progress"><div class="determinate"></div></div>';
+    var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">CANCEL</button>' : '');
 
-        var div = document.createElement('div');
+    var div = document.createElement('div');
 		div.setAttribute('class', 'notification');
 		div.setAttribute('data-autodestroy', 'true');
 		if(timeout) div.setAttribute('data-timeout', timeout);
@@ -2690,11 +2696,11 @@ phonon.tagManager = (function () {
 		if(!notification.classList.contains('show')) {
 			notification.classList.add('show');
 
-			// Fix animation			
+			// Fix animation
 			notification.style.zIndex = (18 + notifs.length);
 
 			// Fix space
-			
+
 			var value = 0;
 			if(notifs.length > 0) {
 				var lastNotif = notifs[notifs.length - 1];
@@ -2727,7 +2733,7 @@ phonon.tagManager = (function () {
 		if(notification.classList.contains('show')) {
 
 			notification.classList.remove('show');
-			
+
 			notification.on(phonon.event.transitionEnd, onHide, false);
 
 			// put floating actions back in their place
@@ -2750,7 +2756,7 @@ phonon.tagManager = (function () {
 			var nBuild = buildNotif(text, timeout, showButton);
 			window.setTimeout(function() {
 				show(document.querySelector('#'+nBuild.id));
-			}, 1);
+			}, 10);
 			return;
 		}
 
@@ -2778,6 +2784,7 @@ phonon.tagManager = (function () {
 	}
 
 }(typeof window !== 'undefined' ? window : this, window.phonon || {}));
+
 /* ========================================================================
  * Phonon: panels.js v0.1.2
  * http://phonon.quarkdev.com
@@ -4083,8 +4090,18 @@ phonon.tagManager = (function () {
         document.off(phonon.event.end, onBackdrop);
     }
 
+    function onSidebar(target) {
+        var isSidebar = false;
+        for (; target && target !== document; target = target.parentNode) {
+            if (target.classList.contains('side-panel')) {
+                isSidebar = true;
+                break;
+            }
+        }
+        return isSidebar;
+    }
 
-    document.on('tap', function(evt) {
+    document.on(phonon.event.tap, function(evt) {
 
         var target = evt.target;
         var sidebarId = target.getAttribute('data-side-panel-id');
@@ -4115,7 +4132,7 @@ phonon.tagManager = (function () {
             }
         }
     });
-
+    
     var onBackdrop = function(evt) {
 
         var target = evt.target;
@@ -5234,6 +5251,7 @@ phonon.tagManager = (function () {
 
 	    tabs.push( {page: pageName, dragend: new Dragend(tabsEl, options), currentTab: currentTab} );
 
+      console.log('!!!')
       // Dragend gives "10ms" for the DOM update
       window.setTimeout(function() {
         updateIndicator(pageName, currentTab);

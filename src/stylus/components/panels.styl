@@ -31,16 +31,16 @@
 
   transform translate3d(0, 100%, 0)
   transition transform 300ms, opacity 1ms
-  
+
   .header-bar
     visibility hidden
-    
+
   // Active panel
   &.active
     transform translate3d(0, 0, 0)
     opacity 1
-    
-    .header-bar 
+
+    .header-bar
       visibility visible
 
   .content
@@ -50,16 +50,16 @@
     .list
       margin-bottom 0
 
-.panel-full 
+.panel-full
   width panel-width
   height 100%
   transform translate3d(0, 100%, 0)
 
   // Active panel
-  &.active 
+  &.active
     transform translate3d(0, 0, 0)
     opacity 1
-    
+
     .content
       transform translate3d(0, 0, 0)
       transition transform 300ms
@@ -67,6 +67,6 @@
   .content
     transform translate3d(0, 50%, 0)
     transition transform 300ms
-    
+
 .panel-closing
   transition transform 300ms

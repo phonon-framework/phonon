@@ -778,8 +778,18 @@
         document.off(phonon.event.end, onBackdrop);
     }
 
+    function onSidebar(target) {
+        var isSidebar = false;
+        for (; target && target !== document; target = target.parentNode) {
+            if (target.classList.contains('side-panel')) {
+                isSidebar = true;
+                break;
+            }
+        }
+        return isSidebar;
+    }
 
-    document.on('tap', function(evt) {
+    document.on(phonon.event.tap, function(evt) {
 
         var target = evt.target;
         var sidebarId = target.getAttribute('data-side-panel-id');
@@ -810,7 +820,7 @@
             }
         }
     });
-
+    
     var onBackdrop = function(evt) {
 
         var target = evt.target;

@@ -12,6 +12,9 @@
   background-color: #333;
   transition: width 0.3s ease;
 }
+.side-panel .list {
+  overflow-y: auto;
+}
 .side-panel .list li {
   border-color: #444;
 }

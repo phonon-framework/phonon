@@ -161,8 +161,14 @@ th {
 *:after {
   box-sizing: border-box;
 }
+html,
+body {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
 html {
-  overflow: hidden;
   -ms-touch-action: pan-y;
   touch-action: pan-y;
 }
@@ -171,7 +177,6 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: hidden;
   margin: 0;
   padding: 0;
   word-wrap: break-word;
@@ -1547,6 +1552,9 @@ table,
   -webkit-overflow-scrolling: touch;
   background-color: #333;
   transition: width 0.3s ease;
+}
+.side-panel .list {
+  overflow-y: auto;
 }
 .side-panel .list li {
   border-color: #444;
