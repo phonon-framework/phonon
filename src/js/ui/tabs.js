@@ -1054,7 +1054,7 @@
 
 	    tabs.push( {page: pageName, dragend: new Dragend(tabsEl, options), currentTab: currentTab} );
 
-      console.log('!!!')
+      //console.log('!!!')
       // Dragend gives "10ms" for the DOM update
       window.setTimeout(function() {
         updateIndicator(pageName, currentTab);
