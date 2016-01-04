@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+        <link rel="stylesheet" href="../../../dist/css/phonon.css"/>
+        <link rel="stylesheet" href="../../../dist/css/components/autocomplete.css"/>
+        <title>Autocomplete</title>
+    </head>
+    <body>
+
+        <home data-page="true">
+            <header class="header-bar">
+			<!--
+                <input type="text" class="pull-left search-input" placeholder="Search">
+			-->
+				<input type="text" class="pull-left search-input awesomplete" list="componentList" placeholder="Search Phonon components" />
+				<a class="btn pull-right icon icon-check"></a>
+            </header>
+            <div class="content">
+
+                <div class="padded-full">
+					
+					<h3>Simple autocomplete (no JavaScript)</h3>
+					<p>All you need is add class autocomplete to input and add some options to datalist with same ID.</p>
+					<input type="text" class="pull-left search-input awesomplete" list="componentList" placeholder="Phonon components" />
+					<datalist id="componentList">
+						<option>Tabs</option>
+						<option>Grid</option>
+						<option>Forms</option>
+						<option>Lists</option>
+						<option>Icons</option>
+						<option>Panels</option>
+						<option>Tables</option>
+						<option>Dialogs</option>
+						<option>Popovers</option>
+						<option>Preloaders</option>
+						<option>Notifications</option>
+						<option>Accordeon lists</option>
+						<option>Floating actions</option>
+					</datalist>
+					
+					<div class="padded-full">.</div>
+					
+					<h3>Autocomplete Basic</h3>
+					<p>You can use external autocomplete too. See this simple example. Type a English speaking country.</p>
+					<input type="text" class="pull-left search-input" placeholder="Search" id="searchJS">
+					
+					
+                </div>
+            </div>
+        </div>
+
+        <script src="../../../dist/js/phonon-core.js"></script>
+        <script src="../../../dist/js/components/autocomplete.js"></script>
+
+        <script>
+
+            phonon.options({
+                navigator: {
+                    defaultPage: 'home'
+                },
+                i18n: null
+            });
+
+            phonon.navigator().on({ page: 'home' }, function( activity ){
+
+                activity.onReady(function(){
+                    
+					// input where user typed words to query
+					input = document.querySelector( '#searchJS' );
+					
+						
+					var list = '';
+					// external autocomplete
+					var req = phonon.ajax({
+						method: "GET",
+						url: 'https://restcountries.eu/rest/v1/lang/en', 
+						dataType: "json", 
+						success: function( res, xhr ){
+							
+							list = res.map( function( i ){
+								return i.name;
+							});
+							
+							// initialize autocomplete
+							phonon.autocomplete( input, {list:list} );
+						},
+						error: function( res, flagError, xhr ){
+							console.error(flagError);
+							console.log(res);
+						}
+					});
+					
+                });
+            });
+			
+            phonon.navigator().start();
+			
+        </script>
+    </body>
+</html>
+        
