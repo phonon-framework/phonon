@@ -3027,7 +3027,7 @@ phonon.tagManager = (function () {
 		var self = this;
 
 		// reset
-		self.style.zIndex = 18;
+		self.style.zIndex = 28;
 
 		var height = self.clientHeight;
 
@@ -3125,7 +3125,7 @@ phonon.tagManager = (function () {
 			notification.classList.add('show');
 
 			// Fix animation
-			notification.style.zIndex = (18 + notifs.length);
+			notification.style.zIndex = (28 + notifs.length);
 
 			// Fix space
 
@@ -3220,7 +3220,7 @@ phonon.tagManager = (function () {
  * Licensed under MIT (http://phonon.quarkdev.com)
  * ======================================================================== */
 ;(function (window, document, phonon, undefined) {
-  
+
   'use strict';
 
   var panels = [];
@@ -3270,9 +3270,12 @@ phonon.tagManager = (function () {
   document.on(phonon.event.start, function (evt) {
     evt = evt.originalEvent || evt;
 
+	// don't close panels if notifications are pressed
+	if(evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return
+
     if(panels.length > 0) {
       var previousPanel = panels[panels.length - 1].panel, p = findPanel(evt.target);
-      
+
       if (!p) {
         close(previousPanel);
       }
@@ -3282,14 +3285,17 @@ phonon.tagManager = (function () {
         if (p.id !== previousPanel.id) {
           close(previousPanel);
         }
-      } 
+      }
     }
   });
 
   document.on(phonon.event.tap, function (evt) {
 
+	// don't close panels if notifications are pressed
+	if(evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return
+	
     var trigger = findTrigger(evt.target), panel = null;
-    
+
     if (trigger) {
       panel = getPanel(evt);
 
@@ -3335,7 +3341,7 @@ phonon.tagManager = (function () {
     if(busy) {
       return;
     }
-    
+
     panel.style.visibility = 'visible';
 
     if(!panel.classList.contains('active')) {
@@ -3355,12 +3361,12 @@ phonon.tagManager = (function () {
     }
 
     if(panel.classList.contains('active') && !busy) {
-      
+
       busy = true;
 
       panel.classList.remove('active');
       panel.classList.add('panel-closing');
-      
+
       var closePanel = function () {
         panel.classList.remove('panel-closing');
         panel.off(phonon.event.transitionEnd, closePanel);
@@ -3413,6 +3419,7 @@ phonon.tagManager = (function () {
   }
 
 }(window, document, window.phonon || {}));
+
 /* ========================================================================
  * Phonon: popovers.js v0.0.5
  * http://phonon.quarkdev.com

@@ -53,7 +53,7 @@
 		var self = this;
 
 		// reset
-		self.style.zIndex = 18;
+		self.style.zIndex = 28;
 
 		var height = self.clientHeight;
 
@@ -151,7 +151,7 @@
 			notification.classList.add('show');
 
 			// Fix animation
-			notification.style.zIndex = (18 + notifs.length);
+			notification.style.zIndex = (28 + notifs.length);
 
 			// Fix space
 

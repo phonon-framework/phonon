@@ -5,7 +5,7 @@
  * Licensed under MIT (http://phonon.quarkdev.com)
  * ======================================================================== */
 ;(function (window, document, phonon, undefined) {
-  
+
   'use strict';
 
   var panels = [];
@@ -55,9 +55,12 @@
   document.on(phonon.event.start, function (evt) {
     evt = evt.originalEvent || evt;
 
+	// don't close panels if notifications are pressed
+	if(evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return
+
     if(panels.length > 0) {
       var previousPanel = panels[panels.length - 1].panel, p = findPanel(evt.target);
-      
+
       if (!p) {
         close(previousPanel);
       }
@@ -67,14 +70,17 @@
         if (p.id !== previousPanel.id) {
           close(previousPanel);
         }
-      } 
+      }
     }
   });
 
   document.on(phonon.event.tap, function (evt) {
 
+	// don't close panels if notifications are pressed
+	if(evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return
+	
     var trigger = findTrigger(evt.target), panel = null;
-    
+
     if (trigger) {
       panel = getPanel(evt);
 
@@ -120,7 +126,7 @@
     if(busy) {
       return;
     }
-    
+
     panel.style.visibility = 'visible';
 
     if(!panel.classList.contains('active')) {
@@ -140,12 +146,12 @@
     }
 
     if(panel.classList.contains('active') && !busy) {
-      
+
       busy = true;
 
       panel.classList.remove('active');
       panel.classList.add('panel-closing');
-      
+
       var closePanel = function () {
         panel.classList.remove('panel-closing');
         panel.off(phonon.event.transitionEnd, closePanel);
