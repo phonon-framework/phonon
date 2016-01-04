@@ -1,0 +1,53 @@
+[hidden]
+  display none
+
+.visually-hidden
+  position absolute
+  clip rect(0, 0, 0, 0)
+
+div
+  &.awesomplete
+    position relative
+    & > input
+      display block
+    & > ul
+      position absolute
+      left 0
+      z-index 1
+      margin-top 60px
+      transition .3s cubic-bezier(.4,.2,.5,1.4)
+      transform-origin 1.43em -.43em
+	  box-shadow none
+	  border-radius none
+      & > li
+        position relative
+        padding .2em .5em
+        cursor pointer
+        &:hover, &:active
+          background-color #eee
+      & > li[aria-selected="true"]
+        background-color #ddd
+    mark
+      background hsl(65, 100%, 50%)
+    li
+      &:hover, &:active
+        mark
+          background-color #eee
+    li[aria-selected="true"]
+      mark
+        background-color #ddd
+        color inherit
+
+.header-bar
+  div
+    &.awesomplete
+      ul
+        margin 60px 20px
+
+div.awesomplete > ul[hidden],
+div.awesomplete > ul:empty
+  display none
+  opacity 0
+  transform scale(0)
+  display block
+  transition-timing-function ease
