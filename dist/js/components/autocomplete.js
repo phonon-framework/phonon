@@ -45,6 +45,7 @@
 			around: input
 		});
 
+		// @phonon add class list
 		this.ul = $.create("ul", {
 			className: "list",
 			hidden: "hidden",

@@ -8,19 +8,20 @@ var postcss      = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 
 gulp.task('build', [
-	'phonon-js-core',
-	'phonon-js-all',
-	'phonon-js-components',
-	'phonon-css-base',
-	'phonon-css-all',
-	'phonon-css-components',
+	'js-core',
+	'js-all',
+	'js-components',
+	'css-base',
+	'css-theme',
+	'css-all',
+	'css-components',
 	'fonts'
-], function() { });
+]);
 
 /**
  * Build Phonon core
 */
-gulp.task('phonon-js-core', function() {
+gulp.task('js-core', function() {
 	return gulp.src([
 		'./src/js/core/wrap/prefix.js',
 		'./src/js/core/ready.js',
@@ -44,7 +45,7 @@ gulp.task('phonon-js-core', function() {
 /**
  * Build all together
 */
-gulp.task('phonon-js-all', function() {
+gulp.task('js-all', function() {
 	return gulp.src([
 		'./dist/js/phonon-core.js',
 		'./src/js/ui/*.js',
@@ -58,7 +59,7 @@ gulp.task('phonon-js-all', function() {
 /**
  * Build each JS component
 */
-gulp.task('phonon-js-components', function () {
+gulp.task('js-components', function () {
 	return gulp.src('./src/js/ui/*.js')
 	.pipe(gulp.dest('./dist/js/components'))
 	.pipe(rename({suffix: '.min'}))
@@ -69,9 +70,9 @@ gulp.task('phonon-js-components', function () {
 /**
  * Build the CSS base
 */
-gulp.task('phonon-css-base', function () {
+gulp.task('css-base', function () {
 	return gulp.src('./src/stylus/phonon-base.styl')
-	.pipe(stylus({compress: false}))
+	.pipe(stylus({compress: false, keepSpecialComments: 1}))
 	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
 	.pipe(gulp.dest('./dist/css'))
 	.pipe(rename({suffix: '.min'}))
@@ -80,9 +81,19 @@ gulp.task('phonon-css-base', function () {
 });
 
 /**
+ * Build the CSS theme
+*/
+gulp.task('css-theme', function () {
+	return gulp.src('./src/stylus/theme.styl')
+	.pipe(stylus({compress: false}))
+	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
+	.pipe(gulp.dest('./dist/css'));
+});
+
+/**
  * Build the full CSS
 */
-gulp.task('phonon-css-all', function () {
+gulp.task('css-all', function () {
 	return gulp.src('./src/stylus/phonon.styl')
 	.pipe(stylus({compress: false}))
 	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
@@ -92,7 +103,7 @@ gulp.task('phonon-css-all', function () {
 	.pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('phonon-css-components', function () {
+gulp.task('css-components', function () {
 	return gulp.src('./src/stylus/components/*.styl')
 	.pipe(stylus({compress: false}))
 	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))

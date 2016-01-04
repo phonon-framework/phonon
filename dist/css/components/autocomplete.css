@@ -15,60 +15,33 @@ div.awesomplete > ul {
   position: absolute;
   left: 0;
   z-index: 1;
-  min-width: 100%;
-  box-sizing: border-box;
-  list-style: none;
-  padding: 0;
-  border-radius: 0.3em;
-  margin: 0.2em 0 0;
-  background: rgba(255,255,255,0.9);
-  background: linear-gradient(to bottom right, #fff, rgba(255,255,255,0.8));
-  border: 1px solid rgba(0,0,0,0.3);
-  box-shadow: 0.05em 0.2em 0.6em rgba(0,0,0,0.2);
-  text-shadow: none;
   margin-top: 60px;
   transition: 0.3s cubic-bezier(0.4, 0.2, 0.5, 1.4);
   -webkit-transform-origin: 1.43em -0.43em;
       -ms-transform-origin: 1.43em -0.43em;
           transform-origin: 1.43em -0.43em;
 }
-div.awesomplete > ul:before {
-  content: "";
-  position: absolute;
-  top: -0.43em;
-  left: 1em;
-  width: 0;
-  height: 0;
-  padding: 0.4em;
-  background: #fff;
-  border: inherit;
-  border-right: 0;
-  border-bottom: 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-      transform: rotate(45deg);
-}
-div.awesomplete > ul > li {
+div box-shadow none border-radius none > li {
   position: relative;
   padding: 0.2em 0.5em;
   cursor: pointer;
 }
-div.awesomplete > ul > li:hover {
-  background: #b8d3e0;
-  color: #000;
+div box-shadow none border-radius none > li:hover,
+div box-shadow none border-radius none > li:active {
+  background-color: #eee;
 }
-div.awesomplete > ul > li[aria-selected="true"] {
-  background: #3d6d8f;
-  color: #fff;
+div box-shadow none border-radius none > li[aria-selected="true"] {
+  background-color: #ddd;
 }
-div.awesomplete mark {
+div box-shadow none mark {
   background: #eaff00;
 }
-div.awesomplete li:hover mark {
-  background: #b5d100;
+div box-shadow none li:hover mark,
+div box-shadow none li:active mark {
+  background-color: #eee;
 }
-div.awesomplete li[aria-selected="true"] mark {
-  background: #3d6b00;
+div box-shadow none li[aria-selected="true"] mark {
+  background-color: #ddd;
   color: inherit;
 }
 .header-bar div.awesomplete ul {

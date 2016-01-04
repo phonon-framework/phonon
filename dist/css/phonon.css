@@ -1569,7 +1569,7 @@ table,
 .side-panel .list li:active,
 .side-panel .list .title:active,
 .side-panel .list .body:active {
-  background-color: #444;
+  background-color: item-background-active;
 }
 .side-panel .header-bar {
   background-color: transparent;

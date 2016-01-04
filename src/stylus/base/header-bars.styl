@@ -1,6 +1,6 @@
 @require '_variables.styl';
 
-.header-bar 
+.header-bar
   position fixed
   right 0
   left 0
@@ -8,11 +8,11 @@
 
   width 100%
   height header-height
-  
+
   background-color primary
 
   border-bottom header-border-bottom-height solid header-border-bottom-color
-  
+
   backface-visibility hidden
 
   .center
@@ -26,21 +26,21 @@
 
   .pull-left
     padding-left padding-phone
-    
+
   .pull-right
     padding-right padding-phone
 
-  .title 
+  .title
     z-index 21
     font-size 20px
-    color #fff
+    color header-text-color
     height header-height
     line-height header-height
 
   .arrow
     cursor pointer
-  
-    &:after 
+
+    &:after
       position relative
       width 0
       height 0
@@ -57,7 +57,7 @@
     padding 0 button-padding
     height header-height - header-border-bottom-height
     line-height header-height
-    color #fff
+    color header-text-color
     background-color transparent
     border none
     border-radius 0
@@ -66,15 +66,15 @@
       opacity 1
       background-color primary
       background-color rgba(0, 0, 0, 0.1)
-    
+
   .search-input
     width 75%
     position absolute
     height header-height
-    color #fff
+    color header-text-color
     background-color transparent
     border none
-    
+
     &::-webkit-input-placeholder
       color #fff
     &:-moz-placeholder
@@ -83,12 +83,12 @@
       color #fff
     &:-ms-input-placeholder
       color #fff
-      
+
   ~ .content
     margin-top header-height
-    
+
   ~ .header-tabs
     top header-height
-  
+
   ~ .header-tabs ~ .content
     margin-top header-height + tab-height
