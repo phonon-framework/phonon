@@ -1,0 +1,115 @@
+/*
+ * Custom CSS style for Phonon components
+ * It is also possible to use Stylus
+ * by changing values in _variables.styl
+ * then execute gulp css-all
+ */
+/*
+ * App Pages
+ */
+.app-page {
+  background-color: #fff;
+}
+/*
+ * Header Bars
+ */
+.header-bar {
+  background-color: #0084e7;
+}
+.header-bar .title {
+  color: #fff;
+}
+.header-bar .btn {
+  color: #fff;
+}
+/*
+ * Dialogs
+ */
+.dialog {
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px #8a8a8a;
+}
+/*
+ * Tabs
+ */
+.tabs {
+  background-color: #fff;
+}
+.tabs .tab-items .tab-item {
+  color: #0084e7;
+}
+.tabs .tab-indicator {
+  margin-bottom: -3px;
+  height: 3px;
+  background-color: #0084e7;
+}
+/*
+ * Panels
+ */
+.panel,
+.panel-full {
+  background-color: #fff;
+}
+/*
+ * Side Panels
+ */
+.side-panel {
+  background-color: #333;
+}
+.side-panel .list li {
+  border-color: #444;
+}
+.side-panel .list a,
+.side-panel .list li,
+.side-panel .list .title,
+.side-panel .list .body {
+  color: #fff;
+}
+.side-panel .list a:active,
+.side-panel .list li:active,
+.side-panel .list .title:active,
+.side-panel .list .body:active {
+  background-color: item-background-active;
+}
+.side-panel .header-bar {
+  background-color: transparent;
+}
+.side-panel .header-bar .title {
+  color: side-panel-title-color;
+}
+.side-panel .header-bar .btn {
+  color: #fff;
+}
+.primary {
+  background-color: #0084e7 !important;
+}
+.primary.btn-flat {
+  color: #0084e7 !important;
+}
+.positive {
+  background-color: #0ae700 !important;
+}
+.positive.btn-flat {
+  color: #0ae700 !important;
+}
+.negative {
+  background-color: #f40b00 !important;
+}
+.negative.btn-flat {
+  color: #f40b00 !important;
+}
+.light-primary {
+  background-color: #b9d3e7 !important;
+}
+.light-positive {
+  background-color: #bbe7b9 !important;
+}
+.light-negative {
+  background-color: #f4c5c3 !important;
+}
+.btn.primary,
+.btn.positive,
+.btn.negative {
+  color: #fff;
+}

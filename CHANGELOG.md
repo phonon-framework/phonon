@@ -1,4 +1,13 @@
+### 1.1.6 (2016-01-04)
+
+#### Features
+
+* theme file for CSS styling [#58](https://github.com/quark-dev/Phonon-Framework/issues/58)
+* **Autocomplete inputs v. alpha**
+
 ### 1.1.5 (2015-12-20)
+
+#### Bug Fixes
 
 * pre-populated inputs [#51](https://github.com/quark-dev/Phonon-Framework/pull/51)
 

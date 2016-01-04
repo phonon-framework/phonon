@@ -1,0 +1,89 @@
+@require '_variables.styl';
+
+/*!
+ * Custom CSS style for Phonon components
+ * It is also possible to use Stylus
+ * by changing values in _variables.styl
+ * then execute gulp css-all
+ */
+
+
+/*!
+ * App Pages
+ */
+.app-page
+	background-color window-background-color
+
+/*!
+ * Header Bars
+ */
+.header-bar
+	background-color primary
+
+	.title
+		color header-text-color
+
+	.btn
+		color header-text-color
+
+
+/*!
+ * Dialogs
+ */
+.dialog
+
+	background-color dialog-background
+	border-radius dialog-radius
+	box-shadow dialog-shadow-horizontal dialog-shadow-vertical dialog-shadow-blur dialog-shadow-color
+
+/*!
+ * Tabs
+ */
+.tabs
+	background-color tab-background-color
+
+	.tab-items
+
+		.tab-item
+			color primary
+
+	.tab-indicator
+		margin-bottom -(tab-indicator-height)
+		height tab-indicator-height
+		background-color tab-indicator-color
+
+
+/*!
+ * Panels
+ */
+.panel, .panel-full
+	background-color panel-background
+
+/*!
+ * Side Panels
+ */
+.side-panel
+	background-color side-panel-background
+
+	.list
+
+		li
+			border-color side-panel-item-border
+
+		a, li, .title, .body
+			color side-panel-item-color
+
+			&:active
+				background-color item-background-active
+
+	.header-bar
+		background-color side-panel-header-background
+
+		.title
+			color side-panel-title-color
+
+		.btn
+			color side-panel-button-color
+
+
+@import 'base/colors.styl'
