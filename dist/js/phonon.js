@@ -4560,7 +4560,7 @@ phonon.tagManager = (function () {
             }
         }
     });
-    
+
     var onBackdrop = function(evt) {
 
         var target = evt.target;

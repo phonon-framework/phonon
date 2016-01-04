@@ -651,10 +651,6 @@ button {
     width: 72%;
     margin-left: 28%;
   }
-  .expose-aside-left .tabs {
-    width: 72%;
-    left: 28%;
-  }
   .expose-aside-left .panel-full {
     width: 72%;
     margin-left: 28%;
@@ -663,11 +659,7 @@ button {
     left: 28%;
   }
   .expose-aside-right {
-    width: 100%;
-  }
-  .expose-aside-right .tabs {
     width: 72%;
-    right: 28%;
   }
   .expose-aside-right .panel-full {
     width: 72%;
