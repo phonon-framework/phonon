@@ -10,34 +10,11 @@
     </head>
     <body>
 
-
-        <div class="side-panel side-panel-left" data-expose-aside="left" data-disable="right" data-page="home" id="side-panel-example">
-            <header class="header-bar">
-                <button class="btn pull-right icon icon-close show-for-phone-only" data-side-panel-close="true"></button>
-                <div class="pull-left">
-                    <h1 class="title">Side Panel</h1>
-                </div>
-            </header>
-            <div class="content">
-                <ul class="list">
-                    <li><a href="#!lista" class="padded-list">Profile</a></li>
-                    <li><a href="#!lista" class="padded-list">About</a></li>
-                    <li><a href="#!lista" class="padded-list">Settings</a></li>
-                    <li><a href="#!lista" class="padded-list">Login</a></li>
-                </ul>
-            </div>
-        </div>
-
-		
-		
         <home data-page="true">
             <header class="header-bar">
-			
-				
                 <div class="center">
-                <h1 class="title">Tabss <span class="tab-number">1</span></h1>
+                <h1 class="title">Tabs <span class="tab-number">1</span></h1>
                 </div>
-                <button class="btn icon icon-menu pull-left show-for-phone-onlys" data-side-panel-id="side-panel-example"></button>
             </header>
             <nav class="tabs header-tabs">
                 <div class="tab-items">
@@ -68,57 +45,9 @@
                 </div>
             </div>
         </home>
-		
-		
-		
-<lista data-page="true">
-    
-    <header class="header-bar">
-        <button data-navigation="$previous-page" class="btn pull-left icon icon-arrow-back"></button>
-		
-		<input type="text" name="pesquisa" class="pull-left search-input" placeholder="Lista de compras">
-		
-		
-		<a class="btn pull-right icon icon-close invisivel excluir-selecionados"></a>
-    </header>
-    
-    <div class="content padded-full">
-		
-		
-		<h3 class="padded-top">Como funciona?</h3>
-		<p>Marque as ofertas de interesse, elas serão agrupadas aqui formando uma lista de compras. Quando 
-		você decidir sair para comprar, basta marcar os itens já adquiridos.</p>
-		
-		<p>Tudo rápido, fácil e sem complicação.</p>
-		
-		
-		<div class="text-center padded-full">
-			<button class="btn negative apagar-marcados invisivel">
-				<i class="icon icon-close"></i>
-				 Apagar marcados
-			</button>
-		</div>
-		
-	
-		<ul class="list lista">
-			<li>
-				<p>Você ainda não selecionou os produtos da sua lista de compras! <a href="#!home">Comece agora</a></p>
-			</li>
-		</ul>
-		
-				
-				<div class="circle-progress" id="carregando">
-					<div class="spinner"></div>
-				</div>
-				
-				
-    </div>
-</lista>
-		
-		
-		
 
-        <script src="../../../dist/js/phonon.js"></script>
+        <script src="../../../dist/js/phonon-core.js"></script>
+        <script src="../../../dist/js/components/tabs.js"></script>
 
         <script>
 
@@ -134,9 +63,6 @@
                 activity.onTabChanged(function(tabNumber) {
                     document.querySelector('.tab-number').innerHTML = tabNumber;
                 });
-            });
-
-            phonon.navigator().on({page: 'lista', readyDelay: 1 }, function(activity) {
             });
 
             phonon.navigator().start();
