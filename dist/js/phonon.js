@@ -3085,12 +3085,13 @@ phonon.tagManager = (function () {
 		}
 	};
 
-	var buildNotif = function(text, timeout, showButton) {
+	var buildNotif = function(text, timeout, showButton, textButton) {
 		if(typeof text !== 'string') text = '';
 		timeout = (typeof timeout === 'number' ? timeout : 5000);
+		textButton = (typeof textButton === 'string' ? textButton : 'CANCEL');
 
     var progress = '<div class="progress"><div class="determinate"></div></div>';
-    var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">CANCEL</button>' : '');
+    var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">'+ textButton +'</button>' : '');
 
     var div = document.createElement('div');
 		div.setAttribute('class', 'notification');
@@ -3176,12 +3177,12 @@ phonon.tagManager = (function () {
 		}
 	}
 
-	phonon.notif = function(el, timeout, showButton) {
+	phonon.notif = function(el, timeout, showButton, textButton) {
 
 		if(arguments.length > 1) {
 
 			var text = el;
-			var nBuild = buildNotif(text, timeout, showButton);
+			var nBuild = buildNotif(text, timeout, showButton, textButton);
 			window.setTimeout(function() {
 				show(document.querySelector('#'+nBuild.id));
 			}, 10);
