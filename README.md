@@ -52,7 +52,7 @@ Use your favorite design pattern (MVW, MVVM, MVC, ...) or a module loader with P
  - [Code example with RiotJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-riot)
  - [Code example with AngularJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-angular)
  - [Code example with RequireJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-require)
-  - [Code example with VueJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-vue)
+ - [Code example with VueJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-vue)
 
 
 ## Internationalization

@@ -1015,7 +1015,7 @@ phonon.tagManager = (function () {
 
 }(window, document));
 /* ========================================================================
- * Phonon: navigator.js v1.1
+ * Phonon: navigator.js v1.2
  * http://phonon.quarkdev.com
  * ========================================================================
  * Licensed under MIT (http://phonon.quarkdev.com)
