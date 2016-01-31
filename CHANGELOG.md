@@ -1,3 +1,13 @@
+### 1.1.9 (2016-02-01)
+
+#### Features
+
+* **vueJS** example
+
+#### Bug Fixes
+
+* asynchronous page events update
+
 ### 1.1.8 (2016-01-31)
 
 #### Features

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Phonon: navigator.js v1.1
+ * Phonon: navigator.js v1.2
  * http://phonon.quarkdev.com
  * ========================================================================
  * Licensed under MIT (http://phonon.quarkdev.com)
@@ -40,8 +40,18 @@
 
     /**
      * @constructor
+	 * @param {Object} scope
      */
-    function Activity() {}
+    function Activity(scope) {
+		if(typeof scope === 'object') {
+			var handler;
+			for(handler in scope) {
+				if(this[handler] !== undefined && this[handler] !== 'constructor') {
+					this[handler + 'Callback'] = scope[handler];
+				}
+			}
+		}
+	}
 
     /**
      *
@@ -110,16 +120,14 @@
    */
   var getPageObject = function(pageName) {
 
-    var page = null;
     var i = pages.length - 1;
 
     for (; i >= 0; i--) {
       if(pages[i].name === pageName) {
-        page = pages[i];
-        break;
+        return pages[i];
       }
     }
-    return page;
+    return null;
   };
 
   /**
@@ -228,7 +236,7 @@
       if(page.activity instanceof Activity && typeof page.activity.onReadyCallback === 'function') {
         page.activity.onReadyCallback();
       }
-      
+
     }, page.readyDelay);
   }
 
@@ -409,18 +417,40 @@
     req.send('');
   }
 
-  function addPage(pageName) {
+  function createPage(pageName, properties) {
+	properties = typeof properties === 'object' ? properties : {};
 
-    var page = {
-      name: pageName,
-      mounted: false,
-      async: false,
-      activity: null,
-      content: null,
-      readyDelay: 1
-    };
+	var newPage = {
+		name: pageName,
+		mounted: false,
+		async: false,
+		activity: null,
+		content: null,
+		readyDelay: 1
+	};
 
-    pages.push(page);
+	var prop;
+	for(prop in properties) {
+		newPage[prop] = properties[prop];
+	}
+
+	return newPage;
+  }
+
+  function createOrUpdatePage(pageName, properties) {
+	  properties = typeof properties === 'object' ? properties : {};
+
+	  var page = getPageObject(pageName);
+	  if(page === null) {
+		  return pages.push(createPage(pageName, properties));
+	  }
+
+	  var prop;
+	  for(prop in properties) {
+		  page[prop] = properties[prop];
+	  }
+
+	  return true;
   }
 
   /**
@@ -662,7 +692,7 @@
         page.classList.add('app-page');
       }
 
-      addPage( page.tagName.toLowerCase() );
+      createOrUpdatePage( page.tagName.toLowerCase() );
     }
   }
 
@@ -894,18 +924,26 @@
           throw new Error('readyDelay option must be a number');
         }
 
-        var p = getPageObject(options.page);
+		// vuejs, riotjs support
+        var page = getPageObject(options.page);
+		var exists = page === null ? false : true;
+		if(!exists) {
+          page = createPage(options.page);
+		}
 
-        if(p) {
-          p.activity = (typeof callback === 'function' ? new Activity() : null);
-          p.callback = callback;
-          p.async = (typeof options.preventClose === 'boolean' ? options.preventClose : false);
-          p.content = (typeof options.content === 'string' ? options.content : null);
-          p.readyDelay = (typeof options.readyDelay === 'number' ? options.readyDelay : 1);
-        } else {
-          throw new Error('A namespace for  ' + options.page + ' is detected, but the DOM node <' + options.page + '> is not found.');
-        }
-      },
+		if(typeof callback === 'function' || typeof callback === 'object') {
+		  page.activity = new Activity(callback);
+	  	} else {
+		  page.activity = null;
+	  	}
+
+		page.callback = callback;
+		page.async = (typeof options.preventClose === 'boolean' ? options.preventClose : false);
+		page.content = (typeof options.content === 'string' ? options.content : null);
+		page.readyDelay = (typeof options.readyDelay === 'number' ? options.readyDelay : 1);
+
+		createOrUpdatePage(options.page.toLowerCase(), page);
+	  },
       callCallback: callCallback
     };
   };
