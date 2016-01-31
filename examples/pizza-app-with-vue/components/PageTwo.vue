@@ -14,7 +14,7 @@
 
 				<p>1x Pizza: {{ pizza }}</p>
 
-				<button class="btn negative cancel" data-order="cancel" v-on:tap="onAction">Cancel</button>
+				<button class="btn negative cancel" data-order="cancel" v-tap="onAction">Cancel</button>
 				<button class="btn btn-flat primary order" data-order="order" v-tap="onAction">Order</button>
 			</div>
 		</div>
