@@ -1,3 +1,9 @@
+### 1.1.8 (2016-01-31)
+
+#### Bug Fixes
+
+* full panel and dialogs [#83](https://github.com/quark-dev/Phonon-Framework/issues/83)
+
 ### 1.1.7 (2016-01-04)
 
 #### Bug Fixes

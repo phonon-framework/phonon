@@ -52,11 +52,27 @@
     }
   };
 
+  /**
+   * Used to find an opened dialog
+   * in front of a panel
+   * @todo clean this
+   */
+  var onDialog = function (target) {
+	  for (; target && target !== document; target = target.parentNode) {
+		if (target.classList.contains('dialog') || target.classList.contains('backdrop-dialog')) {
+		  return true;
+		}
+      }
+	  return false;
+  };
+
   document.on(phonon.event.start, function (evt) {
     evt = evt.originalEvent || evt;
 
 	// don't close panels if notifications are pressed
 	if(evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return
+	// don't close panels if a dialog is opened
+	if(onDialog(evt.target)) return;
 
     if(panels.length > 0) {
       var previousPanel = panels[panels.length - 1].panel, p = findPanel(evt.target);
@@ -78,6 +94,8 @@
 
 	// don't close panels if notifications are pressed
 	if(evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return
+	// don't close panels if a dialog is opened
+	if(onDialog(evt.target)) return;
 	
     var trigger = findTrigger(evt.target), panel = null;
 
