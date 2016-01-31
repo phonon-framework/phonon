@@ -18,8 +18,9 @@
   background-color: #333;
   -webkit-transform: translate3d(0, 72px, 0);
           transform: translate3d(0, 72px, 0);
-  transition: -webkit-transform 0.3s, opacity 200ms;
+  transition: opacity 200ms, -webkit-transform 0.3s;
   transition: transform 0.3s, opacity 200ms;
+  transition: transform 0.3s, opacity 200ms, -webkit-transform 0.3s;
 }
 .notification.show {
   -webkit-transform: translate3d(0, 0, 0);

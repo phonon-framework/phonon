@@ -1,5 +1,10 @@
 ### 1.1.8 (2016-01-31)
 
+#### Features
+
+* notifications and intl
+* replaced gulp-cssmin by [gulp-cssnano](https://github.com/ben-eb/gulp-cssnano)
+
 #### Bug Fixes
 
 * full panel and dialogs [#83](https://github.com/quark-dev/Phonon-Framework/issues/83)

@@ -29,8 +29,9 @@
   top: auto;
   -webkit-transform: translate3d(0, 100%, 0);
           transform: translate3d(0, 100%, 0);
-  transition: -webkit-transform 300ms, opacity 1ms;
+  transition: opacity 1ms, -webkit-transform 300ms;
   transition: transform 300ms, opacity 1ms;
+  transition: transform 300ms, opacity 1ms, -webkit-transform 300ms;
 }
 .panel .header-bar {
   visibility: hidden;
@@ -66,14 +67,17 @@
           transform: translate3d(0, 0, 0);
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
+  transition: transform 300ms, -webkit-transform 300ms;
 }
 .panel-full .content {
   -webkit-transform: translate3d(0, 50%, 0);
           transform: translate3d(0, 50%, 0);
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
+  transition: transform 300ms, -webkit-transform 300ms;
 }
 .panel-closing {
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
+  transition: transform 300ms, -webkit-transform 300ms;
 }

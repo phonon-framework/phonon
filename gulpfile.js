@@ -1,6 +1,6 @@
 var gulp         = require('gulp');
 var stylus       = require('gulp-stylus');
-var cssmin       = require('gulp-cssmin');
+var cssnano 	 = require('gulp-cssnano');
 var rename       = require('gulp-rename');
 var concat       = require('gulp-concat');
 var uglify       = require('gulp-uglify');
@@ -76,7 +76,7 @@ gulp.task('css-base', function () {
 	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
 	.pipe(gulp.dest('./dist/css'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(cssmin())
+	.pipe(cssnano())
 	.pipe(gulp.dest('./dist/css'));
 });
 
@@ -99,7 +99,7 @@ gulp.task('css-all', function () {
 	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
 	.pipe(gulp.dest('./dist/css'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(cssmin())
+	.pipe(cssnano())
 	.pipe(gulp.dest('./dist/css'));
 });
 
@@ -109,7 +109,7 @@ gulp.task('css-components', function () {
 	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
 	.pipe(gulp.dest('./dist/css/components'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(cssmin())
+	.pipe(cssnano())
 	.pipe(gulp.dest('./dist/css/components'));
 });
 

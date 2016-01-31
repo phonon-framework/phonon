@@ -18,7 +18,7 @@
             This is a custom notification! <i class="icon icon-edit"></i>
             <button class="btn pull-right" data-hide-notif="true">Cancel</button>
         </div>
-        
+
         <home data-page="true">
             <header class="header-bar">
                 <div class="center">
@@ -27,17 +27,17 @@
             </header>
             <div class="content">
                 <div class="padded-full">
-					
-                    <button class="btn btn-flat padded-bottom positive" id="show-notif-button">Show notification custom button</button>
+
+                    <button class="btn btn-flat padded-bottom positive" id="show-notif-button">Show notification with custom button</button>
 
                     <button class="btn btn-flat padded-bottom primary" id="show-auto-notif">Show another notification</button>
 
                     <button class="btn primary" id="show-notif">Show a custom notification</button>
 
                 </div>
-            </div> 
+            </div>
         </div>
-        
+
         <script src="../../../dist/js/phonon-core.js"></script>
         <script src="../../../dist/js/components/notifications.js"></script>
 
@@ -57,11 +57,11 @@
                     document.querySelector('#show-auto-notif').on('tap', function() {
                         phonon.notif('HELLO', 3000, false);
                     });
-					
+
                     document.querySelector('#show-notif-button').on('tap', function() {
-                        phonon.notif('HELLO AGAIN :-p', 3000, true, 'Close' );
+                        phonon.notif('HELLO', 3000, true, 'Bye');
                     });
-                    
+
                     document.querySelector('#show-notif').on('tap', function() {
                         phonon.notif('#notif-example').show();
                     });
@@ -76,4 +76,3 @@
         </script>
     </body>
 </html>
-        

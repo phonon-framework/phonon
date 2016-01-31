@@ -1242,8 +1242,9 @@ table,
   background-color: #fff;
   -webkit-transform: translate3d(0, 0, 0) scale(1.185);
           transform: translate3d(0, 0, 0) scale(1.185);
-  transition: -webkit-transform 0.3s, opacity 0.3s;
+  transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: transform 0.3s, opacity 0.3s;
+  transition: transform 0.3s, opacity 0.3s, -webkit-transform 0.3s;
 }
 .dialog.active {
   opacity: 1;
@@ -1316,8 +1317,9 @@ table,
   background-color: #333;
   -webkit-transform: translate3d(0, 72px, 0);
           transform: translate3d(0, 72px, 0);
-  transition: -webkit-transform 0.3s, opacity 200ms;
+  transition: opacity 200ms, -webkit-transform 0.3s;
   transition: transform 0.3s, opacity 200ms;
+  transition: transform 0.3s, opacity 200ms, -webkit-transform 0.3s;
 }
 .notification.show {
   -webkit-transform: translate3d(0, 0, 0);
@@ -1372,8 +1374,9 @@ table,
   top: auto;
   -webkit-transform: translate3d(0, 100%, 0);
           transform: translate3d(0, 100%, 0);
-  transition: -webkit-transform 300ms, opacity 1ms;
+  transition: opacity 1ms, -webkit-transform 300ms;
   transition: transform 300ms, opacity 1ms;
+  transition: transform 300ms, opacity 1ms, -webkit-transform 300ms;
 }
 .panel .header-bar {
   visibility: hidden;
@@ -1409,16 +1412,19 @@ table,
           transform: translate3d(0, 0, 0);
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
+  transition: transform 300ms, -webkit-transform 300ms;
 }
 .panel-full .content {
   -webkit-transform: translate3d(0, 50%, 0);
           transform: translate3d(0, 50%, 0);
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
+  transition: transform 300ms, -webkit-transform 300ms;
 }
 .panel-closing {
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
+  transition: transform 300ms, -webkit-transform 300ms;
 }
 .backdrop-popover {
   position: fixed;

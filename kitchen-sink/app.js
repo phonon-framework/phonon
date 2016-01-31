@@ -73,6 +73,10 @@ app.on({page: 'pagenotif', content: 'pagenotif.html', readyDelay: 500}, function
 		document.querySelector('#show-notif').on('tap', function() {
 			phonon.notif('#notif-example').show();
 		});
+
+		document.querySelector('#show-notif-button').on('tap', function() {
+			phonon.notif('HELLO', 3000, true, 'Bye');
+		});
 	});
 
 	activity.onReady(function() {

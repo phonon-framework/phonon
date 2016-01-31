@@ -15,7 +15,7 @@
   "devDependencies": {
     "gulp": "3.9.x",
     "gulp-concat": "^2.6.0",
-    "gulp-cssmin": "0.1.x",
+    "gulp-cssnano": "2.1.x",
     "gulp-rename": "1.x.x",
     "gulp-stylus": "^2.0.4",
     "gulp-uglify": "^1.4.0",

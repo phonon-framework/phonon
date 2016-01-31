@@ -111,12 +111,13 @@
 		}
 	};
 
-	var buildNotif = function(text, timeout, showButton) {
+	var buildNotif = function(text, timeout, showButton, cancelButton) {
 		if(typeof text !== 'string') text = '';
 		timeout = (typeof timeout === 'number' ? timeout : 5000);
+		cancelButton = (typeof cancelButton === 'string' ? cancelButton : 'CANCEL');
 
     var progress = '<div class="progress"><div class="determinate"></div></div>';
-    var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">CANCEL</button>' : '');
+    var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">' + cancelButton + '</button>' : '');
 
     var div = document.createElement('div');
 		div.setAttribute('class', 'notification');
