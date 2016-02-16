@@ -9,7 +9,6 @@
   'use strict';
 
   var panels = [];
-  var busy = false;
 
   var createBackdrop = function () {
     var backdrop = document.createElement('div');
@@ -96,7 +95,7 @@
 	if(evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return
 	// don't close panels if a dialog is opened
 	if(onDialog(evt.target)) return;
-	
+
     var trigger = findTrigger(evt.target), panel = null;
 
     if (trigger) {
@@ -129,7 +128,6 @@
     }
 
     panels[panels.length - 1].panel.style.visibility = 'visible';
-    busy = false;
 
     panels.pop();
 
@@ -141,10 +139,6 @@
   */
 
   function open (panel) {
-    if(busy) {
-      return;
-    }
-
     panel.style.visibility = 'visible';
 
     if(!panel.classList.contains('active')) {
@@ -159,13 +153,7 @@
 
   function close (panel) {
 
-    if(busy) {
-      return;
-    }
-
-    if(panel.classList.contains('active') && !busy) {
-
-      busy = true;
+    if(panel.classList.contains('active')) {
 
       panel.classList.remove('active');
       panel.classList.add('panel-closing');
