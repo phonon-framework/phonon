@@ -1,18 +1,15 @@
 .list {
+  position: relative;
   padding: 0;
   margin: 0;
   list-style: none;
-  -webkit-overflow-scrolling: touch;
 }
 .list li {
   height: auto;
   min-height: 51px;
   line-height: 52px;
-  position: relative;
   display: block;
   border-bottom: 1px solid #eee;
-  overflow: hidden;
-  white-space: normal;
 }
 .list li a {
   width: 100%;

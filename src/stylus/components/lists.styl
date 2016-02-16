@@ -1,22 +1,18 @@
 @require '../_variables.styl';
 
 .list
+	position relative
 	padding 0
 	margin 0
 	list-style none
-	-webkit-overflow-scrolling touch
 
 	li
 		height auto
 		min-height (list-simple-item-height - 1px)
 		line-height list-simple-item-height
 
-		position relative
 		display block
 		border-bottom 1px solid #eee
-
-		overflow hidden
-		white-space normal
 
 		a
 			width 100%
