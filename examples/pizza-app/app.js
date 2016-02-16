@@ -66,28 +66,3 @@ app.on({page: 'pagetwo', preventClose: true, content: 'pagetwo.html', readyDelay
 
 // Let's go!
 app.start();
-
-document.on('pagecreated', function(event) {
-	console.error('global state pagecreated: ' + event.detail.page)
-})
-document.on('pageopened', function(event) {
-	console.error('global state pageopened: ' + event.detail.page)
-})
-document.on('pagetransitionend', function(event) {
-	console.error('global state pagetransitionend: ' + event.detail.page)
-})
-document.on('pagehidden', function(event) {
-	console.error('global state pagehidden: ' + event.detail.page)
-})
-document.on('pagetabchanged', function(event) {
-	console.error('global state pagetabchanged: ' + event.detail.page)
-})
-document.on('pageclosed', function(event) {
-	console.error('global state pageclosed: ' + event.detail.page)
-})
-document.on('pagehash', function(event) {
-	console.error('global state pagehash: ' + event.detail.page)
-	console.log('global a ' + event.detail.req[0]);
-	console.log('global b ' + event.detail.req[1]);
-	console.log('global c ' + event.detail.req[2]);
-})
