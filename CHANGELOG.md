@@ -1,3 +1,12 @@
+### 1.2.0 (2016-02-16)
+
+#### Bug Fixes
+
+* notification display with preloader [#73](https://github.com/quark-dev/Phonon-Framework/issues/73)
+* each panel has its own state (vs global state)
+[#64](https://github.com/quark-dev/Phonon-Framework/issues/64)
+* fix title length in header bars
+
 ### 1.1.9 (2016-02-01)
 
 #### Features

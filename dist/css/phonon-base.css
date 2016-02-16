@@ -460,6 +460,7 @@ button {
   z-index: 20;
   width: 100%;
   height: 52px;
+  overflow: hidden;
   background-color: #0084e7;
   border-bottom: 0px solid #2e2bc9;
   -webkit-backface-visibility: hidden;
@@ -471,8 +472,6 @@ button {
   top: 0;
   right: 0;
   left: 0;
-  overflow: hidden;
-  min-width: 30px;
 }
 .header-bar .pull-left {
   padding-left: 16px;
@@ -486,6 +485,9 @@ button {
   color: #fff;
   height: 52px;
   line-height: 52px;
+}
+.header-bar .center .title {
+  margin: 0 auto;
 }
 .header-bar .arrow {
   cursor: pointer;

@@ -18,27 +18,27 @@
 	}
 
 	var findTrigger = function (target) {
-		var triggers = document.querySelectorAll('[data-panel-id], [data-panel-close]'), i;
+		var triggers = document.querySelectorAll('[data-panel-id], [data-panel-close]'), i
 		for (; target && target !== document; target = target.parentNode) {
 			for (i = triggers.length; i--;) {
 				if (triggers[i] === target) {
-					return target;
+					return target
 				}
 			}
 		}
-	};
+	}
 
 	var getPanel = function (event) {
-		var panelToggle = findTrigger(event.target);
+		var panelToggle = findTrigger(event.target)
 		if (panelToggle) {
-			var panelId = panelToggle.getAttribute('data-panel-id');
+			var panelId = panelToggle.getAttribute('data-panel-id')
 			if(panelId) {
-				return document.querySelector('#'+panelId);
+				return document.querySelector('#'+panelId)
 			} else {
-				return findDOMPanel(event.target);
+				return findDOMPanel(event.target)
 			}
 		}
-	};
+	}
 
 	var findObject = function(panelId) {
 		var length = _activeObjects.length
@@ -54,16 +54,16 @@
 	}
 
 	var findDOMPanel = function (target) {
-		var panels = document.querySelectorAll('.panel, .panel-full'), i;
+		var panels = document.querySelectorAll('.panel, .panel-full'), i
 
 		for (; target && target !== document; target = target.parentNode) {
 			for (i = panels.length; i--;) {
 				if (panels[i] === target && target.classList.contains('active')) {
-					return target;
+					return target
 				}
 			}
 		}
-	};
+	}
 
 	/**
 	* Used to find an opened dialog
