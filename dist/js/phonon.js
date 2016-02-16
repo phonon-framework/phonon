@@ -1911,12 +1911,8 @@ phonon.tagManager = (function () {
   if(opts.useHash) window.on('hashchange', onRoute);
 
   document.on('backbutton', function() {
-    var pObj = getLastPage();
-    if(currentPage === opts.defaultPage) {
-      return;
-    }
-
-    callClose(currentPage, pObj.page, opts.hashPrefix + pObj.page + '/' + pObj.params);
+    var last = getLastPage();
+    callClose(currentPage, last.page, opts.hashPrefix + last.page + '/' + last.params);
   });
 
 
