@@ -5,7 +5,8 @@
 * notification display with preloader [#73](https://github.com/quark-dev/Phonon-Framework/issues/73)
 * each panel has its own state (vs global state)
 [#64](https://github.com/quark-dev/Phonon-Framework/issues/64)
-* fix title length in header bars
+* fix title length in header bars [#88](https://github.com/quark-dev/Phonon-Framework/issues/88)
+* fix backbutton on Cordova (default: app is closed) [#88](https://github.com/quark-dev/Phonon-Framework/issues/88)
 
 ### 1.1.9 (2016-02-01)
 
