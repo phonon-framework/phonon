@@ -1193,10 +1193,28 @@ phonon.tagManager = (function () {
 
       previousPageEl.classList.remove('app-active');
     }
+
     callTransitionEnd(currentPage);
     callHiddenCallback(previousPage);
 
     onActiveTransition = false;
+  }
+
+  function dispatchEvent(eventName, pageName, parameters) {
+
+	  var eventInitDict = {
+          detail: { page: pageName },
+          bubbles: true,
+          cancelable: true
+      };
+
+	  if(typeof parameters !== 'undefined') {
+		  eventInitDict.detail.req = parameters
+	  }
+
+	  var event = new window.CustomEvent(eventName, eventInitDict);
+
+	  document.dispatchEvent(event);
   }
 
   function callCreate(pageName) {
@@ -1206,20 +1224,14 @@ phonon.tagManager = (function () {
       phonon.tagManager.trigger(pageName, 'create');
     }
 
-    var page = getPageObject(pageName);
-
-    var pageEvent = new window.CustomEvent('pagecreated', {
-        detail: { page: pageName },
-        bubbles: true,
-        cancelable: true
-    });
-
     /*
      * dispatch the event before calling the activity's callback
      * so that UI components are ready to use
      * issue #52 is related to this
     */
-    document.dispatchEvent(pageEvent);
+	dispatchEvent('pagecreated', pageName)
+
+	var page = getPageObject(pageName);
 
     // Call the onCreate callback
     if(page.activity instanceof Activity && typeof page.activity.onCreateCallback === 'function') {
@@ -1230,7 +1242,7 @@ phonon.tagManager = (function () {
 
   function callReady(pageName) {
 
-    var page = getPageObject(pageName);
+	var page = getPageObject(pageName);
 
     window.setTimeout(function() {
 
@@ -1240,13 +1252,7 @@ phonon.tagManager = (function () {
       }
 
       // Dispatch the global event pageopened
-      var pageEvent = new window.CustomEvent('pageopened', {
-          detail: { page: pageName },
-          bubbles: true,
-          cancelable: true
-      });
-
-      document.dispatchEvent(pageEvent);
+	  dispatchEvent('pageopened', pageName)
 
       // Call the onReady callback
       if(page.activity instanceof Activity && typeof page.activity.onReadyCallback === 'function') {
@@ -1260,6 +1266,8 @@ phonon.tagManager = (function () {
     if(riotEnabled) {
       phonon.tagManager.trigger(pageName, 'transitionend');
     }
+
+	dispatchEvent('pagetransitionend', pageName)
 
     var page = getPageObject(pageName);
 
@@ -1275,6 +1283,8 @@ phonon.tagManager = (function () {
       phonon.tagManager.trigger(pageName, 'hidden');
     }
 
+	dispatchEvent('pagehidden', pageName)
+
     var page = getPageObject(pageName);
 
     // Call the onHidden callback
@@ -1289,6 +1299,8 @@ phonon.tagManager = (function () {
       phonon.tagManager.trigger(pageName, 'tabchanged', tabNumber);
     }
 
+	dispatchEvent('pagetabchanged', pageName)
+
     var page = getPageObject(pageName);
 
     // Call the onTabChanged callback
@@ -1300,6 +1312,8 @@ phonon.tagManager = (function () {
   function callClose(pageName, nextPageName, hash) {
 
     function close() {
+
+	  dispatchEvent('pageclosed', pageName)
 
       var currentHash = window.location.hash.split('#')[1];
 
@@ -1344,6 +1358,8 @@ phonon.tagManager = (function () {
     if(riotEnabled) {
       phonon.tagManager.trigger(pageName, 'hashchanged', params);
     }
+
+	dispatchEvent('pagehash', pageName, params)
 
     var page = getPageObject(pageName);
 
