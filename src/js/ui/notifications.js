@@ -1,9 +1,9 @@
 /* ========================================================================
- * Phonon: notifications.js v0.0.2
- * http://phonon.quarkdev.com
- * ========================================================================
- * Licensed under MIT (http://phonon.quarkdev.com)
- * ======================================================================== */
+* Phonon: notifications.js v0.0.2
+* http://phonon.quarkdev.com
+* ========================================================================
+* Licensed under MIT (http://phonon.quarkdev.com)
+* ======================================================================== */
 ;(function (window, phonon) {
 
 	'use strict';
@@ -111,25 +111,35 @@
 		}
 	};
 
+	var generateId = function() {
+		var text = "";
+		var possible = "abcdefghijklmnopqrstuvwxyz";
+		var i = 0;
+		for(; i < 8; i++) {
+			text += possible.charAt(Math.floor(Math.random() * possible.length));
+		}
+		return text;
+	}
+
 	var buildNotif = function(text, timeout, showButton, cancelButton) {
 		if(typeof text !== 'string') text = '';
 		timeout = (typeof timeout === 'number' ? timeout : 5000);
 		cancelButton = (typeof cancelButton === 'string' ? cancelButton : 'CANCEL');
 
-    var progress = '<div class="progress"><div class="determinate"></div></div>';
-    var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">' + cancelButton + '</button>' : '');
+		var progress = '<div class="progress"><div class="determinate"></div></div>';
+		var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">' + cancelButton + '</button>' : '');
 
-    var div = document.createElement('div');
+		var div = document.createElement('div');
 		div.setAttribute('class', 'notification');
 		div.setAttribute('data-autodestroy', 'true');
 		if(timeout) div.setAttribute('data-timeout', timeout);
-		div.id = 'auto-gen-notif-' + Math.floor(Date.now() / 1000);
+		div.id = generateId();
 
 		div.innerHTML = progress + btn + text;
 
 		document.body.appendChild(div);
 
-		return div;
+		return document.querySelector('#' + div.id);
 	};
 
 	document.on('tap', function(evt) {
@@ -143,45 +153,46 @@
 	});
 
 	/*
-	 * Public API
+	* Public API
 	*/
 
 	function show(notification) {
 
-		if(!notification.classList.contains('show')) {
+		if (notification.classList.contains('show')) return false
+
+		setTimeout(function() {
 			notification.classList.add('show');
+		}, 1)
 
-			// Fix animation
-			notification.style.zIndex = (28 + notifs.length);
+		// Fix animation
+		notification.style.zIndex = (28 + notifs.length);
 
-			// Fix space
-
-			var value = 0;
-			if(notifs.length > 0) {
-				var lastNotif = notifs[notifs.length - 1];
-				value = (notifs.length * lastNotif.clientHeight);
-			}
-
-			notification.style.webkitTransform = 'translateY(-'+value+'px)';
-			notification.style.MozTransform = 'translateY(-'+value+'px)';
-			notification.style.msTransform = 'translateY(-'+value+'px)';
-			notification.style.OTransform = 'translateY(-'+value+'px)';
-			notification.style.transform = 'translateY(-'+value+'px)';
-
-			notifs.push(notification);
-
-			// push floating actions
-			var fla = document.querySelector('.app-active .floating-action');
-			if(fla) {
-				fla.style.webkitTransform = 'translateY(-48px)';
-				fla.style.MozTransform = 'translateY(-48px)';
-				fla.style.msTransform = 'translateY(-48px)';
-				fla.style.OTransform = 'translateY(-48px)';
-				fla.style.transform = 'translateY(-48px)';
-			}
-
-			notification.on(phonon.event.transitionEnd, onShow, false);
+		// Fix space
+		var value = 0;
+		if(notifs.length > 0) {
+			var lastNotif = notifs[notifs.length - 1];
+			value = (notifs.length * lastNotif.clientHeight);
 		}
+
+		notification.style.webkitTransform = 'translateY(-'+value+'px)';
+		notification.style.MozTransform = 'translateY(-'+value+'px)';
+		notification.style.msTransform = 'translateY(-'+value+'px)';
+		notification.style.OTransform = 'translateY(-'+value+'px)';
+		notification.style.transform = 'translateY(-'+value+'px)';
+
+		notifs.push(notification);
+
+		// push floating actions
+		var fla = document.querySelector('.app-active .floating-action');
+		if(fla) {
+			fla.style.webkitTransform = 'translateY(-48px)';
+			fla.style.MozTransform = 'translateY(-48px)';
+			fla.style.msTransform = 'translateY(-48px)';
+			fla.style.OTransform = 'translateY(-48px)';
+			fla.style.transform = 'translateY(-48px)';
+		}
+
+		notification.on(phonon.event.transitionEnd, onShow, false);
 	}
 
 	function hide(notification) {
@@ -206,13 +217,8 @@
 	phonon.notif = function(el, timeout, showButton) {
 
 		if(arguments.length > 1) {
-
-			var text = el;
-			var nBuild = buildNotif(text, timeout, showButton);
-			window.setTimeout(function() {
-				show(document.querySelector('#'+nBuild.id));
-			}, 10);
-			return;
+			// el is text
+			return show(buildNotif(el, timeout, showButton));
 		}
 
 		var notif = (typeof el === 'string' ? document.querySelector(el) : el);
@@ -230,7 +236,7 @@
 		};
 	};
 
-    window.phonon = phonon;
+	window.phonon = phonon;
 
 	if(typeof exports === 'object') {
 		module.exports = phonon.notif;
