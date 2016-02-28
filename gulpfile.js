@@ -7,6 +7,8 @@ var uglify       = require('gulp-uglify');
 var postcss      = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 
+gulp.task('default', ['build'])
+
 gulp.task('build', [
 	'js-core',
 	'js-all',
