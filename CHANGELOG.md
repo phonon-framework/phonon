@@ -1,3 +1,9 @@
+### 1.2.1 (2016-02-28)
+
+#### Bug Fixes
+
+* zindex values changes caused by gulp cssnano
+
 ### 1.2.0 (2016-02-16)
 
 #### Bug Fixes
