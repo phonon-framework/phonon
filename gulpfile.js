@@ -76,7 +76,7 @@ gulp.task('css-base', function () {
 	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
 	.pipe(gulp.dest('./dist/css'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(cssnano())
+	.pipe(cssnano({zindex: false}))
 	.pipe(gulp.dest('./dist/css'));
 });
 
