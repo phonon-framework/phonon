@@ -74,8 +74,13 @@ label {
 .radio input[type="radio"] {
   display: none;
 }
+.checkbox,
+.radio {
+  position: relative;
+}
 .checkbox span,
 .radio span {
+  -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   content: "";
   position: absolute;
@@ -122,6 +127,7 @@ label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
+  -webkit-transition: all 200ms;
   transition: all 200ms;
 }
 .with-label:focus + .floating-label,

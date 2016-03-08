@@ -8,6 +8,7 @@
   height: auto;
   min-height: 51px;
   line-height: 52px;
+  overflow: hidden /* for accordion animation */;
   display: block;
   border-bottom: 1px solid #eee;
 }
@@ -16,6 +17,7 @@
   height: 100%;
   display: block;
   color: #000;
+  -webkit-transition: background-color 250ms ease-in-out;
   transition: background-color 250ms ease-in-out;
 }
 .list li a:active {
@@ -39,13 +41,15 @@
   position: absolute;
   height: auto;
   visibility: hidden;
+  -webkit-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
-  padding: 0 15px;
+  padding: 0 16px;
   background-color: #f9f9f9;
 }
 .list li .accordion-active {
   position: relative;
   visibility: visible;
+  -webkit-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
 }
 .list li .title,
@@ -75,5 +79,5 @@
 }
 .list .divider,
 .list .padded-list {
-  padding: 0 15px;
+  padding: 0 16px;
 }

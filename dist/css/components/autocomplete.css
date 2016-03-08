@@ -16,6 +16,7 @@ div.awesomplete > ul {
   left: 0;
   z-index: 1;
   margin-top: 60px;
+  -webkit-transition: 0.3s cubic-bezier(0.4, 0.2, 0.5, 1.4);
   transition: 0.3s cubic-bezier(0.4, 0.2, 0.5, 1.4);
   -webkit-transform-origin: 1.43em -0.43em;
       -ms-transform-origin: 1.43em -0.43em;
@@ -55,5 +56,6 @@ div.awesomplete > ul:empty {
       -ms-transform: scale(0);
           transform: scale(0);
   display: block;
-  transition-timing-function: ease;
+  -webkit-transition-timing-function: ease;
+          transition-timing-function: ease;
 }

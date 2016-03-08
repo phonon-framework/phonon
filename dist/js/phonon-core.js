@@ -449,7 +449,7 @@ phonon.event = (function () {
         transitionEnd = 'webkitTransitionEnd';
         animationEnd = 'webkitAnimationEnd';
     }
-    
+
     api.transitionEnd = transitionEnd;
     api.animationEnd = animationEnd;
 
@@ -578,6 +578,7 @@ phonon.event = (function () {
     return api;
 
 })();
+
 phonon.tagManager = (function () {
 
 	if(typeof riot === 'undefined') {

@@ -449,7 +449,7 @@ phonon.event = (function () {
         transitionEnd = 'webkitTransitionEnd';
         animationEnd = 'webkitAnimationEnd';
     }
-    
+
     api.transitionEnd = transitionEnd;
     api.animationEnd = animationEnd;
 
@@ -578,6 +578,7 @@ phonon.event = (function () {
     return api;
 
 })();
+
 phonon.tagManager = (function () {
 
 	if(typeof riot === 'undefined') {
@@ -1979,11 +1980,11 @@ phonon.tagManager = (function () {
 })(typeof window !== 'undefined' ? window : this, typeof riot !== 'undefined' ? riot : undefined, phonon);
 
 /* ========================================================================
- * Phonon: accordion.js v0.0.1
- * http://phonon.quarkdev.com
- * ========================================================================
- * Licensed under MIT (http://phonon.quarkdev.com)
- * ======================================================================== */
+* Phonon: accordion.js v0.0.1
+* http://phonon.quarkdev.com
+* ========================================================================
+* Licensed under MIT (http://phonon.quarkdev.com)
+* ======================================================================== */
 ;(function (window) {
 
 	'use strict';
@@ -2026,7 +2027,7 @@ phonon.tagManager = (function () {
 	 * @param {DOMNode} defaultTarget
 	 * @param {DOMNode} accordionContent
 	 */
-	function hide(defaultTarget, accordionContent) {
+		function hide(defaultTarget, accordionContent) {
 
 		var onHide = function() {
 
@@ -2043,23 +2044,33 @@ phonon.tagManager = (function () {
 			accordionContent.off(phonon.event.transitionEnd, onHide);
 		};
 
-		accordionContent.on(phonon.event.transitionEnd, onHide);
 		accordionContent.style.maxHeight = '0px';
+		accordionContent.on(phonon.event.transitionEnd, onHide);
 	}
 
-  function onPage(evt) {
+	// fix #96
+	function getAccordion(target) {
 
-    var defaultTarget = evt.target;
-    var accordionContent = defaultTarget.nextElementSibling;
-
-    if(accordionContent && accordionContent.classList.contains('accordion-content')) {
-			if(accordionContent.classList.contains('accordion-active')) {
-				hide(defaultTarget, accordionContent);
-			} else {
-				show(defaultTarget, accordionContent);
+		for (; target && target !== document; target = target.parentNode) {
+			if(target.nextElementSibling && target.nextElementSibling.classList.contains('accordion-content')) {
+				return {defaultTarget: target, accordionContent: target.nextElementSibling}
 			}
-    }
-  }
+		}
+
+		return null
+	}
+
+	function onPage(evt) {
+
+		var target = getAccordion(evt.target)
+		if(target === null) return
+
+		if(target.accordionContent.classList.contains('accordion-active')) {
+			hide(target.defaultTarget, target.accordionContent);
+		} else {
+			show(target.defaultTarget, target.accordionContent);
+		}
+	}
 
 	/*
 	 * Attachs event once
@@ -2067,11 +2078,23 @@ phonon.tagManager = (function () {
 	document.on('pagecreated', function(evt) {
 
 		var page = document.querySelector(evt.detail.page);
-		var findAccordions = page.querySelector('.accordion-content');
 
-		if(findAccordions) {
-      page.on('tap', onPage);
-    }
+		if(page.querySelector('.accordion-content')) {
+			page.on('tap', onPage);
+		}
+	});
+
+	document.on('pageclosed', function(evt) {
+
+		var page = document.querySelector(evt.detail.page);
+		var accordionLists = page.querySelectorAll('.accordion-active');
+		var l = accordionLists.length;
+		var i = 0;
+
+		for (; i < accordionLists.length; i++) {
+			var fakeDefaultTarget = accordionLists[i].previousElementSibling;
+			onPage({target: fakeDefaultTarget});
+		}
 	});
 
 }(typeof window !== 'undefined' ? window : this));
@@ -2505,381 +2528,387 @@ phonon.tagManager = (function () {
  * ======================================================================== */
 ;(function (window, phonon) {
 
-  'use strict';
-
-  var lastTrigger = false;
-  var dialogs = [];
-
-  function addCancelCallback(dialog, cancelCallback) {
-    for (var i = 0; i < dialogs.length; i++) {
-      if(dialogs[i].dialog === dialog) {
-        dialogs[i].cancelCallback = cancelCallback;
-        break;
-      }
-    }
-  }
-
-  var createBackdrop = function (id) {
-    var backdrop = document.createElement('div');
-    backdrop.setAttribute('data-id', id);
-    backdrop.classList.add('backdrop-dialog');
-    return backdrop;
-  };
-
-  var findTrigger = function (target) {
-    var triggers = document.querySelectorAll('[data-dialog-id], [data-dialog-close]'), i;
-    for (; target && target !== document; target = target.parentNode) {
-      for (i = triggers.length; i--;) {
-        if (triggers[i] === target) {
-          return target;
-        }
-      }
-    }
-  };
-
-  var getDialog = function (event) {
-    var dialogToggle = findTrigger(event.target);
-    if (dialogToggle) {
-      var dialogId = dialogToggle.getAttribute('data-dialog-id');
-      if(dialogId) {
-        return document.querySelector('#'+dialogId);
-      } else {
-        return findDialog(event.target);
-      }
-    }
-  };
-
-  var findDialog = function (target) {
-    var dialogs = document.querySelectorAll('.dialog'), i;
-
-    for (; target && target !== document; target = target.parentNode) {
-      for (i = dialogs.length; i--;) {
-        if (dialogs[i] === target && target.classList.contains('active')) {
-          return target;
-        }
-      }
-    }
-  };
-
-  var findDialogObject = function(id) {
-
-    var i = dialogs.length - 1;
-    for (; i >= 0; i--) {
-      if(dialogs[i].dialog.id === id) {
-        var d = dialogs[i];
-        d.index = i;
-        return d;
-      }
-    }
-    return false;
-  };
-
-  var buildDialog = function (type, text, title, cancelable, textOk, textCancel) {
-    text = (typeof text === 'string' ? '<p>' + text + '</p>' : '');
-    var noTitle = typeof title;
-    title = (noTitle === 'string' ? title : type);
-    cancelable = (typeof cancelable === 'boolean' ? cancelable : true);
-    textOk = (typeof textOk === 'string' ? textOk : 'Ok');
-    textCancel = (typeof textCancel === 'string' ? textCancel : 'Cancel');
-
-    var div = document.createElement('div');
-    div.setAttribute('class', 'dialog');
-    div.setAttribute('data-cancelable', cancelable);
-    div.id = 'auto-gen-' + type;
-
-    var nodeTitle = (noTitle === undefined ? '' : '<h3>'+title+'</h3>');
-    var btnCancel = '<li><a class="btn btn-flat btn-cancel" data-dialog-close="true">' + textCancel + '</a></li>';
-    var input = '';
-    var indicator = '';
-
-    if(type === 'alert') {
-      btnCancel = '';
-    } else if(type === 'prompt') {
-      input = '<input type="text" placeholder="Value">';
-    } else if(type === 'indicator') {
-      text = '';
-      indicator = '<div class="circle-progress active padded-bottom"><div class="spinner"></div></div>';
-    }
-
-    var actions = (type === 'indicator' ? '' : '<ul class="buttons">'+
-              btnCancel+
-              '<li><a class="btn btn-flat primary btn-confirm" data-dialog-close="true">' + textOk + '</a></li>'+
-          '</ul>');
-
-    var alert = '<div class="content">' +
-              '<div class="padded-full">' +
-                  nodeTitle +
-                  text +
-                  input +
-                  indicator +
-              '</div>'+
-          '</div>'+
-          actions;
+	'use strict';
+
+	var lastTrigger = false;
+	var dialogs = [];
+
+	function addCancelCallback(dialog, cancelCallback) {
+		for (var i = 0; i < dialogs.length; i++) {
+			if(dialogs[i].dialog === dialog) {
+				dialogs[i].cancelCallback = cancelCallback;
+				break;
+			}
+		}
+	}
+
+	var createBackdrop = function (id) {
+		var backdrop = document.createElement('div');
+		backdrop.setAttribute('data-id', id);
+		backdrop.classList.add('backdrop-dialog');
+		return backdrop;
+	};
+
+	var findTrigger = function (target) {
+		var triggers = document.querySelectorAll('[data-dialog-id], [data-dialog-close]'), i;
+		for (; target && target !== document; target = target.parentNode) {
+			for (i = triggers.length; i--;) {
+				if (triggers[i] === target) {
+					return target;
+				}
+			}
+		}
+	};
+
+	var getDialog = function (event) {
+		var dialogToggle = findTrigger(event.target);
+		if (dialogToggle) {
+			var dialogId = dialogToggle.getAttribute('data-dialog-id');
+			if(dialogId) {
+				return document.querySelector('#'+dialogId);
+			} else {
+				return findDialog(event.target);
+			}
+		}
+	};
+
+	var findDialog = function (target) {
+		var dialogs = document.querySelectorAll('.dialog'), i;
+
+		for (; target && target !== document; target = target.parentNode) {
+			for (i = dialogs.length; i--;) {
+				if (dialogs[i] === target && target.classList.contains('active')) {
+					return target;
+				}
+			}
+		}
+	};
+
+	var findDialogObject = function(id) {
+
+		var i = dialogs.length - 1;
+		for (; i >= 0; i--) {
+			if(dialogs[i].dialog.id === id) {
+				var d = dialogs[i];
+				d.index = i;
+				return d;
+			}
+		}
+		return false;
+	};
+
+	var buildDialog = function (type, text, title, cancelable, textOk, textCancel) {
+		text = (typeof text === 'string' ? '<p>' + text + '</p>' : '');
+		var noTitle = typeof title;
+		title = (noTitle === 'string' ? title : type);
+		cancelable = (typeof cancelable === 'boolean' ? cancelable : true);
+		textOk = (typeof textOk === 'string' ? textOk : 'Ok');
+		textCancel = (typeof textCancel === 'string' ? textCancel : 'Cancel');
+
+		var id = 'auto-gen-' + type;
+
+		var div = document.createElement('div');
+		div.setAttribute('class', 'dialog');
+		div.setAttribute('data-cancelable', cancelable);
+		div.id = id;
+
+		var nodeTitle = (noTitle === undefined ? '' : '<h3>'+title+'</h3>');
+		var btnCancel = '<li><a class="btn btn-flat btn-cancel" data-dialog-close="true">' + textCancel + '</a></li>';
+		var input = '';
+		var indicator = '';
+
+		if(type === 'alert') {
+			btnCancel = '';
+		} else if(type === 'prompt') {
+			input = '<input type="text" placeholder="Value">';
+		} else if(type === 'indicator') {
+			text = '';
+			indicator = '<div class="circle-progress active padded-bottom"><div class="spinner"></div></div>';
+		}
+
+		var actions = (type === 'indicator' ? '' : '<ul class="buttons">' +
+			btnCancel +
+			'<li><a class="btn btn-flat primary btn-confirm" data-dialog-close="true">' + textOk + '</a></li>' +
+		'</ul>');
 
-    div.innerHTML = alert;
+		var alert = '<div class="content">' +
+			'<div class="padded-full">' +
+				nodeTitle +
+				text +
+				input +
+				indicator +
+			'</div>'+
+		'</div>' + actions;
 
-    document.body.appendChild(div);
+		div.innerHTML = alert;
 
-    return div;
-  };
+		document.body.appendChild(div);
 
+		return div;
+	};
 
-  document.on(phonon.event.start, function (evt) {
 
-    if(dialogs.length > 0) {
-      var previous = dialogs[dialogs.length - 1], p = findDialog(evt.target);
+	document.on(phonon.event.start, function (evt) {
 
-      if (!p) {
-        if(previous.dialog.getAttribute('data-cancelable') !== 'false') {
+		if(dialogs.length > 0) {
+			var previous = dialogs[dialogs.length - 1], p = findDialog(evt.target);
 
-          // close the previous active dialog
-          close(previous.dialog);
+			if (!p) {
+				if(previous.dialog.getAttribute('data-cancelable') !== 'false') {
 
-          // call the cancel callback
-          if(typeof previous.cancelCallback === 'function') previous.cancelCallback();
-        }
-      }
+					// close the previous active dialog
+					close(previous.dialog);
 
-      if (p && p !== previous.dialog) {
-        // Case where there are two active dialogs
-        if (p.id !== previous.dialog.id) {
-          close(previous.dialog);
-        }
-      }
-    }
-  });
+					// call the cancel callback
+					if(typeof previous.cancelCallback === 'function') previous.cancelCallback();
+				}
+			}
 
-  document.on('tap', function(evt) {
+			if (p && p !== previous.dialog) {
+				// Case where there are two active dialogs
+				if (p.id !== previous.dialog.id) {
+					close(previous.dialog);
+				}
+			}
+		}
+	});
 
-    var trigger = findTrigger(evt.target), dialog = null;
+	document.on('tap', function(evt) {
 
-    if (trigger) {
-      dialog = getDialog(evt);
+		var trigger = findTrigger(evt.target), dialog = null;
 
-      lastTrigger = trigger;
+		if (trigger) {
+			dialog = getDialog(evt);
 
-      if(dialog) {
+			lastTrigger = trigger;
 
-        if(dialog.classList.contains('active')) {
-          close(dialog);
-        } else {
-          open(dialog);
-        }
-      }
-    }
-  });
+			if(dialog) {
 
-  document.on('keypress', function(evt) {
+				if(dialog.classList.contains('active')) {
+					close(dialog);
+				} else {
+					open(dialog);
+				}
+			}
+		}
+	});
 
-    if(dialogs.length > 0) {
+	document.on('keypress', function(evt) {
 
-      if(evt.which == 13 || evt.keyCode == 13) {
-        var previous = dialogs[dialogs.length - 1];
-        close(previous.dialog);
+		if(dialogs.length > 0) {
 
-        return false;
-      }
-    }
+			if(evt.which == 13 || evt.keyCode == 13) {
+				var previous = dialogs[dialogs.length - 1];
+				close(previous.dialog);
 
-    return true;
-  });
+				return false;
+			}
+		}
 
-  function onHide() {
+		return true;
+	});
 
-    var obj = findDialogObject(this.getAttribute('data-id'));
-    var backdrop = obj.backdrop;
+	function onHide() {
 
-    backdrop.classList.remove('fadeout');
-    document.body.removeChild(backdrop);
+		var obj = findDialogObject(this.getAttribute('data-id'));
+		var backdrop = obj.backdrop;
 
-    var dialog = obj.dialog;
-    dialog.style.visibility = 'hidden';
-    dialog.classList.remove('close');
+		backdrop.classList.remove('fadeout');
+		document.body.removeChild(backdrop);
 
-    dialogs.splice(obj.index, 1);
+		var dialog = obj.dialog;
+		dialog.style.visibility = 'hidden';
+		dialog.classList.remove('close');
 
-    this.off(phonon.event.transitionEnd, onHide, false);
-  }
+		dialogs.splice(obj.index, 1);
 
-  function center (target) {
+		this.off(phonon.event.transitionEnd, onHide, false);
+	}
 
-    var computedStyle = getComputedStyle(target),
-    width = computedStyle.width,
-    height = computedStyle.height;
+	function center (target) {
 
-    width = width.slice(0, width.length - 2);
-    height = height.slice(0, height.length - 2);
+		var computedStyle = getComputedStyle(target),
+		width = computedStyle.width,
+		height = computedStyle.height;
 
-    var top = (window.innerHeight / 2) - (height / 2);
-    target.style.top = top + 'px';
-  }
+		width = width.slice(0, width.length - 2);
+		height = height.slice(0, height.length - 2);
 
-  function open (dialog) {
+		var top = (window.innerHeight / 2) - (height / 2);
+		target.style.top = top + 'px';
+	}
 
-    dialog.style.visibility = 'visible';
+	function open (dialog) {
 
-    if(!dialog.classList.contains('active')) {
+		dialog.style.visibility = 'visible';
 
-      center(dialog);
+		if(!dialog.classList.contains('active')) {
 
-      dialog.classList.add('active');
+			center(dialog);
 
-      var preloader = dialog.querySelector('.circle-progress');
+			dialog.classList.add('active');
 
-      if(preloader) phonon.preloader(preloader).show();
+			var preloader = dialog.querySelector('.circle-progress');
 
-      var backdrop = createBackdrop(dialog.id);
-      dialogs.push( {dialog: dialog, backdrop: backdrop} );
+			if(preloader) phonon.preloader(preloader).show();
 
-      document.body.appendChild(backdrop);
-    }
-  }
+			var backdrop = createBackdrop(dialog.id);
+			dialogs.push( {dialog: dialog, backdrop: backdrop} );
 
-  function close(dialog) {
+			document.body.appendChild(backdrop);
+		}
+	}
 
-    if(dialog.classList.contains('active')) {
+	function close(dialog) {
 
-      dialog.classList.remove('active');
-      dialog.classList.add('close');
+		if(dialog.classList.contains('active')) {
 
-      var preloader = dialog.querySelector('.circle-progress');
-      if(preloader) phonon.preloader(preloader).hide();
-
-      var obj = findDialogObject(dialog.id);
-
-      var backdrop = obj.backdrop;
-
-      backdrop.classList.add('fadeout');
-      backdrop.on(phonon.event.transitionEnd, onHide, false);
-    }
-  }
-
-  function on(dialog, eventName, callback) {
-
-    var fireEvent = function() {
-
-      var input = dialog.querySelector('input');
-      var inputValue = undefined;
-      if(input) {
-        inputValue = input.value;
-      }
-
-      callback(inputValue);
-      this.off('tap', fireEvent);
-    };
-
-    if(eventName === 'confirm') {
-      var btnConfirm = dialog.querySelector('.btn-confirm');
-      if(btnConfirm) {
-        btnConfirm.on('tap', fireEvent);
-      }
-    } else {
-
-      // keep cancel callback for backdrop taps
-      addCancelCallback(dialog, callback);
-
-      var btnCancel = dialog.querySelector('.btn-cancel');
-      if(btnCancel) {
-        btnCancel.on('tap', fireEvent);
-      }
-    }
-  }
-
-  phonon.dialog = function(el) {
-    if(typeof el === 'undefined') {
-
-      return {
-        closeActive: function() {
-          var closable = (dialogs.length > 0 ? true : false);
-
-          if(closable) {
-
-            var dialog = dialogs[dialogs.length - 1].dialog;
-            if(dialog.getAttribute('data-cancelable') !== 'false') {
-              close(dialog);
-            }
-          }
-          return closable;
-        },
-        alert: function(text, title, cancelable, textOk) {
-          var dialog = buildDialog('alert', text, title, cancelable, textOk);
-          open(dialog);
-          return {
-            on: function(eventName, callback) {
-              on(dialog, eventName, callback);
-            }
-          };
-        },
-        confirm: function(text, title, cancelable, textOk, textCancel) {
-          var dialog = buildDialog('confirm', text, title, cancelable, textOk, textCancel);
-          open(dialog);
-          return {
-            on: function(eventName, callback) {
-              on(dialog, eventName, callback);
-            }
-          };
-        },
-        prompt: function(text, title, cancelable, textOk, textCancel) {
-          var dialog = buildDialog('prompt', text, title, cancelable, textOk, textCancel);
-          open(dialog);
-          return {
-            on: function(eventName, callback) {
-              on(dialog, eventName, callback);
-            }
-          };
-        },
-        indicator: function(title, cancelable) {
-          var dialog = buildDialog('indicator', '', title, cancelable);
-          open(dialog);
-          return {
-            on: function(eventName, callback) {
-              on(dialog, eventName, callback);
-              return this;
-            },
-            open: function() {
-              open(dialog);
-              return this;
-            },
-            close: function() {
-              close(dialog);
-              return this;
-            }
-          };
-        }
-      }
-    }
-
-    var dialog = (typeof el === 'string' ? document.querySelector(el) : el);
-    if(dialog === null) {
-      throw new Error('The following element ' + el + ' does not exists');
-    }
-
-    return {
-      open: function() {
-        open(dialog);
-        return this;
-      },
-      close: function() {
-        close(dialog);
-        return this;
-      },
-      on: function(eventName, callback) {
-        on(dialog, eventName, callback);
-        return this;
-      },
-      isActive: function() {
-        return (dialog.classList.contains('active') ? true : false);
-      }
-    };
-  };
-
-  window.phonon = phonon;
-
-  if(typeof exports === 'object') {
-    module.exports = phonon.dialog;
-  } else if(typeof define === 'function' && define.amd) {
-    define(function() { return phonon.dialog });
-  }
+			dialog.classList.remove('active');
+			dialog.classList.add('close');
+
+			var preloader = dialog.querySelector('.circle-progress');
+			if(preloader) phonon.preloader(preloader).hide();
+
+			var obj = findDialogObject(dialog.id);
+
+			var backdrop = obj.backdrop;
+
+			backdrop.on(phonon.event.transitionEnd, onHide, false);
+
+			// fix issue #62
+			window.setTimeout(function() {
+				backdrop.classList.add('fadeout');
+			}, 1);
+		}
+	}
+
+	function on(dialog, eventName, callback) {
+
+		var fireEvent = function() {
+
+			var input = dialog.querySelector('input');
+			var inputValue = undefined;
+			if(input) {
+				inputValue = input.value;
+			}
+
+			callback(inputValue);
+			this.off('tap', fireEvent);
+		};
+
+		if(eventName === 'confirm') {
+			var btnConfirm = dialog.querySelector('.btn-confirm');
+			if(btnConfirm) {
+				btnConfirm.on('tap', fireEvent);
+			}
+		} else {
+
+			// keep cancel callback for backdrop taps
+			addCancelCallback(dialog, callback);
+
+			var btnCancel = dialog.querySelector('.btn-cancel');
+			if(btnCancel) {
+				btnCancel.on('tap', fireEvent);
+			}
+		}
+	}
+
+	phonon.dialog = function(el) {
+
+		if(typeof el === 'undefined') {
+
+			return {
+				closeActive: function() {
+					var closable = (dialogs.length > 0 ? true : false);
+
+					if(closable) {
+
+						var dialog = dialogs[dialogs.length - 1].dialog;
+						if(dialog.getAttribute('data-cancelable') !== 'false') {
+							close(dialog);
+						}
+					}
+					return closable;
+				},
+				alert: function(text, title, cancelable, textOk) {
+					var dialog = buildDialog('alert', text, title, cancelable, textOk);
+					open(dialog);
+					return {
+						on: function(eventName, callback) {
+							on(dialog, eventName, callback);
+						}
+					};
+				},
+				confirm: function(text, title, cancelable, textOk, textCancel) {
+					var dialog = buildDialog('confirm', text, title, cancelable, textOk, textCancel);
+					open(dialog);
+					return {
+						on: function(eventName, callback) {
+							on(dialog, eventName, callback);
+						}
+					};
+				},
+				prompt: function(text, title, cancelable, textOk, textCancel) {
+					var dialog = buildDialog('prompt', text, title, cancelable, textOk, textCancel);
+					open(dialog);
+					return {
+						on: function(eventName, callback) {
+							on(dialog, eventName, callback);
+						}
+					};
+				},
+				indicator: function(title, cancelable) {
+					var dialog = buildDialog('indicator', '', title, cancelable);
+					open(dialog);
+					return {
+						on: function(eventName, callback) {
+							on(dialog, eventName, callback);
+							return this;
+						},
+						open: function() {
+							open(dialog);
+							return this;
+						},
+						close: function() {
+							close(dialog);
+							return this;
+						}
+					};
+				}
+			}
+		}
+
+		var dialog = (typeof el === 'string' ? document.querySelector(el) : el);
+		if(dialog === null) {
+			throw new Error('The following element ' + el + ' does not exists');
+		}
+
+		return {
+			open: function() {
+				open(dialog);
+				return this;
+			},
+			close: function() {
+				close(dialog);
+				return this;
+			},
+			on: function(eventName, callback) {
+				on(dialog, eventName, callback);
+				return this;
+			},
+			isActive: function() {
+				return (dialog.classList.contains('active') ? true : false);
+			}
+		};
+	};
+
+	window.phonon = phonon;
+
+	if(typeof exports === 'object') {
+		module.exports = phonon.dialog;
+	} else if(typeof define === 'function' && define.amd) {
+		define(function() { return phonon.dialog });
+	}
 
 }(typeof window !== 'undefined' ? window : this, window.phonon || {}));
 

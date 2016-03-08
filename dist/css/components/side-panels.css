@@ -10,6 +10,7 @@
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   background-color: #333;
+  -webkit-transition: width 0.3s ease;
   transition: width 0.3s ease;
 }
 .side-panel .list {
@@ -28,7 +29,7 @@
 .side-panel .list li:active,
 .side-panel .list .title:active,
 .side-panel .list .body:active {
-  background-color: item-background-active;
+  background-color: #444;
 }
 .side-panel .header-bar {
   background-color: transparent;

@@ -75,7 +75,7 @@ gulp.task('js-components', function () {
 gulp.task('css-base', function () {
 	return gulp.src('./src/stylus/phonon-base.styl')
 	.pipe(stylus({compress: false, keepSpecialComments: 1}))
-	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
+	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions', 'ios 6', 'ios 7', 'ie 8', 'ie 9', 'android 4'] }) ]))
 	.pipe(gulp.dest('./dist/css'))
 	.pipe(rename({suffix: '.min'}))
 	.pipe(cssnano({zindex: false}))
@@ -88,7 +88,7 @@ gulp.task('css-base', function () {
 gulp.task('css-theme', function () {
 	return gulp.src('./src/stylus/theme.styl')
 	.pipe(stylus({compress: false}))
-	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
+	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions', 'ios 6', 'ios 7', 'ie 8', 'ie 9', 'android 4'] }) ]))
 	.pipe(gulp.dest('./dist/css'));
 });
 
@@ -98,20 +98,20 @@ gulp.task('css-theme', function () {
 gulp.task('css-all', function () {
 	return gulp.src('./src/stylus/phonon.styl')
 	.pipe(stylus({compress: false}))
-	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
+	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions', 'ios 6', 'ios 7', 'ie 8', 'ie 9', 'android 4'] }) ]))
 	.pipe(gulp.dest('./dist/css'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(cssnano())
+	.pipe(cssnano({zindex: false}))
 	.pipe(gulp.dest('./dist/css'));
 });
 
 gulp.task('css-components', function () {
 	return gulp.src('./src/stylus/components/*.styl')
 	.pipe(stylus({compress: false}))
-	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions'] }) ]))
+	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions', 'ios 6', 'ios 7', 'ie 8', 'ie 9', 'android 4'] }) ]))
 	.pipe(gulp.dest('./dist/css/components'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(cssnano())
+	.pipe(cssnano({zindex: false}))
 	.pipe(gulp.dest('./dist/css/components'));
 });
 

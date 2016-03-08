@@ -384,7 +384,7 @@ button {
 .btn.primary,
 .btn.positive,
 .btn.negative {
-  color: #fff;
+  color: #fff !important;
 }
 .btn {
   position: relative;
@@ -401,6 +401,7 @@ button {
   border: none;
   border-radius: 3px;
   background-color: #f1f1f1;
+  -webkit-transition: background-color 250ms ease-in-out;
   transition: background-color 250ms ease-in-out;
 }
 .btn .icon {
@@ -616,7 +617,7 @@ button {
 }
 @media only screen and (min-width: 641px) {
   .show-for-tablet-only,
-  show-for-tablet-up {
+  .show-for-tablet-up {
     display: inherit !important;
   }
   .padded-full {
@@ -669,6 +670,9 @@ button {
   }
 }
 @media only screen and (min-width: 1025px) {
+  .show-for-tablet-only {
+    display: none !important;
+  }
   .show-for-tablet-up,
   .show-for-large-only {
     display: inherit !important;
@@ -967,6 +971,7 @@ i.icon {
   height: auto;
   min-height: 51px;
   line-height: 52px;
+  overflow: hidden /* for accordion animation */;
   display: block;
   border-bottom: 1px solid #eee;
 }
@@ -975,6 +980,7 @@ i.icon {
   height: 100%;
   display: block;
   color: #000;
+  -webkit-transition: background-color 250ms ease-in-out;
   transition: background-color 250ms ease-in-out;
 }
 .list li a:active {
@@ -998,13 +1004,15 @@ i.icon {
   position: absolute;
   height: auto;
   visibility: hidden;
+  -webkit-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
-  padding: 0 15px;
+  padding: 0 16px;
   background-color: #f9f9f9;
 }
 .list li .accordion-active {
   position: relative;
   visibility: visible;
+  -webkit-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
 }
 .list li .title,
@@ -1034,7 +1042,7 @@ i.icon {
 }
 .list .divider,
 .list .padded-list {
-  padding: 0 15px;
+  padding: 0 16px;
 }
 input[type="submit"],
 input[type="reset"],
@@ -1112,8 +1120,13 @@ label {
 .radio input[type="radio"] {
   display: none;
 }
+.checkbox,
+.radio {
+  position: relative;
+}
 .checkbox span,
 .radio span {
+  -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   content: "";
   position: absolute;
@@ -1160,6 +1173,7 @@ label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
+  -webkit-transition: all 200ms;
   transition: all 200ms;
 }
 .with-label:focus + .floating-label,
@@ -1224,6 +1238,7 @@ table,
 }
 .backdrop-dialog.fadeout {
   opacity: 0;
+  -webkit-transition: opacity 0.45s linear;
   transition: opacity 0.45s linear;
 }
 .dialog {
@@ -1242,6 +1257,7 @@ table,
   background-color: #fff;
   -webkit-transform: translate3d(0, 0, 0) scale(1.185);
           transform: translate3d(0, 0, 0) scale(1.185);
+  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: transform 0.3s, opacity 0.3s;
   transition: transform 0.3s, opacity 0.3s, -webkit-transform 0.3s;
@@ -1317,6 +1333,7 @@ table,
   background-color: #333;
   -webkit-transform: translate3d(0, 72px, 0);
           transform: translate3d(0, 72px, 0);
+  -webkit-transition: opacity 200ms, -webkit-transform 0.3s;
   transition: opacity 200ms, -webkit-transform 0.3s;
   transition: transform 0.3s, opacity 200ms;
   transition: transform 0.3s, opacity 200ms, -webkit-transform 0.3s;
@@ -1354,6 +1371,7 @@ table,
 }
 .backdrop-panel.fadeout {
   opacity: 0;
+  -webkit-transition: opacity 450ms linear;
   transition: opacity 450ms linear;
 }
 .panel,
@@ -1374,6 +1392,7 @@ table,
   top: auto;
   -webkit-transform: translate3d(0, 100%, 0);
           transform: translate3d(0, 100%, 0);
+  -webkit-transition: opacity 1ms, -webkit-transform 300ms;
   transition: opacity 1ms, -webkit-transform 300ms;
   transition: transform 300ms, opacity 1ms;
   transition: transform 300ms, opacity 1ms, -webkit-transform 300ms;
@@ -1410,6 +1429,7 @@ table,
 .panel-full.active .content {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
+  -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
@@ -1417,11 +1437,13 @@ table,
 .panel-full .content {
   -webkit-transform: translate3d(0, 50%, 0);
           transform: translate3d(0, 50%, 0);
+  -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
 .panel-closing {
+  -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
@@ -1447,11 +1469,13 @@ table,
   border-radius: 2px;
   visibility: hidden;
   box-shadow: 0 0 4px #8a8a8a;
+  -webkit-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 .popover.active {
   visibility: visible;
   opacity: 1;
+  -webkit-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 .popover .list {
@@ -1474,6 +1498,7 @@ table,
   margin-left: -18px;
   z-index: 20;
   opacity: 0;
+  -webkit-transition: opacity 0.65s ease;
   transition: opacity 0.65s ease;
   background-color: #fff;
   border-radius: 50%;
@@ -1515,6 +1540,7 @@ table,
   top: 0;
   bottom: 0;
   background-color: #0084e7;
+  -webkit-transition: width 0.2s linear;
   transition: width 0.2s linear;
 }
 @-webkit-keyframes circleLoading {
@@ -1549,6 +1575,7 @@ table,
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   background-color: #333;
+  -webkit-transition: width 0.3s ease;
   transition: width 0.3s ease;
 }
 .side-panel .list {
@@ -1567,7 +1594,7 @@ table,
 .side-panel .list li:active,
 .side-panel .list .title:active,
 .side-panel .list .body:active {
-  background-color: item-background-active;
+  background-color: #444;
 }
 .side-panel .header-bar {
   background-color: transparent;
@@ -1605,6 +1632,7 @@ div.awesomplete > ul {
   left: 0;
   z-index: 1;
   margin-top: 60px;
+  -webkit-transition: 0.3s cubic-bezier(0.4, 0.2, 0.5, 1.4);
   transition: 0.3s cubic-bezier(0.4, 0.2, 0.5, 1.4);
   -webkit-transform-origin: 1.43em -0.43em;
       -ms-transform-origin: 1.43em -0.43em;
@@ -1644,5 +1672,6 @@ div.awesomplete > ul:empty {
       -ms-transform: scale(0);
           transform: scale(0);
   display: block;
-  transition-timing-function: ease;
+  -webkit-transition-timing-function: ease;
+          transition-timing-function: ease;
 }

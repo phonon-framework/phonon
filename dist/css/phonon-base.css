@@ -384,7 +384,7 @@ button {
 .btn.primary,
 .btn.positive,
 .btn.negative {
-  color: #fff;
+  color: #fff !important;
 }
 .btn {
   position: relative;
@@ -401,6 +401,7 @@ button {
   border: none;
   border-radius: 3px;
   background-color: #f1f1f1;
+  -webkit-transition: background-color 250ms ease-in-out;
   transition: background-color 250ms ease-in-out;
 }
 .btn .icon {
@@ -616,7 +617,7 @@ button {
 }
 @media only screen and (min-width: 641px) {
   .show-for-tablet-only,
-  show-for-tablet-up {
+  .show-for-tablet-up {
     display: inherit !important;
   }
   .padded-full {
@@ -669,6 +670,9 @@ button {
   }
 }
 @media only screen and (min-width: 1025px) {
+  .show-for-tablet-only {
+    display: none !important;
+  }
   .show-for-tablet-up,
   .show-for-large-only {
     display: inherit !important;

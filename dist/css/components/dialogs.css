@@ -10,6 +10,7 @@
 }
 .backdrop-dialog.fadeout {
   opacity: 0;
+  -webkit-transition: opacity 0.45s linear;
   transition: opacity 0.45s linear;
 }
 .dialog {
@@ -28,6 +29,7 @@
   background-color: #fff;
   -webkit-transform: translate3d(0, 0, 0) scale(1.185);
           transform: translate3d(0, 0, 0) scale(1.185);
+  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: transform 0.3s, opacity 0.3s;
   transition: transform 0.3s, opacity 0.3s, -webkit-transform 0.3s;

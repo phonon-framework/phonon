@@ -1,3 +1,14 @@
+### 1.2.2 (2016-03-08)
+
+#### Bug Fixes
+
+* position of checkboxes/radios [#101](https://github.com/quark-dev/Phonon-Framework/issues/101) & [#99](https://github.com/quark-dev/Phonon-Framework/issues/99)
+* items color from lists in side panels
+* missing overflow on accordion lists
+* fix rules for visibility
+* Putting HTML elements to an accordion list head label broke the show/hide function [#96](https://github.com/quark-dev/Phonon-Framework/issues/96)
+* If an accordion list is open, the content is still displayed in the side panel [#97](https://github.com/quark-dev/Phonon-Framework/issues/97)
+
 ### 1.2.1 (2016-02-28)
 
 #### Bug Fixes

@@ -11,6 +11,7 @@
 		min-height (list-simple-item-height - 1px)
 		line-height list-simple-item-height
 
+		overflow hidden /* for accordion animation */
 		display block
 		border-bottom 1px solid #eee
 
@@ -22,7 +23,7 @@
 			transition background-color 250ms ease-in-out
 
 			&:active
-				background-color #eee
+				background-color list-item-background-active
 
 		.pull-left, .pull-right
 			width list-simple-item-height
@@ -42,7 +43,7 @@
 			height auto
 			visibility hidden
 			transition max-height 300ms ease-in-out
-			padding 0 15px
+			padding 0 padding-phone
 			background-color #f9f9f9
 
 		.accordion-active
@@ -76,4 +77,4 @@
 
 
 	.divider, .padded-list
-		padding 0 15px
+		padding 0 padding-phone

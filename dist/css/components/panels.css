@@ -9,6 +9,7 @@
 }
 .backdrop-panel.fadeout {
   opacity: 0;
+  -webkit-transition: opacity 450ms linear;
   transition: opacity 450ms linear;
 }
 .panel,
@@ -29,6 +30,7 @@
   top: auto;
   -webkit-transform: translate3d(0, 100%, 0);
           transform: translate3d(0, 100%, 0);
+  -webkit-transition: opacity 1ms, -webkit-transform 300ms;
   transition: opacity 1ms, -webkit-transform 300ms;
   transition: transform 300ms, opacity 1ms;
   transition: transform 300ms, opacity 1ms, -webkit-transform 300ms;
@@ -65,6 +67,7 @@
 .panel-full.active .content {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
+  -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
@@ -72,11 +75,13 @@
 .panel-full .content {
   -webkit-transform: translate3d(0, 50%, 0);
           transform: translate3d(0, 50%, 0);
+  -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
 .panel-closing {
+  -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;

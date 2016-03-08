@@ -77,7 +77,7 @@ phonon.event = (function () {
         transitionEnd = 'webkitTransitionEnd';
         animationEnd = 'webkitAnimationEnd';
     }
-    
+
     api.transitionEnd = transitionEnd;
     api.animationEnd = animationEnd;
 
