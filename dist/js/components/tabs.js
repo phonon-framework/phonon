@@ -258,8 +258,11 @@
       this._sizePages = proxy( this._sizePages, this );
       this._afterScrollTransform = proxy(this._afterScrollTransform, this);
 
-      this.pageContainer.innerHTML = container.cloneNode(true).innerHTML;
-      container.innerHTML = "";
+      // this.pageContainer.innerHTML = container.cloneNode(true).innerHTML;
+      while (container.firstChild)
+        this.pageContainer.appendChild(container.firstChild);
+
+      // container.innerHTML = "";
       container.appendChild( this.pageContainer );
 
       this._scroll = supportTransform ? this._scrollWithTransform : this._scrollWithoutTransform;
