@@ -130,6 +130,14 @@
     return null;
   };
 
+  function DOMEval(code) {
+
+	  var script = document.createElement('script');
+
+	  script.text = code;
+	  document.head.appendChild( script ).parentNode.removeChild( script );
+  }
+
   /**
    * Retrives the DOM element for a given page
    * @param {String} pageName
@@ -404,13 +412,24 @@
             if(attr.nodeName !== 'class' && attr.nodeValue !== 'app-page') elPage.setAttribute(attr.nodeName, attr.nodeValue);
           }
 
+
+		  var evalJs = function(element) {
+			  var s = element.getElementsByTagName('script');
+			  for(var i=0; i < s.length; i++) {
+				  DOMEval(s[i].innerHTML);
+			  }
+		  };
+
           if(opts.useI18n) {
             phonon.i18n().bind(virtualElPage, function() {
               elPage.innerHTML = virtualElPage.innerHTML;
+			  evalJs(virtualDiv);
+
               fn();
             });
           } else {
             elPage.innerHTML = virtualElPage.innerHTML;
+			evalJs(virtualDiv);
             fn();
           }
 
