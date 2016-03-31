@@ -354,6 +354,11 @@ button {
             transform: translate3d(50%, 0, 0);
   }
 }
+.btn.primary,
+.btn.positive,
+.btn.negative {
+  color: #fff !important;
+}
 .primary {
   background-color: #0084e7 !important;
 }
@@ -380,11 +385,6 @@ button {
 }
 .light-negative {
   background-color: #f4c5c3 !important;
-}
-.btn.primary,
-.btn.positive,
-.btn.negative {
-  color: #fff !important;
 }
 .btn {
   position: relative;
