@@ -1,3 +1,10 @@
+### 1.2.4 (2016-04-01)
+
+#### Bug Fixes
+
+* tap event on Windows Phone (IE11 and IE10) [#107](https://github.com/quark-dev/Phonon-Framework/issues/107)
+* header bar in panels always visible when closed
+
 ### 1.2.3 (2016-04-01)
 
 #### Bug Fixes

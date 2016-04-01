@@ -379,29 +379,33 @@ phonon.event = (function () {
      * [3] transitionEnd and animationEnd polyfill
      */
 
+	// Use available events
+	// mousecancel does not exists
+    var availableEvents = ['mousedown', 'mousemove', 'mouseup'];
+
     // Check if touch is enabled
     var hasTouch = false;
     if(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
         hasTouch = true;
+		availableEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
     }
 
-    // Use available events
-    var desktopEvents = ['mousedown', 'mousemove', 'mouseup'];
-
     if (window.navigator.pointerEnabled) {
-        desktopEvents = ['pointerdown', 'pointermove', 'pointerup'];
+        availableEvents = ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'];
     } else if (window.navigator.msPointerEnabled) {
-        desktopEvents = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
+        availableEvents = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp', 'MSPointerCancel'];
     }
 
     var api = {};
 
     api.hasTouch = hasTouch;
-    api.start = hasTouch ? 'touchstart' : desktopEvents[0];
-    api.move = hasTouch ? 'touchmove' : desktopEvents[1];
-    api.end = hasTouch ? 'touchend' : desktopEvents[2];
-    api.tap = 'tap';
 
+    api.start = availableEvents[0];
+    api.move = availableEvents[1];
+    api.end = availableEvents[2];
+	api.cancel = typeof availableEvents[3] === 'undefined' ? null : availableEvents[3];
+
+    api.tap = 'tap';
 
     /**
      * Animation/Transition event polyfill
@@ -453,7 +457,6 @@ phonon.event = (function () {
     api.transitionEnd = transitionEnd;
     api.animationEnd = animationEnd;
 
-
     var tapEls = [];
 
     var TapElement = (function () {
@@ -464,41 +467,38 @@ phonon.event = (function () {
             this.moved = false;
             this.startX = 0;
             this.startY = 0;
-            this.hasTouchEventOccured = false;
+
             this.el.addEventListener(api.start, this, false);
         }
 
         TapElement.prototype.start = function(e) {
 
-            if (e.type === 'touchstart') {
-
-                this.hasTouchEventOccured = true;
-                this.el.addEventListener('touchmove', this, false);
-                this.el.addEventListener('touchend', this, false);
-                this.el.addEventListener('touchcancel', this, false);
-
-            } else {
-
-                this.el.addEventListener(api.end, this, false);
-            }
+            this.el.addEventListener(api.move, this, false);
+            this.el.addEventListener(api.end, this, false);
 
             this.moved = false;
-            this.startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-            this.startY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+            this.startX = e.clientX || e.touches[0].clientX;
+            this.startY = e.clientY || e.touches[0].clientY;
         };
 
         TapElement.prototype.move = function(e) {
+
+			var moveX = e.clientX || e.touches[0].clientX;
+            var moveY = e.clientY || e.touches[0].clientY;
+
             //if finger moves more than 10px flag to cancel
-            if (Math.abs(e.touches[0].clientX - this.startX) > 10 || Math.abs(e.touches[0].clientY - this.startY) > 10) {
+            if (Math.abs(moveX - this.startX) > 10 || Math.abs(moveY - this.startY) > 10) {
                 this.moved = true;
             }
         };
 
         TapElement.prototype.end = function(e) {
-            this.el.removeEventListener('touchmove', this, false);
-            this.el.removeEventListener('touchend', this, false);
-            this.el.removeEventListener('touchcancel', this, false);
+
+			this.el.removeEventListener(api.move, this, false);
             this.el.removeEventListener(api.end, this, false);
+
+			if (api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
 
             if (!this.moved) {
                 this.callback(e);
@@ -506,7 +506,6 @@ phonon.event = (function () {
         };
 
         TapElement.prototype.cancel = function() {
-            this.hasTouchEventOccured = false;
             this.moved = false;
             this.startX = 0;
             this.startY = 0;
@@ -516,15 +515,15 @@ phonon.event = (function () {
             this.el.removeEventListener(api.start, this, false);
             this.el.removeEventListener(api.move, this, false);
             this.el.removeEventListener(api.end, this, false);
-            this.el.removeEventListener('touchcancel', this, false);
+			if(api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
         };
 
         TapElement.prototype.handleEvent = function(e) {
             switch (e.type) {
                 case api.start: this.start(e); break;
-                case 'touchmove': this.move(e); break;
+                case api.move: this.move(e); break;
                 case api.end: this.end(e); break;
-                case 'touchcancel': this.cancel(e); break;
+                case api.cancel: this.cancel(e); break; // api.cancel can be null
             }
         };
 
@@ -1440,13 +1439,13 @@ phonon.tagManager = (function () {
           if(opts.useI18n) {
             phonon.i18n().bind(virtualElPage, function() {
               elPage.innerHTML = virtualElPage.innerHTML;
-			  evalJs(template);
+			  evalJs(virtualDiv);
 
               fn();
             });
           } else {
             elPage.innerHTML = virtualElPage.innerHTML;
-			evalJs(template);
+			evalJs(virtualDiv);
             fn();
           }
 

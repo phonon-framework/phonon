@@ -32,16 +32,10 @@
   transform translate3d(0, 100%, 0)
   transition transform 300ms, opacity 1ms
 
-  .header-bar
-    visibility hidden
-
   // Active panel
   &.active
     transform translate3d(0, 0, 0)
     opacity 1
-
-    .header-bar
-      visibility visible
 
   .content
     position relative
@@ -70,3 +64,14 @@
 
 .panel-closing
   transition transform 300ms
+
+// fix visibility of header-bars in panels
+.panel, .panel-full
+
+  .header-bar
+    visibility hidden
+
+  &.active
+
+    .header-bar
+      visibility visible
