@@ -1,3 +1,20 @@
+### 1.2.4 (2016-04-01)
+
+#### Bug Fixes
+
+* tap event on Windows Phone (IE11 and IE10) [#107](https://github.com/quark-dev/Phonon-Framework/issues/107)
+* header bar in panels always visible when closed
+
+### 1.2.3 (2016-04-01)
+
+#### Bug Fixes
+
+* colors of flat buttons
+
+#### Features
+
+* JavaScript code is now executed in HTML templates (page templates) if it exists [#108](https://github.com/quark-dev/Phonon-Framework/issues/108)
+
 ### 1.2.2 (2016-03-08)
 
 #### Bug Fixes

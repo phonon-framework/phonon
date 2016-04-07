@@ -354,6 +354,11 @@ button {
             transform: translate3d(50%, 0, 0);
   }
 }
+.btn.primary,
+.btn.positive,
+.btn.negative {
+  color: #fff !important;
+}
 .primary {
   background-color: #0084e7 !important;
 }
@@ -380,11 +385,6 @@ button {
 }
 .light-negative {
   background-color: #f4c5c3 !important;
-}
-.btn.primary,
-.btn.positive,
-.btn.negative {
-  color: #fff !important;
 }
 .btn {
   position: relative;
@@ -1397,16 +1397,10 @@ table,
   transition: transform 300ms, opacity 1ms;
   transition: transform 300ms, opacity 1ms, -webkit-transform 300ms;
 }
-.panel .header-bar {
-  visibility: hidden;
-}
 .panel.active {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   opacity: 1;
-}
-.panel.active .header-bar {
-  visibility: visible;
 }
 .panel .content {
   position: relative;
@@ -1447,6 +1441,14 @@ table,
   transition: -webkit-transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
+}
+.panel .header-bar,
+.panel-full .header-bar {
+  visibility: hidden;
+}
+.panel.active .header-bar,
+.panel-full.active .header-bar {
+  visibility: visible;
 }
 .backdrop-popover {
   position: fixed;
