@@ -2828,7 +2828,7 @@ phonon.tagManager = (function () {
 		} else {
 
 			// keep cancel callback for backdrop taps
-			addCancelCallback(dialog, callback);
+			addCancelCallback(dialog, fireEvent);
 
 			var btnCancel = dialog.querySelector('.btn-cancel');
 			if(btnCancel) {
