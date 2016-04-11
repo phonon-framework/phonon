@@ -106,14 +106,14 @@ phonon.event = (function () {
 
             this.moved = false;
 
-            this.startX = e.clientX || e.touches[0].clientX;
-            this.startY = e.clientY || e.touches[0].clientY;
+            this.startX = (e.touches ? e.touches[0].clientX : e.clientX);
+            this.startY = (e.touches ? e.touches[0].clientY : e.clientY);
         };
 
         TapElement.prototype.move = function(e) {
 
-			var moveX = e.clientX || e.touches[0].clientX;
-            var moveY = e.clientY || e.touches[0].clientY;
+			var moveX = (e.touches ? e.touches[0].clientX : e.clientX);
+            var moveY = (e.touches ? e.touches[0].clientY : e.clientY);
 
             //if finger moves more than 10px flag to cancel
             if (Math.abs(moveX - this.startX) > 10 || Math.abs(moveY - this.startY) > 10) {
