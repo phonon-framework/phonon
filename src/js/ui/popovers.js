@@ -96,7 +96,7 @@
     var target = evt.target, trigger = findTrigger(target);
 
     if (trigger.target) {
-      
+
       var popover = document.querySelector('#'+trigger.id);
 
       if(popover) {
@@ -204,7 +204,7 @@
         popover.style.top = rect.top + 'px';
         popover.style.left = rect.left + 'px';
       }
-      
+
       if(!popover.classList.contains('active')) {
         popover.classList.add('active');
       }
@@ -253,7 +253,7 @@
       }
     };
   };
-  
+
   window.phonon = phonon;
 
   if(typeof exports === 'object') {

@@ -486,6 +486,7 @@ button {
   color: #fff;
   height: 52px;
   line-height: 52px;
+  vertical-align: middle;
 }
 .header-bar .center .title {
   margin: 0 auto;
@@ -510,6 +511,7 @@ button {
   padding: 0 12px;
   height: 52px;
   line-height: 52px;
+  vertical-align: middle;
   color: #fff;
   background-color: transparent;
   border: none;

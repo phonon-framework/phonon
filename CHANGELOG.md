@@ -1,3 +1,10 @@
+### 1.2.5 (2016-04-12)
+
+#### Bug Fixes
+
+* attempt to fix elements in header bar (which are not centered vertically) on iOS [#110](https://github.com/quark-dev/Phonon-Framework/issues/110)
+* TapElement start/move when clientX/clientY is 0 throws js error [#119](https://github.com/quark-dev/Phonon-Framework/issues/119)
+
 ### 1.2.4 (2016-04-01)
 
 #### Bug Fixes
