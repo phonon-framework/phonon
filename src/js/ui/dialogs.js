@@ -271,7 +271,13 @@
 			}
 
 			callback(inputValue);
-			this.off('tap', fireEvent);
+
+			// #117 remove callbacks from both buttons
+			var btnConfirm = dialog.querySelector('.btn-confirm');
+			var btnCancel = dialog.querySelector('.btn-cancel');
+			btnConfirm.off('tap', fireEvent);
+			btnCancel.off('tap', fireEvent);
+			
 		};
 
 		if(eventName === 'confirm') {
@@ -282,7 +288,7 @@
 		} else {
 
 			// keep cancel callback for backdrop taps
-			addCancelCallback(dialog, callback);
+			addCancelCallback(dialog, fireEvent);
 
 			var btnCancel = dialog.querySelector('.btn-cancel');
 			if(btnCancel) {
