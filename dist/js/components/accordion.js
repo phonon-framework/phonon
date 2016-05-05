@@ -76,7 +76,19 @@
 			}
 		}
 
-		return null
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	function fromPage(target) {
+
+		for (; target && target !== document; target = target.parentNode) {
+			if(target.getAttribute('data-page') === 'true') return true;
+		}
+
+		return false;
 	}
 
 	function onPage(evt) {
@@ -98,8 +110,23 @@
 
 		var page = document.querySelector(evt.detail.page);
 
-		if(page.querySelector('.accordion-content')) {
-			page.on('tap', onPage);
+		/*
+		 * Accordion lists are in:
+		 * [1] pages
+		 * [2] components such as side panels are found when Phonon is ready
+		 */
+
+		// 1
+		var lists = page.querySelectorAll('.list');
+		if(lists) {
+			var i = 0;
+			var l = lists.length;
+			for (; i < l; i++) {
+				var list = lists[i];
+				if(list.querySelector('.accordion-content')) {
+					list.on('tap', onPage);
+				}
+			}
 		}
 	});
 
@@ -113,6 +140,22 @@
 		for (; i < accordionLists.length; i++) {
 			var fakeDefaultTarget = accordionLists[i].previousElementSibling;
 			onPage({target: fakeDefaultTarget});
+		}
+	});
+
+	phonon.onReady(function() {
+
+		// 2
+		var lists = document.body.querySelectorAll('.list')
+		if(lists) {
+			var i = 0;
+			var l = lists.length;
+			for (; i < l; i++) {
+				var list = lists[i];
+				if(list.querySelector('.accordion-content') && !fromPage(list)) {
+					list.on('tap', onPage);
+				}
+			}
 		}
 	});
 

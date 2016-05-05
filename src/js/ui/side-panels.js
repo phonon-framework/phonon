@@ -86,13 +86,14 @@
             },
             // @phonon
             createBackdrop: function() {
+
                 if(!backdrop) {
 
                     var bd = document.createElement('div');
                     bd.classList.add('backdrop-panel');
                     backdrop = bd;
 
-                    document.querySelector('.app-active').appendChild(backdrop);
+                    settings.element.appendChild(backdrop);
                 }
             },
             removeBackdrop: function() {
@@ -103,12 +104,9 @@
                     var _backdrop = backdrop;
                     backdrop = null;
 
-                    // query the current page in case of page navigation with a side panel link
-                    var page = document.querySelector('.app-active');
-
                     var closed = function () {
                         _backdrop.classList.remove('fadeout');
-                        page.removeChild(_backdrop);
+                        settings.element.removeChild(_backdrop);
                         _backdrop.off(phonon.event.transitionEnd, closed);
                     };
 
@@ -663,16 +661,17 @@
         for (; i >= 0; i--) {
 
             var sb = sidePanels[i];
-
-            var page = sb.el.getAttribute('data-page');
             var exposeAside = sb.el.getAttribute('data-expose-aside');
 
-            if(page !== currentPage) {
+            if(sb.pages.indexOf(currentPage) === -1) {
 
                 sb.el.style.display = 'none';
                 sb.el.style.visibility = 'hidden';
 
             } else {
+
+				// #90: update the snapper according to the page
+				sb.snapper.settings( {element: pageEl} );
 
                 sb.el.style.display = 'block';
                 sb.el.style.visibility = 'visible';
@@ -748,12 +747,22 @@
 
             var el = spEls[i];
             var disable = el.getAttribute('data-disable');
-            var page = el.getAttribute('data-page');
-            var pageEl = document.querySelector(page);
+            var pages = el.getAttribute('data-page');
+
+			var _pages = [];
+
+			var page = pages.split(',');
+			var j = 0;
+			var l = page.length;
+
+			for (; j < l; j++) {
+				var _page = page[j].trim();
+				_pages.push(_page)
+			}
 
             // Options
             var options = {
-                element: pageEl,
+                element: document.body,
                 disable: (disable === null ? 'none' : disable),
                 hyperextensible: false,
                 touchToDrag: false,
@@ -762,7 +771,7 @@
             };
 
             var snapper = new Snap(options);
-            sidePanels.push({snapper: snapper, el: el, direction: (el.classList.contains('side-panel-left') ? 'left' : 'right')});
+            sidePanels.push({snapper: snapper, el: el, pages: _pages, direction: (el.classList.contains('side-panel-left') ? 'left' : 'right')});
         }
     });
 

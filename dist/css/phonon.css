@@ -252,10 +252,6 @@ p {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
-.content > * {
-  -webkit-transform: translateZ(0);
-          transform: translateZ(0);
-}
 input,
 textarea,
 select {
@@ -1599,6 +1595,9 @@ table,
 .side-panel .list .title:active,
 .side-panel .list .body:active {
   background-color: #444;
+}
+.side-panel .list .accordion-content {
+  background-color: #333;
 }
 .side-panel .header-bar {
   background-color: transparent;

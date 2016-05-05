@@ -10,6 +10,7 @@
 
 	var lastTrigger = false;
 	var dialogs = [];
+	var fireEvent = null;
 
 	function addCancelCallback(dialog, cancelCallback) {
 		for (var i = 0; i < dialogs.length; i++) {
@@ -239,6 +240,8 @@
 
 	function close(dialog) {
 
+		off(dialog)
+
 		if(dialog.classList.contains('active')) {
 
 			dialog.classList.remove('active');
@@ -262,16 +265,15 @@
 
 	function on(dialog, eventName, callback) {
 
-		var fireEvent = function() {
+		fireEvent = function() {
 
 			var input = dialog.querySelector('input');
-			var inputValue = undefined;
+			var inputValue; // undefined by default
 			if(input) {
 				inputValue = input.value;
 			}
 
 			callback(inputValue);
-			this.off('tap', fireEvent);
 		};
 
 		if(eventName === 'confirm') {
@@ -287,6 +289,23 @@
 			var btnCancel = dialog.querySelector('.btn-cancel');
 			if(btnCancel) {
 				btnCancel.on('tap', fireEvent);
+			}
+		}
+	}
+
+	/**
+	 * Resets tap events when the dialog is closed
+	 */
+	function off(dialog) {
+
+		if(typeof fireEvent !== 'function') return;
+
+		var buttons = dialog.querySelectorAll('.btn-confirm, .btn-cancel');
+		if(buttons) {
+			var i = 0;
+			var l = buttons.length;
+			for (; i < l; i++) {
+				buttons[i].off('tap', fireEvent)
 			}
 		}
 	}

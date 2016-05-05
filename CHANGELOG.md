@@ -1,3 +1,17 @@
+### 1.2.6 (2016-05-05)
+
+#### Bug Fixes
+
+* attempt to fix scroll issue when the height of the viewport changes [#53](https://github.com/quark-dev/Phonon-Framework/issues/53),  [#124](https://github.com/quark-dev/Phonon-Framework/issues/124) and [#43](https://github.com/quark-dev/Phonon-Framework/issues/43)
+* accordion lists can be used in components such as side panels and panels [#125](https://github.com/quark-dev/Phonon-Framework/issues/125)
+* bad accordion color in dark side panels
+* reset button handlers correctly [#117](https://github.com/quark-dev/Phonon-Framework/issues/117)
+* page navigation from side panels [#71](https://github.com/quark-dev/Phonon-Framework/issues/71)
+
+#### Features
+
+* Side panels are now supporting many pages. With the same attribute data-page, add several pages separated by a comma like the following: data-page="home, pagetwo".
+
 ### 1.2.5 (2016-04-12)
 
 #### Bug Fixes

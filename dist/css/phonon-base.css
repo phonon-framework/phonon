@@ -252,10 +252,6 @@ p {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
-.content > * {
-  -webkit-transform: translateZ(0);
-          transform: translateZ(0);
-}
 input,
 textarea,
 select {

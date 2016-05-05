@@ -2075,7 +2075,19 @@ phonon.tagManager = (function () {
 			}
 		}
 
-		return null
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	function fromPage(target) {
+
+		for (; target && target !== document; target = target.parentNode) {
+			if(target.getAttribute('data-page') === 'true') return true;
+		}
+
+		return false;
 	}
 
 	function onPage(evt) {
@@ -2097,8 +2109,23 @@ phonon.tagManager = (function () {
 
 		var page = document.querySelector(evt.detail.page);
 
-		if(page.querySelector('.accordion-content')) {
-			page.on('tap', onPage);
+		/*
+		 * Accordion lists are in:
+		 * [1] pages
+		 * [2] components such as side panels are found when Phonon is ready
+		 */
+
+		// 1
+		var lists = page.querySelectorAll('.list');
+		if(lists) {
+			var i = 0;
+			var l = lists.length;
+			for (; i < l; i++) {
+				var list = lists[i];
+				if(list.querySelector('.accordion-content')) {
+					list.on('tap', onPage);
+				}
+			}
 		}
 	});
 
@@ -2112,6 +2139,22 @@ phonon.tagManager = (function () {
 		for (; i < accordionLists.length; i++) {
 			var fakeDefaultTarget = accordionLists[i].previousElementSibling;
 			onPage({target: fakeDefaultTarget});
+		}
+	});
+
+	phonon.onReady(function() {
+
+		// 2
+		var lists = document.body.querySelectorAll('.list')
+		if(lists) {
+			var i = 0;
+			var l = lists.length;
+			for (; i < l; i++) {
+				var list = lists[i];
+				if(list.querySelector('.accordion-content') && !fromPage(list)) {
+					list.on('tap', onPage);
+				}
+			}
 		}
 	});
 
@@ -2550,6 +2593,7 @@ phonon.tagManager = (function () {
 
 	var lastTrigger = false;
 	var dialogs = [];
+	var fireEvent = null;
 
 	function addCancelCallback(dialog, cancelCallback) {
 		for (var i = 0; i < dialogs.length; i++) {
@@ -2779,6 +2823,8 @@ phonon.tagManager = (function () {
 
 	function close(dialog) {
 
+		off(dialog)
+
 		if(dialog.classList.contains('active')) {
 
 			dialog.classList.remove('active');
@@ -2802,16 +2848,15 @@ phonon.tagManager = (function () {
 
 	function on(dialog, eventName, callback) {
 
-		var fireEvent = function() {
+		fireEvent = function() {
 
 			var input = dialog.querySelector('input');
-			var inputValue = undefined;
+			var inputValue; // undefined by default
 			if(input) {
 				inputValue = input.value;
 			}
 
 			callback(inputValue);
-			this.off('tap', fireEvent);
 		};
 
 		if(eventName === 'confirm') {
@@ -2827,6 +2872,23 @@ phonon.tagManager = (function () {
 			var btnCancel = dialog.querySelector('.btn-cancel');
 			if(btnCancel) {
 				btnCancel.on('tap', fireEvent);
+			}
+		}
+	}
+
+	/**
+	 * Resets tap events when the dialog is closed
+	 */
+	function off(dialog) {
+
+		if(typeof fireEvent !== 'function') return;
+
+		var buttons = dialog.querySelectorAll('.btn-confirm, .btn-cancel');
+		if(buttons) {
+			var i = 0;
+			var l = buttons.length;
+			for (; i < l; i++) {
+				buttons[i].off('tap', fireEvent)
 			}
 		}
 	}
@@ -3953,13 +4015,14 @@ phonon.tagManager = (function () {
             },
             // @phonon
             createBackdrop: function() {
+
                 if(!backdrop) {
 
                     var bd = document.createElement('div');
                     bd.classList.add('backdrop-panel');
                     backdrop = bd;
 
-                    document.querySelector('.app-active').appendChild(backdrop);
+                    settings.element.appendChild(backdrop);
                 }
             },
             removeBackdrop: function() {
@@ -3970,12 +4033,9 @@ phonon.tagManager = (function () {
                     var _backdrop = backdrop;
                     backdrop = null;
 
-                    // query the current page in case of page navigation with a side panel link
-                    var page = document.querySelector('.app-active');
-
                     var closed = function () {
                         _backdrop.classList.remove('fadeout');
-                        page.removeChild(_backdrop);
+                        settings.element.removeChild(_backdrop);
                         _backdrop.off(phonon.event.transitionEnd, closed);
                     };
 
@@ -4530,16 +4590,17 @@ phonon.tagManager = (function () {
         for (; i >= 0; i--) {
 
             var sb = sidePanels[i];
-
-            var page = sb.el.getAttribute('data-page');
             var exposeAside = sb.el.getAttribute('data-expose-aside');
 
-            if(page !== currentPage) {
+            if(sb.pages.indexOf(currentPage) === -1) {
 
                 sb.el.style.display = 'none';
                 sb.el.style.visibility = 'hidden';
 
             } else {
+
+				// #90: update the snapper according to the page
+				sb.snapper.settings( {element: pageEl} );
 
                 sb.el.style.display = 'block';
                 sb.el.style.visibility = 'visible';
@@ -4615,12 +4676,22 @@ phonon.tagManager = (function () {
 
             var el = spEls[i];
             var disable = el.getAttribute('data-disable');
-            var page = el.getAttribute('data-page');
-            var pageEl = document.querySelector(page);
+            var pages = el.getAttribute('data-page');
+
+			var _pages = [];
+
+			var page = pages.split(',');
+			var j = 0;
+			var l = page.length;
+
+			for (; j < l; j++) {
+				var _page = page[j].trim();
+				_pages.push(_page)
+			}
 
             // Options
             var options = {
-                element: pageEl,
+                element: document.body,
                 disable: (disable === null ? 'none' : disable),
                 hyperextensible: false,
                 touchToDrag: false,
@@ -4629,7 +4700,7 @@ phonon.tagManager = (function () {
             };
 
             var snapper = new Snap(options);
-            sidePanels.push({snapper: snapper, el: el, direction: (el.classList.contains('side-panel-left') ? 'left' : 'right')});
+            sidePanels.push({snapper: snapper, el: el, pages: _pages, direction: (el.classList.contains('side-panel-left') ? 'left' : 'right')});
         }
     });
 

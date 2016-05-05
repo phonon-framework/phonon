@@ -31,6 +31,9 @@
 .side-panel .list .body:active {
   background-color: #444;
 }
+.side-panel .list .accordion-content {
+  background-color: #333;
+}
 .side-panel .header-bar {
   background-color: transparent;
 }
