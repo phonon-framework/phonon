@@ -21,9 +21,9 @@
   border-radius 50%
 
   &.active
-    
+
     opacity 1
-    
+
     .spinner
       position relative
       display block
@@ -39,10 +39,10 @@
 
 @keyframes circleLoading
   0%
-    transform rotate(0deg)
+    transform rotate(0deg) translateZ(0)
   100%
-    transform rotate(360deg)
-  
+    transform rotate(360deg) translateZ(0)
+
 .progress
   position relative
   left 0
