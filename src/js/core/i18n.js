@@ -39,6 +39,16 @@
             el.textContent = text;
         }
     };
+    
+    /**
+    * Binds some html to the given DOM element
+    * @param {DOMObject} el
+    * @param {String} text
+    * @private
+    */
+    var setHtml = function (el, text){
+        el.innerHTML = text;
+    }
 
     /**
      * Binds the value to the given DOM element
@@ -81,6 +91,8 @@
                 if (json[value] !== undefined) {
                     if (key === 'text') {
                         setText(el, json[value]);
+                    } else if (key === 'html') {
+                        setHtml(el, json[value]);
                     } else if (key === 'value') {
                         setValue(el, json[value]);
                     } else if (key === 'placeholder') {
