@@ -804,10 +804,17 @@
         var sidebarId = target.getAttribute('data-side-panel-id');
         var sidebarClose = target.getAttribute('data-side-panel-close');
 
-        if(sidebarClose === 'true') {
-            if(sidePanelActive) close(sidePanelActive);
-            return;
-        }
+	if(sidebarClose === 'true') {
+	    if(sidePanelActive) {
+	        close(sidePanelActive);
+	    } else if(sidebarId !== null) {
+	        var sb = findSidebar(sidebarId);
+	        if(sb) {
+	            close(sb);
+	        }
+	    }
+	    return;
+	}
 
         if(sidebarId !== null) {
 
