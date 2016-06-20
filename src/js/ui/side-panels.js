@@ -757,12 +757,15 @@
 
 			for (; j < l; j++) {
 				var _page = page[j].trim();
+		                if(j == 0){
+		                    var pageEl = document.querySelector(_page);
+		                }
 				_pages.push(_page)
 			}
 
             // Options
             var options = {
-                element: document.body,
+                element: pageEl
                 disable: (disable === null ? 'none' : disable),
                 hyperextensible: false,
                 touchToDrag: false,
