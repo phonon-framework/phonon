@@ -871,10 +871,8 @@
                 for (; i >= 0; i--) {
 
                     var sb = sidePanels[i];
-                    var page = sb.el.getAttribute('data-page');
                     var exposeAside = sb.el.getAttribute('data-expose-aside');
-
-                    if(page === currentPage) {
+		    if(sb.pages.indexOf(currentPage) !== -1) {
 
                         var data = sb.snapper.state();
 
