@@ -1,6 +1,9 @@
 # Phonon + Vue
 
-> Pizza application example with Phonon and Vue.js
+Pizza application example with Phonon and Vue.js
+
+Note: [vue-webpack-boilerplate](https://github.com/vuejs-templates/webpack) has been used.
+
 
 ## Build Setup
 

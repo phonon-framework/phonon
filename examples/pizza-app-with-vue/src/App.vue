@@ -5,8 +5,8 @@
 
 <script>
 
-	import Home from './Home.vue'
-	import PageTwo from './PageTwo.vue'
+	import Home from './components/Home.vue'
+	import PageTwo from './components/PageTwo.vue'
 
 	export default {
 
@@ -16,8 +16,7 @@
 			}
 		},
 
- 		ready: function () {
-
+		ready: function () {
 			phonon.options({
 				navigator: {
 					defaultPage: 'home',

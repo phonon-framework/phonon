@@ -1,3 +1,14 @@
+### 1.2.7 (2016-07-19)
+
+#### Features
+
+* html binding for internationalization (i18n) module [#123](https://github.com/quark-dev/Phonon-Framework/issues/123)
+* fix close icon on side-panel is not closing panel when opening via swipe gesture
+thanks to [oksiquatzel](https://github.com/oksiquatzel)  [#120](https://github.com/quark-dev/Phonon-Framework/issues/120)
+* fix iOS 8+ detection [#137](https://github.com/quark-dev/Phonon-Framework/issues/137)
+* checkboxes added in theme
+* fix vuejs example [#141](https://github.com/quark-dev/Phonon-Framework/issues/141)
+
 ### 1.2.6 (2016-05-05)
 
 #### Bug Fixes

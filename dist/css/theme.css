@@ -81,6 +81,14 @@
 .side-panel .header-bar .btn {
   color: #fff;
 }
+.checkbox span,
+.radio span {
+  border: 2px solid #ddd;
+}
+.checkbox :checked + span,
+.radio :checked + span {
+  border-color: #0084e7;
+}
 .btn.primary,
 .btn.positive,
 .btn.negative {

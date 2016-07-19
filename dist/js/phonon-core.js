@@ -117,8 +117,14 @@ phonon.device = (function () {
             break;
 
         case 'iOS':
-            osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(nVer);
-            osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] | 0);
+
+            // iOS 8+ UA changed
+            if (/(iphone|ipod|ipad).* os 8_/.test(ua.toLowerCase())) {
+                osVersion = ua.toLowerCase().split('version/')[1].split(' ')[0];
+            } else {
+                osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(nVer);
+                osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] | 0);
+            }
             break;
     }
 
@@ -129,6 +135,7 @@ phonon.device = (function () {
     };
 
 })();
+
 phonon.browser = (function () {
 
     /**
@@ -728,6 +735,16 @@ phonon.tagManager = (function () {
             el.textContent = text;
         }
     };
+    
+    /**
+    * Binds some html to the given DOM element
+    * @param {DOMObject} el
+    * @param {String} text
+    * @private
+    */
+    var setHtml = function (el, text){
+        el.innerHTML = text;
+    }
 
     /**
      * Binds the value to the given DOM element
@@ -770,6 +787,8 @@ phonon.tagManager = (function () {
                 if (json[value] !== undefined) {
                     if (key === 'text') {
                         setText(el, json[value]);
+                    } else if (key === 'html') {
+                        setHtml(el, json[value]);
                     } else if (key === 'value') {
                         setValue(el, json[value]);
                     } else if (key === 'placeholder') {
@@ -1014,6 +1033,7 @@ phonon.tagManager = (function () {
     };
 
 }(window, document));
+
 /* ========================================================================
  * Phonon: navigator.js v1.2
  * http://phonon.quarkdev.com

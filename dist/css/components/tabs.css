@@ -20,6 +20,7 @@
   display: table-cell;
   width: 1%;
   height: 50px;
+  line-height: 50px;
   color: #0084e7;
   text-align: center;
   text-transform: uppercase;
@@ -31,6 +32,9 @@
   top: 3px;
   width: 32px;
   height: 32px;
+  vertical-align: middle;
+  padding: 0;
+  margin: 0;
 }
 .tabs .tab-indicator {
   width: 50%;
