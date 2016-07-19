@@ -757,12 +757,15 @@
 
 			for (; j < l; j++) {
 				var _page = page[j].trim();
+		                if(j == 0){
+		                    var pageEl = document.querySelector(_page);
+		                }
 				_pages.push(_page)
 			}
 
             // Options
             var options = {
-                element: document.body,
+                element: pageEl
                 disable: (disable === null ? 'none' : disable),
                 hyperextensible: false,
                 touchToDrag: false,
@@ -804,10 +807,17 @@
         var sidebarId = target.getAttribute('data-side-panel-id');
         var sidebarClose = target.getAttribute('data-side-panel-close');
 
-        if(sidebarClose === 'true') {
-            if(sidePanelActive) close(sidePanelActive);
-            return;
-        }
+	if(sidebarClose === 'true') {
+	    if(sidePanelActive) {
+	        close(sidePanelActive);
+	    } else if(sidebarId !== null) {
+	        var sb = findSidebar(sidebarId);
+	        if(sb) {
+	            close(sb);
+	        }
+	    }
+	    return;
+	}
 
         if(sidebarId !== null) {
 
@@ -861,10 +871,8 @@
                 for (; i >= 0; i--) {
 
                     var sb = sidePanels[i];
-                    var page = sb.el.getAttribute('data-page');
                     var exposeAside = sb.el.getAttribute('data-expose-aside');
-
-                    if(page === currentPage) {
+		    if(sb.pages.indexOf(currentPage) !== -1) {
 
                         var data = sb.snapper.state();
 
