@@ -1,15 +1,30 @@
-bin
-node_modules
-test
-*.tmp
+# Exclude some files from .gitignore
+.*
+!.gitignore
+!.gitmodules
+!.htaccess
+!.gitkeep
+!.editorconfig
+!.env.example
+!.eslintrc
+!.gitattributes
 
-# OS files
+# OS
+__*
+*.bak
+*.lnk
 .DS_Store
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
+.Trash-*
 
-# Editors
+# IDE
+*~
 *.sublime-project
-*.sublime-workspace
+.idea
+.vscode
+*.swo
+*.swp
+
+# Npm
+node_modules
+dist
