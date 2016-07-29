@@ -765,7 +765,7 @@
 
             // Options
             var options = {
-                element: pageEl
+                element: pageEl,
                 disable: (disable === null ? 'none' : disable),
                 hyperextensible: false,
                 touchToDrag: false,
