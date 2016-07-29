@@ -1228,7 +1228,7 @@ phonon.tagManager = (function () {
     onActiveTransition = false;
   }
 
-  function dispatchEvent(eventName, pageName, parameters) {
+  function dispatchDOMEvent(eventName, pageName, parameters) {
 
 	  var eventInitDict = {
           detail: { page: pageName },
@@ -1245,6 +1245,26 @@ phonon.tagManager = (function () {
 	  document.dispatchEvent(event);
   }
 
+  /**
+   * Dispatches page event from addEvent API
+   *
+   * @param {String} eventName
+   * @param {Array} eventHandlers
+   * @param {Object} data
+   */
+  function dispatchEvent(eventName, eventHandlers, data) {
+      var i = 0;
+      var l = eventHandlers.length;
+      for (; i < l; i++) {
+          var eventHandler = eventHandlers[i]
+          if (eventHandler.event === eventName) {
+              if (typeof eventHandler.callback === 'function') {
+                  eventHandler.callback(data)
+              }
+          }
+      }
+  }
+
   function callCreate(pageName) {
 
     if(riotEnabled) {
@@ -1257,7 +1277,7 @@ phonon.tagManager = (function () {
      * so that UI components are ready to use
      * issue #52 is related to this
     */
-	dispatchEvent('pagecreated', pageName)
+	dispatchDOMEvent('pagecreated', pageName)
 
 	var page = getPageObject(pageName);
 
@@ -1266,6 +1286,7 @@ phonon.tagManager = (function () {
       page.activity.onCreateCallback();
     }
 
+    dispatchEvent('create', page.callbackRegistered);
   }
 
   function callReady(pageName) {
@@ -1280,12 +1301,14 @@ phonon.tagManager = (function () {
       }
 
       // Dispatch the global event pageopened
-	  dispatchEvent('pageopened', pageName)
+	  dispatchDOMEvent('pageopened', pageName)
 
       // Call the onReady callback
       if(page.activity instanceof Activity && typeof page.activity.onReadyCallback === 'function') {
         page.activity.onReadyCallback();
       }
+
+      dispatchEvent('ready', page.callbackRegistered)
 
     }, page.readyDelay);
   }
@@ -1295,7 +1318,7 @@ phonon.tagManager = (function () {
       phonon.tagManager.trigger(pageName, 'transitionend');
     }
 
-	dispatchEvent('pagetransitionend', pageName)
+	dispatchDOMEvent('pagetransitionend', pageName);
 
     var page = getPageObject(pageName);
 
@@ -1303,6 +1326,8 @@ phonon.tagManager = (function () {
     if(page.activity instanceof Activity && typeof page.activity.onTransitionEndCallback === 'function') {
       page.activity.onTransitionEndCallback();
     }
+
+    dispatchEvent('transitionend', page.callbackRegistered)
   }
 
   function callHiddenCallback(pageName) {
@@ -1311,7 +1336,7 @@ phonon.tagManager = (function () {
       phonon.tagManager.trigger(pageName, 'hidden');
     }
 
-	dispatchEvent('pagehidden', pageName)
+	dispatchDOMEvent('pagehidden', pageName)
 
     var page = getPageObject(pageName);
 
@@ -1319,6 +1344,8 @@ phonon.tagManager = (function () {
     if(page.activity instanceof Activity && typeof page.activity.onHiddenCallback === 'function') {
       page.activity.onHiddenCallback();
     }
+
+    dispatchEvent('hidden', page.callbackRegistered)
   }
 
   function callTabChanged(pageName, tabNumber) {
@@ -1327,7 +1354,7 @@ phonon.tagManager = (function () {
       phonon.tagManager.trigger(pageName, 'tabchanged', tabNumber);
     }
 
-	dispatchEvent('pagetabchanged', pageName)
+	dispatchDOMEvent('pagetabchanged', pageName)
 
     var page = getPageObject(pageName);
 
@@ -1335,13 +1362,15 @@ phonon.tagManager = (function () {
     if(page.activity instanceof Activity && typeof page.activity.onTabChangedCallback === 'function') {
       page.activity.onTabChangedCallback(tabNumber);
     }
+
+    dispatchEvent('tabchanged', page.callbackRegistered, tabNumber);
   }
 
   function callClose(pageName, nextPageName, hash) {
 
     function close() {
 
-	  dispatchEvent('pageclosed', pageName)
+	  dispatchDOMEvent('pageclosed', pageName)
 
       var currentHash = window.location.hash.split('#')[1];
 
@@ -1372,11 +1401,9 @@ phonon.tagManager = (function () {
     // Call the onclose callback
     if(page.activity instanceof Activity && typeof page.activity.onCloseCallback === 'function') {
       page.activity.onCloseCallback(api);
-    } else {
-      if(!riotEnabled) {
-        throw new Error('The page ' + page.name + ' prevents close, but its callback (onClose) is undefined');
-      }
     }
+
+    dispatchEvent('close', page.callbackRegistered, api);
   }
 
   function callHash(pageName, params) {
@@ -1387,7 +1414,7 @@ phonon.tagManager = (function () {
       phonon.tagManager.trigger(pageName, 'hashchanged', params);
     }
 
-	dispatchEvent('pagehash', pageName, params)
+	dispatchDOMEvent('pagehash', pageName, params)
 
     var page = getPageObject(pageName);
 
@@ -1395,6 +1422,8 @@ phonon.tagManager = (function () {
     if(page.activity instanceof Activity && typeof page.activity.onHashChangedCallback === 'function') {
       page.activity.onHashChangedCallback(params);
     }
+
+    dispatchEvent('hashchanged', page.callbackRegistered, params);
   }
 
   function callCallback(callbackName, options) {
@@ -1497,7 +1526,8 @@ phonon.tagManager = (function () {
 		async: false,
 		activity: null,
 		content: null,
-		readyDelay: 1
+		readyDelay: 1,
+        callbackRegistered: []
 	};
 
 	var prop;
@@ -2011,6 +2041,21 @@ phonon.tagManager = (function () {
 
 		createOrUpdatePage(options.page.toLowerCase(), page);
 	  },
+      // register a page event only such as home:create
+      onPage: function (pageName) {
+          if (typeof pageName !== 'string'){
+              throw new Error('PageName must be a string');
+          }
+
+          createOrUpdatePage(pageName, {});
+
+          return {
+              addEvent: function (eventName, callback) {
+                  var page = getPageObject(pageName);
+                  page.callbackRegistered.push({event: eventName, callback: callback});
+              }
+          }
+      },
       callCallback: callCallback
     };
   };
