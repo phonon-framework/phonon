@@ -1,3 +1,34 @@
+### 1.2.8 (2016-07-29)
+
+#### Features
+
+* page events listener added [#145](https://github.com/quark-dev/Phonon-Framework/issues/145)
+
+```js
+phonon.navigator().onPage('home').addEvent('create', function () {
+})
+phonon.navigator().onPage('home').addEvent('ready', function () {
+})
+phonon.navigator().onPage('home').addEvent('transitionend', function () {
+})
+phonon.navigator().onPage('home').addEvent('hidden', function () {
+})
+phonon.navigator().onPage('home').addEvent('tabchanged', function (tabNumber) {
+})
+phonon.navigator().onPage('home').addEvent('close', function (api) {
+	api.close()
+})
+phonon.navigator().onPage('home').addEvent('hashchanged', function (param) {
+	console.log('params ' + param)
+})
+```
+
+#### Bug Fixes
+
+* Gulp dependencies have been updated
+* Excluded files added in .gitignore
+
+
 ### 1.2.7 (2016-07-19)
 
 #### Features
