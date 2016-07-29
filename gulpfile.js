@@ -40,7 +40,9 @@ gulp.task('js-core', function() {
 	]).pipe(concat('phonon-core.js'))
 	.pipe(gulp.dest('./dist/js'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(uglify())
+	.pipe(uglify().on('error', function(e) {
+    	console.log(e);
+    }))
 	.pipe(gulp.dest('./dist/js'));
 });
 
@@ -54,7 +56,9 @@ gulp.task('js-all', function() {
 	]).pipe(concat('phonon.js'))
 	.pipe(gulp.dest('./dist/js'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(uglify())
+	.pipe(uglify().on('error', function(e) {
+    	console.log(e);
+    }))
 	.pipe(gulp.dest('./dist/js'));
 });
 
@@ -65,7 +69,9 @@ gulp.task('js-components', function () {
 	return gulp.src('./src/js/ui/*.js')
 	.pipe(gulp.dest('./dist/js/components'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(uglify())
+	.pipe(uglify().on('error', function(e) {
+    	console.log(e);
+    }))
 	.pipe(gulp.dest('./dist/js/components'));
 });
 
