@@ -396,7 +396,7 @@
     }
   }
 
-  function mount(pageName, fn) {
+  function mount(pageName, fn, postData) {
 
     if(riotEnabled) {
 
@@ -476,14 +476,14 @@
             fn();
           }
 
-        });
+        }, postData);
       } else {
         fn();
       }
     }
   }
 
-  function loadContent(url, fn) {
+  function loadContent(url, fn, postData) {
     var req = new XMLHttpRequest();
     if(req.overrideMimeType) req.overrideMimeType('text/html; charset=utf-8');
     req.onreadystatechange = function() {
@@ -491,8 +491,14 @@
         fn(req.responseText, opts, url);
       }
     };
-    req.open('GET', opts.templateRootDirectory + url, true);
-    req.send('');
+    if(typeof postData !== 'string'){
+      req.open('GET', opts.templateRootDirectory + url, true);
+      req.send('');
+    }else{
+      req.open('POST', opts.templateRootDirectory + url, true);
+      req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      req.send(postData);
+    }
   }
 
   function createPage(pageName, properties) {
@@ -572,6 +578,35 @@
     return page;
   }
 
+  function serializeForm(evt){
+    var evt    = evt || window.event;
+    var form   = evt.target;
+    var field, query='';
+    if(typeof form == 'object' && form.nodeName == "FORM"){
+        var i;
+        for(i=form.elements.length-1; i>=0; i--){
+            field = form.elements[i];
+            if(field.name && field.type != 'file' && field.type != 'reset'){
+                if(field.type == 'select-multiple'){
+                    for(j=form.elements[i].options.length-1; j>=0; j--){
+                        if(field.options[j].selected){
+                            query += '&' + field.name + "=" + encodeURIComponent(field.options[j].value).replace(/%20/g,'+');
+                        }
+                    }
+                }
+                else{
+                    if((field.type != 'submit' && field.type != 'button') || evt.target == field){
+                        if((field.type != 'checkbox' && field.type != 'radio') || field.checked){
+                            query += '&' + field.name + "=" + encodeURIComponent(field.value).replace(/%20/g,'+');
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return query.substr(1);
+  }
+
   function navigationListener(evt) {
 
     /*
@@ -584,6 +619,20 @@
     var nav = null;
     var validHref = false;
     var params = '';
+    var formData;
+
+    if(evt.type == 'submit'){ // dev
+      var formAction = target.getAttribute('action');
+      if(formAction.match(new RegExp('^#'+opts.hashPrefix))){
+          evt.preventDefault();
+          nav = formAction.substr(1+(opts.hashPrefix.length))
+          callClose(currentPage, nav, opts.hashPrefix+nav);
+          onBeforeTransition(nav, function() {
+              //callHash(nav);
+          }, serializeForm(evt)); // dev
+          return changePage(formAction.substr(1+(opts.hashPrefix.length)))
+      }
+    }
 
     for (; target && target !== document; target = target.parentNode) {
       var dataNav = target.getAttribute('data-navigation');
@@ -688,7 +737,7 @@
    * @param {String} pageName
    * @param {Function} callback
    */
-  function onBeforeTransition(pageName, callback) {
+  function onBeforeTransition(pageName, callback, postData) {
 
     if(onActiveTransition) {
       if(typeof callback === 'function') {
@@ -734,7 +783,7 @@
         if(typeof callback === 'function') {
           callback();
         }
-      });
+      }, postData);
     } else {
 
       callReady(pageName);
@@ -824,7 +873,7 @@
   /**
    * @param {String | HashEvent} virtualHash
    */
-  function onRoute(virtualHash) {
+  function onRoute(virtualHash, postData) {
 
     var hash = (typeof virtualHash === 'string' ? virtualHash : window.location.href.split('#')[1] || '');
 
@@ -934,11 +983,11 @@
 
         onBeforeTransition(pageObject.name, function() {
           callHash(pageObject.name, params);
-        });
+        }, postData);
 
       } else {
 
-        onBeforeTransition(pageObject.name);
+        onBeforeTransition(pageObject.name, null, postData);
         callHash(pageObject.name, params);
       }
 
@@ -950,6 +999,10 @@
    * One listener to navigate through the app pages
    */
   document.on('tap', navigationListener);
+  /**
+   * Handle (port) forms to event
+   */
+  document.on('submit', navigationListener);
 
   /*
    * we do not call onRoute() directly because it is used in callClose
