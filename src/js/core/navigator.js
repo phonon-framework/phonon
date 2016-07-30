@@ -420,7 +420,21 @@
 
       if(page.content !== null) {
 
+        if(page.nocache === null || page.showloader === null){
+          var setLoaderAndCache = function(pageName){
+            var elPage = getPageEl(pageName);
+            page.nocache = false
+            page.showloader = false
+              if(elPage.getAttribute('data-nocache') == 'true') page.nocache = true
+              if(elPage.getAttribute('data-loader') == 'true') page.showloader = true
+          };
+          setLoaderAndCache(pageName)
+        }
+
+       if(page.showloader) document.body.classList.add("loading");
+
         loadContent(page.content, function(template) {
+          if(page.showloader) document.body.classList.remove("loading");
 
           var elPage = getPageEl(pageName);
 
@@ -485,13 +499,15 @@
 	properties = typeof properties === 'object' ? properties : {};
 
 	var newPage = {
-		name: pageName,
-		mounted: false,
-		async: false,
-		activity: null,
-		content: null,
-		readyDelay: 1,
-        callbackRegistered: []
+      name: pageName,
+      mounted: false,
+      async: false,
+      activity: null,
+      content: null,
+      readyDelay: 1,
+      callbackRegistered: [],
+      nocache: null,
+      showloader: null
 	};
 
 	var prop;
@@ -690,7 +706,7 @@
       currentPage = pageName;
     }
 
-    if(!page.mounted) {
+    if(!page.mounted||page.nocache) {
 
       mount(page.name, function() {
 
