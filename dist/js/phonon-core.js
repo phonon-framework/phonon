@@ -377,7 +377,7 @@ phonon.ajax = (function () {
 	};
 })();
 
-phonon.event = (function () {
+phonon.event = (function ($) {
 
     /**
      * Events
@@ -508,6 +508,23 @@ phonon.event = (function () {
 			if (api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
 
             if (!this.moved) {
+
+                /**
+                 * jQuery/Zepto compatibility with the tap event
+                 * See issue: #147
+                 */
+                if (typeof $ !== 'undefined') {
+                    var event = new window.CustomEvent(
+                    	this.tap,
+                    	{
+                    		detail: {},
+                    		bubbles: true,
+                    		cancelable: true
+                    	}
+                    );
+                    this.el.dispatchEvent(event);
+                }
+
                 this.callback(e);
             }
         };
@@ -538,52 +555,78 @@ phonon.event = (function () {
     })();
 
     phonon.on = function(el, eventName, callback, useCapture) {
+        var addEvent = function(el, eventName, callback, useCapture) {
+            if(eventName === api.tap) {
+                var tap = new TapElement(el, callback);
+                tapEls.push(tap);
+                return;
+            }
 
-        if(eventName === api.tap) {
-            var tap = new TapElement(el, callback);
-            tapEls.push(tap);
-            return;
+            if(el.addEventListener) {
+                el.addEventListener(eventName, callback, useCapture);
+            } else if(el.attachEvent) {
+                el.attachEvent('on' + eventName, callback, useCapture);
+            }
+        };
+
+        if(typeof el.length !== 'undefined') {
+            var i = 0;
+            var l = el.length;
+            for (; i < l; i++) {
+                addEvent(el[i], eventName, callback, useCapture)
+            }
+            return
         }
 
-        if(el.addEventListener) {
-            el.addEventListener(eventName, callback, useCapture);
-        } else if(el.attachEvent) {
-            el.attachEvent('on' + eventName, callback, useCapture);
-        }
+        addEvent(el, eventName, callback, useCapture)
     };
 
-    window.on = document.on = HTMLElement.prototype.on = function(type, listener, useCapture) {
+    window.on = document.on = NodeList.prototype.on = HTMLElement.prototype.on = function(type, listener, useCapture) {
         phonon.on(this, type, listener, useCapture);
     };
 
     phonon.off = function(el, eventName, callback, useCapture) {
 
-        if(eventName === api.tap) {
-
-            for (var i = tapEls.length - 1; i >= 0; i--) {
-                if(tapEls[i].el === el) {
-                    tapEls[i].off();
-                    tapEls.splice(i, 1);
-                    break;
+        var removeEvent = function (el, eventName, callback, useCapture) {
+            if(eventName === api.tap) {
+                var i = 0;
+                var l = el.length;
+                for (; i < l; i++) {
+                    if(tapEls[i].el === el) {
+                        tapEls[i].off();
+                        tapEls.splice(i, 1);
+                        break;
+                    }
                 }
+                return;
             }
-            return;
+
+            if(el.removeEventListener) {
+                el.removeEventListener(eventName, callback, useCapture);
+            } else if(el.attachEvent) {
+                el.detachEvent('on' + eventName, callback, useCapture);
+            }
+        };
+
+        if(typeof el.length !== 'undefined') {
+            var i = 0;
+            var l = el.length;
+            for (; i < l; i++) {
+                removeEvent(el[i], eventName, callback, useCapture)
+            }
+            return
         }
 
-        if(el.removeEventListener) {
-            el.removeEventListener(eventName, callback, useCapture);
-        } else if(el.attachEvent) {
-            el.detachEvent('on' + eventName, callback, useCapture);
-        }
+        removeEvent(el, eventName, callback, useCapture)
     };
 
-    window.off = document.off = HTMLElement.prototype.off = function(type, listener, useCapture) {
+    window.off = document.off = NodeList.prototype.off = HTMLElement.prototype.off = function(type, listener, useCapture) {
         phonon.off(this, type, listener, useCapture);
     };
 
     return api;
 
-})();
+})(window.jQuery);
 
 phonon.tagManager = (function () {
 
