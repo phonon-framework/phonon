@@ -1,3 +1,26 @@
+### 1.2.9 (2016-08-05)
+
+#### Features
+
+* possibility to add events through `on` with NodeList (querySelectorAll) [#147](https://github.com/quark-dev/Phonon-Framework/issues/147)
+* more API functions for [popovers](http://phonon.quarkdev.com/docs/popovers)
+* jQuery/Zepto compatibility with tap event
+
+```js
+var myFunction = function (event) {
+	console.log('clicked')
+}
+
+document.querySelector('.button').on('tap', myFunction) // JS
+
+$('.button').on('tap', myFunction) // jQuery
+```
+
+#### Bug Fixes
+
+* fix popover examples [#148](https://github.com/quark-dev/Phonon-Framework/issues/148)
+
+
 ### 1.2.8 (2016-07-29)
 
 #### Features
