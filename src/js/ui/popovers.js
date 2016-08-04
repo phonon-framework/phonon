@@ -54,16 +54,13 @@
     return res;
   };
 
-  var findPopover = function (target) {
-    var popovers = document.querySelectorAll('.popover');
-    var i;
+  var onPopover = function (target) {
     for (; target && target !== document; target = target.parentNode) {
-      for (i = popovers.length; i--;) {
-        if (popovers[i] === target && target.classList.contains('active')) {
-          return target;
-        }
+      if (target.classList.contains('popover') && target.classList.contains('active')) {
+        return target;
       }
     }
+    return false;
   };
 
   var onItem = function(target) {
@@ -78,9 +75,7 @@
   document.on(phonon.event.start, function (e) {
     e = e.originalEvent || e;
 
-    var p = findPopover(e.target);
-
-    if (!p && isOpened) {
+    if (!onPopover(e.target) && isOpened) {
       close(previousPopover);
     }
     touchMove = false;
