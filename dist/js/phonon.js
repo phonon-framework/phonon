@@ -377,7 +377,7 @@ phonon.ajax = (function () {
 	};
 })();
 
-phonon.event = (function () {
+phonon.event = (function ($) {
 
     /**
      * Events
@@ -508,6 +508,23 @@ phonon.event = (function () {
 			if (api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
 
             if (!this.moved) {
+
+                /**
+                 * jQuery/Zepto compatibility with the tap event
+                 * See issue: #147
+                 */
+                if (typeof $ !== 'undefined') {
+                    var event = new window.CustomEvent(
+                    	this.tap,
+                    	{
+                    		detail: {},
+                    		bubbles: true,
+                    		cancelable: true
+                    	}
+                    );
+                    this.el.dispatchEvent(event);
+                }
+
                 this.callback(e);
             }
         };
@@ -538,52 +555,78 @@ phonon.event = (function () {
     })();
 
     phonon.on = function(el, eventName, callback, useCapture) {
+        var addEvent = function(el, eventName, callback, useCapture) {
+            if(eventName === api.tap) {
+                var tap = new TapElement(el, callback);
+                tapEls.push(tap);
+                return;
+            }
 
-        if(eventName === api.tap) {
-            var tap = new TapElement(el, callback);
-            tapEls.push(tap);
-            return;
+            if(el.addEventListener) {
+                el.addEventListener(eventName, callback, useCapture);
+            } else if(el.attachEvent) {
+                el.attachEvent('on' + eventName, callback, useCapture);
+            }
+        };
+
+        if(typeof el.length !== 'undefined') {
+            var i = 0;
+            var l = el.length;
+            for (; i < l; i++) {
+                addEvent(el[i], eventName, callback, useCapture)
+            }
+            return
         }
 
-        if(el.addEventListener) {
-            el.addEventListener(eventName, callback, useCapture);
-        } else if(el.attachEvent) {
-            el.attachEvent('on' + eventName, callback, useCapture);
-        }
+        addEvent(el, eventName, callback, useCapture)
     };
 
-    window.on = document.on = HTMLElement.prototype.on = function(type, listener, useCapture) {
+    window.on = document.on = NodeList.prototype.on = HTMLElement.prototype.on = function(type, listener, useCapture) {
         phonon.on(this, type, listener, useCapture);
     };
 
     phonon.off = function(el, eventName, callback, useCapture) {
 
-        if(eventName === api.tap) {
-
-            for (var i = tapEls.length - 1; i >= 0; i--) {
-                if(tapEls[i].el === el) {
-                    tapEls[i].off();
-                    tapEls.splice(i, 1);
-                    break;
+        var removeEvent = function (el, eventName, callback, useCapture) {
+            if(eventName === api.tap) {
+                var i = 0;
+                var l = el.length;
+                for (; i < l; i++) {
+                    if(tapEls[i].el === el) {
+                        tapEls[i].off();
+                        tapEls.splice(i, 1);
+                        break;
+                    }
                 }
+                return;
             }
-            return;
+
+            if(el.removeEventListener) {
+                el.removeEventListener(eventName, callback, useCapture);
+            } else if(el.attachEvent) {
+                el.detachEvent('on' + eventName, callback, useCapture);
+            }
+        };
+
+        if(typeof el.length !== 'undefined') {
+            var i = 0;
+            var l = el.length;
+            for (; i < l; i++) {
+                removeEvent(el[i], eventName, callback, useCapture)
+            }
+            return
         }
 
-        if(el.removeEventListener) {
-            el.removeEventListener(eventName, callback, useCapture);
-        } else if(el.attachEvent) {
-            el.detachEvent('on' + eventName, callback, useCapture);
-        }
+        removeEvent(el, eventName, callback, useCapture)
     };
 
-    window.off = document.off = HTMLElement.prototype.off = function(type, listener, useCapture) {
+    window.off = document.off = NodeList.prototype.off = HTMLElement.prototype.off = function(type, listener, useCapture) {
         phonon.off(this, type, listener, useCapture);
     };
 
     return api;
 
-})();
+})(window.jQuery);
 
 phonon.tagManager = (function () {
 
@@ -3681,6 +3724,7 @@ phonon.tagManager = (function () {
   var isOpened = false;
   var backdrop = document.createElement('div');
   backdrop.classList.add('backdrop-popover');
+  var onChangeCallbacks = []
 
   var findTrigger = function (target) {
 
@@ -3722,16 +3766,13 @@ phonon.tagManager = (function () {
     return res;
   };
 
-  var findPopover = function (target) {
-    var popovers = document.querySelectorAll('.popover');
-    var i;
+  var onPopover = function (target) {
     for (; target && target !== document; target = target.parentNode) {
-      for (i = popovers.length; i--;) {
-        if (popovers[i] === target && target.classList.contains('active')) {
-          return target;
-        }
+      if (target.classList.contains('popover') && target.classList.contains('active')) {
+        return target;
       }
     }
+    return false;
   };
 
   var onItem = function(target) {
@@ -3746,9 +3787,7 @@ phonon.tagManager = (function () {
   document.on(phonon.event.start, function (e) {
     e = e.originalEvent || e;
 
-    var p = findPopover(e.target);
-
-    if (!p && isOpened) {
+    if (!onPopover(e.target) && isOpened) {
       close(previousPopover);
     }
     touchMove = false;
@@ -3762,19 +3801,18 @@ phonon.tagManager = (function () {
   document.on(phonon.event.end, function (evt) {
 
     var target = evt.target, trigger = findTrigger(target);
+    var popover = document.querySelector('#'+trigger.id);
 
-    if (trigger.target) {
-
-      var popover = document.querySelector('#'+trigger.id);
-
-      if(popover) {
-
+    if (trigger.target && popover) {
         if(popover.classList.contains('active') && !touchMove) {
           close(popover);
         } else {
-          open(popover, trigger.direction);
+            if(trigger.direction === 'button') {
+                openFrom(popover, trigger.target);
+            } else {
+                open(popover, trigger.direction);
+            }
         }
-      }
     }
 
     // fix
@@ -3783,11 +3821,16 @@ phonon.tagManager = (function () {
     }
 
     if(onItem(target) && !touchMove) {
-
       close(previousPopover);
 
+      var changeData = {
+          text: target.textContent,
+          value: target.getAttribute('data-value'),
+          target: evt.target
+      };
+
       evt = new CustomEvent('itemchanged', {
-        detail: { item: target.textContent, target: evt.target },
+        detail: changeData,
         bubbles: true,
         cancelable: true
       });
@@ -3808,6 +3851,14 @@ phonon.tagManager = (function () {
       }
 
       previousPopover.dispatchEvent(evt);
+
+      for (var i = 0; i < onChangeCallbacks.length; i++) {
+          var o = onChangeCallbacks[i];
+          if(o.id === previousPopover.getAttribute('id')) {
+              o.callback(changeData);
+              // do not stop loop, maybe there are many callbacks
+          }
+      }
     }
   });
 
@@ -3821,30 +3872,92 @@ phonon.tagManager = (function () {
     previousPopover = null;
   }
 
+  function buildPopover() {
+    var popover = document.createElement('div');
+    popover.classList.add('popover');
+    popover.setAttribute('id', generateId())
+    document.body.appendChild(popover);
+    return document.body.lastChild;
+  }
+
+  function buildListItem(item) {
+    var text = typeof item === 'string' ? item : item.text;
+    var value = typeof item === 'string' ? item : item.value;
+    return '<li><a class="padded-list" data-value="' + value + '">' + text + '</a></li>';
+  }
+
   /**
    * Public API
   */
-
-  function open (popover, direction) {
-    if(direction === undefined) {
-      direction = 'left';
+  function setList(popover, data) {
+    if(!(data instanceof Array)) {
+      throw new Error('The list of the popover must be an array, ' + typeof data + ' given');
     }
 
-    isOpened = true;
+    var list = '<ul class="list">';
 
-    popover.style.visibility = 'visible';
+    for (var i = 0; i < data.length; i++) {
+      list += buildListItem(data[i]);
+    }
+    list += '</ul>';
+    popover.innerHTML = list
+  }
 
-    // Reset the scroll state
-    popover.querySelector('ul').scrollTop = 0;
+  function generateId() {
+    var text = ''
+    var possible = 'abcdefghijklmnopqrstuvwxyz'
+    var i = 0
+    for(; i < 8; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length))
+    }
+    return text
+  }
 
-    previousPopover = popover;
-    if(!popover.classList.contains('active')) {
+  function openable(popover) {
+      if(!popover.classList.contains('active')) {
+        isOpened = true;
+        previousPopover = popover;
 
+        popover.style.visibility = 'visible';
+        popover.classList.add('active');
+
+        // Reset the scroll state
+        popover.querySelector('ul').scrollTop = 0;
+
+        // add backdrop
+        document.querySelector('.app-page.app-active').appendChild(backdrop);
+
+        return true;
+      }
+      return false;
+  }
+
+  function openFrom(popover, trigger) {
+      var page = document.querySelector('.app-page.app-active');
+      trigger = (typeof trigger === 'string' ? page.querySelector(trigger) : trigger);
+
+      if(trigger === null) {
+          throw new Error('The trigger for the popover does not exists');
+      }
+
+      if(!openable(popover)) return
+
+      var rect = trigger.getBoundingClientRect();
+      popover.style.width = trigger.clientWidth + 'px';
+      popover.style.top = rect.top + 'px';
+      popover.style.left = rect.left + 'px';
+  }
+
+  function open(popover, direction) {
+    if(typeof direction === 'undefined') {
+        direction = 'left'
+    }
+
+    if(openable(popover)) {
       var page = document.querySelector('.app-page.app-active');
       var pageStyle = page.currentStyle || window.getComputedStyle(page);
 
       if(direction === 'title' || direction === 'title-left') {
-
         var hb = page.querySelector('.header-bar');
         popover.style.top = hb.offsetHeight + 'px';
 
@@ -3854,7 +3967,6 @@ phonon.tagManager = (function () {
           popover.style.left = (16 + parseInt(pageStyle.marginLeft)) + 'px';
         }
       } else if(direction === 'left' || direction === 'right') {
-
         popover.style.top = '12px';
 
         if(direction === 'left') {
@@ -3863,21 +3975,7 @@ phonon.tagManager = (function () {
           popover.style.left = 'auto';
           popover.style.right = '16px';
         }
-      } else {
-
-        var trigger = document.querySelector('.btn-popover[data-popover-id="'+ popover.id +'"]');
-        var rect = trigger.getBoundingClientRect();
-
-        popover.style.width = trigger.clientWidth + 'px';
-        popover.style.top = rect.top + 'px';
-        popover.style.left = rect.left + 'px';
       }
-
-      if(!popover.classList.contains('active')) {
-        popover.classList.add('active');
-      }
-
-      page.appendChild(backdrop);
     }
   }
 
@@ -3894,32 +3992,65 @@ phonon.tagManager = (function () {
     }
   }
 
+  function attachButton(popover, button, autoBind) {
+    var button = (typeof button === 'string' ? document.querySelector(button) : button);
+    if(button === null) {
+      throw new Error('The button does not exists');
+    }
+    var popoverId = popover.getAttribute('id');
+    button.setAttribute('data-popover-id', popoverId);
+    if(autoBind === true) {
+      button.setAttribute('data-autobind', true);
+    }
+  }
+
+  function getInstance(popover) {
+      return {
+          closeActive: function() {
+              var closable = (previousPopover ? true : false);
+              if(closable) {
+                  close(previousPopover);
+              }
+              return closable;
+          },
+          setList: function(list) {
+              setList(popover, list);
+              return this;
+          },
+          open: function (direction) {
+              open(popover, direction);
+              return this;
+          },
+          openFrom: function (trigger) {
+              openFrom(popover, trigger);
+              return this;
+          },
+          close: function () {
+              close(popover);
+              return this;
+          },
+          onItemChanged: function (callback) {
+              onChangeCallbacks.push({id: popover.getAttribute('id'), callback: callback});
+              return this;
+          },
+          attachButton: function (button, autoBind) {
+              attachButton(popover, button, autoBind);
+              return this;
+          }
+      }
+  }
+
   phonon.popover = function (el) {
     if(typeof el === 'undefined') {
-      return {
-        closeActive: function() {
-          var closable = (previousPopover ? true : false);
-          if(closable) {
-            close(previousPopover);
-          }
-          return closable;
-        }
-      }
+      return getInstance(buildPopover())
     }
 
     var popover = (typeof el === 'string' ? document.querySelector(el) : el);
     if(popover === null) {
-      throw new Error('The popover with ID ' + el + ' does not exist');
+      throw new Error('The popover with ID ' + el + ' does not exists');
     }
 
-    return {
-      open: function () {
-        open(popover);
-      },
-      close: function () {
-        close(popover);
-      }
-    };
+    return getInstance(popover);
   };
 
   window.phonon = phonon;
