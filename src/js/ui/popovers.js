@@ -159,11 +159,8 @@
     previousPopover.style.visibility = 'hidden';
     if(previousPopover.getAttribute('data-virtual') === 'true') {
         // remove from DOM
-        window.setTimeout(function () {
-            document.body.removeChild(document.body.lastChild);
-            console.log(document.body)
-            previousPopover = null;
-        }, 1000);
+        document.body.removeChild(previousPopover);
+        previousPopover = null;
     }
   }
 
