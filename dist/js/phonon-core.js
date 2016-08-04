@@ -668,7 +668,6 @@ phonon.tagManager = (function () {
 })();
 	// init
 	phonon.options = function(options) {
-
 		var useI18n = false;
 		if(typeof options.i18n === 'object' && options.i18n !== null) {
 			phonon.i18n(options.i18n);
@@ -1500,16 +1499,16 @@ phonon.tagManager = (function () {
             var elPage = getPageEl(pageName);
             page.nocache = false
             page.showloader = false
-              if(elPage.getAttribute('data-nocache') == 'true') page.nocache = true
-              if(elPage.getAttribute('data-loader') == 'true') page.showloader = true
+              if(elPage.getAttribute('data-nocache') === 'true') page.nocache = true
+              if(elPage.getAttribute('data-loader') === 'true') page.showloader = true
           };
           setLoaderAndCache(pageName)
         }
 
-       if(page.showloader) document.body.classList.add("loading");
+       if(page.showloader) document.body.classList.add('loading');
 
         loadContent(page.content, function(template) {
-          if(page.showloader) document.body.classList.remove("loading");
+          if(page.showloader) document.body.classList.remove('loading');
 
           var elPage = getPageEl(pageName);
 
@@ -1566,12 +1565,13 @@ phonon.tagManager = (function () {
         fn(req.responseText, opts, url);
       }
     };
+
     if(typeof postData !== 'string'){
       req.open('GET', opts.templateRootDirectory + url, true);
       req.send('');
     }else{
       req.open('POST', opts.templateRootDirectory + url, true);
-      req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       req.send(postData);
     }
   }
@@ -1623,10 +1623,10 @@ phonon.tagManager = (function () {
   function isComponentVisible() {
 
     // close active dialogs, popovers, panels and side-panels
-    if(typeof phonon.dialog !== 'undefined' && phonon.dialog().closeActive()) return true;
-    if(typeof phonon.popover !== 'undefined' && phonon.popover().closeActive()) return true;
-    if(typeof phonon.panel !== 'undefined' && phonon.panel().closeActive()) return true;
-    if(typeof phonon.sidePanel !== 'undefined' && phonon.sidePanel().closeActive()) return true;
+    if(typeof phonon.dialog !== 'undefined' && phonon.dialogUtil.closeActive()) return true;
+    if(typeof phonon.popover !== 'undefined' && phonon.popoverUtil.closeActive()) return true;
+    if(typeof phonon.panel !== 'undefined' && phonon.panelUtil.closeActive()) return true;
+    if(typeof phonon.sidePanel !== 'undefined' && phonon.sidePanelUtil.closeActive()) return true;
 
     return false;
   }
@@ -1829,9 +1829,7 @@ phonon.tagManager = (function () {
       currentPage = pageName;
     }
 
-    // @todo
-    if(!page.mounted) {
-    //if(!page.mounted || page.nocache) {
+    if(!page.mounted || page.nocache) {
       mount(page.name, function() {
 
         page.mounted = true;
@@ -2076,10 +2074,11 @@ phonon.tagManager = (function () {
   document.on('submit', navigationListener);
 
   /*
-   * we do not call onRoute() directly because it is used in callClose
+   * [1] we do not call onRoute() directly because it is used in callClose
    * in order to prevent the back button on navigator:
    * the hash changes, but it is refused by this module (not trusted behavior)
    * so we need to call this function with a "virtual hash" as argument
+   * [2] window.on(...) seems buggy
    */
   if(opts.useHash) window.addEventListener('hashchange', onRoute);
 
@@ -2090,7 +2089,6 @@ phonon.tagManager = (function () {
 
 
   phonon.navigator = function(options) {
-
     if(typeof options === 'object') {
       init(options);
     }

@@ -2,6 +2,8 @@
 
 #### Features
 
+* Support for "data-nocache" + "data-loader" + Form POST [#146](https://github.com/quark-dev/Phonon-Framework/pull/146)<br />
+Thanks to [WietseWind](https://github.com/WietseWind)
 * possibility to add events through `on` with NodeList (querySelectorAll) [#147](https://github.com/quark-dev/Phonon-Framework/issues/147)
 * more API functions for [popovers](http://phonon.quarkdev.com/docs/popovers)
 * jQuery/Zepto compatibility with tap event
@@ -263,12 +265,12 @@ onHashChanged(function(req1, req2) {
 
 ```
 
-Thanks to *jsantari* for this [suggestion](https://github.com/quark-dev/Phonon-Framework/issues/23).
+Thanks to [jsantari](https://github.com/jsantari) for this suggestion [#23](https://github.com/quark-dev/Phonon-Framework/issues/23).
 
 
 ### Using URLs - parameters
 
-it is now possible to use URLs - parameters to access other pages directly (without accessing the default page with a page redirection). Thanks to *HugoCrd* for the [discussion](https://github.com/quark-dev/Phonon-Framework/issues/19).
+it is now possible to use URLs - parameters to access other pages directly (without accessing the default page with a page redirection). Thanks to [HugoCrd](https://github.com/HugoCrd) for the [discussion](https://github.com/quark-dev/Phonon-Framework/issues/19).
 
 
 ### 1.0.4 (2015-09-25)

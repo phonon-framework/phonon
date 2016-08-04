@@ -152,19 +152,26 @@
   });
 
   function onHide() {
-
     var page = document.querySelector('.app-active');
     if(page.querySelector('div.backdrop-popover') !== null) {
       page.removeChild(backdrop);
     }
     previousPopover.style.visibility = 'hidden';
-    previousPopover = null;
+    if(previousPopover.getAttribute('data-virtual') === 'true') {
+        // remove from DOM
+        window.setTimeout(function () {
+            document.body.removeChild(document.body.lastChild);
+            console.log(document.body)
+            previousPopover = null;
+        }, 1000);
+    }
   }
 
   function buildPopover() {
     var popover = document.createElement('div');
     popover.classList.add('popover');
-    popover.setAttribute('id', generateId())
+    popover.setAttribute('id', generateId());
+    popover.setAttribute('data-virtual', 'true');
     document.body.appendChild(popover);
     return document.body.lastChild;
   }
@@ -281,6 +288,14 @@
     }
   }
 
+  function closeActive() {
+      var closable = (previousPopover ? true : false);
+      if(closable) {
+          close(previousPopover);
+      }
+      return closable;
+  }
+
   function attachButton(popover, button, autoBind) {
     var button = (typeof button === 'string' ? document.querySelector(button) : button);
     if(button === null) {
@@ -295,13 +310,6 @@
 
   function getInstance(popover) {
       return {
-          closeActive: function() {
-              var closable = (previousPopover ? true : false);
-              if(closable) {
-                  close(previousPopover);
-              }
-              return closable;
-          },
           setList: function(list) {
               setList(popover, list);
               return this;
@@ -330,6 +338,9 @@
   }
 
   phonon.popover = function (el) {
+    if(typeof el === 'string' && el === '_caller') {
+        return getInstance();
+    }
     if(typeof el === 'undefined') {
       return getInstance(buildPopover())
     }
@@ -340,6 +351,10 @@
     }
 
     return getInstance(popover);
+  };
+
+  phonon.popoverUtil = {
+      closeActive: closeActive
   };
 
   window.phonon = phonon;

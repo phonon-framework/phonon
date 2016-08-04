@@ -182,19 +182,15 @@
 		}
 	}
 
-	phonon.panel = function (el) {
-		if(typeof el === 'undefined') {
-			return {
-				closeActive: function() {
-					var closable = (_activeObjects.length > 0 ? true : false);
-					if(closable) {
-						close(_activeObjects[_activeObjects.length - 1].panel);
-					}
-					return closable;
-				}
-			}
+	function closeActive() {
+		var closable = (_activeObjects.length > 0 ? true : false);
+		if(closable) {
+			close(_activeObjects[_activeObjects.length - 1].panel);
 		}
+		return closable;
+	}
 
+	phonon.panel = function (el) {
 		var panel = (typeof el === 'string' ? document.querySelector(el) : el);
 		if(panel === null) {
 			throw new Error('The panel with ID ' + el + ' does not exist');
@@ -208,6 +204,10 @@
 				close(panel);
 			}
 		};
+	};
+
+	phonon.panelUtil = {
+		closeActive: closeActive
 	};
 
 	window.phonon = phonon;

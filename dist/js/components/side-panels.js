@@ -636,15 +636,14 @@
     var sidePanels = [];
     var sidePanelActive = null;
 
-    function findSidebar(id) {
-
+    function findSidePanel(id) {
         var i = sidePanels.length - 1;
-
         for (; i >= 0; i--) {
             if(sidePanels[i].el.id === id) {
                 return sidePanels[i];
             }
         }
+        return null;
     }
 
     /**
@@ -807,21 +806,21 @@
         var sidebarId = target.getAttribute('data-side-panel-id');
         var sidebarClose = target.getAttribute('data-side-panel-close');
 
-	if(sidebarClose === 'true') {
-	    if(sidePanelActive) {
-	        close(sidePanelActive);
-	    } else if(sidebarId !== null) {
-	        var sb = findSidebar(sidebarId);
-	        if(sb) {
-	            close(sb);
-	        }
-	    }
-	    return;
-	}
+    	if(sidebarClose === 'true') {
+    	    if(sidePanelActive) {
+    	        close(sidePanelActive);
+    	    } else if(sidebarId !== null) {
+    	        var sb = findSidePanel(sidebarId);
+    	        if(sb) {
+    	            close(sb);
+    	        }
+    	    }
+    	    return;
+    	}
 
         if(sidebarId !== null) {
 
-            var sb = findSidebar(sidebarId);
+            var sb = findSidePanel(sidebarId);
 
             if(sb) {
 
@@ -860,40 +859,55 @@
         }
     };
 
-    phonon.sidePanel = function() {
+    function closeActive() {
+        var currentPage = phonon.navigator().currentPage;
+        var i = sidePanels.length - 1;
 
-        return {
-            closeActive: function() {
+        for (; i >= 0; i--) {
 
-                var currentPage = phonon.navigator().currentPage;
-                var i = sidePanels.length - 1;
+            var sb = sidePanels[i];
+            var exposeAside = sb.el.getAttribute('data-expose-aside');
+            if(sb.pages.indexOf(currentPage) !== -1) {
 
-                for (; i >= 0; i--) {
+                var data = sb.snapper.state();
 
-                    var sb = sidePanels[i];
-                    var exposeAside = sb.el.getAttribute('data-expose-aside');
-		    if(sb.pages.indexOf(currentPage) !== -1) {
-
-                        var data = sb.snapper.state();
-
-                        if(data.state !== 'closed') {
-                            if(isPhone) {
-                                close(sb);
-                                return true;
-                            }
-                            if(!isPhone && exposeAside !== 'left' && exposeAside !== 'right') {
-                                close(sb);
-                                return true;
-                            }
-                        }
-
-                        return false;
+                if(data.state !== 'closed') {
+                    if(isPhone) {
+                        close(sb);
+                        return true;
+                    }
+                    if(!isPhone && exposeAside !== 'left' && exposeAside !== 'right') {
+                        close(sb);
+                        return true;
                     }
                 }
+
                 return false;
             }
-        };
+        }
+        return false;
     }
+
+    phonon.sidePanel = function(sidePanelId) {
+        sidePanelId = sidePanelId.replace('#', '');
+        var sidePanel = findSidePanel(sidePanelId)
+        if(sidePanel === null) {
+            throw new Error('The side panel with id [' + sidePanelId + '] does not exists');
+        }
+
+        return {
+            open: function() {
+                open(sidePanel);
+            },
+            close: function() {
+                close(sidePanel);
+            }
+        }
+    }
+
+    phonon.sidePanelUtil = {
+        closeActive: closeActive
+    };
 
     window.on('resize', resize);
     document.on('pageopened', render);

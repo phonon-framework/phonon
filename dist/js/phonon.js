@@ -577,7 +577,6 @@ phonon.event = (function ($) {
             }
             return
         }
-
         addEvent(el, eventName, callback, useCapture)
     };
 
@@ -669,7 +668,6 @@ phonon.tagManager = (function () {
 })();
 	// init
 	phonon.options = function(options) {
-
 		var useI18n = false;
 		if(typeof options.i18n === 'object' && options.i18n !== null) {
 			phonon.i18n(options.i18n);
@@ -1410,9 +1408,7 @@ phonon.tagManager = (function () {
   }
 
   function callClose(pageName, nextPageName, hash) {
-
     function close() {
-
 	  dispatchDOMEvent('pageclosed', pageName)
 
       var currentHash = window.location.hash.split('#')[1];
@@ -1475,8 +1471,7 @@ phonon.tagManager = (function () {
     }
   }
 
-  function mount(pageName, fn) {
-
+  function mount(pageName, fn, postData) {
     if(riotEnabled) {
 
       riot.compile(function() {
@@ -1499,7 +1494,21 @@ phonon.tagManager = (function () {
 
       if(page.content !== null) {
 
+        if(page.nocache === null || page.showloader === null){
+          var setLoaderAndCache = function(pageName){
+            var elPage = getPageEl(pageName);
+            page.nocache = false
+            page.showloader = false
+              if(elPage.getAttribute('data-nocache') === 'true') page.nocache = true
+              if(elPage.getAttribute('data-loader') === 'true') page.showloader = true
+          };
+          setLoaderAndCache(pageName)
+        }
+
+       if(page.showloader) document.body.classList.add('loading');
+
         loadContent(page.content, function(template) {
+          if(page.showloader) document.body.classList.remove('loading');
 
           var elPage = getPageEl(pageName);
 
@@ -1541,14 +1550,14 @@ phonon.tagManager = (function () {
             fn();
           }
 
-        });
+        }, postData);
       } else {
         fn();
       }
     }
   }
 
-  function loadContent(url, fn) {
+  function loadContent(url, fn, postData) {
     var req = new XMLHttpRequest();
     if(req.overrideMimeType) req.overrideMimeType('text/html; charset=utf-8');
     req.onreadystatechange = function() {
@@ -1556,21 +1565,30 @@ phonon.tagManager = (function () {
         fn(req.responseText, opts, url);
       }
     };
-    req.open('GET', opts.templateRootDirectory + url, true);
-    req.send('');
+
+    if(typeof postData !== 'string'){
+      req.open('GET', opts.templateRootDirectory + url, true);
+      req.send('');
+    }else{
+      req.open('POST', opts.templateRootDirectory + url, true);
+      req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      req.send(postData);
+    }
   }
 
   function createPage(pageName, properties) {
 	properties = typeof properties === 'object' ? properties : {};
 
 	var newPage = {
-		name: pageName,
-		mounted: false,
-		async: false,
-		activity: null,
-		content: null,
-		readyDelay: 1,
-        callbackRegistered: []
+      name: pageName,
+      mounted: false,
+      async: false,
+      activity: null,
+      content: null,
+      readyDelay: 1,
+      callbackRegistered: [],
+      nocache: null,
+      showloader: null
 	};
 
 	var prop;
@@ -1605,10 +1623,10 @@ phonon.tagManager = (function () {
   function isComponentVisible() {
 
     // close active dialogs, popovers, panels and side-panels
-    if(typeof phonon.dialog !== 'undefined' && phonon.dialog().closeActive()) return true;
-    if(typeof phonon.popover !== 'undefined' && phonon.popover().closeActive()) return true;
-    if(typeof phonon.panel !== 'undefined' && phonon.panel().closeActive()) return true;
-    if(typeof phonon.sidePanel !== 'undefined' && phonon.sidePanel().closeActive()) return true;
+    if(typeof phonon.dialog !== 'undefined' && phonon.dialogUtil.closeActive()) return true;
+    if(typeof phonon.popover !== 'undefined' && phonon.popoverUtil.closeActive()) return true;
+    if(typeof phonon.panel !== 'undefined' && phonon.panelUtil.closeActive()) return true;
+    if(typeof phonon.sidePanel !== 'undefined' && phonon.sidePanelUtil.closeActive()) return true;
 
     return false;
   }
@@ -1635,6 +1653,35 @@ phonon.tagManager = (function () {
     return page;
   }
 
+  function serializeForm(evt){
+    var evt    = evt || window.event;
+    var form   = evt.target;
+    var field, query='';
+    if(typeof form == 'object' && form.nodeName == "FORM"){
+        var i;
+        for(i=form.elements.length-1; i>=0; i--){
+            field = form.elements[i];
+            if(field.name && field.type != 'file' && field.type != 'reset'){
+                if(field.type == 'select-multiple'){
+                    for(j=form.elements[i].options.length-1; j>=0; j--){
+                        if(field.options[j].selected){
+                            query += '&' + field.name + "=" + encodeURIComponent(field.options[j].value).replace(/%20/g,'+');
+                        }
+                    }
+                }
+                else{
+                    if((field.type != 'submit' && field.type != 'button') || evt.target == field){
+                        if((field.type != 'checkbox' && field.type != 'radio') || field.checked){
+                            query += '&' + field.name + "=" + encodeURIComponent(field.value).replace(/%20/g,'+');
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return query.substr(1);
+  }
+
   function navigationListener(evt) {
 
     /*
@@ -1647,6 +1694,20 @@ phonon.tagManager = (function () {
     var nav = null;
     var validHref = false;
     var params = '';
+    var formData;
+
+    if(evt.type == 'submit'){ // dev
+      var formAction = target.getAttribute('action');
+      if(formAction.match(new RegExp('^#'+opts.hashPrefix))){
+          evt.preventDefault();
+          nav = formAction.substr(1+(opts.hashPrefix.length))
+          callClose(currentPage, nav, opts.hashPrefix+nav);
+          onBeforeTransition(nav, function() {
+              //callHash(nav);
+          }, serializeForm(evt)); // dev
+          return changePage(formAction.substr(1+(opts.hashPrefix.length)))
+      }
+    }
 
     for (; target && target !== document; target = target.parentNode) {
       var dataNav = target.getAttribute('data-navigation');
@@ -1751,8 +1812,7 @@ phonon.tagManager = (function () {
    * @param {String} pageName
    * @param {Function} callback
    */
-  function onBeforeTransition(pageName, callback) {
-
+  function onBeforeTransition(pageName, callback, postData) {
     if(onActiveTransition) {
       if(typeof callback === 'function') {
         return callback();
@@ -1769,8 +1829,7 @@ phonon.tagManager = (function () {
       currentPage = pageName;
     }
 
-    if(!page.mounted) {
-
+    if(!page.mounted || page.nocache) {
       mount(page.name, function() {
 
         page.mounted = true;
@@ -1797,7 +1856,7 @@ phonon.tagManager = (function () {
         if(typeof callback === 'function') {
           callback();
         }
-      });
+      }, postData);
     } else {
 
       callReady(pageName);
@@ -1887,10 +1946,8 @@ phonon.tagManager = (function () {
   /**
    * @param {String | HashEvent} virtualHash
    */
-  function onRoute(virtualHash) {
-
+  function onRoute(virtualHash, postData) {
     var hash = (typeof virtualHash === 'string' ? virtualHash : window.location.href.split('#')[1] || '');
-
     var pageName;
 
     var parsed = hash.split('/');
@@ -1994,14 +2051,12 @@ phonon.tagManager = (function () {
       }
 
       if(!pageObject.mounted) {
-
         onBeforeTransition(pageObject.name, function() {
           callHash(pageObject.name, params);
-        });
+        }, postData);
 
       } else {
-
-        onBeforeTransition(pageObject.name);
+        onBeforeTransition(pageObject.name, null, postData);
         callHash(pageObject.name, params);
       }
 
@@ -2013,14 +2068,19 @@ phonon.tagManager = (function () {
    * One listener to navigate through the app pages
    */
   document.on('tap', navigationListener);
+  /**
+   * Handle (port) forms to event
+   */
+  document.on('submit', navigationListener);
 
   /*
-   * we do not call onRoute() directly because it is used in callClose
+   * [1] we do not call onRoute() directly because it is used in callClose
    * in order to prevent the back button on navigator:
    * the hash changes, but it is refused by this module (not trusted behavior)
    * so we need to call this function with a "virtual hash" as argument
+   * [2] window.on(...) seems buggy
    */
-  if(opts.useHash) window.on('hashchange', onRoute);
+  if(opts.useHash) window.addEventListener('hashchange', onRoute);
 
   document.on('backbutton', function() {
     var last = getLastPage();
@@ -2029,7 +2089,6 @@ phonon.tagManager = (function () {
 
 
   phonon.navigator = function(options) {
-
     if(typeof options === 'object') {
       init(options);
     }
@@ -3001,23 +3060,21 @@ phonon.tagManager = (function () {
 		}
 	}
 
+	function closeActive() {
+		var closable = (dialogs.length > 0 ? true : false);
+		if(closable) {
+			var dialog = dialogs[dialogs.length - 1].dialog;
+			if(dialog.getAttribute('data-cancelable') !== 'false') {
+				close(dialog);
+			}
+		}
+		return closable;
+	}
+
 	phonon.dialog = function(el) {
 
 		if(typeof el === 'undefined') {
-
 			return {
-				closeActive: function() {
-					var closable = (dialogs.length > 0 ? true : false);
-
-					if(closable) {
-
-						var dialog = dialogs[dialogs.length - 1].dialog;
-						if(dialog.getAttribute('data-cancelable') !== 'false') {
-							close(dialog);
-						}
-					}
-					return closable;
-				},
 				alert: function(text, title, cancelable, textOk) {
 					var dialog = buildDialog('alert', text, title, cancelable, textOk);
 					open(dialog);
@@ -3088,6 +3145,10 @@ phonon.tagManager = (function () {
 				return (dialog.classList.contains('active') ? true : false);
 			}
 		};
+	};
+
+	phonon.dialogUtil = {
+		closeActive: closeActive
 	};
 
 	window.phonon = phonon;
@@ -3671,19 +3732,15 @@ phonon.tagManager = (function () {
 		}
 	}
 
-	phonon.panel = function (el) {
-		if(typeof el === 'undefined') {
-			return {
-				closeActive: function() {
-					var closable = (_activeObjects.length > 0 ? true : false);
-					if(closable) {
-						close(_activeObjects[_activeObjects.length - 1].panel);
-					}
-					return closable;
-				}
-			}
+	function closeActive() {
+		var closable = (_activeObjects.length > 0 ? true : false);
+		if(closable) {
+			close(_activeObjects[_activeObjects.length - 1].panel);
 		}
+		return closable;
+	}
 
+	phonon.panel = function (el) {
 		var panel = (typeof el === 'string' ? document.querySelector(el) : el);
 		if(panel === null) {
 			throw new Error('The panel with ID ' + el + ' does not exist');
@@ -3697,6 +3754,10 @@ phonon.tagManager = (function () {
 				close(panel);
 			}
 		};
+	};
+
+	phonon.panelUtil = {
+		closeActive: closeActive
 	};
 
 	window.phonon = phonon;
@@ -3863,19 +3924,26 @@ phonon.tagManager = (function () {
   });
 
   function onHide() {
-
     var page = document.querySelector('.app-active');
     if(page.querySelector('div.backdrop-popover') !== null) {
       page.removeChild(backdrop);
     }
     previousPopover.style.visibility = 'hidden';
-    previousPopover = null;
+    if(previousPopover.getAttribute('data-virtual') === 'true') {
+        // remove from DOM
+        window.setTimeout(function () {
+            document.body.removeChild(document.body.lastChild);
+            console.log(document.body)
+            previousPopover = null;
+        }, 1000);
+    }
   }
 
   function buildPopover() {
     var popover = document.createElement('div');
     popover.classList.add('popover');
-    popover.setAttribute('id', generateId())
+    popover.setAttribute('id', generateId());
+    popover.setAttribute('data-virtual', 'true');
     document.body.appendChild(popover);
     return document.body.lastChild;
   }
@@ -3992,6 +4060,14 @@ phonon.tagManager = (function () {
     }
   }
 
+  function closeActive() {
+      var closable = (previousPopover ? true : false);
+      if(closable) {
+          close(previousPopover);
+      }
+      return closable;
+  }
+
   function attachButton(popover, button, autoBind) {
     var button = (typeof button === 'string' ? document.querySelector(button) : button);
     if(button === null) {
@@ -4006,13 +4082,6 @@ phonon.tagManager = (function () {
 
   function getInstance(popover) {
       return {
-          closeActive: function() {
-              var closable = (previousPopover ? true : false);
-              if(closable) {
-                  close(previousPopover);
-              }
-              return closable;
-          },
           setList: function(list) {
               setList(popover, list);
               return this;
@@ -4041,6 +4110,9 @@ phonon.tagManager = (function () {
   }
 
   phonon.popover = function (el) {
+    if(typeof el === 'string' && el === '_caller') {
+        return getInstance();
+    }
     if(typeof el === 'undefined') {
       return getInstance(buildPopover())
     }
@@ -4051,6 +4123,10 @@ phonon.tagManager = (function () {
     }
 
     return getInstance(popover);
+  };
+
+  phonon.popoverUtil = {
+      closeActive: closeActive
   };
 
   window.phonon = phonon;
@@ -4761,15 +4837,14 @@ phonon.tagManager = (function () {
     var sidePanels = [];
     var sidePanelActive = null;
 
-    function findSidebar(id) {
-
+    function findSidePanel(id) {
         var i = sidePanels.length - 1;
-
         for (; i >= 0; i--) {
             if(sidePanels[i].el.id === id) {
                 return sidePanels[i];
             }
         }
+        return null;
     }
 
     /**
@@ -4932,21 +5007,21 @@ phonon.tagManager = (function () {
         var sidebarId = target.getAttribute('data-side-panel-id');
         var sidebarClose = target.getAttribute('data-side-panel-close');
 
-	if(sidebarClose === 'true') {
-	    if(sidePanelActive) {
-	        close(sidePanelActive);
-	    } else if(sidebarId !== null) {
-	        var sb = findSidebar(sidebarId);
-	        if(sb) {
-	            close(sb);
-	        }
-	    }
-	    return;
-	}
+    	if(sidebarClose === 'true') {
+    	    if(sidePanelActive) {
+    	        close(sidePanelActive);
+    	    } else if(sidebarId !== null) {
+    	        var sb = findSidePanel(sidebarId);
+    	        if(sb) {
+    	            close(sb);
+    	        }
+    	    }
+    	    return;
+    	}
 
         if(sidebarId !== null) {
 
-            var sb = findSidebar(sidebarId);
+            var sb = findSidePanel(sidebarId);
 
             if(sb) {
 
@@ -4985,40 +5060,55 @@ phonon.tagManager = (function () {
         }
     };
 
-    phonon.sidePanel = function() {
+    function closeActive() {
+        var currentPage = phonon.navigator().currentPage;
+        var i = sidePanels.length - 1;
 
-        return {
-            closeActive: function() {
+        for (; i >= 0; i--) {
 
-                var currentPage = phonon.navigator().currentPage;
-                var i = sidePanels.length - 1;
+            var sb = sidePanels[i];
+            var exposeAside = sb.el.getAttribute('data-expose-aside');
+            if(sb.pages.indexOf(currentPage) !== -1) {
 
-                for (; i >= 0; i--) {
+                var data = sb.snapper.state();
 
-                    var sb = sidePanels[i];
-                    var exposeAside = sb.el.getAttribute('data-expose-aside');
-		    if(sb.pages.indexOf(currentPage) !== -1) {
-
-                        var data = sb.snapper.state();
-
-                        if(data.state !== 'closed') {
-                            if(isPhone) {
-                                close(sb);
-                                return true;
-                            }
-                            if(!isPhone && exposeAside !== 'left' && exposeAside !== 'right') {
-                                close(sb);
-                                return true;
-                            }
-                        }
-
-                        return false;
+                if(data.state !== 'closed') {
+                    if(isPhone) {
+                        close(sb);
+                        return true;
+                    }
+                    if(!isPhone && exposeAside !== 'left' && exposeAside !== 'right') {
+                        close(sb);
+                        return true;
                     }
                 }
+
                 return false;
             }
-        };
+        }
+        return false;
     }
+
+    phonon.sidePanel = function(sidePanelId) {
+        sidePanelId = sidePanelId.replace('#', '');
+        var sidePanel = findSidePanel(sidePanelId)
+        if(sidePanel === null) {
+            throw new Error('The side panel with id [' + sidePanelId + '] does not exists');
+        }
+
+        return {
+            open: function() {
+                open(sidePanel);
+            },
+            close: function() {
+                close(sidePanel);
+            }
+        }
+    }
+
+    phonon.sidePanelUtil = {
+        closeActive: closeActive
+    };
 
     window.on('resize', resize);
     document.on('pageopened', render);
