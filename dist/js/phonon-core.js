@@ -577,7 +577,6 @@ phonon.event = (function ($) {
             }
             return
         }
-
         addEvent(el, eventName, callback, useCapture)
     };
 
@@ -1410,9 +1409,7 @@ phonon.tagManager = (function () {
   }
 
   function callClose(pageName, nextPageName, hash) {
-
     function close() {
-
 	  dispatchDOMEvent('pageclosed', pageName)
 
       var currentHash = window.location.hash.split('#')[1];
@@ -1475,8 +1472,7 @@ phonon.tagManager = (function () {
     }
   }
 
-  function mount(pageName, fn) {
-
+  function mount(pageName, fn, postData) {
     if(riotEnabled) {
 
       riot.compile(function() {
@@ -1499,7 +1495,21 @@ phonon.tagManager = (function () {
 
       if(page.content !== null) {
 
+        if(page.nocache === null || page.showloader === null){
+          var setLoaderAndCache = function(pageName){
+            var elPage = getPageEl(pageName);
+            page.nocache = false
+            page.showloader = false
+              if(elPage.getAttribute('data-nocache') == 'true') page.nocache = true
+              if(elPage.getAttribute('data-loader') == 'true') page.showloader = true
+          };
+          setLoaderAndCache(pageName)
+        }
+
+       if(page.showloader) document.body.classList.add("loading");
+
         loadContent(page.content, function(template) {
+          if(page.showloader) document.body.classList.remove("loading");
 
           var elPage = getPageEl(pageName);
 
@@ -1541,14 +1551,14 @@ phonon.tagManager = (function () {
             fn();
           }
 
-        });
+        }, postData);
       } else {
         fn();
       }
     }
   }
 
-  function loadContent(url, fn) {
+  function loadContent(url, fn, postData) {
     var req = new XMLHttpRequest();
     if(req.overrideMimeType) req.overrideMimeType('text/html; charset=utf-8');
     req.onreadystatechange = function() {
@@ -1556,21 +1566,29 @@ phonon.tagManager = (function () {
         fn(req.responseText, opts, url);
       }
     };
-    req.open('GET', opts.templateRootDirectory + url, true);
-    req.send('');
+    if(typeof postData !== 'string'){
+      req.open('GET', opts.templateRootDirectory + url, true);
+      req.send('');
+    }else{
+      req.open('POST', opts.templateRootDirectory + url, true);
+      req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      req.send(postData);
+    }
   }
 
   function createPage(pageName, properties) {
 	properties = typeof properties === 'object' ? properties : {};
 
 	var newPage = {
-		name: pageName,
-		mounted: false,
-		async: false,
-		activity: null,
-		content: null,
-		readyDelay: 1,
-        callbackRegistered: []
+      name: pageName,
+      mounted: false,
+      async: false,
+      activity: null,
+      content: null,
+      readyDelay: 1,
+      callbackRegistered: [],
+      nocache: null,
+      showloader: null
 	};
 
 	var prop;
@@ -1635,6 +1653,35 @@ phonon.tagManager = (function () {
     return page;
   }
 
+  function serializeForm(evt){
+    var evt    = evt || window.event;
+    var form   = evt.target;
+    var field, query='';
+    if(typeof form == 'object' && form.nodeName == "FORM"){
+        var i;
+        for(i=form.elements.length-1; i>=0; i--){
+            field = form.elements[i];
+            if(field.name && field.type != 'file' && field.type != 'reset'){
+                if(field.type == 'select-multiple'){
+                    for(j=form.elements[i].options.length-1; j>=0; j--){
+                        if(field.options[j].selected){
+                            query += '&' + field.name + "=" + encodeURIComponent(field.options[j].value).replace(/%20/g,'+');
+                        }
+                    }
+                }
+                else{
+                    if((field.type != 'submit' && field.type != 'button') || evt.target == field){
+                        if((field.type != 'checkbox' && field.type != 'radio') || field.checked){
+                            query += '&' + field.name + "=" + encodeURIComponent(field.value).replace(/%20/g,'+');
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return query.substr(1);
+  }
+
   function navigationListener(evt) {
 
     /*
@@ -1647,6 +1694,20 @@ phonon.tagManager = (function () {
     var nav = null;
     var validHref = false;
     var params = '';
+    var formData;
+
+    if(evt.type == 'submit'){ // dev
+      var formAction = target.getAttribute('action');
+      if(formAction.match(new RegExp('^#'+opts.hashPrefix))){
+          evt.preventDefault();
+          nav = formAction.substr(1+(opts.hashPrefix.length))
+          callClose(currentPage, nav, opts.hashPrefix+nav);
+          onBeforeTransition(nav, function() {
+              //callHash(nav);
+          }, serializeForm(evt)); // dev
+          return changePage(formAction.substr(1+(opts.hashPrefix.length)))
+      }
+    }
 
     for (; target && target !== document; target = target.parentNode) {
       var dataNav = target.getAttribute('data-navigation');
@@ -1751,8 +1812,7 @@ phonon.tagManager = (function () {
    * @param {String} pageName
    * @param {Function} callback
    */
-  function onBeforeTransition(pageName, callback) {
-
+  function onBeforeTransition(pageName, callback, postData) {
     if(onActiveTransition) {
       if(typeof callback === 'function') {
         return callback();
@@ -1769,8 +1829,9 @@ phonon.tagManager = (function () {
       currentPage = pageName;
     }
 
+    // @todo
     if(!page.mounted) {
-
+    //if(!page.mounted || page.nocache) {
       mount(page.name, function() {
 
         page.mounted = true;
@@ -1797,7 +1858,7 @@ phonon.tagManager = (function () {
         if(typeof callback === 'function') {
           callback();
         }
-      });
+      }, postData);
     } else {
 
       callReady(pageName);
@@ -1887,10 +1948,8 @@ phonon.tagManager = (function () {
   /**
    * @param {String | HashEvent} virtualHash
    */
-  function onRoute(virtualHash) {
-
+  function onRoute(virtualHash, postData) {
     var hash = (typeof virtualHash === 'string' ? virtualHash : window.location.href.split('#')[1] || '');
-
     var pageName;
 
     var parsed = hash.split('/');
@@ -1994,14 +2053,12 @@ phonon.tagManager = (function () {
       }
 
       if(!pageObject.mounted) {
-
         onBeforeTransition(pageObject.name, function() {
           callHash(pageObject.name, params);
-        });
+        }, postData);
 
       } else {
-
-        onBeforeTransition(pageObject.name);
+        onBeforeTransition(pageObject.name, null, postData);
         callHash(pageObject.name, params);
       }
 
@@ -2013,6 +2070,10 @@ phonon.tagManager = (function () {
    * One listener to navigate through the app pages
    */
   document.on('tap', navigationListener);
+  /**
+   * Handle (port) forms to event
+   */
+  document.on('submit', navigationListener);
 
   /*
    * we do not call onRoute() directly because it is used in callClose
@@ -2020,7 +2081,7 @@ phonon.tagManager = (function () {
    * the hash changes, but it is refused by this module (not trusted behavior)
    * so we need to call this function with a "virtual hash" as argument
    */
-  if(opts.useHash) window.on('hashchange', onRoute);
+  if(opts.useHash) window.addEventListener('hashchange', onRoute);
 
   document.on('backbutton', function() {
     var last = getLastPage();

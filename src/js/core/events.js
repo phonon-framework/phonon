@@ -198,7 +198,6 @@ phonon.event = (function ($) {
             }
             return
         }
-
         addEvent(el, eventName, callback, useCapture)
     };
 

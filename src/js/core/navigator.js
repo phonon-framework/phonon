@@ -331,9 +331,7 @@
   }
 
   function callClose(pageName, nextPageName, hash) {
-
     function close() {
-
 	  dispatchDOMEvent('pageclosed', pageName)
 
       var currentHash = window.location.hash.split('#')[1];
@@ -397,7 +395,6 @@
   }
 
   function mount(pageName, fn, postData) {
-
     if(riotEnabled) {
 
       riot.compile(function() {
@@ -738,7 +735,6 @@
    * @param {Function} callback
    */
   function onBeforeTransition(pageName, callback, postData) {
-
     if(onActiveTransition) {
       if(typeof callback === 'function') {
         return callback();
@@ -755,8 +751,9 @@
       currentPage = pageName;
     }
 
-    if(!page.mounted||page.nocache) {
-
+    // @todo
+    if(!page.mounted) {
+    //if(!page.mounted || page.nocache) {
       mount(page.name, function() {
 
         page.mounted = true;
@@ -874,9 +871,7 @@
    * @param {String | HashEvent} virtualHash
    */
   function onRoute(virtualHash, postData) {
-
     var hash = (typeof virtualHash === 'string' ? virtualHash : window.location.href.split('#')[1] || '');
-
     var pageName;
 
     var parsed = hash.split('/');
@@ -980,13 +975,11 @@
       }
 
       if(!pageObject.mounted) {
-
         onBeforeTransition(pageObject.name, function() {
           callHash(pageObject.name, params);
         }, postData);
 
       } else {
-
         onBeforeTransition(pageObject.name, null, postData);
         callHash(pageObject.name, params);
       }
@@ -1005,12 +998,13 @@
   document.on('submit', navigationListener);
 
   /*
-   * we do not call onRoute() directly because it is used in callClose
+   * [1] we do not call onRoute() directly because it is used in callClose
    * in order to prevent the back button on navigator:
    * the hash changes, but it is refused by this module (not trusted behavior)
    * so we need to call this function with a "virtual hash" as argument
+   * [2] window.on(...) seems buggy
    */
-  if(opts.useHash) window.on('hashchange', onRoute);
+  if(opts.useHash) window.addEventListener('hashchange', onRoute);
 
   document.on('backbutton', function() {
     var last = getLastPage();
@@ -1019,7 +1013,6 @@
 
 
   phonon.navigator = function(options) {
-
     if(typeof options === 'object') {
       init(options);
     }
