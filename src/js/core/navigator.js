@@ -422,16 +422,16 @@
             var elPage = getPageEl(pageName);
             page.nocache = false
             page.showloader = false
-              if(elPage.getAttribute('data-nocache') == 'true') page.nocache = true
-              if(elPage.getAttribute('data-loader') == 'true') page.showloader = true
+              if(elPage.getAttribute('data-nocache') === 'true') page.nocache = true
+              if(elPage.getAttribute('data-loader') === 'true') page.showloader = true
           };
           setLoaderAndCache(pageName)
         }
 
-       if(page.showloader) document.body.classList.add("loading");
+       if(page.showloader) document.body.classList.add('loading');
 
         loadContent(page.content, function(template) {
-          if(page.showloader) document.body.classList.remove("loading");
+          if(page.showloader) document.body.classList.remove('loading');
 
           var elPage = getPageEl(pageName);
 
@@ -488,12 +488,13 @@
         fn(req.responseText, opts, url);
       }
     };
+
     if(typeof postData !== 'string'){
       req.open('GET', opts.templateRootDirectory + url, true);
       req.send('');
     }else{
       req.open('POST', opts.templateRootDirectory + url, true);
-      req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       req.send(postData);
     }
   }
@@ -545,10 +546,10 @@
   function isComponentVisible() {
 
     // close active dialogs, popovers, panels and side-panels
-    if(typeof phonon.dialog !== 'undefined' && phonon.dialog().closeActive()) return true;
-    if(typeof phonon.popover !== 'undefined' && phonon.popover().closeActive()) return true;
-    if(typeof phonon.panel !== 'undefined' && phonon.panel().closeActive()) return true;
-    if(typeof phonon.sidePanel !== 'undefined' && phonon.sidePanel().closeActive()) return true;
+    if(typeof phonon.dialog !== 'undefined' && phonon.dialogUtil.closeActive()) return true;
+    if(typeof phonon.popover !== 'undefined' && phonon.popoverUtil.closeActive()) return true;
+    if(typeof phonon.panel !== 'undefined' && phonon.panelUtil.closeActive()) return true;
+    if(typeof phonon.sidePanel !== 'undefined' && phonon.sidePanelUtil.closeActive()) return true;
 
     return false;
   }
@@ -751,9 +752,7 @@
       currentPage = pageName;
     }
 
-    // @todo
-    if(!page.mounted) {
-    //if(!page.mounted || page.nocache) {
+    if(!page.mounted || page.nocache) {
       mount(page.name, function() {
 
         page.mounted = true;

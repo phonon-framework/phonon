@@ -310,23 +310,21 @@
 		}
 	}
 
+	function closeActive() {
+		var closable = (dialogs.length > 0 ? true : false);
+		if(closable) {
+			var dialog = dialogs[dialogs.length - 1].dialog;
+			if(dialog.getAttribute('data-cancelable') !== 'false') {
+				close(dialog);
+			}
+		}
+		return closable;
+	}
+
 	phonon.dialog = function(el) {
 
 		if(typeof el === 'undefined') {
-
 			return {
-				closeActive: function() {
-					var closable = (dialogs.length > 0 ? true : false);
-
-					if(closable) {
-
-						var dialog = dialogs[dialogs.length - 1].dialog;
-						if(dialog.getAttribute('data-cancelable') !== 'false') {
-							close(dialog);
-						}
-					}
-					return closable;
-				},
 				alert: function(text, title, cancelable, textOk) {
 					var dialog = buildDialog('alert', text, title, cancelable, textOk);
 					open(dialog);
@@ -397,6 +395,10 @@
 				return (dialog.classList.contains('active') ? true : false);
 			}
 		};
+	};
+
+	phonon.dialogUtil = {
+		closeActive: closeActive
 	};
 
 	window.phonon = phonon;
