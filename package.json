@@ -6,6 +6,9 @@
     "type": "git",
     "url": "https://github.com/quark-dev/Phonon-Framework.git"
   },
+  "scripts": {
+    "postinstall": "gulp"  
+  },
   "author": "Quarkdev",
   "license": "MIT",
   "bugs": {
