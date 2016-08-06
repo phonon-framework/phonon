@@ -27,7 +27,7 @@ app.on({page: 'home'});
  * here we did not implement it, but if you do, you can use readyDelay to add a small delay
  * between the OnCreate and the OnReady callbacks
 */
-app.on({page: 'pagetwo', preventClose: true, content: 'pagetwo.html', readyDelay: 1}, function(activity) {
+app.on({page: 'pagetwo', preventClose: true, readyDelay: 1}, function(activity) {
 
     var action = null;
 
