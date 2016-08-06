@@ -683,20 +683,37 @@ button {
   left: 0;
   bottom: 0;
   z-index: 10;
+  display: block;
+  width: 100%;
   height: 50px;
   background-color: #fff;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-  display: table;
-  width: 100%;
-  height: 50px;
   padding: 0;
-  table-layout: fixed;
+}
+.tabs .tab-items {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 .tabs .tab-items .tab-item {
   position: relative;
-  display: table-cell;
-  width: 1%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-flex-basis: 100%;
+      -ms-flex-preferred-size: 100%;
+          flex-basis: 100%;
+  width: 100%;
   height: 50px;
   line-height: 50px;
   color: #0084e7;
@@ -704,6 +721,7 @@ button {
   text-transform: uppercase;
   vertical-align: middle;
   padding: 0;
+  margin: 0;
 }
 .tabs .tab-items .tab-item .icon {
   position: relative;

@@ -197,6 +197,8 @@
 
 		var dialog = obj.dialog;
 		dialog.style.visibility = 'hidden';
+		dialog.style.display = 'none';
+
 		dialog.classList.remove('close');
 
 		dialogs.splice(obj.index, 1);
@@ -218,8 +220,8 @@
 	}
 
 	function open (dialog) {
-
 		dialog.style.visibility = 'visible';
+		dialog.style.display = 'block';
 
 		if(!dialog.classList.contains('active')) {
 

@@ -7,29 +7,36 @@
   left 0
   bottom 0
   z-index 10
+  display block
+  width 100%
   height tab-height
   background-color tab-background-color
   backface-visibility hidden
-  display table
-  width 100%
-  height 50px
   padding 0
-  table-layout fixed
 
   .tab-items
+    display flex
+    align-items center
+    justify-content center
 
     .tab-item
       position relative
-      display table-cell
-      width 1%
+      white-space nowrap
+      text-overflow ellipsis
+
+      overflow hidden
+
+      flex-basis 100%
+      width 100%
+
       height tab-height
       line-height tab-height
       color primary
       text-align center
       text-transform uppercase
       vertical-align middle
-
       padding 0
+      margin 0
 
       .icon
         position relative

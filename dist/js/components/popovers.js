@@ -157,6 +157,7 @@
       page.removeChild(backdrop);
     }
     previousPopover.style.visibility = 'hidden';
+    previousPopover.style.display = 'none';
     if(previousPopover.getAttribute('data-virtual') === 'true') {
         // remove from DOM
         document.body.removeChild(previousPopover);
@@ -182,15 +183,19 @@
   /**
    * Public API
   */
-  function setList(popover, data) {
+  function setList(popover, data, customItemBuilder) {
     if(!(data instanceof Array)) {
       throw new Error('The list of the popover must be an array, ' + typeof data + ' given');
     }
 
     var list = '<ul class="list">';
+    var itemBuilder = buildListItem
+    if(typeof customItemBuilder === 'function') {
+        itemBuilder = customItemBuilder
+    }
 
     for (var i = 0; i < data.length; i++) {
-      list += buildListItem(data[i]);
+      list += itemBuilder(data[i]);
     }
     list += '</ul>';
     popover.innerHTML = list
@@ -211,8 +216,11 @@
         isOpened = true;
         previousPopover = popover;
 
-        popover.style.visibility = 'visible';
-        popover.classList.add('active');
+        popover.style.display = 'block';
+        window.setTimeout(function() {
+            popover.style.visibility = 'visible';
+            popover.classList.add('active');
+        }, 10);
 
         // Reset the scroll state
         popover.querySelector('ul').scrollTop = 0;
@@ -307,8 +315,8 @@
 
   function getInstance(popover) {
       return {
-          setList: function(list) {
-              setList(popover, list);
+          setList: function(list, itemBuilder) {
+              setList(popover, list, itemBuilder);
               return this;
           },
           open: function (direction) {
