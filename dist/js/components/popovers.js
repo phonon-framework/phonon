@@ -161,8 +161,8 @@
     if(previousPopover.getAttribute('data-virtual') === 'true') {
         // remove from DOM
         document.body.removeChild(previousPopover);
-        previousPopover = null;
     }
+    previousPopover = null;
   }
 
   function buildPopover() {

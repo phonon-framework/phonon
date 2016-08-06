@@ -1,8 +1,33 @@
+### 1.3.0 (2016-08-06)
+
+#### Features
+
+* custom list item builder for popovers added, discussion:
+[#148](https://github.com/quark-dev/Phonon-Framework/issues/148)
+* page shortcut for page contents
+```html
+<mypage>
+	<!-- Template for this page -->
+</mypage>
+<script>
+	page.onCreate = function () {
+
+	};
+	// etc.
+</script>
+```
+
+#### Bug Fixes
+
+* force the hide state with dialogs on iOS [#144](https://github.com/quark-dev/Phonon-Framework/issues/144)
+* tab width [#142](https://github.com/quark-dev/Phonon-Framework/issues/142/)
+* fix popover state
+
 ### 1.2.9 (2016-08-05)
 
 #### Features
 
-* Support for "data-nocache" + "data-loader" + Form POST [#146](https://github.com/quark-dev/Phonon-Framework/pull/146)<br />
+* support for "data-nocache" + "data-loader" + Form POST [#146](https://github.com/quark-dev/Phonon-Framework/pull/146)<br />
 Thanks to [WietseWind](https://github.com/WietseWind)
 * possibility to add events through `on` with NodeList (querySelectorAll) [#147](https://github.com/quark-dev/Phonon-Framework/issues/147)
 * more API functions for [popovers](http://phonon.quarkdev.com/docs/popovers)
