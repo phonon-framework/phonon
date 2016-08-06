@@ -1100,6 +1100,7 @@ phonon.tagManager = (function () {
 
   var opts = {
     defaultPage: null,
+    defaultTemplateExtension : null,
     hashPrefix: '!',
     animatePages: true,
     templateRootDirectory: '',
@@ -1870,6 +1871,7 @@ phonon.tagManager = (function () {
   }
 
   function init(options) {
+    
     if(typeof options.templateRootDirectory === 'string' && options.templateRootDirectory !== '') {
       options.templateRootDirectory = ( (options.templateRootDirectory.indexOf('/', options.templateRootDirectory.length - '/'.length) !== -1) ? options.templateRootDirectory : options.templateRootDirectory + '/');
     }
@@ -2087,13 +2089,13 @@ phonon.tagManager = (function () {
     callClose(currentPage, last.page, opts.hashPrefix + last.page + '/' + last.params);
   });
 
-
   phonon.navigator = function(options) {
     if(typeof options === 'object') {
       init(options);
     }
 
     return {
+      
       currentPage: currentPage,
       previousPage: previousPage,
       start: start,
@@ -2122,27 +2124,32 @@ phonon.tagManager = (function () {
         if(typeof options.readyDelay !== 'undefined' && typeof options.readyDelay !== 'number') {
           throw new Error('readyDelay option must be a number');
         }
+        if(typeof options.content ==='undefined' || typeof options.content === 'null' ){
+              if(opts.defaultTemplateExtension){
+                options.content = options.page+'.'+opts.defaultTemplateExtension;
+                console.log('page', options.content);
+              }
+        }
+        // vuejs, riotjs support
+            var page = getPageObject(options.page);
+        var exists = page === null ? false : true;
+        if(!exists) {
+              page = createPage(options.page);
+        }
 
-		// vuejs, riotjs support
-        var page = getPageObject(options.page);
-		var exists = page === null ? false : true;
-		if(!exists) {
-          page = createPage(options.page);
-		}
+        if(typeof callback === 'function' || typeof callback === 'object') {
+          page.activity = new Activity(callback);
+        } else {
+          page.activity = null;
+        }
 
-		if(typeof callback === 'function' || typeof callback === 'object') {
-		  page.activity = new Activity(callback);
-	  	} else {
-		  page.activity = null;
-	  	}
+        page.callback = callback;
+        page.async = (typeof options.preventClose === 'boolean' ? options.preventClose : false);
+        page.content = (typeof options.content === 'string' ? options.content : null);
+        page.readyDelay = (typeof options.readyDelay === 'number' ? options.readyDelay : 1);
 
-		page.callback = callback;
-		page.async = (typeof options.preventClose === 'boolean' ? options.preventClose : false);
-		page.content = (typeof options.content === 'string' ? options.content : null);
-		page.readyDelay = (typeof options.readyDelay === 'number' ? options.readyDelay : 1);
-
-		createOrUpdatePage(options.page.toLowerCase(), page);
-	  },
+        createOrUpdatePage(options.page.toLowerCase(), page);
+      },
       // register a page event only such as home:create
       onPage: function (pageName) {
           if (typeof pageName !== 'string'){
