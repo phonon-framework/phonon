@@ -182,15 +182,19 @@
   /**
    * Public API
   */
-  function setList(popover, data) {
+  function setList(popover, data, customItemBuilder) {
     if(!(data instanceof Array)) {
       throw new Error('The list of the popover must be an array, ' + typeof data + ' given');
     }
 
     var list = '<ul class="list">';
+    var itemBuilder = buildListItem
+    if(typeof customItemBuilder === 'function') {
+        itemBuilder = customItemBuilder
+    }
 
     for (var i = 0; i < data.length; i++) {
-      list += buildListItem(data[i]);
+      list += itemBuilder(data[i]);
     }
     list += '</ul>';
     popover.innerHTML = list
@@ -307,8 +311,8 @@
 
   function getInstance(popover) {
       return {
-          setList: function(list) {
-              setList(popover, list);
+          setList: function(list, itemBuilder) {
+              setList(popover, list, itemBuilder);
               return this;
           },
           open: function (direction) {
