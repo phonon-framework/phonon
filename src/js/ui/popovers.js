@@ -157,6 +157,7 @@
       page.removeChild(backdrop);
     }
     previousPopover.style.visibility = 'hidden';
+    previousPopover.style.display = 'none';
     if(previousPopover.getAttribute('data-virtual') === 'true') {
         // remove from DOM
         document.body.removeChild(previousPopover);
@@ -215,8 +216,11 @@
         isOpened = true;
         previousPopover = popover;
 
-        popover.style.visibility = 'visible';
-        popover.classList.add('active');
+        popover.style.display = 'block';
+        window.setTimeout(function() {
+            popover.style.visibility = 'visible';
+            popover.classList.add('active');
+        }, 10);
 
         // Reset the scroll state
         popover.querySelector('ul').scrollTop = 0;
