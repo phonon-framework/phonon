@@ -8,6 +8,8 @@
 
   'use strict';
 
+  window.phononDOM = {}
+
   var pages = [];
   var pageHistory = [];
   var started = false;
@@ -23,7 +25,7 @@
 
   var opts = {
     defaultPage: null,
-    defaultTemplateExtension : null,
+    defaultTemplateExtension: null,
     hashPrefix: '!',
     animatePages: true,
     templateRootDirectory: '',
@@ -131,12 +133,20 @@
     return null;
   };
 
-  function DOMEval(code) {
+  function DOMEval(pageName, code) {
+      // create page in window object
+      if(typeof window.phononDOM[pageName] === 'undefined') {
+        window.phononDOM[pageName] = {}
+      }
 
+      // add a js variable as shortcut
+      var fullCode = 'var page = window.phononDOM["' + pageName + '"];';
+      fullCode += code;
+
+      // execute script
 	  var script = document.createElement('script');
-
-	  script.text = code;
-	  document.head.appendChild( script ).parentNode.removeChild( script );
+	  script.text = fullCode;
+	  document.head.appendChild(script).parentNode.removeChild(script);
   }
 
   /**
@@ -252,6 +262,13 @@
     }
 
     dispatchEvent('create', page.callbackRegistered);
+
+    if(typeof window.phononDOM[page.name] === 'object') {
+        var fn = window.phononDOM[page.name]['onCreate'];
+        if(typeof fn === 'function') {
+            fn()
+        }
+    }
   }
 
   function callReady(pageName) {
@@ -275,6 +292,13 @@
 
       dispatchEvent('ready', page.callbackRegistered)
 
+      if(typeof window.phononDOM[page.name] === 'object') {
+          var fn = window.phononDOM[page.name]['onReady'];
+          if(typeof fn === 'function') {
+              fn()
+          }
+      }
+
     }, page.readyDelay);
   }
 
@@ -293,6 +317,13 @@
     }
 
     dispatchEvent('transitionend', page.callbackRegistered)
+
+    if(typeof window.phononDOM[page.name] === 'object') {
+        var fn = window.phononDOM[page.name]['onTransitionEnd'];
+        if(typeof fn === 'function') {
+            fn()
+        }
+    }
   }
 
   function callHiddenCallback(pageName) {
@@ -311,6 +342,13 @@
     }
 
     dispatchEvent('hidden', page.callbackRegistered)
+
+    if(typeof window.phononDOM[page.name] === 'object') {
+        var fn = window.phononDOM[page.name]['onHidden'];
+        if(typeof fn === 'function') {
+            fn()
+        }
+    }
   }
 
   function callTabChanged(pageName, tabNumber) {
@@ -329,6 +367,13 @@
     }
 
     dispatchEvent('tabchanged', page.callbackRegistered, tabNumber);
+
+    if(typeof window.phononDOM[page.name] === 'object') {
+        var fn = window.phononDOM[page.name]['onTabChanged'];
+        if(typeof fn === 'function') {
+            fn(tabNumber)
+        }
+    }
   }
 
   function callClose(pageName, nextPageName, hash) {
@@ -367,6 +412,13 @@
     }
 
     dispatchEvent('close', page.callbackRegistered, api);
+
+    if(typeof window.phononDOM[page.name] === 'object') {
+        var fn = window.phononDOM[page.name]['onClose'];
+        if(typeof fn === 'function') {
+            fn(api)
+        }
+    }
   }
 
   function callHash(pageName, params) {
@@ -387,6 +439,13 @@
     }
 
     dispatchEvent('hashchanged', page.callbackRegistered, params);
+
+    if(typeof window.phononDOM[page.name] === 'object') {
+        var fn = window.phononDOM[page.name]['onHashChanged'];
+        if(typeof fn === 'function') {
+            fn(params)
+        }
+    }
   }
 
   function callCallback(callbackName, options) {
@@ -456,8 +515,13 @@
 
 		  var evalJs = function(element) {
 			  var s = element.getElementsByTagName('script');
+              // convert nodeList to array
+              s = Array.prototype.slice.call(s);
 			  for(var i=0; i < s.length; i++) {
-				  DOMEval(s[i].innerHTML);
+                  var type = s[i].getAttribute('type');
+                  if(type === 'text/javascript' || type === null) {
+                    DOMEval(page.name, s[i].innerHTML);
+                  }
 			  }
 		  };
 
@@ -545,7 +609,6 @@
    * @return {Boolean}
    */
   function isComponentVisible() {
-
     // close active dialogs, popovers, panels and side-panels
     if(typeof phonon.dialog !== 'undefined' && phonon.dialogUtil.closeActive()) return true;
     if(typeof phonon.popover !== 'undefined' && phonon.popoverUtil.closeActive()) return true;
@@ -607,7 +670,6 @@
   }
 
   function navigationListener(evt) {
-
     /*
      * user interactions are safed (with or without data-navigation | href)
      * the goal is to prevent the backward button if enableBrowserBackButton = false
@@ -794,7 +856,7 @@
   }
 
   function init(options) {
-    
+
     if(typeof options.templateRootDirectory === 'string' && options.templateRootDirectory !== '') {
       options.templateRootDirectory = ( (options.templateRootDirectory.indexOf('/', options.templateRootDirectory.length - '/'.length) !== -1) ? options.templateRootDirectory : options.templateRootDirectory + '/');
     }
@@ -1018,7 +1080,7 @@
     }
 
     return {
-      
+
       currentPage: currentPage,
       previousPage: previousPage,
       start: start,
@@ -1047,17 +1109,15 @@
         if(typeof options.readyDelay !== 'undefined' && typeof options.readyDelay !== 'number') {
           throw new Error('readyDelay option must be a number');
         }
-        if(typeof options.content ==='undefined' || typeof options.content === 'null' ){
-              if(opts.defaultTemplateExtension){
-                options.content = options.page+'.'+opts.defaultTemplateExtension;
-                console.log('page', options.content);
-              }
+        if(typeof options.content !== null && typeof opts.defaultTemplateExtension === 'string') {
+            options.content = options.page + '.' + opts.defaultTemplateExtension;
         }
+
         // vuejs, riotjs support
-            var page = getPageObject(options.page);
+        var page = getPageObject(options.page);
         var exists = page === null ? false : true;
         if(!exists) {
-              page = createPage(options.page);
+            page = createPage(options.page);
         }
 
         if(typeof callback === 'function' || typeof callback === 'object') {
