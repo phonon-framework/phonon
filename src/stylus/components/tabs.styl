@@ -16,21 +16,25 @@
 
   .tab-items
     display flex
-    align-items center
-    justify-content center
+    box-orient horizontal
 
     .tab-item
-      position relative
+      display flex
+
+      flex-basis 100%
+      flex-grow 1
+
+      align-items center
+      justify-content center
+
+      height tab-height
+      line-height tab-height
+
       white-space nowrap
       text-overflow ellipsis
 
       overflow hidden
 
-      flex-basis 100%
-      width 100%
-
-      height tab-height
-      line-height tab-height
       color primary
       text-align center
       text-transform uppercase
@@ -44,6 +48,7 @@
         width tab-icon-size
         height tab-icon-size
         vertical-align middle
+        text-align center
         padding 0
         margin 0
 
