@@ -11,7 +11,6 @@
 	var notifs = []
 
 	function onShow() {
-
 		var self = this
 
 		var timeout = self.getAttribute('data-timeout')
@@ -19,37 +18,41 @@
 
 			if(isNaN(parseInt(timeout))) {
 				console.error('Attribute data-timeout must be a number')
-			} else {
+				return
+			}
 
-				var progress = self.querySelector('.progress')
+			var progress = self.querySelector('.progress')
 
-				if(progress) {
+			if(progress) {
 
-					if(!progress.classList.contains('active')) {
-						progress.classList.add('active')
-					}
-
-					var progressBar = progress.querySelector('.determinate')
-
-					progressBar.style.width = '0'
-					progressBar.style.transitionDuration = timeout + 'ms'
-
-					window.setTimeout(function() {
-						progressBar.style.width = '100%'
-					}, 1)
+				if(!progress.classList.contains('active')) {
+					progress.classList.add('active')
 				}
 
+				var progressBar = progress.querySelector('.determinate')
+
+				progressBar.style.width = '0'
+
+				progressBar.style.webkitTransitionDuration = timeout + 'ms'
+				progressBar.style.MozTransitionDuration = timeout + 'ms'
+				progressBar.style.msTransitionDuration = timeout + 'ms'
+				progressBar.style.OTransitionDuration = timeout + 'ms'
+				progressBar.style.transitionDuration = timeout + 'ms'
+
 				window.setTimeout(function() {
-					hide(self);
-				}, parseInt(timeout));
+					progressBar.style.width = '100%'
+				}, 10)
 			}
+
+			window.setTimeout(function() {
+				hide(self);
+			}, parseInt(timeout) + 10);
 		}
 
 		self.off(phonon.event.transitionEnd, onShow, false)
 	}
 
 	function onHide() {
-
 		var self = this
 
 		// reset
@@ -76,11 +79,20 @@
 			notifs[i].style.msTransform = 'translateY(-'+valueUpdated+'px)'
 			notifs[i].style.OTransform = 'translateY(-'+valueUpdated+'px)'
 			notifs[i].style.transform = 'translateY(-'+valueUpdated+'px)'
+
+			if(needsFixedSupport()) {
+				notifs[i].style.bottom = valueUpdated + 'px'
+			}
 		}
 
 		var progressBar = self.querySelector('.determinate')
 		if(progressBar) {
 			progressBar.style.width = '0'
+
+			progressBar.style.webkitTransitionDuration = '0ms'
+			progressBar.style.MozTransitionDuration = '0ms'
+			progressBar.style.msTransitionDuration = '0ms'
+			progressBar.style.OTransitionDuration = '0ms'
 			progressBar.style.transitionDuration = '0ms'
 		}
 
@@ -152,6 +164,20 @@
 		}
 	});
 
+	/**
+	 *
+	 * Android JellyBean does not support
+	 * X,Y,Z translations with fixed elements
+	 */
+	function needsFixedSupport () {
+		var version = parseFloat(phonon.device.osVersion)
+		if(phonon.device.os === phonon.device.ANDROID
+			&& !isNaN(version) && version < 4.4) {
+			return true
+		}
+		return false
+	}
+
 	/*
 	* Public API
 	*/
@@ -162,7 +188,7 @@
 
 		window.setTimeout(function() {
 			notification.classList.add('show')
-		}, 1)
+		}, 10)
 
 		// Fix animation
 		notification.style.zIndex = (28 + notifs.length)
@@ -179,6 +205,10 @@
 		notification.style.msTransform = 'translateY(-'+value+'px)'
 		notification.style.OTransform = 'translateY(-'+value+'px)'
 		notification.style.transform = 'translateY(-'+value+'px)'
+
+		if(needsFixedSupport()) {
+			notification.style.bottom = value + 'px'
+		}
 
 		notifs.push(notification)
 
