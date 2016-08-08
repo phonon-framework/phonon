@@ -79,7 +79,9 @@ phonon.device = (function () {
 
     return {
         os: os,
-        osVersion: osVersion
+        osVersion: osVersion,
+        ANDROID: 'Android',
+        IOS: 'iOS'
     };
 
 })();
