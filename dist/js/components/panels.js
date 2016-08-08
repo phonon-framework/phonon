@@ -131,7 +131,6 @@
 	});
 
 	function onHide() {
-
 		document.body.removeChild(this);
 
 		var object = findObject(this.getAttribute('data-backdrop-for'))
@@ -146,10 +145,13 @@
 	*/
 
 	function open (panel) {
-		panel.style.visibility = 'visible';
-
 		if(!panel.classList.contains('active')) {
-			panel.classList.add('active');
+			panel.style.display = 'block';
+
+			window.setTimeout(function () {
+				panel.classList.add('active');
+			}, 10);
+			
 			var backdrop = createBackdrop(panel.getAttribute('id'));
 
 			document.body.appendChild(backdrop);
@@ -159,14 +161,13 @@
 	}
 
 	function close (panel) {
-
 		if(panel.classList.contains('active')) {
-
 			panel.classList.remove('active');
 			panel.classList.add('panel-closing');
 
 			var closePanel = function () {
 				panel.classList.remove('panel-closing');
+				panel.style.display = 'none';
 				panel.off(phonon.event.transitionEnd, closePanel);
 			};
 

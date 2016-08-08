@@ -696,6 +696,20 @@ button {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  box-orient: horizontal;
+}
+.tabs .tab-items .tab-item {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-basis: 100%;
+      -ms-flex-preferred-size: 100%;
+          flex-basis: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
@@ -704,18 +718,11 @@ button {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
-}
-.tabs .tab-items .tab-item {
-  position: relative;
+  height: 50px;
+  line-height: 50px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  -webkit-flex-basis: 100%;
-      -ms-flex-preferred-size: 100%;
-          flex-basis: 100%;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
   color: #0084e7;
   text-align: center;
   text-transform: uppercase;
@@ -729,6 +736,7 @@ button {
   width: 32px;
   height: 32px;
   vertical-align: middle;
+  text-align: center;
   padding: 0;
   margin: 0;
 }
@@ -1390,9 +1398,9 @@ table,
   background-color: rgba(0,0,0,0.1);
 }
 .backdrop-panel.fadeout {
-  opacity: 0;
-  -webkit-transition: opacity 450ms linear;
-  transition: opacity 450ms linear;
+  background-color: transparent;
+  -webkit-transition: background-color 450ms ease-in-out;
+  transition: background-color 450ms ease-in-out;
 }
 .panel,
 .panel-full {
@@ -1402,7 +1410,7 @@ table,
   right: 0;
   bottom: 0;
   z-index: 25;
-  visibility: hidden;
+  display: none;
   background-color: #fff;
 }
 .panel {
@@ -1412,15 +1420,17 @@ table,
   top: auto;
   -webkit-transform: translate3d(0, 100%, 0);
           transform: translate3d(0, 100%, 0);
-  -webkit-transition: opacity 1ms, -webkit-transform 300ms;
-  transition: opacity 1ms, -webkit-transform 300ms;
-  transition: transform 300ms, opacity 1ms;
-  transition: transform 300ms, opacity 1ms, -webkit-transform 300ms;
+  -webkit-transition: -webkit-transform 300ms;
+  transition: -webkit-transform 300ms;
+  transition: transform 300ms;
+  transition: transform 300ms, -webkit-transform 300ms;
+}
+.panel .header-bar {
+  position: absolute !important;
 }
 .panel.active {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
-  opacity: 1;
 }
 .panel .content {
   position: relative;
@@ -1457,18 +1467,10 @@ table,
   transition: transform 300ms, -webkit-transform 300ms;
 }
 .panel-closing {
-  -webkit-transition: -webkit-transform 300ms;
-  transition: -webkit-transform 300ms;
-  transition: transform 300ms;
-  transition: transform 300ms, -webkit-transform 300ms;
-}
-.panel .header-bar,
-.panel-full .header-bar {
-  visibility: hidden;
-}
-.panel.active .header-bar,
-.panel-full.active .header-bar {
-  visibility: visible;
+  -webkit-transition: -webkit-transform 300ms !important;
+  transition: -webkit-transform 300ms !important;
+  transition: transform 300ms !important;
+  transition: transform 300ms, -webkit-transform 300ms !important;
 }
 .backdrop-popover {
   position: fixed;

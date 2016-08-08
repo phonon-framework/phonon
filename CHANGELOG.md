@@ -1,3 +1,11 @@
+### 1.3.1 (2016-08-08)
+
+#### Bug Fixes
+
+* Tabs width on Android JellyBean
+* Panels animation on Android JellyBean
+* Notifications animation on Android JellyBean
+
 ### 1.3.0 (2016-08-06)
 
 #### Features
