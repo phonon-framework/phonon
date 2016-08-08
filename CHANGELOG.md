@@ -2,9 +2,10 @@
 
 #### Bug Fixes
 
-* Tabs width on Android JellyBean
-* Panels animation on Android JellyBean
-* Notifications animation on Android JellyBean
+* Compatibility issue with JellyBean version [#151](https://github.com/quark-dev/Phonon-Framework/issues/151)
+* tabs width with flex
+* panels animation on older Android versions
+* notifications animation
 
 ### 1.3.0 (2016-08-06)
 
