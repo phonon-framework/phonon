@@ -10,8 +10,8 @@
   background-color rgba(0, 0, 0, 0.1)
 
   &.fadeout
-    opacity 0
-    transition opacity 450ms linear
+    background-color transparent
+    transition background-color 450ms ease-in-out
 
 .panel, .panel-full
   position fixed
@@ -20,7 +20,7 @@
   right 0
   bottom 0
   z-index 25
-  visibility hidden
+  display none
   background-color panel-background
 
 .panel
@@ -30,12 +30,14 @@
   top auto
 
   transform translate3d(0, 100%, 0)
-  transition transform 300ms, opacity 1ms
+  transition transform 300ms
+
+  .header-bar
+    position absolute !important // fix Android JellyBean
 
   // Active panel
   &.active
     transform translate3d(0, 0, 0)
-    opacity 1
 
   .content
     position relative
@@ -63,15 +65,4 @@
     transition transform 300ms
 
 .panel-closing
-  transition transform 300ms
-
-// fix visibility of header-bars in panels
-.panel, .panel-full
-
-  .header-bar
-    visibility hidden
-
-  &.active
-
-    .header-bar
-      visibility visible
+  transition transform 300ms !important
