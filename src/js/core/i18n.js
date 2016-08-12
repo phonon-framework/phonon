@@ -39,7 +39,7 @@
             el.textContent = text;
         }
     };
-    
+
     /**
     * Binds some html to the given DOM element
     * @param {DOMObject} el
@@ -71,7 +71,7 @@
     };
 
     /**
-     * Reads data-i18n attributes and set JSON values 
+     * Reads data-i18n attributes and set JSON values
      * @param {Array} elements
      * @param {JSON} json
      * @private
@@ -161,7 +161,7 @@
         if(xhr.overrideMimeType) xhr.overrideMimeType('application/json; charset=utf-8');
 
         xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
+            if(xhr.readyState === 4 && (xhr.status === 200 || !xhr.status && xhr.responseText.length)) {
                 if (xhr.status === 200) {
 
                     jsonCache = JSON.parse(xhr.responseText);
