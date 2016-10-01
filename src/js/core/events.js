@@ -210,7 +210,7 @@ phonon.event = (function ($) {
         var removeEvent = function (el, eventName, callback, useCapture) {
             if(eventName === api.tap) {
                 var i = 0;
-                var l = el.length;
+                var l = tapEls.length;
                 for (; i < l; i++) {
                     if(tapEls[i].el === el) {
                         tapEls[i].off();
