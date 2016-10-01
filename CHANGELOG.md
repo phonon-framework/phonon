@@ -1,3 +1,11 @@
+### 1.3.2 (2016-10-01)
+
+#### Bug Fixes
+
+* Fix file loading with the i18n plugin [#156](https://github.com/quark-dev/Phonon-Framework/issues/156) and [#41](https://github.com/quark-dev/Phonon-Framework/issues/41)
+* Fix version in package.json file [#155](https://github.com/quark-dev/Phonon-Framework/issues/155)
+* Fix remove event `off` [#159](https://github.com/quark-dev/Phonon-Framework/issues/159)
+
 ### 1.3.1 (2016-08-08)
 
 #### Bug Fixes
