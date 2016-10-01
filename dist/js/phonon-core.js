@@ -591,7 +591,7 @@ phonon.event = (function ($) {
         var removeEvent = function (el, eventName, callback, useCapture) {
             if(eventName === api.tap) {
                 var i = 0;
-                var l = el.length;
+                var l = tapEls.length;
                 for (; i < l; i++) {
                     if(tapEls[i].el === el) {
                         tapEls[i].off();
@@ -778,7 +778,7 @@ phonon.tagManager = (function () {
             el.textContent = text;
         }
     };
-    
+
     /**
     * Binds some html to the given DOM element
     * @param {DOMObject} el
@@ -810,7 +810,7 @@ phonon.tagManager = (function () {
     };
 
     /**
-     * Reads data-i18n attributes and set JSON values 
+     * Reads data-i18n attributes and set JSON values
      * @param {Array} elements
      * @param {JSON} json
      * @private
@@ -900,7 +900,7 @@ phonon.tagManager = (function () {
         if(xhr.overrideMimeType) xhr.overrideMimeType('application/json; charset=utf-8');
 
         xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
+            if(xhr.readyState === 4 && (xhr.status === 200 || !xhr.status && xhr.responseText.length)) {
                 if (xhr.status === 200) {
 
                     jsonCache = JSON.parse(xhr.responseText);
