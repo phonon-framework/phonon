@@ -101,12 +101,13 @@
                 if(backdrop) {
 
                     // Set backdrop to null immediately
-                    var _backdrop = backdrop;
+                    var _backdrop = backdrop,
+			_element = settings.element;
                     backdrop = null;
 
                     var closed = function () {
                         _backdrop.classList.remove('fadeout');
-                        settings.element.removeChild(_backdrop);
+                        _element.removeChild(_backdrop);
                         _backdrop.off(phonon.event.transitionEnd, closed);
                     };
 
