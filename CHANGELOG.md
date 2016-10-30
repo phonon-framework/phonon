@@ -1,3 +1,9 @@
+### 1.3.3 (2016-10-30)
+
+#### Features
+
+* Possibility to add dynamic tabs with: phonon.tab().init('pagename'), please [read the docs](http://phonon.quarkdev.com/docs/tabs) for more information [#166](https://github.com/quark-dev/Phonon-Framework/issues/166)
+
 ### 1.3.2 (2016-10-01)
 
 #### Bug Fixes
