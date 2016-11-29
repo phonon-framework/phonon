@@ -971,15 +971,20 @@
 	/**
 	 * When the page is mounted
 	 * setup tabs if they are present
+     *
+     * @param {Mixed} pageEvent
 	 */
-	function checkForTabs(evt) {
+	function checkForTabs(pageEvent) {
+	    var pageName = typeof pageEvent === 'object' ? pageEvent.detail.page : pageEvent;
+	    var pageEl = document.querySelector(pageName);
+	    var tabsContent = pageEl.querySelector('[data-tab-contents="true"]');
 
-	    var currentPage = evt.detail.page;
-	    var pageEl = document.querySelector(currentPage);
-	    var tabsEl = pageEl.querySelector('[data-tab-contents="true"]');
-
-	    if(tabsEl) {
-	        setupTabs(currentPage, pageEl, tabsEl);
+        if (!pageEl) {
+            console.error('The page ' + pageName + ' ' + 'does not exists');
+            return;
+        }
+	    if (pageEl.querySelector('.tabs')) {
+	        setupTabs(pageName, pageEl, tabsContent);
 	    }
 	}
 
@@ -1027,15 +1032,14 @@
 	 * @param {DOMElement} tabsEl
 	 */
 	function setupTabs(pageName, pageEl, tabsEl) {
-
 	    var tabItems = pageEl.querySelectorAll('.tab-items a');
 	    var tabIndicator = pageEl.querySelector('.tab-indicator');
 	    var preventDrag = (tabsEl.getAttribute('data-disable-swipe') === 'true' ? true : false);
 
-      var currentTab = parseInt(tabsEl.getAttribute('data-tab-default'));
-      if(isNaN(currentTab) || currentTab > tabItems.length) {
-        currentTab = 1;
-      }
+        var currentTab = parseInt(tabsEl.getAttribute('data-tab-default', 10));
+        if(isNaN(currentTab) || currentTab > tabItems.length) {
+          currentTab = 1;
+        }
 
 	    tabIndicator.style.width = (100/tabItems.length) + '%';
 
@@ -1075,17 +1079,6 @@
 		}
 
 		updateIndicator(pageName, tabNumber);
-	};
-
-	/**
-	 * For every mounted page, initizalize tabs
-	 */
-	document.on('pagecreated', checkForTabs);
-
-	phonon.tab = function() {
-		return {
-			setCurrentTab: setCurrentTab
-		};
 	};
 
   /**
@@ -1132,5 +1125,23 @@
 	}
 
 	document.on('tap', onTab);
+
+    /**
+	 * For every mounted page, initizalize tabs
+	 */
+	document.on('pagecreated', checkForTabs);
+
+    phonon.tab = function() {
+		return {
+			setCurrentTab: setCurrentTab,
+            init: function (pageName) {
+                pageName = typeof pageName === 'undefined' ? phonon.navigator().currentPage : pageName;
+                if(!pageName) {
+                    console.error('The page ' + pageName + ' ' + 'does not exists');
+                }
+                checkForTabs(pageName);
+            }
+		};
+	};
 
 }(typeof window !== 'undefined' ? window : this, window.phonon || {}));

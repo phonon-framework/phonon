@@ -57,6 +57,9 @@
   -webkit-transition: width 0.2s linear;
   transition: width 0.2s linear;
 }
+.progress.primary .determinate {
+  background-color: #f00 !important;
+}
 @-webkit-keyframes circleLoading {
   0% {
     -webkit-transform: rotate(0deg) translateZ(0);

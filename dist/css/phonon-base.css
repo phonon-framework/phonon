@@ -382,6 +382,15 @@ button {
 .light-negative {
   background-color: #f4c5c3 !important;
 }
+.dark-primary {
+  background-color: #0067b5 !important;
+}
+.dark-positive {
+  background-color: #08b500 !important;
+}
+.dark-negative {
+  background-color: #c20900 !important;
+}
 .btn {
   position: relative;
   padding: 0 12px;

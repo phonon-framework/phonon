@@ -89,6 +89,53 @@
 .radio :checked + span {
   border-color: #0084e7;
 }
+/*
+ * Preloaders
+ */
+.circle-progress {
+  width: 36px;
+  height: 36px;
+  margin-left: -18px;
+}
+.circle-progress.active .spinner {
+  border-top: 3px solid #0084e7;
+  border-right: 3px solid #0084e7;
+  border-bottom: 3px solid #0084e7;
+  border-left: 3px solid #eee;
+  -webkit-animation: circleLoading 900ms infinite linear;
+          animation: circleLoading 900ms infinite linear;
+}
+.progress {
+  height: 6px;
+}
+.progress .determinate {
+  background-color: #0084e7;
+}
+/*
+ * Notifications
+ */
+.notification {
+  width: notification-width;
+  min-height: 48px;
+  line-height: 54px;
+  padding: 0 24px;
+  color: #fff;
+  background-color: #333;
+  -webkit-transform: translate3d(0, 72px, 0);
+          transform: translate3d(0, 72px, 0);
+  -webkit-transition: opacity 200ms, -webkit-transform 0.3s;
+  transition: opacity 200ms, -webkit-transform 0.3s;
+  transition: transform 0.3s, opacity 200ms;
+  transition: transform 0.3s, opacity 200ms, -webkit-transform 0.3s;
+}
+.notification .btn {
+  top: 6px;
+  height: 42px;
+  line-height: 42px;
+}
+/*
+ * Colors
+ */
 .btn.primary,
 .btn.positive,
 .btn.negative {
@@ -120,4 +167,13 @@
 }
 .light-negative {
   background-color: #f4c5c3 !important;
+}
+.dark-primary {
+  background-color: #0067b5 !important;
+}
+.dark-positive {
+  background-color: #08b500 !important;
+}
+.dark-negative {
+  background-color: #c20900 !important;
 }

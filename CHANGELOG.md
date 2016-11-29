@@ -1,3 +1,14 @@
+### 1.3.4 (2016-11-28)
+
+#### Features
+
+* Set color to notifications and preloaders (primary, negative or positive) [#172](https://github.com/quark-dev/Phonon-Framework/issues/172)
+
+#### Bug Fixes
+
+* Error message added when a given page doesn't exist with side panels [#167](https://github.com/quark-dev/Phonon-Framework/issues/167)
+* Fix side panel close with touch/mouse events [#170](https://github.com/quark-dev/Phonon-Framework/issues/170)
+
 ### 1.3.3 (2016-10-30)
 
 #### Features
