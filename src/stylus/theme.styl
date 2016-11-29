@@ -91,4 +91,79 @@
 .checkbox :checked + span, .radio :checked + span
 	border-color primary
 
+
+/*!
+ * Preloaders
+ */
+.circle-progress
+	width preloader-spinner-size
+	height preloader-spinner-size
+	margin-left -(preloader-spinner-size/2)
+	&.active
+		.spinner
+			border-top 3px solid primary
+			border-right 3px solid primary
+			border-bottom 3px solid primary
+			border-left 3px solid preloader-spinner-background
+			animation circleLoading 900ms infinite linear
+
+	&.primary
+		.spinner
+			border-top 3px solid primary
+			border-right 3px solid primary
+			border-bottom 3px solid primary
+
+	&.negative
+		.spinner
+			border-top 3px solid negative
+			border-right 3px solid negative
+			border-bottom 3px solid negative
+
+	&.positive
+		.spinner
+			border-top 3px solid positive
+			border-right 3px solid positive
+			border-bottom 3px solid positive
+
+.progress
+	height preloader-bar-height
+
+	.determinate
+		background-color primary
+
+	&.primary
+		.determinate
+			background-color dark-primary !important
+
+	&.negative
+		.determinate
+			background-color dark-negative !important
+
+	&.positive
+		.determinate
+			background-color dark-positive !important
+
+/*!
+ * Notifications
+ */
+.notification
+	width notification-width
+	min-height notification-height
+	line-height notification-height + preloader-bar-height
+	padding 0 notification-padding-side
+
+	color notification-text-color
+	background-color notification-background-color
+
+	transform translate3d(0, (notification-height + notification-padding-side), 0)
+	transition transform 0.3s, opacity 200ms
+
+	.btn
+		top preloader-bar-height
+		height notification-height - preloader-bar-height
+		line-height notification-height - preloader-bar-height
+
+/*!
+ * Colors
+ */
 @import 'base/colors.styl'
