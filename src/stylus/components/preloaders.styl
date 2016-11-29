@@ -36,6 +36,26 @@
       border-left 3px solid preloader-spinner-background
       animation circleLoading 900ms infinite linear
 
+  &.primary, &.negative, &.positive
+    background-color #fff !important
+
+  &.primary
+    .spinner
+      border-top 3px solid primary
+      border-right 3px solid primary
+      border-bottom 3px solid primary
+
+  &.negative
+    .spinner
+      border-top 3px solid negative
+      border-right 3px solid negative
+      border-bottom 3px solid negative
+
+  &.positive
+    .spinner
+      border-top 3px solid positive
+      border-right 3px solid positive
+      border-bottom 3px solid positive
 
 @keyframes circleLoading
   0%
@@ -63,5 +83,17 @@
     position absolute
     top 0
     bottom 0
-    background-color primary
+    background-color primary // default
     transition width 0.2s linear
+
+  &.primary
+    .determinate
+      background-color dark-primary !important
+
+  &.negative
+    .determinate
+      background-color dark-negative !important
+
+  &.positive
+    .determinate
+      background-color dark-positive !important

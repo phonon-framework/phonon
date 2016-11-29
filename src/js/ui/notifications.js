@@ -16,7 +16,7 @@
 		var timeout = self.getAttribute('data-timeout')
 		if(timeout) {
 
-			if(isNaN(parseInt(timeout))) {
+			if(isNaN(parseInt(timeout, 10))) {
 				console.error('Attribute data-timeout must be a number')
 				return
 			}
@@ -46,7 +46,7 @@
 
 			window.setTimeout(function() {
 				hide(self);
-			}, parseInt(timeout) + 10);
+			}, parseInt(timeout, 10) + 10);
 		}
 
 		self.off(phonon.event.transitionEnd, onShow, false)
@@ -155,7 +155,6 @@
 	};
 
 	document.on('tap', function(evt) {
-
 		var target = evt.target
 
 		if(target.getAttribute('data-hide-notif') === 'true') {
@@ -183,7 +182,6 @@
 	*/
 
 	function show(notification) {
-
 		if (notification.classList.contains('show')) return false
 
 		window.setTimeout(function() {
@@ -244,11 +242,28 @@
 		}
 	}
 
+	function setColor(notif, color) {
+		if (typeof color !== 'string') {
+			throw new Error('color must be a string, ' + typeof color + ' given');
+		}
+		notif.classList.add(color);
+		var progress = notif.querySelector('.progress');
+		if (progress) {
+			progress.classList.add(color);
+		}
+	}
+
 	phonon.notif = function(el, timeout, showButton) {
 
 		if(arguments.length > 1) {
 			// el is text
-			return show(buildNotif(el, timeout, showButton))
+			var generatedNotif = buildNotif(el, timeout, showButton);
+			show(generatedNotif);
+			return {
+				setColor: function (color) {
+					setColor(generatedNotif, color);
+				}
+			}
 		}
 
 		var notif = (typeof el === 'string' ? document.querySelector(el) : el)
@@ -259,9 +274,15 @@
 		return {
 			show: function () {
 				show(notif)
+				return this
 			},
 			hide: function () {
 				hide(notif)
+				return this
+			},
+			setColor: function (color) {
+				setColor(notif, color)
+				return this
 			}
 		}
 	}
