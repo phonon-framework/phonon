@@ -16,7 +16,7 @@
 		var timeout = self.getAttribute('data-timeout')
 		if(timeout) {
 
-			if(isNaN(parseInt(timeout))) {
+			if(isNaN(parseInt(timeout, 10))) {
 				console.error('Attribute data-timeout must be a number')
 				return
 			}
@@ -46,7 +46,7 @@
 
 			window.setTimeout(function() {
 				hide(self);
-			}, parseInt(timeout) + 10);
+			}, parseInt(timeout, 10) + 10);
 		}
 
 		self.off(phonon.event.transitionEnd, onShow, false)
@@ -274,12 +274,15 @@
 		return {
 			show: function () {
 				show(notif)
+				return this
 			},
 			hide: function () {
 				hide(notif)
+				return this
 			},
 			setColor: function (color) {
-				setColor(notif, color);
+				setColor(notif, color)
+				return this
 			}
 		}
 	}
