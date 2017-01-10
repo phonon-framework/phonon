@@ -634,7 +634,7 @@
 
       if(inddex > -1) {
         page = pageHistory[inddex];
-        pageHistory.slice(inddex, 1);
+        pageHistory = pageHistory.slice(0, inddex);
       }
     }
     return page;
