@@ -1096,6 +1096,13 @@
         var wait = (isComponentVisible() ? 400 : 1);
 
         window.setTimeout(function() {
+          if (pageName == '$previous-page') {
+            var last = getLastPage();
+            if (last) {
+              pageName = last.page;
+              pageParams = last.params;
+            }    
+          }    
           changePage(pageName, pageParams);
         }, wait);
       },
