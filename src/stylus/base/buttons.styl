@@ -45,7 +45,6 @@
 	box-shadow 0 2px 3px #8a8a8a
 	z-index 30
 
-
 	color #fff
 
 	opacity 0.5
@@ -56,19 +55,19 @@
 	&.active, &:active
 		opacity 1
 
-.floating-action.top
-	top 60px
-	
-.floating-action.bottom
-	bottom 10px
-	
-.floating-action.left
-	left 10px
-	
-.floating-action.right
-	right 10px
-	
-	
+	&.top
+		top header-height + padding-phone
+
+	&.bottom
+		bottom padding-phone
+
+	&.left
+		left padding-phone
+
+	&.right
+		right padding-phone
+
+
 .buttons
 	list-style none
 	text-align right
