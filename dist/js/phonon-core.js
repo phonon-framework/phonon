@@ -1713,7 +1713,7 @@ phonon.tagManager = (function () {
 
       if(inddex > -1) {
         page = pageHistory[inddex];
-        pageHistory.slice(inddex, 1);
+        pageHistory = pageHistory.slice(0, inddex);
       }
     }
     return page;
@@ -2175,6 +2175,13 @@ phonon.tagManager = (function () {
         var wait = (isComponentVisible() ? 400 : 1);
 
         window.setTimeout(function() {
+          if (pageName == '$previous-page') {
+            var last = getLastPage();
+            if (last) {
+              pageName = last.page;
+              pageParams = last.params;
+            }    
+          }    
           changePage(pageName, pageParams);
         }, wait);
       },

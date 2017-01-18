@@ -1713,7 +1713,7 @@ phonon.tagManager = (function () {
 
       if(inddex > -1) {
         page = pageHistory[inddex];
-        pageHistory.slice(inddex, 1);
+        pageHistory = pageHistory.slice(0, inddex);
       }
     }
     return page;
@@ -2175,6 +2175,13 @@ phonon.tagManager = (function () {
         var wait = (isComponentVisible() ? 400 : 1);
 
         window.setTimeout(function() {
+          if (pageName == '$previous-page') {
+            var last = getLastPage();
+            if (last) {
+              pageName = last.page;
+              pageParams = last.params;
+            }    
+          }    
           changePage(pageName, pageParams);
         }, wait);
       },
@@ -2895,6 +2902,8 @@ phonon.tagManager = (function () {
 		return false;
 	};
 
+        var dialogId = 0;
+
 	var buildDialog = function (type, text, title, cancelable, textOk, textCancel) {
 		text = (typeof text === 'string' ? '<p>' + text + '</p>' : '');
 		var noTitle = typeof title;
@@ -2903,7 +2912,7 @@ phonon.tagManager = (function () {
 		textOk = (typeof textOk === 'string' ? textOk : 'Ok');
 		textCancel = (typeof textCancel === 'string' ? textCancel : 'Cancel');
 
-		var id = 'auto-gen-' + type;
+		var id = 'auto-gen-' + type + '-' + (dialogId++);
 
 		var div = document.createElement('div');
 		div.setAttribute('class', 'dialog');
@@ -2997,7 +3006,11 @@ phonon.tagManager = (function () {
 
 			if(evt.which == 13 || evt.keyCode == 13) {
 				var previous = dialogs[dialogs.length - 1];
-				close(previous.dialog);
+                                var btnConfirm = previous.dialog.querySelector('.btn-confirm');
+                                if (btnConfirm && typeof btnConfirm.fireConfirm != 'undefined') {
+                                    btnConfirm.fireConfirm();
+                                }
+                                close(previous.dialog);
 
 				return false;
 			}
@@ -3100,6 +3113,7 @@ phonon.tagManager = (function () {
 		if(eventName === 'confirm') {
 			var btnConfirm = dialog.querySelector('.btn-confirm');
 			if(btnConfirm) {
+                                btnConfirm.fireConfirm = fireEvent;
 				btnConfirm.on('tap', fireEvent);
 			}
 		} else {

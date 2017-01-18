@@ -1,3 +1,12 @@
+### 1.3.5 (2017-01-18)
+
+* RiotJS updated
+* Position of floating buttons [#183](https://github.com/quark-dev/Phonon-Framework/pull/183)
+* Previous page sequence [#185](https://github.com/quark-dev/Phonon-Framework/issues/185) and [#186](https://github.com/quark-dev/Phonon-Framework/pull/186)
+* Fix docs for floating actions [#181](https://github.com/quark-dev/Phonon-Framework/issues/181)
+* Dialog unique ids [#192](https://github.com/quark-dev/Phonon-Framework/pull/192)
+* Possibility to install Phonon with bower (bower install phonon) [#189](https://github.com/quark-dev/Phonon-Framework/issues/189)
+
 ### 1.3.4 (2016-11-28)
 
 #### Features

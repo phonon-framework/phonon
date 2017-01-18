@@ -429,9 +429,7 @@ button {
   padding: 16px;
   border-radius: 50%;
   box-shadow: 0 2px 3px #8a8a8a;
-  z-index: 10;
-  right: 0;
-  bottom: 0;
+  z-index: 30;
   color: #fff;
   opacity: 0.5;
   -webkit-transform: 300ms, opacity 0.25s linear;
@@ -441,6 +439,18 @@ button {
 .floating-action.active,
 .floating-action:active {
   opacity: 1;
+}
+.floating-action.top {
+  top: 68px;
+}
+.floating-action.bottom {
+  bottom: 16px;
+}
+.floating-action.left {
+  left: 16px;
+}
+.floating-action.right {
+  right: 16px;
 }
 .buttons {
   list-style: none;
