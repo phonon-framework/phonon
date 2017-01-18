@@ -76,6 +76,8 @@
 		return false;
 	};
 
+        var dialogId = 0;
+
 	var buildDialog = function (type, text, title, cancelable, textOk, textCancel) {
 		text = (typeof text === 'string' ? '<p>' + text + '</p>' : '');
 		var noTitle = typeof title;
@@ -84,7 +86,7 @@
 		textOk = (typeof textOk === 'string' ? textOk : 'Ok');
 		textCancel = (typeof textCancel === 'string' ? textCancel : 'Cancel');
 
-		var id = 'auto-gen-' + type + '-' + (new Date()).getTime();
+		var id = 'auto-gen-' + type + '-' + (dialogId++);
 
 		var div = document.createElement('div');
 		div.setAttribute('class', 'dialog');
