@@ -180,7 +180,11 @@
 
 			if(evt.which == 13 || evt.keyCode == 13) {
 				var previous = dialogs[dialogs.length - 1];
-				close(previous.dialog);
+                                var btnConfirm = previous.dialog.querySelector('.btn-confirm');
+                                if (btnConfirm && typeof btnConfirm.fireConfirm != 'undefined') {
+                                    btnConfirm.fireConfirm();
+                                }
+                                close(previous.dialog);
 
 				return false;
 			}
@@ -283,6 +287,7 @@
 		if(eventName === 'confirm') {
 			var btnConfirm = dialog.querySelector('.btn-confirm');
 			if(btnConfirm) {
+                                btnConfirm.fireConfirm = fireEvent;
 				btnConfirm.on('tap', fireEvent);
 			}
 		} else {
