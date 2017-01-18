@@ -1,0 +1,26 @@
+{
+  "name": "phonon",
+  "description": "Phonon is a lightweight & scalable Javascript/CSS3/HTML5 mobile framework to develop a single page application based on Phonegap / Apache Cordova.",
+  "main": "",
+  "authors": [
+    "Quarkdev"
+  ],
+  "keywords": [
+    "css",
+    "js",
+    "lightweight",
+    "framework",
+    "single page application",
+    "mobile",
+    "front-end"
+  ],
+  "license": "MIT",
+  "homepage": "http://phonon.quarkdev.com/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
