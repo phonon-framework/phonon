@@ -84,7 +84,7 @@
 		textOk = (typeof textOk === 'string' ? textOk : 'Ok');
 		textCancel = (typeof textCancel === 'string' ? textCancel : 'Cancel');
 
-		var id = 'auto-gen-' + type;
+		var id = 'auto-gen-' + type + '-' + (new Date()).getTime();
 
 		var div = document.createElement('div');
 		div.setAttribute('class', 'dialog');
