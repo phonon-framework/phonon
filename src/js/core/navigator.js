@@ -1070,6 +1070,7 @@
   if(opts.useHash) window.addEventListener('hashchange', onRoute);
 
   document.on('backbutton', function() {
+    if(isComponentVisible()) return;
     var last = getLastPage();
     callClose(currentPage, last.page, opts.hashPrefix + last.page + '/' + last.params);
   });
