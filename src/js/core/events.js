@@ -73,11 +73,11 @@ phonon.event = (function ($) {
 
     // fix bug on Android 4.1
     var osV = phonon.device.osVersion;
-    if(osV.length > 2) {
+    if(osV && osV.length > 2) {
         osV = phonon.device.osVersion.substring(0,3);
     }
 
-    if(phonon.device.os.toLowerCase() === 'android' && osV === '4.1') {
+    if(phonon.device.os && phonon.device.os.toLowerCase() === 'android' && osV === '4.1') {
         transitionEnd = 'webkitTransitionEnd';
         animationEnd = 'webkitAnimationEnd';
     }
