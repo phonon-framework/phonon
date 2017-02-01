@@ -4,7 +4,6 @@
  * ========================================================================
  * Licensed under MIT (http://phonon.quarkdev.com)
  * ======================================================================== */
-
 ;(function (window, document) {
 
     var jsonCache = null;
@@ -162,27 +161,22 @@
 
         xhr.onreadystatechange = function () {
             if(xhr.readyState === 4 && (xhr.status === 200 || !xhr.status && xhr.responseText.length)) {
-                if (xhr.status === 200) {
+                jsonCache = JSON.parse(xhr.responseText);
+                callback(JSON.parse(xhr.responseText));
+            } else if(xhr.readyState === 4 && !(xhr.status === 200 || !xhr.status && xhr.responseText.length)) {
+                if(opts.localePreferred) {
 
-                    jsonCache = JSON.parse(xhr.responseText);
-                    callback(JSON.parse(xhr.responseText));
+                    // The preferred locale is not available
+                    opts.localePreferred = null;
 
+                    console.log('The language [' + locale + '] is not available, loading ' + opts.localeFallback);
+
+                    getAll(function (json) {
+                        jsonCache = json;
+                        callback(json);
+                    });
                 } else {
-
-                    if(opts.localePreferred) {
-
-                        // The preferred locale is not available
-                        opts.localePreferred = null;
-
-                        console.log('The language [' + locale + '] is not available, loading ' + opts.localeFallback);
-
-                        getAll(function (json) {
-                            jsonCache = json;
-                            callback(json);
-                        });
-                    } else {
-                        throw new Error('The default locale ['+opts.directory+opts.localeFallback+'.json] file is not found');
-                    }
+                    throw new Error('The default locale ['+opts.directory+opts.localeFallback+'.json] file is not found');
                 }
             }
         };
