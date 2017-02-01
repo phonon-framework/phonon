@@ -7,6 +7,8 @@ var uglify       = require('gulp-uglify');
 var postcss      = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 
+var nodeModules = './node_modules/'
+
 gulp.task('default', ['build'])
 
 gulp.task('build', [
@@ -28,6 +30,7 @@ gulp.task('js-core', function() {
 		'./src/js/core/wrap/prefix.js',
 		'./src/js/core/ready.js',
 		'./src/js/core/polyfills.js',
+		nodeModules + 'platform/platform.js',
 		'./src/js/core/device.js',
 		'./src/js/core/browser.js',
 		'./src/js/core/ajax.js',
