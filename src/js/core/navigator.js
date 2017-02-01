@@ -892,7 +892,11 @@
     }
 
     // android, ios or browser
-    var osName = phonon.device.os.toLowerCase();
+    var osName = '';
+    if(phonon.device.os) {
+        osName = phonon.device.os.toLowerCase()
+    }
+
     var osClass = 'web';
 
     if(osName === 'android') {
@@ -1101,8 +1105,8 @@
             if (last) {
               pageName = last.page;
               pageParams = last.params;
-            }    
-          }    
+            }
+          }
           changePage(pageName, pageParams);
         }, wait);
       },
