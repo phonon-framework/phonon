@@ -15,6 +15,9 @@
     "url": "https://github.com/quark-dev/Phonon-Framework/issues"
   },
   "homepage": "https://github.com/quark-dev/Phonon-Framework",
+  "dependencies": {
+    "platform": "^1.3.3"
+  },
   "devDependencies": {
     "gulp": "^3.9.x",
     "gulp-concat": "^2.6.x",
