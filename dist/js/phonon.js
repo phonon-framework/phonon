@@ -1,55 +1,3 @@
-/* ========================================================================
- * Phonon: core.js v0.0.1
- * http://phonon.quarkdev.com
- * ========================================================================
- * Licensed under MIT (http://phonon.quarkdev.com)
- * ======================================================================== */
-
-'use strict';
-
-;(function(window, undefined) {
-
-	var phonon = {};
-	var readyCallbacks = [];
-
-	/**
-	 * Called when Phonon is ready
-	 * Used in navigator.js
-	 */
-	phonon.onReady = function(callback) {
-		readyCallbacks.push(callback);
-	};
-
-	/**
-	 * Dispatches all the ready events
-	 */
-	phonon.dispatchGlobalReady = function() {
-	    var i = readyCallbacks.length - 1;
-	    for (; i >= 0; i--) {
-	      readyCallbacks[i]();
-	    }
-	    
-	    // Release memory
-	    readyCallbacks = [];
-	    phonon.dispatchGlobalReady = undefined;
-	}
-
-	/**
-	 * CustomEvent polyfill
-     * IE 9+, Android 4
-	*/
-	;(function () {
-		function CustomEvent ( event, params ) {
-			params = params || { bubbles: false, cancelable: false, detail: undefined };
-			var evt = document.createEvent( 'CustomEvent' );
-			evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-			return evt;
-		}
-
-		CustomEvent.prototype = window.Event.prototype;
-
-		window.CustomEvent = CustomEvent;
-	})();
 /*!
  * Platform.js <https://mths.be/platform>
  * Copyright 2014-2016 Benjamin Tan <https://demoneaux.github.io/>
@@ -1205,6 +1153,58 @@
   }
 }.call(this));
 
+/* ========================================================================
+ * Phonon: core.js v0.0.1
+ * http://phonon.quarkdev.com
+ * ========================================================================
+ * Licensed under MIT (http://phonon.quarkdev.com)
+ * ======================================================================== */
+
+'use strict';
+
+;(function(window, undefined) {
+
+	var phonon = {};
+	var readyCallbacks = [];
+
+	/**
+	 * Called when Phonon is ready
+	 * Used in navigator.js
+	 */
+	phonon.onReady = function(callback) {
+		readyCallbacks.push(callback);
+	};
+
+	/**
+	 * Dispatches all the ready events
+	 */
+	phonon.dispatchGlobalReady = function() {
+	    var i = readyCallbacks.length - 1;
+	    for (; i >= 0; i--) {
+	      readyCallbacks[i]();
+	    }
+	    
+	    // Release memory
+	    readyCallbacks = [];
+	    phonon.dispatchGlobalReady = undefined;
+	}
+
+	/**
+	 * CustomEvent polyfill
+     * IE 9+, Android 4
+	*/
+	;(function () {
+		function CustomEvent ( event, params ) {
+			params = params || { bubbles: false, cancelable: false, detail: undefined };
+			var evt = document.createEvent( 'CustomEvent' );
+			evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+			return evt;
+		}
+
+		CustomEvent.prototype = window.Event.prototype;
+
+		window.CustomEvent = CustomEvent;
+	})();
 phonon.device = (function (platform) {
 
 	/* Use of platform.js
