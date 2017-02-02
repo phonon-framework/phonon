@@ -1,6 +1,6 @@
 {
   "name": "phonon",
-  "version": "1.3.7",
+  "version": "1.4.0",
   "description": "Phonon is a lightweight & scalable Javascript/CSS3/HTML5 mobile framework to develop a single page application based on Phonegap / Apache Cordova.",
   "repository": {
     "type": "git",
