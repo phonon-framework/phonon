@@ -28,5 +28,34 @@ module.exports = {
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
     cssSourceMap: false,
+
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loader: "style-loader!css-loader"
+        },
+        {
+          test: /\.js$/,
+          loader: 'babel',
+          query: {
+            presets: ['es2015']
+          },
+          // make sure to exclude 3rd party code in node_modules
+          exclude: /node_modules/
+        },
+        {
+          // edit this for additional asset file types
+          test: /\.(png|jpg|gif|woff|woff2|eot|ttf|svg)$/,
+          loader: 'url',
+          query: {
+            // inline files smaller then 10kb as base64 dataURL
+            limit: 10000,
+            // fallback to file-loader with this naming scheme
+            name: '[name].[ext]?[hash]'
+          }
+        }
+      ]
+    }
   }
 }

@@ -1,27 +1,75 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'C:\\Program Files (x86)\\nodejs\\\\node.exe',
-1 verbose cli   'C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
-1 verbose cli   'start' ]
-2 info using npm@2.7.4
-3 info using node@v0.12.2
-4 verbose node symlink C:\Program Files (x86)\nodejs\\node.exe
-5 verbose stack Error: missing script: start
-5 verbose stack     at run (C:\Program Files (x86)\nodejs\node_modules\npm\lib\run-script.js:165:19)
-5 verbose stack     at C:\Program Files (x86)\nodejs\node_modules\npm\lib\run-script.js:81:5
-5 verbose stack     at C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:52:40
-5 verbose stack     at C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:376:33
-5 verbose stack     at checkBinReferences_ (C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:341:59)
-5 verbose stack     at final (C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:373:17)
-5 verbose stack     at then (C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:127:33)
-5 verbose stack     at C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:332:40
-5 verbose stack     at evalmachine.<anonymous>:334:14
-5 verbose stack     at C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\graceful-fs\graceful-fs.js:102:5
-6 verbose cwd C:\Users\andre\Documents\GitHub\Phonon
-7 error Windows_NT 6.3.9600
-8 error argv "C:\\Program Files (x86)\\nodejs\\\\node.exe" "C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "start"
-9 error node v0.12.2
-10 error npm  v2.7.4
-11 error missing script: start
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'version',
+1 verbose cli   'patch' ]
+2 info using npm@3.9.5
+3 info using node@v6.2.2
+4 info git [ 'status', '--porcelain' ]
+5 verbose stack Error: Git working directory not clean.
+5 verbose stack M examples/pizza-app-with-vue/.babelrc
+5 verbose stack M examples/pizza-app-with-vue/.eslintrc.js
+5 verbose stack M examples/pizza-app-with-vue/.gitignore
+5 verbose stack M examples/pizza-app-with-vue/README.md
+5 verbose stack M examples/pizza-app-with-vue/build/build.js
+5 verbose stack M examples/pizza-app-with-vue/build/dev-server.js
+5 verbose stack M examples/pizza-app-with-vue/build/utils.js
+5 verbose stack M examples/pizza-app-with-vue/build/webpack.base.conf.js
+5 verbose stack M examples/pizza-app-with-vue/build/webpack.dev.conf.js
+5 verbose stack M examples/pizza-app-with-vue/build/webpack.prod.conf.js
+5 verbose stack M examples/pizza-app-with-vue/config/index.js
+5 verbose stack D examples/pizza-app-with-vue/config/test.env.js
+5 verbose stack M examples/pizza-app-with-vue/index.html
+5 verbose stack M examples/pizza-app-with-vue/package.json
+5 verbose stack M examples/pizza-app-with-vue/src/App.vue
+5 verbose stack M examples/pizza-app-with-vue/src/components/Home.vue
+5 verbose stack M examples/pizza-app-with-vue/src/components/PageTwo.vue
+5 verbose stack M examples/pizza-app-with-vue/src/main.js
+5 verbose stack D examples/pizza-app-with-vue/static/css/phonon.min.css
+5 verbose stack D examples/pizza-app-with-vue/static/fonts/material-design-icons.eot
+5 verbose stack D examples/pizza-app-with-vue/static/fonts/material-design-icons.svg
+5 verbose stack D examples/pizza-app-with-vue/static/fonts/material-design-icons.ttf
+5 verbose stack D examples/pizza-app-with-vue/static/fonts/material-design-icons.woff
+5 verbose stack D examples/pizza-app-with-vue/static/js/phonon.min.js
+5 verbose stack     at /usr/local/lib/node_modules/npm/lib/version.js:246:19
+5 verbose stack     at ChildProcess.exithandler (child_process.js:198:7)
+5 verbose stack     at emitTwo (events.js:106:13)
+5 verbose stack     at ChildProcess.emit (events.js:191:7)
+5 verbose stack     at maybeClose (internal/child_process.js:852:16)
+5 verbose stack     at Socket.<anonymous> (internal/child_process.js:323:11)
+5 verbose stack     at emitOne (events.js:96:13)
+5 verbose stack     at Socket.emit (events.js:188:7)
+5 verbose stack     at Pipe._handle.close [as _onclose] (net.js:492:12)
+6 verbose cwd /home/athom/workspaces/web/phonon/v1/Phonon
+7 error Linux 4.9.6-1-ARCH
+8 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "version" "patch"
+9 error node v6.2.2
+10 error npm  v3.9.5
+11 error Git working directory not clean.
+11 error M examples/pizza-app-with-vue/.babelrc
+11 error M examples/pizza-app-with-vue/.eslintrc.js
+11 error M examples/pizza-app-with-vue/.gitignore
+11 error M examples/pizza-app-with-vue/README.md
+11 error M examples/pizza-app-with-vue/build/build.js
+11 error M examples/pizza-app-with-vue/build/dev-server.js
+11 error M examples/pizza-app-with-vue/build/utils.js
+11 error M examples/pizza-app-with-vue/build/webpack.base.conf.js
+11 error M examples/pizza-app-with-vue/build/webpack.dev.conf.js
+11 error M examples/pizza-app-with-vue/build/webpack.prod.conf.js
+11 error M examples/pizza-app-with-vue/config/index.js
+11 error D examples/pizza-app-with-vue/config/test.env.js
+11 error M examples/pizza-app-with-vue/index.html
+11 error M examples/pizza-app-with-vue/package.json
+11 error M examples/pizza-app-with-vue/src/App.vue
+11 error M examples/pizza-app-with-vue/src/components/Home.vue
+11 error M examples/pizza-app-with-vue/src/components/PageTwo.vue
+11 error M examples/pizza-app-with-vue/src/main.js
+11 error D examples/pizza-app-with-vue/static/css/phonon.min.css
+11 error D examples/pizza-app-with-vue/static/fonts/material-design-icons.eot
+11 error D examples/pizza-app-with-vue/static/fonts/material-design-icons.svg
+11 error D examples/pizza-app-with-vue/static/fonts/material-design-icons.ttf
+11 error D examples/pizza-app-with-vue/static/fonts/material-design-icons.woff
+11 error D examples/pizza-app-with-vue/static/js/phonon.min.js
 12 error If you need help, you may report this error at:
 12 error     <https://github.com/npm/npm/issues>
 13 verbose exit [ 1, true ]

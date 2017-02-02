@@ -1,34 +1,42 @@
 <template>
-	<home :app="app"></home>
-	<page-two :app="app"></page-two>
+  <div id="app">
+    <home :app="app"></home>
+    <page-two :app="app"></page-two>
+  </div>
 </template>
 
 <script>
+import Home from './components/Home.vue'
+import PageTwo from './components/PageTwo.vue'
 
-	import Home from './components/Home.vue'
-	import PageTwo from './components/PageTwo.vue'
+export default {
+  name: 'app',
+  data () {
+    return {
+      app: phonon.navigator()
+    }
+  },
 
-	export default {
+  mounted () {
+    this.$nextTick(() => {
+      phonon.options({
+        navigator: {
+          defaultPage: 'home',
+          animatePages: true,
+          enableBrowserBackButton: true
+        },
+        i18n: null // for this example, we do not use internationalization
+      })
 
-		data() {
-			return {
-				app: phonon.navigator()
-			}
-		},
+      window.setTimeout(() => {
+        this.app.start()
+      }, 500)
+    })
+  },
 
-		ready: function () {
-			phonon.options({
-				navigator: {
-					defaultPage: 'home',
-					animatePages: true,
-					enableBrowserBackButton: true
-				},
-				i18n: null // for this example, we do not use internationalization
-			})
-
-			this.app.start()
-		},
-
-		components: { Home, PageTwo }
-	}
+  components: {
+    Home,
+    PageTwo
+  }
+}
 </script>
