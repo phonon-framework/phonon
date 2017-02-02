@@ -5,8 +5,8 @@ import App from './App'
 
 Vue.config.ignoredElements = ['home', 'page-two']
 
-require('./../static/phonon.min.css')
-// require('script-loader!./static/phonon.min.js')
+require('phonon/dist/css/phonon.min.css')
+require('phonon/dist/js/phonon.js')
 
 /* eslint-disable no-new */
 new Vue({
