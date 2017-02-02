@@ -27,10 +27,10 @@ gulp.task('build', [
 */
 gulp.task('js-core', function() {
 	return gulp.src([
+		nodeModules + 'platform/platform.js',
 		'./src/js/core/wrap/prefix.js',
 		'./src/js/core/ready.js',
 		'./src/js/core/polyfills.js',
-		nodeModules + 'platform/platform.js',
 		'./src/js/core/device.js',
 		'./src/js/core/browser.js',
 		'./src/js/core/ajax.js',
