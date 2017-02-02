@@ -8,7 +8,6 @@ Since the version **1.0.0** released in August 2015, Phonon became **browser-fri
 ## Table of contents
 
 - [Quick start](#quick-start)
-- [Getting started](#getting-started)
 - [Documentation](#documentation)
 - [Demos](#demos)
 - [Compatibility](#compatibility)
@@ -22,8 +21,6 @@ Several quick start options are available:
  - Clone the repo: `git clone https://github.com/quark-dev/Phonon-Framework.git`. Do not forget to run `npm install`.
  - Install with [npm](https://www.npmjs.com): `npm install phonon`.
  - Install with [Bower](https://bower.io): `bower install phonon`.
-
-## Getting started
 
 The best place to start with Phonon is the [Getting Started section](http://phonon.quarkdev.com/#getting-started).
 
