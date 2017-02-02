@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "vue": "^2.1.0",
-    "phonon": "^1.3.2"
+    "phonon": "^1.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

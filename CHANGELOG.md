@@ -1,9 +1,10 @@
-### 1.3.6 (2017-02-02)
+### 1.4.0 (2017-02-02)
 
 #### Features
 
 * Vue2 example updated [#165](https://github.com/quark-dev/Phonon-Framework/issues/165)
 * [platform.js](https://github.com/bestiejs/platform.js) is now used for [device](http://phonon.quarkdev.com/docs/device) information detection
+* NPM package created. You can now use `npm install phonon`
 
 #### Bug Fixes
 
