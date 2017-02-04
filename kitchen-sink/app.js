@@ -1,3 +1,11 @@
+function getLang()
+{
+ if (navigator.languages != undefined) 
+ 	return navigator.languages[0]; 
+ else 
+ 	return navigator.language;
+}
+
 phonon.options({
 
 	navigator: {
@@ -10,7 +18,7 @@ phonon.options({
 	i18n: {
 		directory: 'lang/',
 		localeFallback: 'en',
-		localePreferred: 'en-US'
+		localePreferred: getLang()
 	}
 });
 
