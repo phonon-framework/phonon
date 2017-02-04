@@ -147,14 +147,23 @@
             throw new Error('callback must be a function');
         }
 
+        var locale = opts.localePreferred ? opts.localePreferred : opts.localeFallback;
+
+        if (typeof langCache != 'undefined') {
+          // FIX iOS. User provides a langCache Array
+          if (!(locale in langCache)) {
+              console.log('The language [' + locale + '] is not available, loading ' + opts.localeFallback);
+              locale = opts.localeFallback;
+          }
+          jsonCache = langCache[locale];
+        }
+
         if(jsonCache !== null) {
             callback(jsonCache);
             return;
         }
 
         var xhr = new XMLHttpRequest();
-
-        var locale = opts.localePreferred ? opts.localePreferred : opts.localeFallback;
 
         xhr.open('GET', opts.directory + locale + '.json', true);
         if(xhr.overrideMimeType) xhr.overrideMimeType('application/json; charset=utf-8');
