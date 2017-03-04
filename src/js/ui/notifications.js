@@ -260,6 +260,7 @@
 			var generatedNotif = buildNotif(el, timeout, showButton);
 			show(generatedNotif);
 			return {
+				element: generatedNotif,
 				setColor: function (color) {
 					setColor(generatedNotif, color);
 				}
@@ -272,6 +273,7 @@
 		}
 
 		return {
+			element: notif,
 			show: function () {
 				show(notif)
 				return this
