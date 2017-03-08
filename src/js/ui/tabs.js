@@ -453,6 +453,11 @@
         var parsedEvent = this._parseEvent(event),
             coordinates = this._checkOverscroll( parsedEvent.direction , - parsedEvent.distanceX, - parsedEvent.distanceY );
 
+        // @phonon => prevent animation if it is a vertical swipe
+        if (Math.abs(xDiff) < Math.abs(yDiff)){
+            return;
+        }
+
         // @phonon => disable extensible tab content
         if(this.page === 0 && parsedEvent.direction === 'right') {
           return;
@@ -1045,6 +1050,7 @@
 
 	    var options = {
 	        direction: 'horizontal',
+            minDragDistance: "100",
 	        preventDrag: preventDrag,
 	        duration: 200,
 	        pageClass: 'tab-content',
