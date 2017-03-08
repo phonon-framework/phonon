@@ -1,13 +1,10 @@
 {
   "name": "phonon",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Phonon is a lightweight & scalable Javascript/CSS3/HTML5 mobile framework to develop a single page application based on Phonegap / Apache Cordova.",
   "repository": {
     "type": "git",
     "url": "https://github.com/quark-dev/Phonon-Framework.git"
-  },
-  "scripts": {
-    "postinstall": "gulp"
   },
   "author": "Quarkdev",
   "license": "MIT",
