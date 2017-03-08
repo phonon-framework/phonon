@@ -1,0 +1,36 @@
+<pageautocomplete data-page="true">
+	<header class="header-bar">
+		<button class="btn icon icon-arrow-back pull-left" data-navigation="$previous-page"></button>
+		<div class="center">
+			<h1 class="title">Autocomplete</h1>
+		</div>
+	</header>
+	<div class="content">
+		<div class="padded-full">
+
+			<p>Select a Phonon component (for example: tabs, grid or forms).</p>
+
+			<input type="text" placeholder="Search" id="example-input">
+
+			<datalist id="componentList">
+				<option>Accordion</option>
+				<option>Dialogs</option>
+				<option>Floating actions</option>
+				<option>Forms</option>
+				<option>Icons</option>
+				<option>Grid</option>
+				<option>Lists</option>
+				<option>Notifications</option>
+				<option>Panels</option>
+				<option>Popovers</option>
+				<option>Preloaders</option>
+				<option>Tabs</option>
+				<option>Tables</option>
+			</datalist>
+		</div>
+	</div>
+</pageautocomplete>
+<script>
+	// Create the autocomplete instance
+	phonon.autocomplete(document.querySelector('#example-input'), {list: "#componentList"});
+</script>
