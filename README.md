@@ -22,6 +22,7 @@ Several quick start options are available:
  - Clone the repo: `git clone https://github.com/quark-dev/Phonon-Framework.git`. Do not forget to run `npm install`.
  - Install with [npm](https://www.npmjs.com): `npm install phonon`.
  - Install with [Bower](https://bower.io): `bower install phonon`.
+ - Use [CDNJS](https://cdnjs.com/libraries/PhononJs).
 
 The best place to start with Phonon is the [Getting Started section](http://phonon.quarkdev.com/#getting-started).
 
