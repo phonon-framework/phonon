@@ -17,6 +17,12 @@
   background-color: #fff;
   border-radius: 50%;
 }
+.circle-progress.center {
+  top: 50%;
+  left: 50%;
+  margin-top: -18px;
+  position: absolute;
+}
 .circle-progress.active {
   opacity: 1;
 }

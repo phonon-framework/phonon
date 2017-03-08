@@ -1408,15 +1408,15 @@ phonon.event = (function ($) {
      * [3] transitionEnd and animationEnd polyfill
      */
 
-	// Use available events
-	// mousecancel does not exists
+    // Use available events
+    // mousecancel does not exists
     var availableEvents = ['mousedown', 'mousemove', 'mouseup'];
 
     // Check if touch is enabled
     var hasTouch = false;
     if(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
         hasTouch = true;
-		availableEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
+        availableEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
     }
 
     if (window.navigator.pointerEnabled) {
@@ -1432,9 +1432,15 @@ phonon.event = (function ($) {
     api.start = availableEvents[0];
     api.move = availableEvents[1];
     api.end = availableEvents[2];
-	api.cancel = typeof availableEvents[3] === 'undefined' ? null : availableEvents[3];
+    api.cancel = typeof availableEvents[3] === 'undefined' ? null : availableEvents[3];
 
     api.tap = 'tap';
+
+	/**
+	 * By default, force click event if the browser does
+	 * not support touch events
+	 */
+	api.forceTap = false
 
     /**
      * Animation/Transition event polyfill
@@ -1513,7 +1519,7 @@ phonon.event = (function ($) {
 
         TapElement.prototype.move = function(e) {
 
-			var moveX = (e.touches ? e.touches[0].clientX : e.clientX);
+            var moveX = (e.touches ? e.touches[0].clientX : e.clientX);
             var moveY = (e.touches ? e.touches[0].clientY : e.clientY);
 
             //if finger moves more than 10px flag to cancel
@@ -1524,27 +1530,29 @@ phonon.event = (function ($) {
 
         TapElement.prototype.end = function(e) {
 
-			this.el.removeEventListener(api.move, this, false);
+            this.el.removeEventListener(api.move, this, false);
             this.el.removeEventListener(api.end, this, false);
 
-			if (api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
+            if (api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
 
             if (!this.moved) {
-
                 /**
                  * jQuery/Zepto compatibility with the tap event
                  * See issue: #147
                  */
                 if (typeof $ !== 'undefined') {
-                    var event = new window.CustomEvent(
-                    	this.tap,
-                    	{
-                    		detail: {},
-                    		bubbles: true,
-                    		cancelable: true
-                    	}
+                    var customEvent = new window.CustomEvent(
+                        this.tap,
+                        {
+                            detail: {
+                                event: 'tap',
+                                target: this.element
+                            },
+                            bubbles: true,
+                            cancelable: true
+                        }
                     );
-                    this.el.dispatchEvent(event);
+                    this.el.dispatchEvent(customEvent);
                 }
 
                 this.callback(e);
@@ -1561,7 +1569,7 @@ phonon.event = (function ($) {
             this.el.removeEventListener(api.start, this, false);
             this.el.removeEventListener(api.move, this, false);
             this.el.removeEventListener(api.end, this, false);
-			if(api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
+            if(api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
         };
 
         TapElement.prototype.handleEvent = function(e) {
@@ -1578,10 +1586,14 @@ phonon.event = (function ($) {
 
     phonon.on = function(el, eventName, callback, useCapture) {
         var addEvent = function(el, eventName, callback, useCapture) {
-            if(eventName === api.tap) {
+            if(eventName === api.tap && (api.hasTouch || api.forceTap)) {
                 var tap = new TapElement(el, callback);
                 tapEls.push(tap);
                 return;
+            }
+
+            if(eventName === api.tap) {
+                eventName = 'click';
             }
 
             if(el.addEventListener) {
@@ -1609,7 +1621,7 @@ phonon.event = (function ($) {
     phonon.off = function(el, eventName, callback, useCapture) {
 
         var removeEvent = function (el, eventName, callback, useCapture) {
-            if(eventName === api.tap) {
+            if(eventName === api.tap && (api.hasTouch || api.forceTap)) {
                 var i = 0;
                 var l = tapEls.length;
                 for (; i < l; i++) {
@@ -1620,6 +1632,10 @@ phonon.event = (function ($) {
                     }
                 }
                 return;
+            }
+
+			if(eventName === api.tap) {
+                eventName = 'click';
             }
 
             if(el.removeEventListener) {
@@ -1713,6 +1729,10 @@ phonon.tagManager = (function () {
 
 	phonon.prompt = function(text, title, cancelable, textOk, textCancel) {
 		return phonon.dialog().prompt(text, title, cancelable, textOk, textCancel);
+	};
+
+	phonon.passPrompt = function(text, title, cancelable, textOk, textCancel) {
+		return phonon.dialog().passPrompt(text, title, cancelable, textOk, textCancel);
 	};
 
 	phonon.indicator = function(title, cancelable) {
@@ -1906,14 +1926,23 @@ phonon.tagManager = (function () {
             throw new Error('callback must be a function');
         }
 
+        var locale = opts.localePreferred ? opts.localePreferred : opts.localeFallback;
+
+        if (typeof langCache != 'undefined') {
+          // FIX iOS. User provides a langCache Array
+          if (!(locale in langCache)) {
+              console.log('The language [' + locale + '] is not available, loading ' + opts.localeFallback);
+              locale = opts.localeFallback;
+          }
+          jsonCache = langCache[locale];
+        }
+
         if(jsonCache !== null) {
             callback(jsonCache);
             return;
         }
 
         var xhr = new XMLHttpRequest();
-
-        var locale = opts.localePreferred ? opts.localePreferred : opts.localeFallback;
 
         xhr.open('GET', opts.directory + locale + '.json', true);
         if(xhr.overrideMimeType) xhr.overrideMimeType('application/json; charset=utf-8');
@@ -3012,7 +3041,11 @@ phonon.tagManager = (function () {
 
     if(pageObject) {
 
-      var hash = (typeof pageParams === 'string' ? opts.hashPrefix + pageObject.name + '/' + pageParams : opts.hashPrefix + pageObject.name);
+      var hash =  opts.hashPrefix + pageObject.name
+
+      if(typeof pageParams !== 'undefined') {
+        hash = opts.hashPrefix + pageObject.name + '/' + pageParams;
+      }
 
       if(currentPageObject.async) {
         callClose(currentPage, pageObject.name, hash);
@@ -3167,6 +3200,7 @@ phonon.tagManager = (function () {
   if(opts.useHash) window.addEventListener('hashchange', onRoute);
 
   document.on('backbutton', function() {
+    if(isComponentVisible()) return;
     var last = getLastPage();
     callClose(currentPage, last.page, opts.hashPrefix + last.page + '/' + last.params);
   });
@@ -3421,426 +3455,38 @@ phonon.tagManager = (function () {
 
 }(typeof window !== 'undefined' ? window : this));
 
-/**
-* Simple, lightweight, usable local autocomplete library for modern browsers
-* Because there weren’t enough autocomplete scripts in the world? Because I’m completely insane and have NIH syndrome? Probably both. :P
-* @author Lea Verou http://leaverou.github.io/awesomplete
-* MIT license
-*/
-
-(function () {
-
-	var _ = function (input, o) {
-		var me = this;
-
-		// Setup
-
-		this.input = $(input);
-		this.input.setAttribute("autocomplete", "off");
-		this.input.setAttribute("aria-autocomplete", "list");
-
-		o = o || {};
-
-		configure.call(this, {
-			minChars: 2,
-			maxItems: 10,
-			autoFirst: false,
-			filter: _.FILTER_CONTAINS,
-			sort: _.SORT_BYLENGTH,
-			item: function (text, input) {
-				var html = input === '' ? text : text.replace(RegExp($.regExpEscape(input.trim()), "gi"), "<mark>$&</mark>");
-				return $.create("li", {
-					innerHTML: html,
-					"aria-selected": "false"
-				});
-			},
-			replace: function (text) {
-				this.input.value = text;
-			}
-		}, o);
-
-		this.index = -1;
-
-		// Create necessary elements
-
-		this.container = $.create("div", {
-			className: "awesomplete",
-			around: input
-		});
-
-		// @phonon add class list
-		this.ul = $.create("ul", {
-			className: "list",
-			hidden: "hidden",
-			inside: this.container
-		});
-
-		this.status = $.create("span", {
-			className: "visually-hidden",
-			role: "status",
-			"aria-live": "assertive",
-			"aria-relevant": "additions",
-			inside: this.container
-		});
-
-		// Bind events
-
-		$.bind(this.input, {
-			"input": this.evaluate.bind(this),
-			"blur": this.close.bind(this),
-			"keydown": function(evt) {
-				var c = evt.keyCode;
-
-				// If the dropdown `ul` is in view, then act on keydown for the following keys:
-				// Enter / Esc / Up / Down
-				if(me.opened) {
-					if (c === 13 && me.selected) { // Enter
-						evt.preventDefault();
-						me.select();
-					}
-					else if (c === 27) { // Esc
-						me.close();
-					}
-					else if (c === 38 || c === 40) { // Down/Up arrow
-						evt.preventDefault();
-						me[c === 38? "previous" : "next"]();
-					}
-				}
-			}
-		});
-
-		$.bind(this.input.form, {"submit": this.close.bind(this)});
-
-		$.bind(this.ul, {"mousedown": function(evt) {
-			var li = evt.target;
-
-			if (li !== this) {
-
-				while (li && !/li/i.test(li.nodeName)) {
-					li = li.parentNode;
-				}
-
-				if (li && evt.button === 0) {  // Only select on left click
-					me.select(li, evt);
-				}
-			}
-		}});
-
-		if (this.input.hasAttribute("list")) {
-			this.list = "#" + this.input.getAttribute("list");
-			this.input.removeAttribute("list");
-		}
-		else {
-			this.list = this.input.getAttribute("data-list") || o.list || [];
-		}
-
-		_.all.push(this);
-	};
-
-	_.prototype = {
-		set list(list) {
-			if (Array.isArray(list)) {
-				this._list = list;
-			}
-			else if (typeof list === "string" && list.indexOf(",") > -1) {
-				this._list = list.split(/\s*,\s*/);
-			}
-			else { // Element or CSS selector
-				list = $(list);
-
-				if (list && list.children) {
-					this._list = slice.apply(list.children).map(function (el) {
-						return el.textContent.trim();
-					});
-				}
-			}
-
-			if (document.activeElement === this.input) {
-				this.evaluate();
-			}
-		},
-
-		get selected() {
-			return this.index > -1;
-		},
-
-		get opened() {
-			return this.ul && this.ul.getAttribute("hidden") == null;
-		},
-
-		close: function () {
-			this.ul.setAttribute("hidden", "");
-			this.index = -1;
-
-			$.fire(this.input, "awesomplete-close");
-		},
-
-		open: function () {
-			this.ul.removeAttribute("hidden");
-
-			if (this.autoFirst && this.index === -1) {
-				this.goto(0);
-			}
-
-			$.fire(this.input, "awesomplete-open");
-		},
-
-		next: function () {
-			var count = this.ul.children.length;
-
-			this.goto(this.index < count - 1? this.index + 1 : -1);
-		},
-
-		previous: function () {
-			var count = this.ul.children.length;
-
-			this.goto(this.selected? this.index - 1 : count - 1);
-		},
-
-		// Should not be used, highlights specific item without any checks!
-		goto: function (i) {
-			var lis = this.ul.children;
-
-			if (this.selected) {
-				lis[this.index].setAttribute("aria-selected", "false");
-			}
-
-			this.index = i;
-
-			if (i > -1 && lis.length > 0) {
-				lis[i].setAttribute("aria-selected", "true");
-				this.status.textContent = lis[i].textContent;
-			}
-
-			$.fire(this.input, "awesomplete-highlight");
-		},
-
-		select: function (selected, originalEvent) {
-			selected = selected || this.ul.children[this.index];
-
-			if (selected) {
-				var prevented;
-
-				$.fire(this.input, "awesomplete-select", {
-					text: selected.textContent,
-					preventDefault: function () {
-						prevented = true;
-					},
-					originalEvent: originalEvent
-				});
-
-				if (!prevented) {
-					this.replace(selected.textContent);
-					this.close();
-					$.fire(this.input, "awesomplete-selectcomplete");
-				}
-			}
-		},
-
-		evaluate: function() {
-			var me = this;
-			var value = this.input.value;
-
-			if (value.length >= this.minChars && this._list.length > 0) {
-				this.index = -1;
-				// Populate list with options that match
-				this.ul.innerHTML = "";
-
-				this._list
-				.filter(function(item) {
-					return me.filter(item, value);
-				})
-				.sort(this.sort)
-				.every(function(text, i) {
-					me.ul.appendChild(me.item(text, value));
-
-					return i < me.maxItems - 1;
-				});
-
-				if (this.ul.children.length === 0) {
-					this.close();
-				} else {
-					this.open();
-				}
-			}
-			else {
-				this.close();
-			}
-		}
-	};
-
-	// Static methods/properties
-
-	_.all = [];
-
-	_.FILTER_CONTAINS = function (text, input) {
-		return RegExp($.regExpEscape(input.trim()), "i").test(text);
-	};
-
-	_.FILTER_STARTSWITH = function (text, input) {
-		return RegExp("^" + $.regExpEscape(input.trim()), "i").test(text);
-	};
-
-	_.SORT_BYLENGTH = function (a, b) {
-		if (a.length !== b.length) {
-			return a.length - b.length;
-		}
-
-		return a < b? -1 : 1;
-	};
-
-	// Private functions
-
-	function configure(properties, o) {
-		for (var i in properties) {
-			var initial = properties[i],
-			attrValue = this.input.getAttribute("data-" + i.toLowerCase());
-
-			if (typeof initial === "number") {
-				this[i] = parseInt(attrValue);
-			}
-			else if (initial === false) { // Boolean options must be false by default anyway
-				this[i] = attrValue !== null;
-			}
-			else if (initial instanceof Function) {
-				this[i] = null;
-			}
-			else {
-				this[i] = attrValue;
-			}
-
-			if (!this[i] && this[i] !== 0) {
-				this[i] = (i in o)? o[i] : initial;
-			}
-		}
-	}
-
-	// Helpers
-
-	var slice = Array.prototype.slice;
-
-	function $(expr, con) {
-		return typeof expr === "string"? (con || document).querySelector(expr) : expr || null;
-	}
-
-	function $$(expr, con) {
-		return slice.call((con || document).querySelectorAll(expr));
-	}
-
-	$.create = function(tag, o) {
-		var element = document.createElement(tag);
-
-		for (var i in o) {
-			var val = o[i];
-
-			if (i === "inside") {
-				$(val).appendChild(element);
-			}
-			else if (i === "around") {
-				var ref = $(val);
-				ref.parentNode.insertBefore(element, ref);
-				element.appendChild(ref);
-			}
-			else if (i in element) {
-				element[i] = val;
-			}
-			else {
-				element.setAttribute(i, val);
-			}
-		}
-
-		return element;
-	};
-
-	$.bind = function(element, o) {
-		if (element) {
-			for (var event in o) {
-				var callback = o[event];
-
-				event.split(/\s+/).forEach(function (event) {
-					element.addEventListener(event, callback);
-				});
-			}
-		}
-	};
-
-	$.fire = function(target, type, properties) {
-		var evt = document.createEvent("HTMLEvents");
-
-		evt.initEvent(type, true, true );
-
-		for (var j in properties) {
-			evt[j] = properties[j];
-		}
-
-		target.dispatchEvent(evt);
-	};
-
-	$.regExpEscape = function (s) {
-		return s.replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
-	}
-
-	// Initialization
-
-	function init() {
-		$$("input.awesomplete").forEach(function (input) {
-			new _(input);
-		});
-	}
-
-	// Are we in a browser? Check for Document constructor
-	if (typeof Document !== "undefined") {
-		// DOM already loaded?
-		if (document.readyState !== "loading") {
-			init();
-		}
-		else {
-			// Wait for it
-			document.addEventListener("DOMContentLoaded", init);
-		}
-	}
-
-	_.$ = $;
-	_.$$ = $$;
-
-	// Make sure to export Awesomplete on self when in a browser
-	if (typeof self !== "undefined") {
-		self.Awesomplete = _;
-	}
-
-	// Expose Awesomplete as a CJS module
-	if (typeof module === "object" && module.exports) {
-		module.exports = _;
-	}
-
-	return _;
-
-}());
-
-
-
-
-
-/* ========================================================================
-* Phonon: autocomplete.js v0.1.0
-* http://phonon.quarkdev.com
-* ========================================================================
-* Licensed under MIT (http://phonon.quarkdev.com)
-* ======================================================================== */
-;(function (window, phonon) {
-
-	'use strict';
-
-	/**
-	* For every mounted page, initizalize autocomplete
-	*/
-
-	phonon.autocomplete = function( input, object ){
-		new Awesomplete( input, object );
-	};
-
-
-}(typeof window !== 'undefined' ? window : this, window.phonon || {}));
+phonon.autocomplete = (function (Awesomplete) {
+
+    if (typeof Awesomplete === 'undefined') {
+        console.error('The autocomplete component requires Awesomplete dependency.')
+        return
+    }
+
+    /**
+     * Fix the width of the list
+     *
+     * @param {Object} event
+     */
+    var open = function (event) {
+        var input = event.target
+        var list = input.parentNode.querySelector('ul')
+        if (list) {
+            list.style.width = input.clientWidth + 'px'
+        }
+    }
+
+    /* Use of Awesomplete
+    * https://github.com/LeaVerou/awesomplete
+    * License: https://github.com/LeaVerou/awesomplete/blob/gh-pages/LICENSE
+    */
+    var init = function (input, opts) {
+        input.addEventListener('awesomplete-open', open)
+        return new Awesomplete(input, opts)
+    }
+
+    return init
+
+})(window.Awesomplete);
 
 /* ========================================================================
  * Phonon: dialogs.js v0.0.6
@@ -3946,7 +3592,9 @@ phonon.tagManager = (function () {
 		if(type === 'alert') {
 			btnCancel = '';
 		} else if(type === 'prompt') {
-			input = '<input type="text" placeholder="Value">';
+			input = '<input type="text" placeholder="">';
+		} else if(type === 'passPrompt') {
+			input = '<input type="password" placeholder="Password">';
 		} else if(type === 'indicator') {
 			text = '';
 			indicator = '<div class="circle-progress active padded-bottom"><div class="spinner"></div></div>';
@@ -4204,6 +3852,15 @@ phonon.tagManager = (function () {
 				},
 				prompt: function(text, title, cancelable, textOk, textCancel) {
 					var dialog = buildDialog('prompt', text, title, cancelable, textOk, textCancel);
+					open(dialog);
+					return {
+						on: function(eventName, callback) {
+							on(dialog, eventName, callback);
+						}
+					};
+				},
+				passPrompt: function(text, title, cancelable, textOk, textCancel) {
+					var dialog = buildDialog('passPrompt', text, title, cancelable, textOk, textCancel);
 					open(dialog);
 					return {
 						on: function(eventName, callback) {
@@ -4671,6 +4328,7 @@ phonon.tagManager = (function () {
 			var generatedNotif = buildNotif(el, timeout, showButton);
 			show(generatedNotif);
 			return {
+				element: generatedNotif,
 				setColor: function (color) {
 					setColor(generatedNotif, color);
 				}
@@ -4683,6 +4341,7 @@ phonon.tagManager = (function () {
 		}
 
 		return {
+			element: notif,
 			show: function () {
 				show(notif)
 				return this
@@ -4776,13 +4435,14 @@ phonon.tagManager = (function () {
 	}
 
 	/**
-	* Used to find an opened dialog
+	* Used to find an opened dialog or an opened popover
 	* in front of a panel
 	* @todo clean this
 	*/
 	var onDialog = function (target) {
 		for (; target && target !== document; target = target.parentNode) {
-			if (target.classList.contains('dialog') || target.classList.contains('backdrop-dialog')) {
+			if (target.classList.contains('dialog') || target.classList.contains('backdrop-dialog') ||
+			target.classList.contains('popover') || target.classList.contains('backdrop-popover')) {
 				return true;
 			}
 		}
@@ -4861,7 +4521,7 @@ phonon.tagManager = (function () {
 			window.setTimeout(function () {
 				panel.classList.add('active');
 			}, 10);
-			
+
 			var backdrop = createBackdrop(panel.getAttribute('id'));
 
 			document.body.appendChild(backdrop);

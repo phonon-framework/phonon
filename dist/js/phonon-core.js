@@ -1408,15 +1408,15 @@ phonon.event = (function ($) {
      * [3] transitionEnd and animationEnd polyfill
      */
 
-	// Use available events
-	// mousecancel does not exists
+    // Use available events
+    // mousecancel does not exists
     var availableEvents = ['mousedown', 'mousemove', 'mouseup'];
 
     // Check if touch is enabled
     var hasTouch = false;
     if(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
         hasTouch = true;
-		availableEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
+        availableEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
     }
 
     if (window.navigator.pointerEnabled) {
@@ -1432,9 +1432,15 @@ phonon.event = (function ($) {
     api.start = availableEvents[0];
     api.move = availableEvents[1];
     api.end = availableEvents[2];
-	api.cancel = typeof availableEvents[3] === 'undefined' ? null : availableEvents[3];
+    api.cancel = typeof availableEvents[3] === 'undefined' ? null : availableEvents[3];
 
     api.tap = 'tap';
+
+	/**
+	 * By default, force click event if the browser does
+	 * not support touch events
+	 */
+	api.forceTap = false
 
     /**
      * Animation/Transition event polyfill
@@ -1513,7 +1519,7 @@ phonon.event = (function ($) {
 
         TapElement.prototype.move = function(e) {
 
-			var moveX = (e.touches ? e.touches[0].clientX : e.clientX);
+            var moveX = (e.touches ? e.touches[0].clientX : e.clientX);
             var moveY = (e.touches ? e.touches[0].clientY : e.clientY);
 
             //if finger moves more than 10px flag to cancel
@@ -1524,27 +1530,29 @@ phonon.event = (function ($) {
 
         TapElement.prototype.end = function(e) {
 
-			this.el.removeEventListener(api.move, this, false);
+            this.el.removeEventListener(api.move, this, false);
             this.el.removeEventListener(api.end, this, false);
 
-			if (api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
+            if (api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
 
             if (!this.moved) {
-
                 /**
                  * jQuery/Zepto compatibility with the tap event
                  * See issue: #147
                  */
                 if (typeof $ !== 'undefined') {
-                    var event = new window.CustomEvent(
-                    	this.tap,
-                    	{
-                    		detail: {},
-                    		bubbles: true,
-                    		cancelable: true
-                    	}
+                    var customEvent = new window.CustomEvent(
+                        this.tap,
+                        {
+                            detail: {
+                                event: 'tap',
+                                target: this.element
+                            },
+                            bubbles: true,
+                            cancelable: true
+                        }
                     );
-                    this.el.dispatchEvent(event);
+                    this.el.dispatchEvent(customEvent);
                 }
 
                 this.callback(e);
@@ -1561,7 +1569,7 @@ phonon.event = (function ($) {
             this.el.removeEventListener(api.start, this, false);
             this.el.removeEventListener(api.move, this, false);
             this.el.removeEventListener(api.end, this, false);
-			if(api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
+            if(api.cancel !== null) this.el.removeEventListener(api.cancel, this, false);
         };
 
         TapElement.prototype.handleEvent = function(e) {
@@ -1578,10 +1586,14 @@ phonon.event = (function ($) {
 
     phonon.on = function(el, eventName, callback, useCapture) {
         var addEvent = function(el, eventName, callback, useCapture) {
-            if(eventName === api.tap) {
+            if(eventName === api.tap && (api.hasTouch || api.forceTap)) {
                 var tap = new TapElement(el, callback);
                 tapEls.push(tap);
                 return;
+            }
+
+            if(eventName === api.tap) {
+                eventName = 'click';
             }
 
             if(el.addEventListener) {
@@ -1609,7 +1621,7 @@ phonon.event = (function ($) {
     phonon.off = function(el, eventName, callback, useCapture) {
 
         var removeEvent = function (el, eventName, callback, useCapture) {
-            if(eventName === api.tap) {
+            if(eventName === api.tap && (api.hasTouch || api.forceTap)) {
                 var i = 0;
                 var l = tapEls.length;
                 for (; i < l; i++) {
@@ -1620,6 +1632,10 @@ phonon.event = (function ($) {
                     }
                 }
                 return;
+            }
+
+			if(eventName === api.tap) {
+                eventName = 'click';
             }
 
             if(el.removeEventListener) {
@@ -1713,6 +1729,10 @@ phonon.tagManager = (function () {
 
 	phonon.prompt = function(text, title, cancelable, textOk, textCancel) {
 		return phonon.dialog().prompt(text, title, cancelable, textOk, textCancel);
+	};
+
+	phonon.passPrompt = function(text, title, cancelable, textOk, textCancel) {
+		return phonon.dialog().passPrompt(text, title, cancelable, textOk, textCancel);
 	};
 
 	phonon.indicator = function(title, cancelable) {
@@ -1906,14 +1926,23 @@ phonon.tagManager = (function () {
             throw new Error('callback must be a function');
         }
 
+        var locale = opts.localePreferred ? opts.localePreferred : opts.localeFallback;
+
+        if (typeof langCache != 'undefined') {
+          // FIX iOS. User provides a langCache Array
+          if (!(locale in langCache)) {
+              console.log('The language [' + locale + '] is not available, loading ' + opts.localeFallback);
+              locale = opts.localeFallback;
+          }
+          jsonCache = langCache[locale];
+        }
+
         if(jsonCache !== null) {
             callback(jsonCache);
             return;
         }
 
         var xhr = new XMLHttpRequest();
-
-        var locale = opts.localePreferred ? opts.localePreferred : opts.localeFallback;
 
         xhr.open('GET', opts.directory + locale + '.json', true);
         if(xhr.overrideMimeType) xhr.overrideMimeType('application/json; charset=utf-8');
@@ -3012,7 +3041,11 @@ phonon.tagManager = (function () {
 
     if(pageObject) {
 
-      var hash = (typeof pageParams === 'string' ? opts.hashPrefix + pageObject.name + '/' + pageParams : opts.hashPrefix + pageObject.name);
+      var hash =  opts.hashPrefix + pageObject.name
+
+      if(typeof pageParams !== 'undefined') {
+        hash = opts.hashPrefix + pageObject.name + '/' + pageParams;
+      }
 
       if(currentPageObject.async) {
         callClose(currentPage, pageObject.name, hash);

@@ -170,18 +170,21 @@
 }
 .primary.btn-flat {
   color: #0084e7 !important;
+  background-color: transparent !important;
 }
 .positive {
   background-color: #0ae700 !important;
 }
 .positive.btn-flat {
   color: #0ae700 !important;
+  background-color: transparent !important;
 }
 .negative {
   background-color: #f40b00 !important;
 }
 .negative.btn-flat {
   color: #f40b00 !important;
+  background-color: transparent !important;
 }
 .light-primary {
   background-color: #b9d3e7 !important;

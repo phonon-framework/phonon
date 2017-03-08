@@ -1,3 +1,20 @@
+### 1.4.1 (2017-03-08)
+
+#### Bug Fixes
+
+* Fix flat buttons [#208](https://github.com/quark-dev/Phonon-Framework/issues/208)
+* Fix bug where changePage does not deal with numbers as parameters [#214](https://github.com/quark-dev/Phonon-Framework/issues/214)
+* Fix bug when closing an active popover closes the active panel [#206](https://github.com/quark-dev/Phonon-Framework/issues/206)
+* Fix `tap` event on Windows with Chrome [#121](https://github.com/quark-dev/Phonon-Framework/issues/121) and [#184](https://github.com/quark-dev/Phonon-Framework/issues/184)
+
+#### Features
+
+* Password type for dialogs added [#221](https://github.com/quark-dev/Phonon-Framework/pull/221)
+* DOM auto-generated element is now available with phonon.notif([...]) [#220](https://github.com/quark-dev/Phonon-Framework/pull/220)
+* For `tap` event, force click event if touch event is not supported by the browser
+* Improved Autocomplete component
+* Full [documentation for autocomplete](http://phonon.quarkdev.com/docs/autocomplete)
+
 ### 1.4.0 (2017-02-02)
 
 #### Features

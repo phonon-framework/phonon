@@ -66,13 +66,14 @@
 	}
 
 	/**
-	* Used to find an opened dialog
+	* Used to find an opened dialog or an opened popover
 	* in front of a panel
 	* @todo clean this
 	*/
 	var onDialog = function (target) {
 		for (; target && target !== document; target = target.parentNode) {
-			if (target.classList.contains('dialog') || target.classList.contains('backdrop-dialog')) {
+			if (target.classList.contains('dialog') || target.classList.contains('backdrop-dialog') ||
+			target.classList.contains('popover') || target.classList.contains('backdrop-popover')) {
 				return true;
 			}
 		}
@@ -151,7 +152,7 @@
 			window.setTimeout(function () {
 				panel.classList.add('active');
 			}, 10);
-			
+
 			var backdrop = createBackdrop(panel.getAttribute('id'));
 
 			document.body.appendChild(backdrop);

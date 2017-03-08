@@ -102,7 +102,9 @@
 		if(type === 'alert') {
 			btnCancel = '';
 		} else if(type === 'prompt') {
-			input = '<input type="text" placeholder="Value">';
+			input = '<input type="text" placeholder="">';
+		} else if(type === 'passPrompt') {
+			input = '<input type="password" placeholder="Password">';
 		} else if(type === 'indicator') {
 			text = '';
 			indicator = '<div class="circle-progress active padded-bottom"><div class="spinner"></div></div>';
@@ -360,6 +362,15 @@
 				},
 				prompt: function(text, title, cancelable, textOk, textCancel) {
 					var dialog = buildDialog('prompt', text, title, cancelable, textOk, textCancel);
+					open(dialog);
+					return {
+						on: function(eventName, callback) {
+							on(dialog, eventName, callback);
+						}
+					};
+				},
+				passPrompt: function(text, title, cancelable, textOk, textCancel) {
+					var dialog = buildDialog('passPrompt', text, title, cancelable, textOk, textCancel);
 					open(dialog);
 					return {
 						on: function(eventName, callback) {
