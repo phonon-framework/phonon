@@ -1,10 +1,5 @@
 phonon.autocomplete = (function (Awesomplete) {
 
-    if (typeof Awesomplete === 'undefined') {
-        console.error('The autocomplete component requires Awesomplete dependency.')
-        return
-    }
-
     /**
      * Fix the width of the list
      *
@@ -23,6 +18,11 @@ phonon.autocomplete = (function (Awesomplete) {
     * License: https://github.com/LeaVerou/awesomplete/blob/gh-pages/LICENSE
     */
     var init = function (input, opts) {
+        if (typeof Awesomplete === 'undefined') {
+            console.error('The autocomplete component requires Awesomplete dependency.')
+            return
+        }
+
         input.addEventListener('awesomplete-open', open)
         return new Awesomplete(input, opts)
     }
