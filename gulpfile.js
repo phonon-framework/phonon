@@ -69,7 +69,7 @@ gulp.task('js-all', function() {
  * Build each JS component
 */
 gulp.task('js-components', function () {
-	return gulp.src('./src/js/ui/*.js')
+	return gulp.src(['./src/js/ui/*.js', nodeModules + 'awesomplete/awesomplete.js'])
 	.pipe(gulp.dest('./dist/js/components'))
 	.pipe(rename({suffix: '.min'}))
 	.pipe(uglify().on('error', function(e) {
