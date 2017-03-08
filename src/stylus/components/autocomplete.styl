@@ -1,53 +1,38 @@
-[hidden]
-  display none
-
-.visually-hidden
-  position absolute
-  clip rect(0, 0, 0, 0)
-
-div
-  &.awesomplete
-    position relative
-    & > input
-      display block
+.awesomplete
+    // display inline-block
+    // position relative
+    [hidden]
+        display none
+    .visually-hidden
+        position absolute
+        clip rect(0, 0, 0, 0)
     & > ul
-      position absolute
-      left 0
-      z-index 1
-      margin-top 60px
-      transition .3s cubic-bezier(.4,.2,.5,1.4)
-      transform-origin 1.43em -.43em
-	  box-shadow none
-	  border-radius none
-      & > li
-        position relative
-        padding .2em .5em
-        cursor pointer
-        &:hover, &:active
-          background-color #eee
-      & > li[aria-selected="true"]
-        background-color #ddd
+        position absolute
+        z-index 1
+        box-sizing border-box
+        list-style none
+        padding 0
+        margin 0 auto
+        background #fff
+        border-radius 2px
+        margin .2em 0 0
+        border 1px solid rgba(0,0,0,.15)
+        &:empty
+            display none
+        & > li
+            position relative
+            height list-simple-item-height
+            line-height list-simple-item-height
+            padding 0 list-cell-content-padding
+            vertical-align middle
+            cursor pointer
     mark
-      background hsl(65, 100%, 50%)
-    li
-      &:hover, &:active
-        mark
-          background-color #eee
-    li[aria-selected="true"]
-      mark
-        background-color #ddd
-        color inherit
+        background-color #FFF9C4
 
-.header-bar
-  div
-    &.awesomplete
-      ul
-        margin 60px 20px
-
-div.awesomplete > ul[hidden],
-div.awesomplete > ul:empty
-  display none
-  opacity 0
-  transform scale(0)
-  display block
-  transition-timing-function ease
+.awesomplete > ul[hidden],
+    .awesomplete > ul:empty {
+    opacity 0
+    transform scale(0)
+    display block
+    transition-timing-function ease
+}
