@@ -103,7 +103,7 @@
 			btnCancel = '';
 		} else if(type === 'prompt') {
 			input = '<input type="text" placeholder="">';
-		} else if(type === 'passprompt') {
+		} else if(type === 'passPrompt') {
 			input = '<input type="password" placeholder="Password">';
 		} else if(type === 'indicator') {
 			text = '';
@@ -369,8 +369,8 @@
 						}
 					};
 				},
-				passprompt: function(text, title, cancelable, textOk, textCancel) {
-					var dialog = buildDialog('passprompt', text, title, cancelable, textOk, textCancel);
+				passPrompt: function(text, title, cancelable, textOk, textCancel) {
+					var dialog = buildDialog('passPrompt', text, title, cancelable, textOk, textCancel);
 					open(dialog);
 					return {
 						on: function(eventName, callback) {

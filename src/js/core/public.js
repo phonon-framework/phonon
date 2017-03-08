@@ -25,8 +25,8 @@
 		return phonon.dialog().prompt(text, title, cancelable, textOk, textCancel);
 	};
 
-	phonon.passprompt = function(text, title, cancelable, textOk, textCancel) {
-		return phonon.dialog().passprompt(text, title, cancelable, textOk, textCancel);
+	phonon.passPrompt = function(text, title, cancelable, textOk, textCancel) {
+		return phonon.dialog().passPrompt(text, title, cancelable, textOk, textCancel);
 	};
 
 	phonon.indicator = function(title, cancelable) {
