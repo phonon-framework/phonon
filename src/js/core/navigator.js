@@ -919,7 +919,11 @@
 
     if(pageObject) {
 
-      var hash = (typeof pageParams === 'string' ? opts.hashPrefix + pageObject.name + '/' + pageParams : opts.hashPrefix + pageObject.name);
+      var hash =  opts.hashPrefix + pageObject.name
+
+      if(typeof pageParams !== 'undefined') {
+        hash = opts.hashPrefix + pageObject.name + '/' + pageParams;
+      }
 
       if(currentPageObject.async) {
         callClose(currentPage, pageObject.name, hash);
