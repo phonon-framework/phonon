@@ -1,4 +1,4 @@
-### 1.4.1 and 1.4.2 (2017-03-08)
+### 1.4.1, 1.4.2 and 1.4.3 (2017-03-08)
 
 #### Bug Fixes
 
@@ -7,6 +7,7 @@
 * Fix bug when closing an active popover closes the active panel [#206](https://github.com/quark-dev/Phonon-Framework/issues/206)
 * Fix `tap` event on Windows with Chrome [#121](https://github.com/quark-dev/Phonon-Framework/issues/121) and [#184](https://github.com/quark-dev/Phonon-Framework/issues/184)
 * Improved native feeling for tabs [#222](https://github.com/quark-dev/Phonon-Framework/pull/222)
+* Fix dependency with Awesomplete [#224](https://github.com/quark-dev/Phonon-Framework/issues/224)
 
 #### Features
 
