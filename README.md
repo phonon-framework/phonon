@@ -60,7 +60,7 @@ It is fine to use only one Phonon feature or component, but you will fall in lov
 Use your favorite design pattern (MVW, MVVM, MVC, ...) or a module loader with Phonon! For example, Phonon plays well with **AngularJS**, **React**, **RequireJS**, **RiotJS** and **VueJS**.
 
  - [Code example with AngularJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-angular)
- - [Code example with React](https://github.com/John-Henrique/Phonon-Framework/tree/master/examples/pizza-app-with-ractive)
+ - [Code example with React](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-ractive)
  - [Code example with RequireJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-require)
  - [Code example with RiotJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-riot)
  - [Code example with VueJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-vue)
