@@ -1,6 +1,10 @@
 # [Phonon](http://phonon.quarkdev.com)
 
-**Phonon: the light weight, scalable, flexible and customizable HTML5 Web - Mobile Framework.**
+> Phonon: the light weight, scalable, flexible and customizable HTML5 Web - Mobile Framework.
+
+[![npm](https://img.shields.io/npm/v/phonon.svg?style=flat-square)]()
+[![license](https://img.shields.io/github/license/quark-dev/phonon.svg?style=flat-square)]()
+[![GitHub contributors](https://img.shields.io/github/contributors/quark-dev/phonon.svg?style=flat-square)]()
 
 Originally, **Phonon** has been created for **building hybrid apps** with **Apache Cordova** by using **web technologies such as HTML, CSS and JavaScript**. Phonon gives an intuitive and amuzing way of building apps. For example, the app's workflow can be defined with page events. This framework is also an **UI framework** proposing many features that are generic, which means they don't differ from mobile platforms. On the other hand, you can define your style according to the platform, because Phonon adds the OS class in the body tag.
 The main JavaScript file called **phonon-core.js** is **only 23 kB**! This file is the minimal file for running Phonon with basic CSS only components. Then you can load each component that you need.
