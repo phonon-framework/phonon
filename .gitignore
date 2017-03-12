@@ -28,4 +28,4 @@ Thumbs.db
 # Npm
 node_modules
 dist
-npm-debug.lo
+*.log
