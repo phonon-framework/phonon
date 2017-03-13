@@ -1084,7 +1084,9 @@
 			throw new Error('The second argument must be a number, ' + typeof tabNumber + ' given');
 		}
 
+		window.setTimeout(function() {
 		updateIndicator(pageName, tabNumber);
+		}, 10);
 	};
 
   /**
