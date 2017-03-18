@@ -4201,13 +4201,13 @@ phonon.autocomplete = (function (Awesomplete) {
 		return text
 	}
 
-	var buildNotif = function(text, timeout, showButton, cancelButton) {
+	var buildNotif = function(text, timeout, showButton, textButton) {
 		if(typeof text !== 'string') text = ''
 		timeout = (typeof timeout === 'number' ? timeout : 5000)
-		cancelButton = (typeof cancelButton === 'string' ? cancelButton : 'CANCEL')
+		textButton = (typeof textButton === 'string' ? textButton : 'CANCEL')
 
 		var progress = '<div class="progress"><div class="determinate"></div></div>'
-		var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">' + cancelButton + '</button>' : '')
+		var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">' + textButton + '</button>' : '')
 
 		var div = document.createElement('div')
 		div.setAttribute('class', 'notification')
@@ -4321,11 +4321,11 @@ phonon.autocomplete = (function (Awesomplete) {
 		}
 	}
 
-	phonon.notif = function(el, timeout, showButton) {
+	phonon.notif = function(el, timeout, showButton, textButton) {
 
 		if(arguments.length > 1) {
 			// el is text
-			var generatedNotif = buildNotif(el, timeout, showButton);
+			var generatedNotif = buildNotif(el, timeout, showButton, textButton);
 			show(generatedNotif);
 			return {
 				element: generatedNotif,
@@ -7031,7 +7031,9 @@ phonon.autocomplete = (function (Awesomplete) {
 			throw new Error('The second argument must be a number, ' + typeof tabNumber + ' given');
 		}
 
+		window.setTimeout(function() {
 		updateIndicator(pageName, tabNumber);
+		}, 10);
 	};
 
   /**

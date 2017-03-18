@@ -38,7 +38,7 @@ input:invalid,
 }
 input::-webkit-input-placeholder {
   padding: 0;
-  font-size: 15px;
+  font-size: 14px;
   color: #999;
 }
 select:focus,
@@ -78,8 +78,12 @@ label {
 .radio {
   position: relative;
 }
-.checkbox span,
-.radio span {
+.checkbox .text,
+.radio .text {
+  border: none;
+}
+.checkbox span:not(.text),
+.radio span:not(.text) {
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   content: "";
@@ -91,8 +95,8 @@ label {
   height: 20px;
   border: 2px solid #ddd;
 }
-.checkbox :checked + span,
-.radio :checked + span {
+.checkbox :checked + span:not(.text),
+.radio :checked + span:not(.text) {
   -webkit-transform: rotate(-45deg);
       -ms-transform: rotate(-45deg);
           transform: rotate(-45deg);
@@ -121,7 +125,7 @@ label {
   line-height: 48px;
   height: auto;
   display: inline-block;
-  font-size: 15px;
+  font-size: 14px;
   color: #999;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
