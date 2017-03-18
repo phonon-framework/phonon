@@ -5,6 +5,7 @@
 * Fix bug where the text button in notifications is not shown  [#234](https://github.com/quark-dev/Phonon-Framework/issues/234)
 * Fix page dimensions and tabs [#231](https://github.com/quark-dev/Phonon-Framework/issues/231)
 * Fix text binding (i18n) with checkbox and radio inputs [#227](https://github.com/quark-dev/Phonon-Framework/issues/227)
+* Update [Form documentation](http://phonon.quarkdev.com/docs/forms)
 
 ### 1.4.1, 1.4.2 and 1.4.3 (2017-03-08)
 
