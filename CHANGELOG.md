@@ -1,3 +1,9 @@
+### 1.4.5 (2017-03-20)
+
+#### Features
+
+* Dist folder added in NPM package [#237](https://github.com/quark-dev/Phonon-Framework/issues/237)
+
 ### 1.4.4 (2017-03-18)
 
 #### Bug Fixes
