@@ -27,5 +27,4 @@ Thumbs.db
 
 # Npm
 node_modules
-dist
 *.log
