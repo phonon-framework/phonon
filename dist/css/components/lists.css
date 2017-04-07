@@ -47,7 +47,7 @@
   background-color: #f9f9f9;
 }
 .list li .accordion-active {
-  position: relative;
+  position: static;
   visibility: visible;
   -webkit-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
