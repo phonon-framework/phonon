@@ -357,6 +357,7 @@
       'Avant Browser',
       'Breach',
       'Camino',
+      'Electron',
       'Epiphany',
       'Fennec',
       'Flock',
@@ -376,6 +377,7 @@
       'Raven',
       'Rekonq',
       'RockMelt',
+      { 'label': 'Samsung Internet', 'pattern': 'SamsungBrowser' },
       'SeaMonkey',
       { 'label': 'Silk', 'pattern': '(?:Cloud9|Silk-Accelerated)' },
       'Sleipnir',
@@ -383,6 +385,7 @@
       { 'label': 'SRWare Iron', 'pattern': 'Iron' },
       'Sunrise',
       'Swiftfox',
+      'Waterfox',
       'WebPositive',
       'Opera Mini',
       { 'label': 'Opera Mini', 'pattern': 'OPiOS' },
@@ -405,6 +408,11 @@
       { 'label': 'Galaxy S2', 'pattern': 'GT-I9100' },
       { 'label': 'Galaxy S3', 'pattern': 'GT-I9300' },
       { 'label': 'Galaxy S4', 'pattern': 'GT-I9500' },
+      { 'label': 'Galaxy S5', 'pattern': 'SM-G900' },
+      { 'label': 'Galaxy S6', 'pattern': 'SM-G920' },
+      { 'label': 'Galaxy S6 Edge', 'pattern': 'SM-G925' },
+      { 'label': 'Galaxy S7', 'pattern': 'SM-G930' },
+      { 'label': 'Galaxy S7 Edge', 'pattern': 'SM-G935' },
       'Google TV',
       'Lumia',
       'iPad',
@@ -415,9 +423,8 @@
       'Nexus',
       'Nook',
       'PlayBook',
-      'PlayStation 3',
-      'PlayStation 4',
       'PlayStation Vita',
+      'PlayStation',
       'TouchPad',
       'Transformer',
       { 'label': 'Wii U', 'pattern': 'WiiU' },
@@ -444,7 +451,7 @@
       'Nintendo': { 'Wii U': 1,  'Wii': 1 },
       'Nokia': { 'Lumia': 1 },
       'Samsung': { 'Galaxy S': 1, 'Galaxy S2': 1, 'Galaxy S3': 1, 'Galaxy S4': 1 },
-      'Sony': { 'PlayStation 4': 1, 'PlayStation 3': 1, 'PlayStation Vita': 1 }
+      'Sony': { 'PlayStation': 1, 'PlayStation Vita': 1 }
     });
 
     /* Detectable operating systems (order is important). */
@@ -471,6 +478,7 @@
       'webOS ',
       'webOS',
       'Tablet OS',
+      'Tizen',
       'Linux',
       'Mac OS X',
       'Macintosh',
@@ -560,6 +568,7 @@
         var pattern = guess.pattern || qualify(guess);
         if (!result && (result =
               RegExp('\\b' + pattern + ' *\\d+[.\\w_]*', 'i').exec(ua) ||
+              RegExp('\\b' + pattern + ' *\\w+-[\\w]*', 'i').exec(ua) ||
               RegExp('\\b' + pattern + '(?:; *(?:[a-z]+[_-])?[a-z]+\\d+|[^ ();-]*)', 'i').exec(ua)
             )) {
           // Split by forward slash and append product version if needed.
@@ -679,10 +688,14 @@
         name = /[a-z]+(?: Hat)?/i.exec(/\bAndroid\b/.test(os) ? os : data) + ' Browser';
       }
     }
+    // Add Chrome version to description for Electron.
+    else if (name == 'Electron' && (data = (/\bChrome\/([\d.]+)\b/.exec(ua) || 0)[1])) {
+      description.push('Chromium ' + data);
+    }
     // Detect non-Opera (Presto-based) versions (order is important).
     if (!version) {
       version = getVersion([
-        '(?:Cloud9|CriOS|CrMo|Edge|FxiOS|IEMobile|Iron|Opera ?Mini|OPiOS|OPR|Raven|Silk(?!/[\\d.]+$))',
+        '(?:Cloud9|CriOS|CrMo|Edge|FxiOS|IEMobile|Iron|Opera ?Mini|OPiOS|OPR|Raven|SamsungBrowser|Silk(?!/[\\d.]+$))',
         'Version',
         qualify(name),
         '(?:Firefox|Minefield|NetFront)'
@@ -711,7 +724,7 @@
       description.unshift('desktop mode');
       version || (version = (/\brv:([\d.]+)/.exec(ua) || 0)[1]);
     }
-    // Detect IE 11.
+    // Detect IE 11 identifying as other browsers.
     else if (name != 'IE' && layout == 'Trident' && (data = /\brv:([\d.]+)/.exec(ua))) {
       if (name) {
         description.push('identifying as ' + name + (version ? ' ' + version : ''));
@@ -745,10 +758,23 @@
           typeof context.process == 'object' && !context.process.browser &&
           (data = context.process)
         ) {
-          name = 'Node.js';
-          arch = data.arch;
-          os = data.platform;
-          version = /[\d.]+/.exec(data.version)[0];
+          if (typeof data.versions == 'object') {
+            if (typeof data.versions.electron == 'string') {
+              description.push('Node ' + data.versions.node);
+              name = 'Electron';
+              version = data.versions.electron;
+            } else if (typeof data.versions.nw == 'string') {
+              description.push('Chromium ' + version, 'Node ' + data.versions.node);
+              name = 'NW.js';
+              version = data.versions.nw;
+            }
+          } else {
+            name = 'Node.js';
+            arch = data.arch;
+            os = data.platform;
+            version = /[\d.]+/.exec(data.version)
+            version = version ? version[0] : 'unknown';
+          }
         }
         else if (rhino) {
           name = 'Rhino';
@@ -776,6 +802,14 @@
         }
         version = name == 'IE' ? String(version[1].toFixed(1)) : version[0];
       }
+      // Detect IE 11 masking as other browsers.
+      else if (typeof doc.documentMode == 'number' && /^(?:Chrome|Firefox)\b/.test(name)) {
+        description.push('masking as ' + name + ' ' + version);
+        name = 'IE';
+        version = '11.0';
+        layout = ['Trident'];
+        os = 'Windows';
+      }
       os = os && format(os);
     }
     // Detect prerelease phases.
@@ -798,7 +832,9 @@
     }
     // Detect Xbox 360 and Xbox One.
     else if (/\bXbox\b/i.test(product)) {
-      os = null;
+      if (product == 'Xbox 360') {
+        os = null;
+      }
       if (product == 'Xbox 360' && /\bIEMobile\b/.test(ua)) {
         description.unshift('mobile mode');
       }
@@ -809,8 +845,14 @@
       name += ' Mobile';
     }
     // Detect IE platform preview.
-    else if (name == 'IE' && useFeatures && context.external === null) {
-      description.unshift('platform preview');
+    else if (name == 'IE' && useFeatures) {
+      try {
+        if (context.external === null) {
+          description.unshift('platform preview');
+        }
+      } catch(e) {
+        description.unshift('embedded');
+      }
     }
     // Detect BlackBerry OS version.
     // http://docs.blackberry.com/en/developers/deliverables/18169/HTTP_headers_sent_by_BB_Browser_1234911_11.jsp
@@ -932,7 +974,7 @@
     if (layout && !/\b(?:Avant|Nook)\b/.test(name) && (
         /Browser|Lunascape|Maxthon/.test(name) ||
         name != 'Safari' && /^iOS/.test(os) && /\bSafari\b/.test(layout[1]) ||
-        /^(?:Adobe|Arora|Breach|Midori|Opera|Phantom|Rekonq|Rock|Sleipnir|Web)/.test(name) && layout[1])) {
+        /^(?:Adobe|Arora|Breach|Midori|Opera|Phantom|Rekonq|Rock|Samsung Internet|Sleipnir|Web)/.test(name) && layout[1])) {
       // Don't add layout details to description if they are falsey.
       (data = layout[layout.length - 1]) && description.push(data);
     }
@@ -1006,6 +1048,9 @@
     /**
      * The name of the browser's layout engine.
      *
+     * The list of common layout engines include:
+     * "Blink", "EdgeHTML", "Gecko", "Trident" and "WebKit"
+     *
      * @memberOf platform
      * @type string|null
      */
@@ -1014,6 +1059,11 @@
     /**
      * The name of the product's manufacturer.
      *
+     * The list of manufacturers include:
+     * "Apple", "Archos", "Amazon", "Asus", "Barnes & Noble", "BlackBerry",
+     * "Google", "HP", "HTC", "LG", "Microsoft", "Motorola", "Nintendo",
+     * "Nokia", "Samsung" and "Sony"
+     *
      * @memberOf platform
      * @type string|null
      */
@@ -1021,6 +1071,14 @@
 
     /**
      * The name of the browser/environment.
+     *
+     * The list of common browser names include:
+     * "Chrome", "Electron", "Firefox", "Firefox for iOS", "IE",
+     * "Microsoft Edge", "PhantomJS", "Safari", "SeaMonkey", "Silk",
+     * "Opera Mini" and "Opera"
+     *
+     * Mobile versions of some browsers have "Mobile" appended to their name:
+     * eg. "Chrome Mobile", "Firefox Mobile", "IE Mobile" and "Opera Mobile"
      *
      * @memberOf platform
      * @type string|null
@@ -1037,6 +1095,11 @@
 
     /**
      * The name of the product hosting the browser.
+     *
+     * The list of common products include:
+     *
+     * "BlackBerry", "Galaxy S4", "Lumia", "iPad", "iPod", "iPhone", "Kindle",
+     * "Kindle Fire", "Nexus", "Nook", "PlayBook", "TouchPad" and "Transformer"
      *
      * @memberOf platform
      * @type string|null
