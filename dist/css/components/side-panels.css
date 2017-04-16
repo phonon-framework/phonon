@@ -52,3 +52,9 @@
   right: 0;
   z-index: 1;
 }
+.snapjs-left .side-panel-right {
+  display: none !important;
+}
+.snapjs-right .side-panel-left {
+  display: none !important;
+}
