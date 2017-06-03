@@ -1053,7 +1053,7 @@ i.icon {
 .list li .accordion-content {
   position: absolute;
   height: auto;
-  visibility: hidden;
+  display: none;
   -webkit-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
   padding: 0 16px;
@@ -1061,7 +1061,7 @@ i.icon {
 }
 .list li .accordion-active {
   position: static;
-  visibility: visible;
+  display: block;
   -webkit-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
 }
