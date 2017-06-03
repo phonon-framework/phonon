@@ -420,6 +420,7 @@ button {
 }
 .btn:not(.btn-progress):disabled {
   opacity: 0.75;
+  color: lightgray;
 }
 .btn-flat {
   background-color: transparent !important;
