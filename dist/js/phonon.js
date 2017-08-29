@@ -3113,8 +3113,7 @@ phonon.tagManager = (function () {
       if(currentPageObject.async) {
         callClose(currentPage, pageObject.name, hash);
       } else {
-        var parsed = window.location.hash.split('/');
-        if(parsed[0].indexOf(pageObject.name) === -1 && opts.useHash) {
+        if(window.location.hash.indexOf(hash) === -1 && opts.useHash) {
           window.location.hash = hash;
         }
       }
