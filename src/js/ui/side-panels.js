@@ -669,7 +669,9 @@
 				sb.el.style.visibility = 'hidden';
 
 			} else {
-
+				//Is this page drag disabled
+				var dragDisabled = sb.nodrag.indexOf(currentPage) >= 0;
+				
 				// #90: update the snapper according to the page
 				sb.snapper.settings( {element: pageEl} );
 
@@ -691,7 +693,7 @@
 				// On tablet, the sidebar is draggable only if it is not exposed on a side
 				if(!isPhone) {
 					if(!tabs && exposeAside !== 'left' && exposeAside !== 'right') {
-						sb.snapper.settings( {touchToDrag: true} );
+						sb.snapper.settings( {touchToDrag: !dragDisabled} );
 						sb.snapper.enable();
 					} else {
 						sb.snapper.settings( {touchToDrag: false} );
@@ -701,7 +703,7 @@
 
 				// On phone, the sidebar is draggable only if tabs are not present
 				if(!tabs && isPhone) {
-					sb.snapper.settings( {touchToDrag: true} );
+					sb.snapper.settings( {touchToDrag: !dragDisabled} );
 					sb.snapper.enable();
 				}
 			}
@@ -748,6 +750,7 @@
 			var el = spEls[i];
 			var disable = el.getAttribute('data-disable');
 			var pages = el.getAttribute('data-page');
+			var nodrags = el.getAttribute('data-nodrag');
 
 			var _pages = [];
 
@@ -766,6 +769,26 @@
 				_pages.push(_page)
 			}
 
+			//Determine the page to disable dragging
+			var _noDragPages = [];
+			var noDragPage = nodrags.split(',');
+			var j = 0;
+			var l = noDragPage.length;
+
+			for (; j < l; j++) {
+				var _page = noDragPage[j].trim();
+				if(j == 0){
+					var pageEl = document.querySelector(_page);
+					if (!pageEl) {
+						console.error('SidePanel issue: The page: ' + _page + ' does not exist. Please see data-page attribute.');
+					} else if(_pages.indexOf( _page ) === -1) {//If the page is not panelled
+						//Is the panel active for the page
+						console.error('SidePanel issue: The page: ' + _page + ' is not panel enabled. Please see data-page attribute.');
+					}
+				}
+				_noDragPages.push( _page )
+			}			
+			
 			// Options
 			var options = {
 				element: pageEl,
@@ -777,7 +800,7 @@
 			};
 
 			var snapper = new Snap(options);
-			sidePanels.push({snapper: snapper, el: el, pages: _pages, direction: (el.classList.contains('side-panel-left') ? 'left' : 'right')});
+			sidePanels.push({snapper: snapper, el: el, pages: _pages, nodrag : _noDragPages, direction: (el.classList.contains('side-panel-left') ? 'left' : 'right')});
 		}
 	});
 
