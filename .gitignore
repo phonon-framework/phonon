@@ -28,3 +28,6 @@ Thumbs.db
 # Npm
 node_modules
 *.log
+
+# Yarn
+yarn.lock
