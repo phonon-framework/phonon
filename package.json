@@ -14,17 +14,18 @@
   "homepage": "https://github.com/quark-dev/Phonon-Framework",
   "main": "dist/js/phonon.js",
   "dependencies": {
-    "platform": "^1.3.3",
-    "awesomplete": "^1.1.1"
+    "awesomplete": "^1.1.1",
+    "platform": "^1.3.3"
   },
   "devDependencies": {
-    "gulp": "^3.9.x",
-    "gulp-concat": "^2.6.x",
-    "gulp-cssnano": "^2.1.x",
-    "gulp-rename": "^1.2.x",
-    "gulp-stylus": "^2.5.x",
-    "gulp-uglify": "^1.5.x",
-    "gulp-postcss": "^6.1.x",
-    "autoprefixer": "^6.3.x"
+    "autoprefixer": "^7.1.5",
+    "eslint": "^4.9.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-postcss": "^7.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-stylus": "^2.6.0",
+    "gulp-uglify": "^3.0.0"
   }
 }
