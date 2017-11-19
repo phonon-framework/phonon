@@ -3,10 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 
-Vue.config.ignoredElements = ['home', 'page-two']
-
-require('phonon/dist/css/phonon.min.css')
-require('phonon/dist/js/phonon.js')
+Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({

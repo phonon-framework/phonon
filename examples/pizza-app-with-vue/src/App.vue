@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <home :app="app"></home>
-    <page-two :app="app"></page-two>
+    <home :app="app" />
+    <page-two :app="app" />
   </div>
 </template>
 
 <script>
+import 'phonon/dist/css/phonon.css'
+
+import phonon from 'phonon/dist/js/phonon-core'
 import Home from './components/Home.vue'
 import PageTwo from './components/PageTwo.vue'
 
@@ -16,24 +19,18 @@ export default {
       app: phonon.navigator()
     }
   },
-
   mounted () {
-    this.$nextTick(() => {
-      phonon.options({
-        navigator: {
-          defaultPage: 'home',
-          animatePages: true,
-          enableBrowserBackButton: true
-        },
-        i18n: null // for this example, we do not use internationalization
-      })
-
-      window.setTimeout(() => {
-        this.app.start()
-      }, 500)
+    phonon.options({
+      navigator: {
+        defaultPage: 'home',
+        animatePages: true,
+        enableBrowserBackButton: true
+      },
+      i18n: null // for this example, we do not use internationalization
     })
-  },
 
+    this.app.start()
+  },
   components: {
     Home,
     PageTwo

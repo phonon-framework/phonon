@@ -1,5 +1,5 @@
 <template>
-  <page-two data-page="true">
+  <div data-page="true" :data-alias="$options.name">
     <header class="header-bar">
       <div class="left">
         <button class="btn pull-left icon icon-arrow-back" data-navigation="$previous-page"></button>
@@ -18,13 +18,15 @@
         <button class="btn btn-flat primary order" data-order="order" v-tap="onAction">Order</button>
       </div>
     </div>
-  </page-two>
+  </div>
 </template>
 
 <script>
 import Vue from 'vue'
+// in this component, we use dialogs
+import phonon from 'phonon/dist/js/components/dialogs'
 
-// Directive to use tap events with VueJS
+// directive to use tap events with VueJS
 Vue.directive('tap', {
   isFn: true, // important!
   bind: function (el, bindings) {
@@ -33,7 +35,7 @@ Vue.directive('tap', {
 })
 
 export default {
-  name: 'PhononPageTwo',
+  name: 'page-two',
   props: {
     app: {
       type: Object,
@@ -64,7 +66,7 @@ export default {
       if (this.action !== null) {
         self.close()
       } else {
-        phonon.alert('Before leaving this page, you must perform an action.', 'Action required')
+        phonon().alert('Before leaving this page, you must perform an action.', 'Action required')
       }
     },
 
@@ -80,9 +82,9 @@ export default {
       this.action = 'user-action'
 
       if (event.target.getAttribute('data-order') === 'order') {
-        phonon.alert('Thank you for your order!', 'Dear customer')
+        phonon().alert('Thank you for your order!', 'Dear customer')
       } else {
-        phonon.alert('Your order has been canceled.', 'Dear customer')
+        phonon().alert('Your order has been canceled.', 'Dear customer')
       }
     }
   }

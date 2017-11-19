@@ -1,5 +1,5 @@
 <template>
-  <home data-page="true">
+  <div data-page="true" :data-alias="$options.name">
     <header class="header-bar">
       <div class="center">
         <h1 class="title">Phonon + Vue</h1>
@@ -18,12 +18,12 @@
       </ul>
 
     </div>
-  </home>
+  </div>
 </template>
 
 <script>
   export default {
-    name: 'PhononHomePage',
+    name: 'home',
     props: {
       app: {
         type: Object,
