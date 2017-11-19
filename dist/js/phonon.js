@@ -4084,7 +4084,7 @@ phonon.autocomplete = (function (Awesomplete) {
  * ========================================================================
  * Licensed under MIT (http://phonon.quarkdev.com)
  * ======================================================================== */
-;(function (window) {
+;(function (window, phonon) {
 
 	'use strict';
 
@@ -4109,6 +4109,16 @@ phonon.autocomplete = (function (Awesomplete) {
 		}
 	}
 
+	function update(input) {
+		addListener(input);
+
+		/*
+			* Do this once at start also, otherwise pre-populated inputs
+			* will have labels directly overlapping on top of the input value on page load.
+			*/
+		isInputFilled(input);
+	}
+
 	/*
 	 * Attachs events once
 	 */
@@ -4116,13 +4126,7 @@ phonon.autocomplete = (function (Awesomplete) {
 		var page = document.querySelector(evt.detail.page);
 		var inputs = page.querySelectorAll('input.with-label'), i = inputs.length - 1;
 		for (; i >= 0; i--) {
-			addListener(inputs[i]);
-
-			/*
-			 * Do this once at start also, otherwise pre-populated inputs
-			 * will have labels directly overlapping on top of the input value on page load.
-			*/
-			isInputFilled(inputs[i]);
+			update(inputs[i]);
 		}
 	});
 
@@ -4137,7 +4141,19 @@ phonon.autocomplete = (function (Awesomplete) {
 		}
 	});
 
-}(typeof window !== 'undefined' ? window : this));
+	phonon.forms = {
+		update: update
+	};
+
+	window.phonon = phonon;
+	
+	if(typeof exports === 'object') {
+		module.exports = phonon.popover;
+	} else if(typeof define === 'function' && define.amd) {
+		define(function() { return phonon.popover });
+	}
+
+}(typeof window !== 'undefined' ? window : this, window.phonon || {}));
 
 /* ========================================================================
 * Phonon: notifications.js v0.0.2
