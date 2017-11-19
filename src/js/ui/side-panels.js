@@ -771,7 +771,11 @@
 
 			//Determine the page to disable dragging
 			var _noDragPages = [];
-			var noDragPage = nodrags.split(',');
+			var noDragPage = []
+			if(nodrags) {
+				noDragPage = nodrags.split(',');
+			}
+
 			var j = 0;
 			var l = noDragPage.length;
 
