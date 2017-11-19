@@ -154,13 +154,13 @@
    * @param {String} pageName
    */
   var getPageEl = function(pageName) {
-
     var pages = document.querySelectorAll('[data-page]');
     var i = pages.length - 1;
     var elPage = null;
 
     for (; i >= 0; i--) {
-      if(pages[i].tagName.toLowerCase() === pageName) {
+      var pageAlias = pages[i].getAttribute('data-alias')
+      if(pages[i].tagName.toLowerCase() === pageName || pageAlias === pageName) {
         elPage = pages[i];
         break;
       }
