@@ -8,7 +8,8 @@
 .awesomplete > ul {
   position: absolute;
   z-index: 1;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   list-style: none;
   padding: 0;
   margin: 0 auto;
@@ -39,5 +40,6 @@
           transform: scale(0);
   display: block;
   -webkit-transition-timing-function: ease;
+       -o-transition-timing-function: ease;
           transition-timing-function: ease;
 }

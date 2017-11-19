@@ -85,6 +85,7 @@ label {
 .checkbox span:not(.text),
 .radio span:not(.text) {
   -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   content: "";
   position: absolute;
@@ -132,6 +133,7 @@ label {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   -webkit-transition: all 200ms;
+  -o-transition: all 200ms;
   transition: all 200ms;
 }
 .with-label:focus + .floating-label,

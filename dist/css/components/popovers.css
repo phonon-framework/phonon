@@ -18,14 +18,17 @@
   background-color: #fff;
   border-radius: 2px;
   visibility: hidden;
-  box-shadow: 0 0 4px #8a8a8a;
+  -webkit-box-shadow: 0 0 4px #8a8a8a;
+          box-shadow: 0 0 4px #8a8a8a;
   -webkit-transition: opacity 0.2s linear;
+  -o-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 .popover.active {
   visibility: visible;
   opacity: 1;
   -webkit-transition: opacity 0.2s linear;
+  -o-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 .popover .list {

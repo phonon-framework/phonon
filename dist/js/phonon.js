@@ -1854,7 +1854,8 @@ phonon.tagManager = (function () {
         localeFallback: null,
         localePreferred: window.navigator.userLanguage || window.navigator.language,
         directory: './',
-        initCalled: false
+        initCalled: false,
+        loadJson: true
     };
 
     /**
@@ -1973,6 +1974,10 @@ phonon.tagManager = (function () {
             opts[prop] = options[prop];
         }
 
+		if(typeof options.use !== 'undefined') {
+            opts.loadJson = false
+        }
+
         opts.initCalled = true;
     }
     api.init = init;
@@ -1991,47 +1996,53 @@ phonon.tagManager = (function () {
 
         var locale = opts.localePreferred ? opts.localePreferred : opts.localeFallback;
 
-        if (typeof langCache != 'undefined') {
-          // FIX iOS. User provides a langCache Array
-          if (!(locale in langCache)) {
-              console.log('The language [' + locale + '] is not available, loading ' + opts.localeFallback);
-              locale = opts.localeFallback;
-          }
-          jsonCache = langCache[locale];
-        }
-
-        if(jsonCache !== null) {
-            callback(jsonCache);
-            return;
-        }
-
-        var xhr = new XMLHttpRequest();
-
-        xhr.open('GET', opts.directory + locale + '.json', true);
-        if(xhr.overrideMimeType) xhr.overrideMimeType('application/json; charset=utf-8');
-
-        xhr.onreadystatechange = function () {
-            if(xhr.readyState === 4 && (xhr.status === 200 || !xhr.status && xhr.responseText.length)) {
-                jsonCache = JSON.parse(xhr.responseText);
-                callback(JSON.parse(xhr.responseText));
-            } else if(xhr.readyState === 4 && !(xhr.status === 200 || !xhr.status && xhr.responseText.length)) {
-                if(opts.localePreferred) {
-
-                    // The preferred locale is not available
-                    opts.localePreferred = null;
-
-                    console.log('The language [' + locale + '] is not available, loading ' + opts.localeFallback);
-
-                    getAll(function (json) {
-                        jsonCache = json;
-                        callback(json);
-                    });
-                } else {
-                    throw new Error('The default locale ['+opts.directory+opts.localeFallback+'.json] file is not found');
-                }
+        if(opts.loadJson) {
+            // JSON
+            if(jsonCache !== null) {
+                callback(jsonCache);
+                return;
             }
-        };
-        xhr.send('');
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', opts.directory + locale + '.json', true);
+            if(xhr.overrideMimeType) xhr.overrideMimeType('application/json; charset=utf-8');
+
+            var fallback = function() {
+                // The preferred locale is not available
+                opts.localePreferred = null;
+                getAll(function (json) {
+                    jsonCache = json;
+                    callback(json);
+                });
+            };
+
+            xhr.onreadystatechange = function () {
+                if(xhr.readyState === 4 && (xhr.status === 200 || !xhr.status && xhr.responseText.length)) {
+                    try {
+                        var json = JSON.parse(xhr.responseText)
+                        jsonCache = json
+                        callback(jsonCache);                        
+                    } catch (e) {
+                        fallback();
+                    }
+                } else if(xhr.readyState === 4 && !(xhr.status === 200 || !xhr.status && xhr.responseText.length)) {
+                    if(opts.localePreferred) {
+                        fallback();
+                    } else {
+                        throw new Error('The default locale [' + opts.directory + opts.localeFallback + '.json] file is not found');
+                    }
+                }
+            };
+            xhr.send('');
+        } else {
+            // Array
+            var data = opts.use[locale];
+            if(typeof data === 'undefined') {
+                data = opts.use[opts.localeFallback];
+            }
+            callback(data);
+        }
     }
     api.getAll = getAll;
 
@@ -2047,7 +2058,7 @@ phonon.tagManager = (function () {
 
         var isArray = (key instanceof Array ? true : false);
 
-        if(jsonCache !== null) {
+        if(opts.loadJson && jsonCache !== null) {
             if(!isArray) {
                 callback(jsonCache[key]);
             } else {
@@ -2066,9 +2077,7 @@ phonon.tagManager = (function () {
             if(!isArray) {
                 callback(json[key]);
             } else {
-
                 var l = key.length, i = l - 1, obj = {};
-
                 for (; i >= 0; i--) {
                     obj[key[i]] = json[key[i]];
                 }
@@ -2339,13 +2348,13 @@ phonon.tagManager = (function () {
    * @param {String} pageName
    */
   var getPageEl = function(pageName) {
-
     var pages = document.querySelectorAll('[data-page]');
     var i = pages.length - 1;
     var elPage = null;
 
     for (; i >= 0; i--) {
-      if(pages[i].tagName.toLowerCase() === pageName) {
+      var pageAlias = pages[i].getAttribute('data-alias')
+      if(pages[i].tagName.toLowerCase() === pageName || pageAlias === pageName) {
         elPage = pages[i];
         break;
       }
@@ -3371,7 +3380,7 @@ phonon.tagManager = (function () {
 	 */
 	function show(defaultTarget, accordionContent) {
 
-    accordionContent.style.display="block";
+	    accordionContent.style.display="block";
 		var height = accordionContent.offsetHeight;
 		accordionContent.style.maxHeight = '0px';
 
@@ -3407,7 +3416,7 @@ phonon.tagManager = (function () {
 
 		var onHide = function() {
 
-      accordionContent.style.display="none";
+		    accordionContent.style.display="none";
 			accordionContent.classList.remove('accordion-active');
 			accordionContent.style.maxHeight = 'none';
 
@@ -5760,7 +5769,9 @@ phonon.autocomplete = (function (Awesomplete) {
 				sb.el.style.visibility = 'hidden';
 
 			} else {
-
+				//Is this page drag disabled
+				var dragDisabled = sb.nodrag.indexOf(currentPage) >= 0;
+				
 				// #90: update the snapper according to the page
 				sb.snapper.settings( {element: pageEl} );
 
@@ -5782,7 +5793,7 @@ phonon.autocomplete = (function (Awesomplete) {
 				// On tablet, the sidebar is draggable only if it is not exposed on a side
 				if(!isPhone) {
 					if(!tabs && exposeAside !== 'left' && exposeAside !== 'right') {
-						sb.snapper.settings( {touchToDrag: true} );
+						sb.snapper.settings( {touchToDrag: !dragDisabled} );
 						sb.snapper.enable();
 					} else {
 						sb.snapper.settings( {touchToDrag: false} );
@@ -5792,7 +5803,7 @@ phonon.autocomplete = (function (Awesomplete) {
 
 				// On phone, the sidebar is draggable only if tabs are not present
 				if(!tabs && isPhone) {
-					sb.snapper.settings( {touchToDrag: true} );
+					sb.snapper.settings( {touchToDrag: !dragDisabled} );
 					sb.snapper.enable();
 				}
 			}
@@ -5839,6 +5850,7 @@ phonon.autocomplete = (function (Awesomplete) {
 			var el = spEls[i];
 			var disable = el.getAttribute('data-disable');
 			var pages = el.getAttribute('data-page');
+			var nodrags = el.getAttribute('data-nodrag');
 
 			var _pages = [];
 
@@ -5857,6 +5869,30 @@ phonon.autocomplete = (function (Awesomplete) {
 				_pages.push(_page)
 			}
 
+			//Determine the page to disable dragging
+			var _noDragPages = [];
+			var noDragPage = []
+			if(nodrags) {
+				noDragPage = nodrags.split(',');
+			}
+
+			var j = 0;
+			var l = noDragPage.length;
+
+			for (; j < l; j++) {
+				var _page = noDragPage[j].trim();
+				if(j == 0){
+					var pageEl = document.querySelector(_page);
+					if (!pageEl) {
+						console.error('SidePanel issue: The page: ' + _page + ' does not exist. Please see data-page attribute.');
+					} else if(_pages.indexOf( _page ) === -1) {//If the page is not panelled
+						//Is the panel active for the page
+						console.error('SidePanel issue: The page: ' + _page + ' is not panel enabled. Please see data-page attribute.');
+					}
+				}
+				_noDragPages.push( _page )
+			}			
+			
 			// Options
 			var options = {
 				element: pageEl,
@@ -5868,7 +5904,7 @@ phonon.autocomplete = (function (Awesomplete) {
 			};
 
 			var snapper = new Snap(options);
-			sidePanels.push({snapper: snapper, el: el, pages: _pages, direction: (el.classList.contains('side-panel-left') ? 'left' : 'right')});
+			sidePanels.push({snapper: snapper, el: el, pages: _pages, nodrag : _noDragPages, direction: (el.classList.contains('side-panel-left') ? 'left' : 'right')});
 		}
 	});
 

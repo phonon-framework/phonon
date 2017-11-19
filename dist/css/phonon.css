@@ -75,7 +75,8 @@ figure {
   margin: 1em 40px;
 }
 hr {
-  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
   height: 0;
 }
 pre {
@@ -118,7 +119,8 @@ input {
 }
 input[type="checkbox"],
 input[type="radio"] {
-  box-sizing: border-box; /* 1 */
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; /* 1 */
   padding: 0; /* 2 */
 }
 input[type="number"]::-webkit-inner-spin-button,
@@ -127,7 +129,8 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 input[type="search"] {
   -webkit-appearance: textfield; /* 1 */
-  box-sizing: content-box; /* 2 */
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box; /* 2 */
 }
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
@@ -159,7 +162,8 @@ th {
 *,
 *:before,
 *:after {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 html,
 body {
@@ -410,6 +414,7 @@ button {
   border-radius: 3px;
   background-color: #f1f1f1;
   -webkit-transition: background-color 250ms ease-in-out;
+  -o-transition: background-color 250ms ease-in-out;
   transition: background-color 250ms ease-in-out;
 }
 .btn .icon {
@@ -420,7 +425,7 @@ button {
 }
 .btn:not(.btn-progress):disabled {
   opacity: 0.75;
-  color: lightgray;
+  color: #d3d3d3;
 }
 .btn-flat {
   background-color: transparent !important;
@@ -432,7 +437,8 @@ button {
   position: fixed;
   padding: 16px;
   border-radius: 50%;
-  box-shadow: 0 2px 3px #8a8a8a;
+  -webkit-box-shadow: 0 2px 3px #8a8a8a;
+          box-shadow: 0 2px 3px #8a8a8a;
   z-index: 30;
   color: #fff;
   opacity: 0.5;
@@ -744,7 +750,8 @@ button {
   height: 50px;
   line-height: 50px;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
   overflow: hidden;
   color: #0084e7;
   text-align: center;
@@ -762,6 +769,15 @@ button {
   text-align: center;
   padding: 0;
   margin: 0;
+}
+.tabs .tab-items .icon-text {
+  line-height: 75px;
+  white-space: normal;
+  display: inline-grid;
+}
+.tabs .tab-items .icon-text .icon {
+  width: auto;
+  height: 0;
 }
 .tabs .tab-indicator {
   width: 50%;
@@ -1032,6 +1048,7 @@ i.icon {
   display: block;
   color: #000;
   -webkit-transition: background-color 250ms ease-in-out;
+  -o-transition: background-color 250ms ease-in-out;
   transition: background-color 250ms ease-in-out;
 }
 .list li a:active {
@@ -1056,6 +1073,7 @@ i.icon {
   height: auto;
   display: none;
   -webkit-transition: max-height 300ms ease-in-out;
+  -o-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
   padding: 0 16px;
   background-color: #f9f9f9;
@@ -1064,6 +1082,7 @@ i.icon {
   position: static;
   display: block;
   -webkit-transition: max-height 300ms ease-in-out;
+  -o-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
 }
 .list li .title,
@@ -1182,6 +1201,7 @@ label {
 .checkbox span:not(.text),
 .radio span:not(.text) {
   -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   content: "";
   position: absolute;
@@ -1229,6 +1249,7 @@ label {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   -webkit-transition: all 200ms;
+  -o-transition: all 200ms;
   transition: all 200ms;
 }
 .with-label:focus + .floating-label,
@@ -1294,6 +1315,7 @@ table,
 .backdrop-dialog.fadeout {
   opacity: 0;
   -webkit-transition: opacity 0.45s linear;
+  -o-transition: opacity 0.45s linear;
   transition: opacity 0.45s linear;
 }
 .dialog {
@@ -1308,12 +1330,14 @@ table,
   margin: 0 auto;
   z-index: 28;
   border-radius: 2px;
-  box-shadow: 0 2px 4px #8a8a8a;
+  -webkit-box-shadow: 0 2px 4px #8a8a8a;
+          box-shadow: 0 2px 4px #8a8a8a;
   background-color: #fff;
   -webkit-transform: translate3d(0, 0, 0) scale(1.185);
           transform: translate3d(0, 0, 0) scale(1.185);
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
+  -o-transition: transform 0.3s, opacity 0.3s;
   transition: transform 0.3s, opacity 0.3s;
   transition: transform 0.3s, opacity 0.3s, -webkit-transform 0.3s;
 }
@@ -1390,6 +1414,7 @@ table,
           transform: translate3d(0, 72px, 0);
   -webkit-transition: opacity 200ms, -webkit-transform 0.3s;
   transition: opacity 200ms, -webkit-transform 0.3s;
+  -o-transition: transform 0.3s, opacity 200ms;
   transition: transform 0.3s, opacity 200ms;
   transition: transform 0.3s, opacity 200ms, -webkit-transform 0.3s;
 }
@@ -1427,6 +1452,7 @@ table,
 .backdrop-panel.fadeout {
   background-color: transparent;
   -webkit-transition: background-color 450ms ease-in-out;
+  -o-transition: background-color 450ms ease-in-out;
   transition: background-color 450ms ease-in-out;
 }
 .panel,
@@ -1449,6 +1475,7 @@ table,
           transform: translate3d(0, 100%, 0);
   -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
+  -o-transition: transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
@@ -1482,6 +1509,7 @@ table,
           transform: translate3d(0, 0, 0);
   -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
+  -o-transition: transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
@@ -1490,12 +1518,14 @@ table,
           transform: translate3d(0, 50%, 0);
   -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
+  -o-transition: transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
 .panel-closing {
   -webkit-transition: -webkit-transform 300ms !important;
   transition: -webkit-transform 300ms !important;
+  -o-transition: transform 300ms !important;
   transition: transform 300ms !important;
   transition: transform 300ms, -webkit-transform 300ms !important;
 }
@@ -1519,14 +1549,17 @@ table,
   background-color: #fff;
   border-radius: 2px;
   visibility: hidden;
-  box-shadow: 0 0 4px #8a8a8a;
+  -webkit-box-shadow: 0 0 4px #8a8a8a;
+          box-shadow: 0 0 4px #8a8a8a;
   -webkit-transition: opacity 0.2s linear;
+  -o-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 .popover.active {
   visibility: visible;
   opacity: 1;
   -webkit-transition: opacity 0.2s linear;
+  -o-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 .popover .list {
@@ -1550,6 +1583,7 @@ table,
   z-index: 20;
   opacity: 0;
   -webkit-transition: opacity 0.65s ease;
+  -o-transition: opacity 0.65s ease;
   transition: opacity 0.65s ease;
   background-color: #fff;
   border-radius: 50%;
@@ -1618,6 +1652,7 @@ table,
   bottom: 0;
   background-color: #0084e7;
   -webkit-transition: width 0.2s linear;
+  -o-transition: width 0.2s linear;
   transition: width 0.2s linear;
 }
 .progress.primary .determinate {
@@ -1662,6 +1697,7 @@ table,
   -webkit-overflow-scrolling: touch;
   background-color: #333;
   -webkit-transition: width 0.3s ease;
+  -o-transition: width 0.3s ease;
   transition: width 0.3s ease;
 }
 .side-panel .list {
@@ -1719,7 +1755,8 @@ table,
 .awesomplete > ul {
   position: absolute;
   z-index: 1;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   list-style: none;
   padding: 0;
   margin: 0 auto;
@@ -1750,5 +1787,6 @@ table,
           transform: scale(0);
   display: block;
   -webkit-transition-timing-function: ease;
+       -o-transition-timing-function: ease;
           transition-timing-function: ease;
 }

@@ -20,6 +20,7 @@
           transform: translate3d(0, 72px, 0);
   -webkit-transition: opacity 200ms, -webkit-transform 0.3s;
   transition: opacity 200ms, -webkit-transform 0.3s;
+  -o-transition: transform 0.3s, opacity 200ms;
   transition: transform 0.3s, opacity 200ms;
   transition: transform 0.3s, opacity 200ms, -webkit-transform 0.3s;
 }

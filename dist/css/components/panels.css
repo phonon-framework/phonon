@@ -10,6 +10,7 @@
 .backdrop-panel.fadeout {
   background-color: transparent;
   -webkit-transition: background-color 450ms ease-in-out;
+  -o-transition: background-color 450ms ease-in-out;
   transition: background-color 450ms ease-in-out;
 }
 .panel,
@@ -32,6 +33,7 @@
           transform: translate3d(0, 100%, 0);
   -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
+  -o-transition: transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
@@ -65,6 +67,7 @@
           transform: translate3d(0, 0, 0);
   -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
+  -o-transition: transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
@@ -73,12 +76,14 @@
           transform: translate3d(0, 50%, 0);
   -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
+  -o-transition: transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
 .panel-closing {
   -webkit-transition: -webkit-transform 300ms !important;
   transition: -webkit-transform 300ms !important;
+  -o-transition: transform 300ms !important;
   transition: transform 300ms !important;
   transition: transform 300ms, -webkit-transform 300ms !important;
 }

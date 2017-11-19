@@ -16,7 +16,6 @@
 	function show(defaultTarget, accordionContent) {
 
 	    accordionContent.style.display="block";
-
 		var height = accordionContent.offsetHeight;
 		accordionContent.style.maxHeight = '0px';
 
@@ -52,7 +51,7 @@
 
 		var onHide = function() {
 
-			accordionContent.style.display="none";
+		    accordionContent.style.display="none";
 			accordionContent.classList.remove('accordion-active');
 			accordionContent.style.maxHeight = 'none';
 

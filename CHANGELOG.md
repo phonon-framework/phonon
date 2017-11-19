@@ -1,3 +1,18 @@
+### 1.4.6 (2017-11-19)
+
+#### Features
+
+* Added the ability to disable dragging on a page by page basis [#268](https://github.com/quark-dev/Phonon-Framework/pull/268)
+* Updated Angular2 example
+* Updated Vue2 example
+
+#### Bug Fixes
+
+* Fix i18n cache and parse [#267](https://github.com/quark-dev/Phonon-Framework/issues/267)
+* Demo can not be shown on chrome mobile [#264](https://github.com/quark-dev/Phonon-Framework/issues/264)
+* Update npm dependency [#261](Update npm dependency)
+* Fix example with VueJS v2
+
 ### 1.4.5 (2017-03-20)
 
 #### Features

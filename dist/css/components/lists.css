@@ -18,6 +18,7 @@
   display: block;
   color: #000;
   -webkit-transition: background-color 250ms ease-in-out;
+  -o-transition: background-color 250ms ease-in-out;
   transition: background-color 250ms ease-in-out;
 }
 .list li a:active {
@@ -42,6 +43,7 @@
   height: auto;
   display: none;
   -webkit-transition: max-height 300ms ease-in-out;
+  -o-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
   padding: 0 16px;
   background-color: #f9f9f9;
@@ -50,6 +52,7 @@
   position: static;
   display: block;
   -webkit-transition: max-height 300ms ease-in-out;
+  -o-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
 }
 .list li .title,

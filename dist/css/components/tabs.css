@@ -43,7 +43,8 @@
   height: 50px;
   line-height: 50px;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
   overflow: hidden;
   color: #0084e7;
   text-align: center;
@@ -61,6 +62,15 @@
   text-align: center;
   padding: 0;
   margin: 0;
+}
+.tabs .tab-items .icon-text {
+  line-height: 75px;
+  white-space: normal;
+  display: inline-grid;
+}
+.tabs .tab-items .icon-text .icon {
+  width: auto;
+  height: 0;
 }
 .tabs .tab-indicator {
   width: 50%;
