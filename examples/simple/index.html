@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../dist/css/phonon.css">
+
+  </head>
+  <body>
+
+    <!--
+    <div class="alert" data-cancelable="false" id="custom-alert">
+      <div class="alert-dialog" role="document">
+        <div class="alert-content">
+          <div class="alert-header">
+            <h5 class="alert-title">Alert title</h5>
+          </div>
+          <div class="alert-body">
+            <p>Alert body text goes here.</p>
+          </div>
+          <div class="alert-footer">
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-outline-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>You have 2 messages in your inbox
+    </div>
+  -->
+<!--
+    <div class="notification">
+      <div class="notification-inner">
+        <div class="message">You have 2 messages in your inbox</div>
+        <button class="btn">X</button>
+      </div>
+    </div>
+  -->
+
+    <!-- SPA: first page -->
+    <div class="app-page" data-page="one">
+      <nav class="navbar navbar-toggleable-md navbar-light bg-primary">
+        <a class="navbar-brand text-white" id="test" href="#" data-i18n="text: welcome">Phonon</a>
+
+        <div class="dropdown navbar-toggler-right">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Icon
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <button class="dropdown-item" type="button">Action</button>
+            <button class="dropdown-item" type="button">Another action</button>
+            <button class="dropdown-item" type="button">Something else here</button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="p-3">
+        <h1 class="unselectable">Page1</h1>
+        <h2 data-i18n="text: welcome"></h2>
+        
+        <button class="btn btn-primary" data-navigate="two" data-pop-page=true>Go to page2 (button)</button>
+        <a href="#!/two/a/b/c">Go to page2 (link)</a>
+
+        <p>Test params</p>
+        <a href="#!/one/a">Test 1</a>
+        <a href="#!/one/a/b">Test 2</a>
+        <a href="#!/one/a/b/c">Test 3</a>
+
+        <p>Test i18n</p>
+        <p data-i18n="text: welcome">?</p>
+        <input type="text" class="form-control" data-i18n="value: welcome" value="?">
+        <input type="text" class="form-control" data-i18n="data-test: welcome, placeholder: welcome">
+      </div>
+    </div>
+
+    <!-- SPA: second page -->
+    <div class="app-page" data-page="two">
+      <div class="px-3 py-3">
+        <h1>Page2</h1>
+
+        <button class="btn btn-primary" data-navigate="$back">Go to page1</button>
+
+        <div class="px-3 py-3 bg-faded" data-push-template></div>
+      </div>
+    </div>
+
+    <script src="../dist/js/phonon.js"></script>
+    <script>
+
+      // First of all: config
+      const pager = phonon.pager({
+        hashPrefix: '#!',
+        useHash: true,
+        defaultPage: 'one',
+        animatePages: false,
+      })
+
+      pager.select('*').addEvents({
+        show: function () {
+          console.log('test global show')
+        }
+      })
+
+      pager.select('one').addEvents({
+        show: function () {
+          console.log('test local show')
+        },
+        shown: function () {
+          console.log('test local shown')
+        },
+        hide: function () {
+          console.log('test local hide')
+        },
+        hidden: function () {
+          console.log('test local hidden')
+        },
+        hash: function () {
+          console.log('test local hash')
+        }
+      })
+      
+      // i18n
+      phonon.intl('en', {
+        en: {
+          welcome: 'Hello (default)'
+        },
+        'en_US': {
+          welcome: 'Hello US'
+        },
+        fr: {
+          welcome: 'Bonjour'
+        }
+      }).bind()
+
+      // Start the app
+      pager.start()
+
+      window.addEventListener('online.ph.network', function (event) {
+        console.log('online')
+        console.log(event.detail.date)
+      })
+
+      window.addEventListener('offline.ph.network', function (event) {
+        console.log('offline')
+        console.log(event.detail.date)
+      })
+
+      phonon.notification(null, 'Hello', true, 2000, 'danger').build().show()
+    </script>
+  </body>
+</html>

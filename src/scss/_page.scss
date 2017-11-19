@@ -1,0 +1,55 @@
+.app-page {
+  display: none;
+  transform: translate3d(0, 0, 0);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  backface-visibility: hidden;
+
+  &.current,
+  &.animate {
+    display: block;
+  }
+
+  &.animate {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 2;
+
+    &.push-page {
+      animation: leftTransition 300ms ease-out;
+    }
+
+    &.pop-page {
+      animation: rightTransition 300ms ease-out;
+    }
+  }
+}
+
+@keyframes leftTransition {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(-50%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes rightTransition {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(50%, 0, 0);
+    opacity: 0;
+  }
+}

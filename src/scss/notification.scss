@@ -1,0 +1,49 @@
+.notification {
+  position: fixed;
+  width: 100%;
+  height: auto;
+  z-index: 99999;
+  color: #fff;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+
+  .notification-inner {
+    position: relative;
+    padding: $spacer;
+
+    .message {
+      display: inline-block;
+      margin-right: $spacer * 2;
+    }
+
+    .btn {
+      top: 0;
+      right: 0;
+      position: absolute;
+      height: 100%;
+      background-color: transparent;
+      color: white;
+    }
+  }
+
+  &.show {
+    opacity: 1;
+  }
+
+  &.hide {
+    opacity: 0;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .notification {
+    width: auto;
+    min-width: 200px;
+    max-width: 500px;
+    top: $spacer;
+    right: $spacer;
+    border-radius: 4px;
+    bottom: auto;
+  }
+}

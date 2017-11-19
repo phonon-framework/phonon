@@ -1,0 +1,33 @@
+# Exclude some files from .gitignore
+.*
+!.gitignore
+!.gitmodules
+!.htaccess
+!.gitkeep
+!.editorconfig
+!.env.example
+!.eslintrc
+!.gitattributes
+
+# OS
+__*
+*.bak
+*.lnk
+.DS_Store
+Thumbs.db
+.Trash-*
+
+# IDE
+*~
+*.sublime-project
+.idea
+.vscode
+*.swo
+*.swp
+
+# Npm
+node_modules
+package-lock.json
+
+# Yarn
+yarn.lock
