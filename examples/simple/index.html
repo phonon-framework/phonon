@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../dist/css/phonon.css">
+    <link rel="stylesheet" href="../../dist/css/phonon.css">
 
   </head>
   <body>
@@ -64,6 +64,9 @@
         <button class="btn btn-primary" data-navigate="two" data-pop-page=true>Go to page2 (button)</button>
         <a href="#!/two/a/b/c">Go to page2 (link)</a>
 
+        <p>Test template</p>
+        <div data-render></div>
+
         <p>Test params</p>
         <a href="#!/one/a">Test 1</a>
         <a href="#!/one/a/b">Test 2</a>
@@ -87,7 +90,7 @@
       </div>
     </div>
 
-    <script src="../dist/js/phonon.js"></script>
+    <script src="../../dist/js/phonon.js"></script>
     <script>
 
       // First of all: config
@@ -120,6 +123,12 @@
         hash: function () {
           console.log('test local hash')
         }
+      })
+
+      pager.select('one').useTemplate('template.html')
+      pager.select('one').useTemplateRenderer(function (page, template, elements) {
+        console.log(template)
+        page.querySelector('[data-render]').innerHTML = template
       })
       
       // i18n
