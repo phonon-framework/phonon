@@ -3,6 +3,7 @@
 Upgrading to 2.0 from 1.x.
 
 **Estimated time**: 4 hours.
+
 **Prepare a coffee** and start it right now!
 
 ## Table of contents
@@ -35,7 +36,13 @@ const pager = phonon.pager({
 ### Page events <i>Changed</i>
 
 For a given page `myPage` for example.
-Assuming this page is present in the DOM like the following: `<div data-page></div>`
+Assuming this page is present in the DOM like the following:
+
+```html
+<div data-page="myPage"></div>
+```
+
+Page events are now used with `.select()`.
 
 ```js
 pager.select('myPage').addEvents({
@@ -57,7 +64,7 @@ pager.select('myPage').addEvents({
 })
 ```
 
-For any pages: use a star as a selector.
+In some situations, it may be useful to listen to certain events that affect all pages.
 
 ```js
 pager.select('*').addEvents({
@@ -79,7 +86,7 @@ pager.select('*').addEvents({
 })
 ```
 
-You can also add DOM events:
+Page events are also dispatched in the DOM.
 
 ```js
 window.addEventListener('myPage.show', function () {
@@ -90,13 +97,15 @@ window.addEventListener('myPage.show', function () {
 ### Page templates <i>Changed</i>
 
 You need to use `useTemplate()`.
+The first argument is the path to the template file.
 
 ```js
 pager.select('myPage').useTemplate('templates/template.html')
 ```
 
 It is now possible to use custom template renderers.
-For example, if you want to use [Mustache](https://mustache.github.io).
+This feature is interesting if you want to use a template engine such as [Mustache](https://mustache.github.io).
+
 ```js
 pager.select('myPage').useTemplate('template.html', function (page, template, elements) {
   page.querySelector('[data-render]').innerHTML = template
