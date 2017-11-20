@@ -10,7 +10,7 @@ const src = {
   scss: 'src/scss/*.scss',
   css: 'dist/css',
   js: 'dist/js',
-  test: 'test'
+  test: 'test',
 }
 
 // Static Server + watching scss files
@@ -18,14 +18,14 @@ gulp.task('serve', ['sass'], () => {
   browserSync.init({
     // server: ['test', 'dist'],
     proxy: 'localhost:80',
-    open: false
+    open: false,
   })
 
   gulp.watch(src.scss, ['sass'])
   gulp.watch('src/js/**/*.js', ['script'])
 })
 
-gulp.task('script', function () {
+gulp.task('script', () => {
   return gulp.src('src/js/phonon.js')
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest('./'))

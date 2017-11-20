@@ -5,7 +5,6 @@
 */
 
 const Binder = (() => {
-
   /**
   * ------------------------------------------------------------------------
   * Constants
@@ -22,7 +21,6 @@ const Binder = (() => {
    */
 
   class Binder {
-
     constructor (element, data) {
       this.element = element
       this.data = data
@@ -31,7 +29,7 @@ const Binder = (() => {
 
     // getters
 
-    static get version () {
+    static get version() {
       return VERSION
     }
 
@@ -40,7 +38,7 @@ const Binder = (() => {
      * @param {DOMObject} o the argument to test
      * @return true if the object is a DOM element, false otherwise
      */
-    isElement () {
+    isElement() {
       return (typeof Node === 'object' ? this.element instanceof Node : this.element && typeof this.element === 'object' && typeof this.element.nodeType === 'number' && typeof this.element.nodeName === 'string')
     }
 
@@ -48,7 +46,7 @@ const Binder = (() => {
     * Binds some text to the given DOM element
     * @param {String} text
     */
-    setText (element, text) {
+    setText(element, text) {
       if (!('textContent' in element)) {
         element.innerText = text
       } else {
@@ -60,7 +58,7 @@ const Binder = (() => {
     * Binds some html to the given DOM element
     * @param {String} text
     */
-    setHtml (element, text) {
+    setHtml(element, text) {
       element.innerHTML = text
     }
 
@@ -69,24 +67,24 @@ const Binder = (() => {
     * @param {String} attr
     * @param {String} text
     */
-    setAttribute (element, attr, text) {
+    setAttribute(element, attr, text) {
       element.setAttribute(attr, text)
     }
 
     /**
     * Set values to DOM nodes
     */
-    setNodes () {
-      var elements = this.element
+    setNodes() {
+      const elements = this.element
       elements.forEach((el) => {
         const attr = el.getAttribute('data-i18n').trim()
         const r = /(?:\s|^)([A-Za-z-_0-9]+):\s*(.*?)(?=\s+\w+:|$)/g
         let m
 
         while (m = r.exec(attr)) {
-          var key = m[1].trim()
-          var value = m[2].trim().replace(',', '')
-          var intlValue = this.data[value]
+          let key = m[1].trim()
+          let value = m[2].trim().replace(',', '')
+          let intlValue = this.data[value]
 
           if (!this.data[value]) {
             console.log(`${NAME}. Warning, ${value} does not exist.`)

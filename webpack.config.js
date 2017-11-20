@@ -1,20 +1,20 @@
-var path = require('path')
+const path = require('path')
 
 module.exports = {
   // entry point of our application
   entry: [
-    './src/js/phonon.js'
+    './src/js/phonon.js',
   ],
 
   // where to place the compiled bundle
   output: {
     path: __dirname,
     filename: './dist/js/phonon.js',
-    publicPath: 'http://127.0.0.1:8080/'
+    publicPath: 'http://127.0.0.1:8080/',
   },
 
   devServer: {
-    headers: { 'Access-Control-Allow-Origin': '*' }
+    headers: { 'Access-Control-Allow-Origin': '*' },
   },
 
   module: {
@@ -22,25 +22,25 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json',
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.vue$/,
-        loader: 'vue'
+        loader: 'vue',
       },
       {
         test: /\.js$/,
         loader: 'babel',
 
         query: {
-          presets: ['es2015']
+          presets: ['es2015'],
         },
         // make sure to exclude 3rd party code in node_modules
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css', 'sass']
+        loaders: ['style', 'css', 'sass'],
       },
       {
         // edit this for additional asset file types
@@ -50,13 +50,13 @@ module.exports = {
           // inline files smaller then 10kb as base64 dataURL
           limit: 10000,
           // fallback to file-loader with this naming scheme
-          name: '[name].[ext]?[hash]'
-        }
-      }
-    ]
+          name: '[name].[ext]?[hash]',
+        },
+      },
+    ],
   },
 
   sassLoader: {
-    includePaths: [path.resolve(__dirname, './sass')]
-  }
+    includePaths: [path.resolve(__dirname, './sass')],
+  },
 }
