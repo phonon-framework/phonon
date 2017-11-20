@@ -127,10 +127,18 @@ const Page = (() => {
      * @param {{}} [eventParams={}]
      */
     triggerScopes(eventName, eventParams = {}) {
+      const eventNameAlias = `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`
+
       this.events.forEach((scope) => {
         const scopeEvent = scope[eventName]
+        const scopeEventAlias = scope[eventNameAlias]
         if (typeof scopeEvent === 'function') {
           scopeEvent.apply(this, eventParams)
+        }
+
+        // trigger the event alias
+        if (typeof scopeEventAlias === 'function') {
+          scopeEventAlias.apply(this, eventParams)
         }
       })
 

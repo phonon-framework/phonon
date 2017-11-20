@@ -94,6 +94,19 @@ window.addEventListener('myPage.show', function () {
 })
 ```
 
+Finally, page events have their own aliases.
+Instead of using the event name called `show` for example, you can use `onShow`:
+
+```js
+pager.select('myPage').addEvents({
+  show: function () {
+    console.log('myPage: show')
+  },
+  onShow: function () {
+    console.log('myPage: show (alias)')
+  }
+```
+
 ### Page templates <i>Changed</i>
 
 You need to use `useTemplate()`.
