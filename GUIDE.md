@@ -10,6 +10,7 @@ Upgrading to 2.0 from 1.x.
 * Core features
 * phonon.options()
 * Page events
+* Page templates
 * Navigation between pages
 * Ajax
 * Internationalisation (i18n)
@@ -37,7 +38,7 @@ For a given page `myPage` for example.
 Assuming this page is present in the DOM like the following: `<div data-page></div>`
 
 ```js
-phonon.pager.select('myPage').addEvents({
+pager.select('myPage').addEvents({
   show: function () {
     console.log('myPage: show')
   },
@@ -59,7 +60,7 @@ phonon.pager.select('myPage').addEvents({
 For any pages: use a star as a selector.
 
 ```js
-phonon.pager.select('*').addEvents({
+pager.select('*').addEvents({
   show: function () {
     console.log('global: show')
   },
@@ -81,8 +82,24 @@ phonon.pager.select('*').addEvents({
 You can also add DOM events:
 
 ```js
-window.addEventListener('pagename.show', function () {
-  console.log('pagename: show (DOM event)')
+window.addEventListener('myPage.show', function () {
+  console.log('myPage: show (DOM event)')
+})
+```
+
+### Page templates <i>Changed</i>
+
+You need to use `useTemplate()`.
+
+```js
+pager.select('myPage').useTemplate('templates/template.html')
+```
+
+It is now possible to use custom template renderers.
+For example, if you want to use [Mustache](https://mustache.github.io).
+```js
+pager.select('myPage').useTemplate('template.html', function (page, template, elements) {
+  page.querySelector('[data-render]').innerHTML = template
 })
 ```
 

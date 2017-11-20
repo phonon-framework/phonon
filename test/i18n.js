@@ -8,18 +8,18 @@ const { phonon } = window
 describe('i18n', () => {
   it('Test initializing i18n', () => {
     let error = () => {
-      new phonon.Intl()
+      new phonon.intl()
     }
 
     test.exception(error).isError().hasMessage(/Locale default/)
 
     error = () => {
-      new phonon.Intl('es')
+      new phonon.intl('es')
     }
 
     test.exception(error).isError().hasMessage(/data/)
 
-    const intl = new phonon.Intl('es', {
+    const intl = new phonon.intl('es', {
       en: {
         welcome: 'Hola',
       },
@@ -32,7 +32,7 @@ describe('i18n', () => {
   })
 
   it('Test with basic configuration', () => {
-    const intl = new phonon.Intl('es', {
+    const intl = new phonon.intl('es', {
       en: {
         welcome: 'Hola',
       },
@@ -45,7 +45,7 @@ describe('i18n', () => {
   })
 
   it('Test with invalid language', () => {
-    const intl = new phonon.Intl('es', {
+    const intl = new phonon.intl('es', {
       en: {
         welcome: 'Hello',
       },
@@ -62,7 +62,7 @@ describe('i18n', () => {
   })
 
   it('Test fetching languages', () => {
-    const intl = new phonon.Intl('es', {
+    const intl = new phonon.intl('es', {
       en: {
         welcome: 'Hola',
       },
@@ -75,7 +75,7 @@ describe('i18n', () => {
   })
 
   it('Test fetching language data', () => {
-    const intl = new phonon.Intl('es', {
+    const intl = new phonon.intl('es', {
       en: {
         welcome: 'Hola',
       },
