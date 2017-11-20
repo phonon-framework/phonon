@@ -24,11 +24,11 @@ const Intl = (() => {
   class Intl {
     constructor(localeDefault = null, data = {}, localePreferred = null) {
       if (typeof localeDefault !== 'string') {
-        throw new Error('Locale default is mandatory and must be a string.')
+        throw new Error(`${NAME}. Locale default is mandatory and must be a string.`)
       }
 
       if (typeof data[localeDefault] !== 'object') {
-        throw new Error('Locale default has not data.')
+        throw new Error(`${NAME}. Locale default has not data.`)
       }
 
       this.data = data
@@ -39,12 +39,12 @@ const Intl = (() => {
     // getters
 
     static get version() {
-      return VERSION
+      return `${NAME}.${VERSION}`
     }
 
     setDefaultLocale(localeDefault, silentMode = true) {
       if (typeof this.data[localeDefault] !== 'object') {
-        throw new Error('Locale default has not data.')
+        throw new Error(`${NAME}. Locale default has not data.`)
       }
 
       this.localeDefault = localeDefault

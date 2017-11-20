@@ -105,7 +105,7 @@ const Pager = (() => {
     // getters
 
     static get version() {
-      return VERSION
+      return `${NAME}.${VERSION}`
     }
 
     // public
@@ -331,7 +331,7 @@ const Pager = (() => {
     start(forceDefaultPage = false) {
       // check if the app has been already started
       if (this.started) {
-        throw new Error('The app has been already started.')
+        throw new Error(`${NAME}. The app has been already started.`)
       }
 
       this.started = true
@@ -347,7 +347,7 @@ const Pager = (() => {
       }
 
       if (forceDefaultPage && !this.defaultPage) {
-        throw new Error('The default page must exist for forcing its launch!')
+        throw new Error(`${NAME}. The default page must exist for forcing its launch!`)
       }
 
       // Log the device info

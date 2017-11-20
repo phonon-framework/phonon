@@ -35,7 +35,7 @@ const Page = (() => {
     // getters
 
     static get version () {
-      return VERSION
+      return `${NAME}.${VERSION}`
     }
 
     getEvents () {

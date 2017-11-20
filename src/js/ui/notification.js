@@ -104,7 +104,7 @@ const Notification = (() => {
     }
 
     static get version() {
-      return VERSION
+      return `${NAME}.${VERSION}`
     }
 
     static _DOMInterface(notification, message, showButton, timeout, color) {

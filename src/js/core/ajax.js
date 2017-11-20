@@ -127,7 +127,7 @@ const Ajax = (() => {
     // getters
 
     static get version() {
-      return VERSION
+      return `${NAME}.${VERSION}`
     }
 
     // public
