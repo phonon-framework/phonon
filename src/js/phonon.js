@@ -25,7 +25,7 @@ const api = {}
  */
 api.config = {
   // global config
-  debug: true
+  debug: true,
 }
 
 /**

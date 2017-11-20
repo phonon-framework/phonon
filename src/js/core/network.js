@@ -4,14 +4,14 @@
  * --------------------------------------------------------------------------
  */
 
-import { dispatchEvent } from './utils.js'
+import { dispatchEvent } from './utils'
 
 const Network = (() => {
   const NAME = 'network'
 
   const Event = {
     NETWORK_ONLINE: `online.ph.${NAME}`,
-    NETWORK_OFFLINE: `offline.ph.${NAME}`
+    NETWORK_OFFLINE: `offline.ph.${NAME}`,
   }
 
   window.addEventListener('online', () => {

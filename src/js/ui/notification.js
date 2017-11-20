@@ -5,7 +5,6 @@
 */
 
 const Notification = (() => {
-
   /**
    * ------------------------------------------------------------------------
   * Constants
@@ -22,8 +21,7 @@ const Notification = (() => {
    */
 
   class Notification {
-
-    constructor (notification = null, message, showButton = true, timeout = 0, color = 'dark') {
+    constructor(notification = null, message, showButton = true, timeout = 0, color = 'dark') {
       this.notification = notification
       this.message = message
       this.showButton = showButton
@@ -36,16 +34,16 @@ const Notification = (() => {
           '<button class="btn">X</button>' +
         '</div>'
 
-      this.onButtonHandler = event => {
+      this.onButtonHandler = (event) => {
         this.onButton(event)
       }
 
-      this.onHiddenTransitionHandler = event => {
+      this.onHiddenTransitionHandler = (event) => {
         this.onHidden(event)
       }
     }
 
-    build () {
+    build() {
       const div = document.createElement('div')
       div.classList.add('notification')
 
@@ -71,7 +69,7 @@ const Notification = (() => {
       return this
     }
 
-    show () {
+    show() {
       window.setTimeout(() => {
         this.notification.classList.add('show')
       }, 1)
@@ -83,39 +81,38 @@ const Notification = (() => {
       }
     }
 
-    hide () {
+    hide() {
       this.notification.classList.remove('show')
       this.notification.classList.add('hide')
       this.notification.addEventListener('transitionend', this.onHiddenTransitionHandler)
     }
 
-    onButton (event) {
+    onButton(event) {
       this.hide()
       event.target.removeEventListener('click', this.onButtonHandler)
     }
 
-    onHidden () {
+    onHidden() {
       this.notification.removeEventListener('transitionend', this.onHiddenTransitionHandler)
       this.destroy()
     }
 
-    destroy () {
+    destroy() {
       this.notification.querySelector('.btn').removeEventListener('click', this.onButtonHandler)
       document.body.removeChild(this.notification)
       this.notification = null
     }
 
-    static get version () {
+    static get version() {
       return VERSION
     }
 
-    static _DOMInterface (notification, message, showButton, timeout, color) {
+    static _DOMInterface(notification, message, showButton, timeout, color) {
       return new Notification(notification, message, showButton, timeout, color)
     }
   }
 
   return Notification
-
 })()
 
 export default Notification

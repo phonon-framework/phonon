@@ -5,7 +5,6 @@
  */
 
 const Alert = (() => {
-
   /**
    * ------------------------------------------------------------------------
    * Constants
@@ -23,35 +22,34 @@ const Alert = (() => {
    */
 
   class Alert {
-
-    constructor (alert) {
+    constructor(alert) {
       this.alert = alert
     }
 
     // getters
 
-    static get version () {
+    static get version() {
       return VERSION
     }
 
     // private
-    createBackdrop () {
-      var backdrop = document.createElement('div')
+    createBackdrop() {
+      const backdrop = document.createElement('div')
       backdrop.setAttribute('data-id', this.alert.id)
       backdrop.classList.add(BACKDROP_SELECTOR)
       return backdrop
     }
 
-    center () {
+    center() {
       const computedStyle = window.getComputedStyle(this.alert)
       // const width = computedStyle.width.slice(0, computedStyle.width.length - 2)
       const height = computedStyle.height.slice(0, computedStyle.height.length - 2)
 
-      var top = (window.innerHeight / 2) - (height / 2)
-      this.alert.style.top = top + 'px'
+      const top = (window.innerHeight / 2) - (height / 2)
+      this.alert.style.top = `${top}px`
     }
 
-    open () {
+    open() {
       this.alert.style.visibility = 'visible'
       this.alert.style.display = 'block'
 
@@ -61,14 +59,14 @@ const Alert = (() => {
 
         // var preloader = this.alert.querySelector('.circle-progress')
         // if (preloader) {
-          // phonon.preloader(preloader).show()
+        //  phonon.preloader(preloader).show()
         // }
 
         document.body.appendChild(this.createBackdrop())
       }
     }
 
-    onHide () {
+    onHide() {
       const backdrop = document.querySelector(`.${BACKDROP_SELECTOR}[data-id="${this.alert.id}"]`)
       document.body.removeChild(backdrop)
 
@@ -82,10 +80,10 @@ const Alert = (() => {
         document.body.removeChild(this.alert)
       }
 
-      backdrop.removeEventListener('transitionend', (event) => this.onHide(event), false)
+      backdrop.removeEventListener('transitionend', event => this.onHide(event), false)
     }
 
-    close () {
+    close() {
       // off(dialog)
 
       if (this.alert.classList.contains('active')) {
@@ -96,7 +94,7 @@ const Alert = (() => {
         // if (preloader) phonon.preloader(preloader).hide()
 
         const backdrop = document.querySelector(`.${BACKDROP_SELECTOR}[data-id="${this.alert.id}"]`)
-        backdrop.addEventListener('transitionend', (event) => this.onHide(event), false)
+        backdrop.addEventListener('transitionend', event => this.onHide(event), false)
 
         // fix issue #62
         window.setTimeout(() => {

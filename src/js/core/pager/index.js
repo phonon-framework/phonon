@@ -23,8 +23,8 @@ const Pager = (() => {
       SHOWN: 'shown',
       HIDE: 'hide',
       HIDDEN: 'hidden',
-      HASH: 'hash'
-    }
+      HASH: 'hash',
+    },
   }
 
   const RENDER_SELECTOR = '[data-render]'
@@ -38,7 +38,6 @@ const Pager = (() => {
    */
 
   class Pager {
-
     /**
      * @constructor
      *
@@ -46,7 +45,7 @@ const Pager = (() => {
      * @param useHash {Boolean}
      * @param defaultPage {String|Null}
      */
-    constructor (hashPrefix = '#!', useHash = true, defaultPage = null, animatePages = true) {
+    constructor(hashPrefix = '#!', useHash = true, defaultPage = null, animatePages = true) {
       this.pages = []
       this.hashPrefix = hashPrefix
       this.useHash = useHash
@@ -62,15 +61,15 @@ const Pager = (() => {
     }
 
     // private
-    _ (selector) {
+    _(selector) {
       return document.querySelector(selector)
     }
 
-    getHash () {
+    getHash() {
       return window.location.hash.split(this.hashPrefix)[1]
     }
 
-    getPageFromHash () {
+    getPageFromHash() {
       const hash = this.getHash()
       const re = new RegExp('[?\/]([^\/]*)')
       const matches = re.exec(hash)
@@ -82,11 +81,11 @@ const Pager = (() => {
       return null
     }
 
-    setHash (pageName) {
+    setHash(pageName) {
       window.location.hash = this.hashPrefix + '/' + pageName
     }
 
-    areSamePage (pageName1, pageName2) {
+    areSamePage(pageName1, pageName2) {
       const page1 = this.getPageModel(pageName1)
       const page2 = this.getPageModel(pageName2)
       return page1 && page2 && page1.name === page2.name
@@ -96,7 +95,7 @@ const Pager = (() => {
      * Attaches the main events for tracking hash changes,
      * click on navigation buttons and links and back history
      */
-    addPagerEvents () {
+    addPagerEvents() {
       document.addEventListener('click', event => this.onClick(event))
       window.addEventListener('popstate', event => this.onBackHistory(event))
       window.addEventListener('hashchange', event => this.onHashChange(event))
@@ -105,13 +104,13 @@ const Pager = (() => {
 
     // getters
 
-    static get version () {
+    static get version() {
       return VERSION
     }
 
     // public
 
-    showPage (pageName, addToHistory = true, back = false) {
+    showPage(pageName, addToHistory = true, back = false) {
       const oldPage = this._('.current')
       if (oldPage) {
         const oldPageName = oldPage.getAttribute('data-page')
@@ -142,7 +141,7 @@ const Pager = (() => {
 
       // @todo: use template cache?
       if (pageModel && pageModel.getTemplate()) {
-        loadFile(pageModel.getTemplate(), template => {
+        loadFile(pageModel.getTemplate(), (template) => {
           let render = function (DOMPage, template, elements) {
             if (elements) {
               elements.forEach((el) => {
@@ -169,7 +168,7 @@ const Pager = (() => {
         oldPage.previousPageName = oldPageName
 
         if (this.animatePages) {
-          oldPage.addEventListener('animationend', event => this.onPageAnimationEnd(oldPage))
+          oldPage.addEventListener('animationend', () => this.onPageAnimationEnd(oldPage))
           oldPage.classList.add('animate')
         } else {
           this.onPageAnimationEnd(oldPage)
@@ -179,64 +178,64 @@ const Pager = (() => {
       }
     }
 
-    addUniquePageModel (pageName) {
+    addUniquePageModel(pageName) {
       if (!this.getPageModel(pageName)) {
         this.pages.push(new Page(pageName))
       }
     }
 
-    getPageModel (pageName) {
+    getPageModel(pageName) {
       return this.pages.find(page => page.name === pageName)
     }
 
-    getPagesModel (pageNames) {
+    getPagesModel(pageNames) {
       return this.pages.filter(page => pageNames.indexOf(page.name) > -1)
     }
 
-    selectorToArray (str) {
+    selectorToArray(str) {
       return str.split(',').map(item => item.trim())
     }
 
-    addEvents (callback) {
+    addEvents(callback) {
       if (this.cachePageSelector === '*') {
         // add to all page models
-        this.pages.forEach(page => {
+        this.pages.forEach((page) => {
           page.addEventCallback(callback)
         })
         return
       }
 
       const pageModels = this.getPagesModel(this.selectorToArray(this.cachePageSelector), true)
-      pageModels.forEach(page => {
+      pageModels.forEach((page) => {
         page.addEventCallback(callback)
       })
       this.cachePageSelector = null
     }
 
-    useTemplate (templatePath) {
+    useTemplate(templatePath) {
       const pageModels = this.getPagesModel(this.selectorToArray(this.cachePageSelector), true)
-      pageModels.forEach(page => {
+      pageModels.forEach((page) => {
         page.useTemplate(templatePath)
       })
       this.cachePageSelector = null
     }
 
-    useTemplateRenderer (renderFunction) {
+    useTemplateRenderer(renderFunction) {
       const pageModels = this.getPagesModel(this.selectorToArray(this.cachePageSelector), true)
-      pageModels.forEach(page => {
+      pageModels.forEach((page) => {
         page.useTemplateRenderer(renderFunction)
       })
       this.cachePageSelector = null
     }
 
-    triggerPageEvent (pageName, eventName, eventParams = null) {
+    triggerPageEvent(pageName, eventName, eventParams = null) {
       const pageModel = this.getPageModel(pageName)
       if (pageModel) {
         pageModel.triggerScopes(eventName, eventParams)
       }
     }
 
-    onClick (event) {
+    onClick(event) {
       const target = event.target
       const pageName = target.getAttribute('data-navigate')
       const pushPage = !(target.getAttribute('data-pop-page') === 'true')
@@ -261,7 +260,7 @@ const Pager = (() => {
       }
     }
 
-    onBackHistory (event = {}) {
+    onBackHistory(event = {}) {
       const pageName = event.state ? event.state.page : null
       if (!pageName) {
         return
@@ -270,7 +269,7 @@ const Pager = (() => {
       this.showPage(pageName, true, true)
     }
 
-    onPageAnimationEnd (target) {
+    onPageAnimationEnd(target) {
       target.classList.remove('animate')
       target.classList.remove(target.back ? 'pop-page' : 'push-page')
 
@@ -280,7 +279,7 @@ const Pager = (() => {
       target.removeEventListener('animationend', event => this.onPageAnimationEnd(event))
     }
 
-    onHashChange () {
+    onHashChange() {
       const params = (this.getHash() ? this.getHash().split('/') : []).filter(p => p.length > 0)
       if (params.length > 0) {
         // remove first value which is the page name
@@ -297,16 +296,15 @@ const Pager = (() => {
 
     /**
      * Queries the page nodes in the DOM
-     *
      */
-    onDOMLoaded () {
+    onDOMLoaded() {
       const pages = document.querySelectorAll('[data-page]')
 
       if (!pages) {
         return
       }
 
-      pages.forEach(page => {
+      pages.forEach((page) => {
         let pageName = page.getAttribute('data-page')
         /*
          * the page name can be given with the attribute data-page
@@ -320,7 +318,7 @@ const Pager = (() => {
       })
     }
 
-    select (pageName, addPageModel = true) {
+    select(pageName, addPageModel = true) {
       this.cachePageSelector = pageName
 
       if (addPageModel && pageName !== '*') {
@@ -330,7 +328,7 @@ const Pager = (() => {
       return this
     }
 
-    start (forceDefaultPage = false) {
+    start(forceDefaultPage = false) {
       // check if the app has been already started
       if (this.started) {
         throw new Error('The app has been already started.')
@@ -348,7 +346,7 @@ const Pager = (() => {
         pageName = this.defaultPage
       }
 
-      if (forceDefaultPage & !this.defaultPage) {
+      if (forceDefaultPage && !this.defaultPage) {
         throw new Error('The default page must exist for forcing its launch!')
       }
 
@@ -371,7 +369,7 @@ const Pager = (() => {
     }
 
     // static
-    static _DOMInterface (hashPrefix, useHash, defaultPage, animatePages) {
+    static _DOMInterface(hashPrefix, useHash, defaultPage, animatePages) {
       return new Pager(hashPrefix, useHash, defaultPage, animatePages)
     }
   }

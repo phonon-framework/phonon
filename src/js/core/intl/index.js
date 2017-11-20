@@ -6,7 +6,6 @@
 import Binder from './binder'
 
 const Intl = (() => {
-
   /**
    * ------------------------------------------------------------------------
    * Constants
@@ -23,8 +22,7 @@ const Intl = (() => {
    */
 
   class Intl {
-
-    constructor (localeDefault = null, data = {}, localePreferred = null) {
+    constructor(localeDefault = null, data = {}, localePreferred = null) {
       if (typeof localeDefault !== 'string') {
         throw new Error('Locale default is mandatory and must be a string.')
       }
@@ -34,17 +32,17 @@ const Intl = (() => {
       }
 
       this.data = data
-      this.setDefaultLocale(localeDefault, true)            
-      this.localePreferred = localePreferred || (navigator.language || navigator.userLanguage)      
+      this.setDefaultLocale(localeDefault, true)
+      this.localePreferred = localePreferred || (navigator.language || navigator.userLanguage)
     }
 
     // getters
 
-    static get version () {
+    static get version() {
       return VERSION
     }
 
-    setDefaultLocale (localeDefault, silentMode = true) {
+    setDefaultLocale(localeDefault, silentMode = true) {
       if (typeof this.data[localeDefault] !== 'object') {
         throw new Error('Locale default has not data.')
       }
@@ -56,11 +54,11 @@ const Intl = (() => {
       }
     }
 
-    getLanguages () {
+    getLanguages() {
       return Object.keys(this.data)
     }
 
-    getAll (keys = null) {
+    getAll(keys = null) {
       let data = this.data[this.localePreferred]
       if (!data) {
         data = this.data[this.localeDefault]
@@ -68,7 +66,7 @@ const Intl = (() => {
 
       if (Array.isArray(keys)) {
         const mapData = {}
-        for (let key in data) {
+        for (const key in data) {
           if (keys.indexOf(key) > -1) {
             mapData[key] = data[key]
           }
@@ -79,12 +77,12 @@ const Intl = (() => {
       return data
     }
 
-    get (key) {
+    get(key) {
       const data = this.getAll()
       return data[key]
     }
 
-    bind (element) {
+    bind(element) {
       if (typeof element === 'undefined') {
         element = document.querySelectorAll('[data-i18n]')
       }
@@ -93,7 +91,7 @@ const Intl = (() => {
     }
 
     // static
-    static _DOMInterface (localeDefault, data, localePreferred) {
+    static _DOMInterface(localeDefault, data, localePreferred) {
       return new Intl(localeDefault, data, localePreferred)
     }
   }

@@ -21,30 +21,29 @@ const Ajax = (() => {
    */
 
   class Ajax {
-
-    constructor (opts) {
+    constructor(opts) {
       if (typeof opts !== 'object') {
-        throw new Error(`${NAME}` + '-' + `${VERSION}`)
+        throw new Error(`${NAME}-${VERSION}`)
       }
       this.opts = opts
       this.errorCode = null
     }
 
-    createXhr () {
-      var xhr = new XMLHttpRequest()
+    createXhr() {
+      const xhr = new XMLHttpRequest()
       if ('withCredentials' in xhr && this.opts.crossDomain === true) {
         xhr.withCredentials = true
       }
       return xhr
     }
 
-    setHeaders (headers = {}) {
+    setHeaders(headers = {}) {
       for (const key in headers) {
         this.xhr.setRequestHeader(key, headers[key])
       }
     }
 
-    onPreExecute () {
+    onPreExecute() {
       if (typeof this.opts.headers === 'object') {
         this.setHeaders(this.opts.headers)
       }
@@ -65,8 +64,8 @@ const Ajax = (() => {
       }
     }
 
-    parseResponse () {
-      var response = null
+    parseResponse() {
+      let response = null
       if (this.opts.dataType === 'json') {
         try {
           response = JSON.parse(this.xhr.responseText)
@@ -81,7 +80,7 @@ const Ajax = (() => {
       return response
     }
 
-    runRequest () {
+    runRequest() {
       this.xhr = this.createXhr()
       this.xhr.open(this.opts.method, this.opts.url, true)
       this.onPreExecute()
@@ -117,7 +116,7 @@ const Ajax = (() => {
       return this
     }
 
-    cancel () {
+    cancel() {
       this.errorCode = 'CANCELED'
       if (this.xhr) {
         this.xhr.abort()
@@ -127,14 +126,14 @@ const Ajax = (() => {
 
     // getters
 
-    static get version () {
+    static get version() {
       return VERSION
     }
 
     // public
 
     // static
-    static _DOMInterface (opts) {
+    static _DOMInterface(opts) {
       return new Ajax(opts).runRequest()
     }
   }

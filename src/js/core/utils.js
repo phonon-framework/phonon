@@ -1,12 +1,12 @@
 
-export function dispatchEvent (eventName, detail = {}) {
+export function dispatchEvent(eventName, detail = {}) {
   window.dispatchEvent(new CustomEvent(eventName, { detail }))
 }
 
-export function loadFile (url, fn, postData) {
-  var req = new XMLHttpRequest()
+export function loadFile(url, fn, postData) {
+  const req = new XMLHttpRequest()
   if (req.overrideMimeType) req.overrideMimeType('text/html; charset=utf-8')
-  req.onreadystatechange = function () {
+  req.onreadystatechange = () => {
     if (req.readyState === 4 && (parseInt(req.status) === 200 || !req.status && req.responseText.length)) {
       fn(req.responseText)
     }

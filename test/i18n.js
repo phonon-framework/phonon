@@ -3,11 +3,10 @@ const test = require('unit.js')
 require('jsdom-global')()
 require('../dist/js/phonon')
 
-const phonon = window.phonon
+const { phonon } = window
 
-describe('i18n', function () {
-  it('Test initializing i18n', function () {
-
+describe('i18n', () => {
+  it('Test initializing i18n', () => {
     let error = () => {
       new phonon.Intl()
     }
@@ -22,37 +21,37 @@ describe('i18n', function () {
 
     const intl = new phonon.Intl('es', {
       en: {
-        welcome: 'Hola'
+        welcome: 'Hola',
       },
       es: {
-        welcome: 'Hello'
-      }
+        welcome: 'Hello',
+      },
     })
 
     intl.setDefaultLocale('en')
   })
 
-  it('Test with basic configuration', function () {
+  it('Test with basic configuration', () => {
     const intl = new phonon.Intl('es', {
       en: {
-        welcome: 'Hola'
+        welcome: 'Hola',
       },
       es: {
-        welcome: 'Hello'
-      }
+        welcome: 'Hello',
+      },
     })
 
     intl.setDefaultLocale('en')
   })
 
-  it('Test with invalid language', function () {
+  it('Test with invalid language', () => {
     const intl = new phonon.Intl('es', {
       en: {
-        welcome: 'Hello'
+        welcome: 'Hello',
       },
       es: {
-        welcome: 'Hola'
-      }
+        welcome: 'Hola',
+      },
     })
 
     const error = () => {
@@ -62,27 +61,27 @@ describe('i18n', function () {
     test.exception(error).match(/data/)
   })
 
-  it('Test fetching languages', function () {
+  it('Test fetching languages', () => {
     const intl = new phonon.Intl('es', {
       en: {
-        welcome: 'Hola'
+        welcome: 'Hola',
       },
       es: {
-        welcome: 'Hello'
-      }
+        welcome: 'Hello',
+      },
     })
 
-    test.array(intl.getLanguages())    
+    test.array(intl.getLanguages())
   })
 
-  it('Test fetching language data', function () {
+  it('Test fetching language data', () => {
     const intl = new phonon.Intl('es', {
       en: {
-        welcome: 'Hola'
+        welcome: 'Hola',
       },
       es: {
-        welcome: 'Hello'
-      }
+        welcome: 'Hello',
+      },
     })
 
     test.object(intl.getAll()).hasLength(1)
@@ -90,9 +89,9 @@ describe('i18n', function () {
     test.object(intl.getAll(['a'])).hasLength(0)
 
     test.object(intl.getAll(['a', 'welcome'])).hasLength(1)
-    
+
     test.string(intl.get('welcome'))
 
-    test.undefined(intl.get('a'))    
+    test.undefined(intl.get('a'))
   })
 })
