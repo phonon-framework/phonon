@@ -21,7 +21,7 @@ const Binder = (() => {
    */
 
   class Binder {
-    constructor (element, data) {
+    constructor(element, data) {
       this.element = element
       this.data = data
       this.setNodes()
@@ -36,7 +36,7 @@ const Binder = (() => {
     /**
      * Checks if the given argument is a DOM element
      * @param {DOMObject} o the argument to test
-     * @return true if the object is a DOM element, false otherwise
+     * @return {boolean} true if the object is a DOM element, false otherwise
      */
     isElement() {
       return (typeof Node === 'object' ? this.element instanceof Node : this.element && typeof this.element === 'object' && typeof this.element.nodeType === 'number' && typeof this.element.nodeName === 'string')
@@ -44,6 +44,7 @@ const Binder = (() => {
 
     /**
     * Binds some text to the given DOM element
+    * @param {any} element
     * @param {String} text
     */
     setText(element, text) {
@@ -55,9 +56,10 @@ const Binder = (() => {
     }
 
     /**
-    * Binds some html to the given DOM element
-    * @param {String} text
-    */
+     * Binds some html to the given DOM element
+     * @param {any} element
+     * @param {string} text
+     */
     setHtml(element, text) {
       element.innerHTML = text
     }

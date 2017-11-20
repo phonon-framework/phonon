@@ -21,6 +21,10 @@ const Ajax = (() => {
    */
 
   class Ajax {
+    /**
+     * Creates an instance of Ajax.
+     * @param {{method: string, url: string, complete: Function, success: Function, error: Function, data: any, crossDomain: boolean, headers: {[header: string]: string}, timeout: number, contentType: number, dataType: string }} opts
+     */
     constructor(opts) {
       if (typeof opts !== 'object') {
         throw new Error(`${NAME}-${VERSION}`)
@@ -37,6 +41,10 @@ const Ajax = (() => {
       return xhr
     }
 
+    /**
+     * Set headers
+     * @param {{[header: string]: string}} headers
+     */
     setHeaders(headers = {}) {
       for (const key in headers) {
         this.xhr.setRequestHeader(key, headers[key])

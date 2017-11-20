@@ -22,6 +22,12 @@ const Intl = (() => {
    */
 
   class Intl {
+    /**
+     * Creates an instance of Intl.
+     * @param {string} [localeDefault=null]
+     * @param {{[lang: string]: {[key: string]: string}}} [data={}]
+     * @param {string} [localePreferred=null]
+     */
     constructor(localeDefault = null, data = {}, localePreferred = null) {
       if (typeof localeDefault !== 'string') {
         throw new Error(`${NAME}. Locale default is mandatory and must be a string.`)
@@ -42,6 +48,11 @@ const Intl = (() => {
       return `${NAME}.${VERSION}`
     }
 
+    /**
+     * Set default locale
+     * @param {string} localeDefault
+     * @param {boolean} [silentMode=true]
+     */
     setDefaultLocale(localeDefault, silentMode = true) {
       if (typeof this.data[localeDefault] !== 'object') {
         throw new Error(`${NAME}. Locale default has not data.`)
@@ -82,6 +93,10 @@ const Intl = (() => {
       return data[key]
     }
 
+    /**
+     * Bind
+     * @param {HTMLElement} element
+     */
     bind(element) {
       if (typeof element === 'undefined') {
         element = document.querySelectorAll('[data-i18n]')

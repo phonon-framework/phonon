@@ -4,10 +4,9 @@
  * --------------------------------------------------------------------------
  */
 
-import { dispatchEvent } from '../utils.js'
+import { dispatchEvent } from '../utils'
 
 const Page = (() => {
-
   /**
    * ------------------------------------------------------------------------
    * Constants
@@ -24,8 +23,11 @@ const Page = (() => {
    */
 
   class Page {
-
-    constructor (pageName) {
+    /**
+     * Creates an instance of Page.
+     * @param {string} pageName
+     */
+    constructor(pageName) {
       this.name = pageName
       this.events = []
       this.templatePath = null
@@ -34,51 +36,81 @@ const Page = (() => {
 
     // getters
 
-    static get version () {
+    static get version() {
       return `${NAME}.${VERSION}`
     }
 
-    getEvents () {
+    /**
+     * Get events
+     * @returns {Function[]}
+     */
+    getEvents() {
       return this.events
     }
 
-    getTemplate () {
+    /**
+     * Get template
+     * @returns {string}
+     */
+    getTemplate() {
       return this.templatePath
     }
 
-    getRenderFunction () {
+    /**
+     * Get render function
+     * @returns {Function}
+     */
+    getRenderFunction() {
       return this.renderFunction
     }
 
     // public
 
-    addEventCallback (callbackFn) {
+    /**
+     *
+     * @param {*} callbackFn
+     */
+    addEventCallback(callbackFn) {
       this.events.push(callbackFn)
     }
 
-    useTemplate (templatePath) {
+    /**
+     * Use the given template
+     *
+     * @param {string} templatePath
+     */
+    useTemplate(templatePath) {
       if (typeof templatePath !== 'string') {
         throw new Error('The template path must be a string. ' + typeof templatePath + ' is given')
       }
       this.templatePath = templatePath
     }
 
-    useTemplateRenderer (renderFunction) {
+    /**
+     * Use the given template renderer
+     * @param {Function} renderFunction
+     */
+    useTemplateRenderer(renderFunction) {
       if (typeof renderFunction !== 'function') {
         throw new Error('The custom template renderer must be a function. ' + typeof renderFunction + ' is given')
       }
       this.renderFunction = renderFunction
     }
 
-    triggerScopes (eventName, eventParams = {}) {
-      this.events.forEach(scope => {
+    /**
+     * Trigger scopes
+     * @param {string} eventName
+     * @param {{}} [eventParams={}]
+     */
+    triggerScopes(eventName, eventParams = {}) {
+      this.events.forEach((scope) => {
         const scopeEvent = scope[eventName]
         if (typeof scopeEvent === 'function') {
           scopeEvent.apply(this, eventParams)
         }
       })
 
-      dispatchEvent(`${this.name}.${eventName}`, eventParams)      
+      dispatchEvent(`${this.name}.${eventName}`, eventParams)
     }
   }
 
