@@ -5,6 +5,7 @@
  */
 
 import { dispatchEvent } from '../utils.js'
+import { loadFile } from '../utils'
 
 const Page = (() => {
 
@@ -17,6 +18,8 @@ const Page = (() => {
   const NAME = 'page'
   const VERSION = '2.0.0'
 
+  const RENDER_SELECTOR = '[data-render]'
+  
   /**
    * ------------------------------------------------------------------------
    * Class Definition
@@ -48,6 +51,28 @@ const Page = (() => {
 
     getRenderFunction () {
       return this.renderFunction
+    }
+
+    loadTemplate() {
+      const pageElement = document.querySelector(`[data-page="${this.name}"]`)
+
+      loadFile(this.getTemplate(), template => {
+        let render = function (DOMPage, template, elements) {
+          if (elements) {
+            elements.forEach((el) => {
+              el.innerHTML = template
+            })
+          } else {
+            DOMPage.innerHTML = template
+          }
+        }
+
+        if (this.getRenderFunction()) {
+          render = this.getRenderFunction()
+        }
+
+        render(pageElement, template, pageElement.querySelectorAll(RENDER_SELECTOR))
+      }, null)
     }
 
     // public

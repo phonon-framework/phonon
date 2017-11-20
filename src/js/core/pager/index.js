@@ -5,7 +5,6 @@
  */
 
 import Page from './page'
-import { loadFile } from './../utils'
 
 const Pager = (() => {
   /**
@@ -26,8 +25,6 @@ const Pager = (() => {
       HASH: 'hash',
     },
   }
-
-  const RENDER_SELECTOR = '[data-render]'
 
   let currentPage
   let oldPage
@@ -141,23 +138,7 @@ const Pager = (() => {
 
       // @todo: use template cache?
       if (pageModel && pageModel.getTemplate()) {
-        loadFile(pageModel.getTemplate(), (template) => {
-          let render = function (DOMPage, template, elements) {
-            if (elements) {
-              elements.forEach((el) => {
-                el.innerHTML = template
-              })
-            } else {
-              DOMPage.innerHTML = template
-            }
-          }
-
-          if (pageModel.getRenderFunction()) {
-            render = pageModel.getRenderFunction()
-          }
-
-          render(newPage, template, newPage.querySelectorAll(RENDER_SELECTOR))
-        }, null)
+        pageModel.loadTemplate()
       }
       // end
 
@@ -212,18 +193,13 @@ const Pager = (() => {
       this.cachePageSelector = null
     }
 
-    useTemplate(templatePath) {
+    useTemplate(templatePath, renderFunction = null) {
       const pageModels = this.getPagesModel(this.selectorToArray(this.cachePageSelector), true)
       pageModels.forEach((page) => {
         page.useTemplate(templatePath)
-      })
-      this.cachePageSelector = null
-    }
-
-    useTemplateRenderer(renderFunction) {
-      const pageModels = this.getPagesModel(this.selectorToArray(this.cachePageSelector), true)
-      pageModels.forEach((page) => {
-        page.useTemplateRenderer(renderFunction)
+        if (typeof renderFunction === 'function') {
+          page.useTemplateRenderer(renderFunction)
+        }
       })
       this.cachePageSelector = null
     }

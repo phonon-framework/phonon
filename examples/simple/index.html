@@ -125,9 +125,7 @@
         }
       })
 
-      pager.select('one').useTemplate('template.html')
-      pager.select('one').useTemplateRenderer(function (page, template, elements) {
-        console.log(template)
+      pager.select('one').useTemplate('template.html', function (page, template, elements) {
         page.querySelector('[data-render]').innerHTML = template
       })
       

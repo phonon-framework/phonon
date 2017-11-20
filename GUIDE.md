@@ -90,12 +90,15 @@ window.addEventListener('myPage.show', function () {
 ### Page templates <i>Changed</i>
 
 You need to use `useTemplate()`.
-It is now possible to use custom template renderers.
-For example, if you want to use [Mustache](https://mustache.github.io).
 
 ```js
 pager.select('myPage').useTemplate('templates/template.html')
-pager.select('myPage').useTemplateRenderer(function (page, template, elements) {
+```
+
+It is now possible to use custom template renderers.
+For example, if you want to use [Mustache](https://mustache.github.io).
+```js
+pager.select('myPage').useTemplate('template.html', function (page, template, elements) {
   page.querySelector('[data-render]').innerHTML = template
 })
 ```
