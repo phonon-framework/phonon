@@ -3,9 +3,9 @@
  * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
-import { generateId } from '../core/utils'
-import Event from '../core/events'
-import { dispatchElementEvent } from '../core/events/dispatch'
+import { generateId } from '../../core/utils'
+import Event from '../../core/events'
+import { dispatchElementEvent } from '../../core/events/dispatch'
 
 const Dialog = (() => {
   /**

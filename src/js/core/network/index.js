@@ -4,8 +4,8 @@
  * --------------------------------------------------------------------------
  */
 
-import Event from './events'
-import { dispatchWinDocEvent } from './events/dispatch'
+import Event from '../events'
+import { dispatchWinDocEvent } from '../events/dispatch'
 
 const Network = (() => {
   const NAME = 'network'
