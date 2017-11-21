@@ -15,6 +15,12 @@ const Pager = (() => {
 
   const NAME = 'pager'
   const VERSION = '2.0.0'
+  const DEFAULT_PROPERTIES = {
+    hashPrefix: '#!',
+    useHash: true,
+    defaultPage: null,
+    animatePages: true
+  }
 
   const Event = {
     PAGE: {
@@ -38,17 +44,13 @@ const Pager = (() => {
     /**
      * @constructor
      *
-     * @param hashPrefix {String}
-     * @param useHash {Boolean}
-     * @param defaultPage {String|Null}
+     * @param options {Object}
      */
-    constructor(hashPrefix = '#!', useHash = true, defaultPage = null, animatePages = true) {
+    constructor(options = {}) {
+      this.options = Object.assign(DEFAULT_PROPERTIES, options)
+
       this.pages = []
-      this.hashPrefix = hashPrefix
-      this.useHash = useHash
       this.started = false
-      this.defaultPage = defaultPage
-      this.animatePages = animatePages
 
       // add global listeners such ash hash change, navigation, etc.
       this.addPagerEvents()
@@ -63,7 +65,7 @@ const Pager = (() => {
     }
 
     getHash() {
-      return window.location.hash.split(this.hashPrefix)[1]
+      return window.location.hash.split(this.options.hashPrefix)[1]
     }
 
     getPageFromHash() {
@@ -79,7 +81,7 @@ const Pager = (() => {
     }
 
     setHash(pageName) {
-      window.location.hash = this.hashPrefix + '/' + pageName
+      window.location.hash = this.options.hashPrefix + '/' + pageName
     }
 
     areSamePage(pageName1, pageName2) {
@@ -148,7 +150,7 @@ const Pager = (() => {
         oldPage.back = back
         oldPage.previousPageName = oldPageName
 
-        if (this.animatePages) {
+        if (this.options.animatePages) {
           oldPage.addEventListener('animationend', () => this.onPageAnimationEnd(oldPage))
           oldPage.classList.add('animate')
         } else {
@@ -228,7 +230,7 @@ const Pager = (() => {
          * we change it dynamically so that the hashchange event is called
          * Otherwise, we show the page
          */
-        if (this.useHash) {
+        if (this.options.useHash) {
           this.setHash(pageName)
         } else {
           this.showPage(pageName, true, pushPage)
@@ -319,10 +321,10 @@ const Pager = (() => {
 
       let pageName = this.getPageFromHash()
       if (!this.getPageModel(pageName)) {
-        pageName = this.defaultPage
+        pageName = this.options.defaultPage
       }
 
-      if (forceDefaultPage && !this.defaultPage) {
+      if (forceDefaultPage && !this.options.defaultPage) {
         throw new Error(`${NAME}. The default page must exist for forcing its launch!`)
       }
 
@@ -337,16 +339,16 @@ const Pager = (() => {
        * if the app is configurated to use hash tracking
        * we add the page dynamically in the url
        */
-      if (this.useHash) {
+      if (this.options.useHash) {
         this.setHash(pageName)
       }
 
-      this.showPage(forceDefaultPage ? this.defaultPage : pageName)
+      this.showPage(forceDefaultPage ? this.options.defaultPage : pageName)
     }
 
     // static
-    static _DOMInterface(hashPrefix, useHash, defaultPage, animatePages) {
-      return new Pager(hashPrefix, useHash, defaultPage, animatePages)
+    static _DOMInterface(options) {
+      return new Pager(options)
     }
   }
 

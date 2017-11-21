@@ -1,8 +1,4 @@
 
-export function dispatchEvent(eventName, detail = {}) {
-  window.dispatchEvent(new CustomEvent(eventName, { detail }))
-}
-
 export function loadFile(url, fn, postData) {
   const req = new XMLHttpRequest()
   if (req.overrideMimeType) req.overrideMimeType('text/html; charset=utf-8')
@@ -20,4 +16,8 @@ export function loadFile(url, fn, postData) {
     req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     req.send(postData)
   }
+}
+
+export function generateId() {
+  return Math.random().toString(36).substr(2, 10)
 }

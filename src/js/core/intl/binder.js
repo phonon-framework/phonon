@@ -24,7 +24,12 @@ const Binder = (() => {
     constructor(element, data) {
       this.element = element
       this.data = data
-      this.setNodes()
+
+      if (this.element.length && this.element.length > 0) {
+        this.setNodes(this.element)
+      } else {
+        this.setNode(this.element)
+      }
     }
 
     // getters
@@ -73,35 +78,42 @@ const Binder = (() => {
       element.setAttribute(attr, text)
     }
 
+    setNode(element) {
+      let attr = element.getAttribute('data-i18n')
+      if (!attr) {
+        return
+      }
+
+      attr = attr.trim()
+
+      const r = /(?:\s|^)([A-Za-z-_0-9]+):\s*(.*?)(?=\s+\w+:|$)/g
+      let m
+
+      while (m = r.exec(attr)) {
+        const key = m[1].trim()
+        const value = m[2].trim().replace(',', '')
+        let intlValue = this.data[value]
+
+        if (!this.data[value]) {
+          console.log(`${NAME}. Warning, ${value} does not exist.`)
+          intlValue = value
+        }
+
+        const methodName = 'set' + key.charAt(0).toUpperCase() + key.slice(1)
+
+        if (this[methodName]) {
+          this[methodName](element, intlValue)
+        } else {
+          this.setAttribute(element, key, intlValue)
+        }
+      }
+    }
+
     /**
     * Set values to DOM nodes
     */
-    setNodes() {
-      const elements = this.element
-      elements.forEach((el) => {
-        const attr = el.getAttribute('data-i18n').trim()
-        const r = /(?:\s|^)([A-Za-z-_0-9]+):\s*(.*?)(?=\s+\w+:|$)/g
-        let m
-
-        while (m = r.exec(attr)) {
-          let key = m[1].trim()
-          let value = m[2].trim().replace(',', '')
-          let intlValue = this.data[value]
-
-          if (!this.data[value]) {
-            console.log(`${NAME}. Warning, ${value} does not exist.`)
-            intlValue = value
-          }
-
-          const methodName = 'set' + key.charAt(0).toUpperCase() + key.slice(1)
-
-          if (this[methodName]) {
-            this[methodName](el, intlValue)
-          } else {
-            this.setAttribute(el, key, intlValue)
-          }
-        }
-      })
+    setNodes(element) {
+      element.forEach(el => this.setNode(el))
     }
   }
 

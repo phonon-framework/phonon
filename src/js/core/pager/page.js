@@ -4,7 +4,8 @@
  * --------------------------------------------------------------------------
  */
 
-import { dispatchEvent, loadFile } from '../utils'
+import { loadFile } from '../utils'
+import { dispatchPageEvent } from '../events/dispatch'
 
 const Page = (() => {
   /**
@@ -129,7 +130,7 @@ const Page = (() => {
     triggerScopes(eventName, eventParams = {}) {
       const eventNameAlias = `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`
 
-      this.events.forEach((scope) => {
+      this.events.forEach(scope => {
         const scopeEvent = scope[eventName]
         const scopeEventAlias = scope[eventNameAlias]
         if (typeof scopeEvent === 'function') {
@@ -142,7 +143,7 @@ const Page = (() => {
         }
       })
 
-      dispatchEvent(`${this.name}.${eventName}`, eventParams)
+      dispatchPageEvent(eventName, this.name, eventParams)
     }
   }
 

@@ -13,8 +13,8 @@ import './core/network'
 import './core/events'
 
 // visual components (ui)
-import './ui/alert'
-import Notification from './ui/notification'
+import Dialog from './components/dialog'
+import Notification from './components/notification'
 
 const api = {}
 
@@ -25,7 +25,7 @@ const api = {}
  */
 api.config = {
   // global config
-  debug: true,
+  debug: true
 }
 
 /**
@@ -33,9 +33,9 @@ api.config = {
  * Pager
  * ------------------------------------------------------------------------
  */
-api.pager = (options = {}) => {
+api.pager = options => {
   if (typeof api._pager === 'undefined') {
-    api._pager = Pager._DOMInterface(options.hashPrefix, options.useHash, options.defaultPage, options.animatePages)
+    api._pager = Pager._DOMInterface(options)
   }
   return api._pager
 }
@@ -68,6 +68,13 @@ api.intl = Intl._DOMInterface
  * ------------------------------------------------------------------------
  */
 api.notification = Notification._DOMInterface
+
+/**
+ * ------------------------------------------------------------------------
+ * Dialog
+ * ------------------------------------------------------------------------
+ */
+api.dialog = Dialog._DOMInterface
 
 // Make the API live
 window.phonon = api

@@ -4,22 +4,18 @@
  * --------------------------------------------------------------------------
  */
 
-import { dispatchEvent } from './utils'
+import Event from './events'
+import { dispatchWinDocEvent } from './events/dispatch'
 
 const Network = (() => {
   const NAME = 'network'
 
-  const Event = {
-    NETWORK_ONLINE: `online.ph.${NAME}`,
-    NETWORK_OFFLINE: `offline.ph.${NAME}`,
-  }
-
   window.addEventListener('online', () => {
-    dispatchEvent(Event.NETWORK_ONLINE, { date: new Date() })
+    dispatchWinDocEvent(Event.NETWORK_ONLINE, NAME, { date: new Date() })
   })
 
   window.addEventListener('offline', () => {
-    dispatchEvent(Event.NETWORK_OFFLINE, { date: new Date() })
+    dispatchWinDocEvent(Event.NETWORK_OFFLINE, NAME, { date: new Date() })
   })
 })()
 
