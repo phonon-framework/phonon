@@ -56,17 +56,17 @@ const Intl = (() => {
     /**
      * Set default locale
      * @param {string} locale
-     * @param {boolean} [bind=true]
+     * @param {boolean} [updateHTML=true]
      */
-    setLocale(locale, bind = true) {
+    setLocale(locale, updateHTML = true) {
       if (typeof this.data[locale] !== 'object') {
         console.error(`${NAME}. ${locale} has no data, fallback in ${this.fallbackLocale}.`)
       } else {
         this.locale = locale
       }
 
-      if (bind) {
-        this.bind()
+      if (updateHTML) {
+        this.updateHtml()
       }
     }
 
@@ -124,10 +124,10 @@ const Intl = (() => {
     }
 
     /**
-     * Bind
+     * Updates the HTML views
      * @param {HTMLElement} element
      */
-    bind(element) {
+    updateHtml(element) {
       if (typeof element === 'undefined') {
         element = document.querySelectorAll('[data-i18n]')
       }
