@@ -105,6 +105,7 @@ pager.select('myPage').addEvents({
   onShow: function () {
     console.log('myPage: show (alias)')
   }
+})
 ```
 
 ### Page templates <i>Changed</i>
@@ -128,10 +129,12 @@ pager.select('myPage').useTemplate('template.html', function (page, template, el
 ### Navigation between pages
 
 Replace `data-navigation` by `data-navigate`.
-Note: `data-navigate="$back"` works.
+Note: `data-navigate="$back"` still works.
 Use `data-pop-page` for back animation if you want to force the back animation.
 
 ### Ajax <i>nothing changed</i>
+
+As a reminder, here is an example of a code:
 
 ```js
 const request = phonon.ajax({
@@ -154,26 +157,51 @@ const request = phonon.ajax({
 })
 ```
 
-### Internationalisation (i18n)
+### Internationalisation (i18n) <i>Changed</i>
 
 For the internationalisation, there are many changes.
 Now, you need to pass all the data directly.
-It is no longer possible to load JSON by doing Ajax requests.
-If you need to keep this feature, you can execute load JSON language files and then
-pass everything as the second argument.
 
-```
-phonon.intl('en', {
-  en: {
-    welcome: 'Hello (default)'
-  },
-  'en_US': {
-    welcome: 'Hello US'
-  },
-  fr: {
-    welcome: 'Bonjour'
+```js
+phonon.intl({
+  fallbackLocale: 'en',
+  locale: 'en',
+  data: {
+    en: {
+      welcome: 'Hello (default)',
+      welcomePerson: 'Hello :name'
+    },
+    en_US: {
+      welcome: 'Hello (US)',
+      welcomePerson: 'Hello :name'
+    },
+    fr: {
+      welcome: 'Bonjour',
+      welcomePerson: 'Bonjour :name'
+    }
   }
 })
+```
+
+It is no longer possible to load JSON by doing Ajax requests.
+If you need to keep this feature, you can load JSON language files and then
+pass everything as the second argument.
+
+```js
+phonon.ajax({
+  method: 'GET',
+  url: '/path/to/languages.json',
+  dataType: 'json',
+  success: function (data, xhr) {
+    const config = {
+      fallbackLocale: 'en',
+      locale: 'en',
+      data: data
+    }
+    phonon.intl(config)
+  }
+})
+
 ```
 
 ## Components
@@ -218,3 +246,7 @@ Replace **.pull-right** by **.float-right**.
 #### Expand Width
 
 Replace **.fit-parent** by **.w-100**.
+
+#### Unselectable
+
+To make an element unselectable use the class **.unselectable**.
