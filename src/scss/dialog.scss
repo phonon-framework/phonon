@@ -1,0 +1,138 @@
+$zindex-dialog-backdrop: 1060;
+$dialog-backdrop-bg: rgba(0, 0, 0, .55);
+
+$dialog-content-bg: #fff;
+$dialog-margin: 15px;
+$dialog-inner-padding: 15px;
+$dialog-header-padding: $dialog-inner-padding;
+$dialog-border-radius: 3px;
+$zindex-dialog: 1070;
+
+$dialog-animation-duration: 300ms;
+
+$dialog-sm: 85%;
+$dialog-md: 550px;
+
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $zindex-dialog-backdrop;
+  background-color: $dialog-backdrop-bg;
+
+  &.fadeout {
+    transition: opacity .45s linear;
+    opacity: 0;
+  }
+}
+
+.dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  opacity: 0;
+  margin: 0 auto;
+  z-index: $zindex-dialog;
+  background-color: $dialog-content-bg;
+  transform: translate3d(0, 0, 0) scale(1.125);
+  transition: transform $dialog-animation-duration ease-in-out;
+  border-radius: $dialog-border-radius;
+  
+
+  // Prevent Chrome on Windows from adding a focus outline. For details, see
+  // https://github.com/twbs/bootstrap/pull/10951.
+  outline: 0;
+
+  &.show {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+
+  &.hide {
+    animation: hideAlert $dialog-animation-duration ease-in-out;
+  }
+
+  .dialog-inner {
+    position: relative;
+    width: auto;
+    margin: $dialog-margin;
+    pointer-events: none;
+    
+    .dialog-content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      // background-color: $alert-content-bg;
+      background-clip: padding-box;
+      // @include border-radius($border-radius-lg);
+      // @include box-shadow($alert-content-xs-box-shadow);
+      // Remove focus outline from opened modal
+      outline: 0;
+
+      pointer-events: auto;
+
+      .dialog-header {
+        display: flex;
+        align-items: flex-start; // so the close btn always stays on the upper right corner
+        justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
+        padding: $dialog-header-padding;
+        // border-bottom: $alert-header-border-width solid $alert-header-border-color;
+
+        .dialog-title {
+          margin-bottom: 0;
+        }
+      }
+
+      .dialog-body {
+        position: relative;
+        // Enable `flex-grow: 1` so that the body take up as much space as possible
+        // when should there be a fixed height on `.modal-dialog`.
+        flex: 1 1 auto;
+        padding: $dialog-inner-padding;
+      }
+
+      // Footer (for actions)
+      .dialog-footer {
+        display: flex;
+        align-items: center; // vertically center
+        justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
+        padding: $dialog-inner-padding;
+        // border-top: $alert-footer-border-width solid $alert-footer-border-color;
+
+        > :not(:first-child) { margin-left: .25rem; }
+        > :not(:last-child) { margin-right: .25rem; }
+      }
+    }
+  }
+}
+
+@keyframes hideAlert {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.815);
+  }
+}
+
+// Scale up the dialog
+@include media-breakpoint-up(xs) {
+  .dialog {
+    max-width: $dialog-sm;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .dialog {
+    max-width: $dialog-md;
+  }
+}
