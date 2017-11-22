@@ -4,6 +4,8 @@
 
 The internationalization plugin is meant to be simple and light to internationalize your application. You put the texts in each language as an object, the default language (fallback) as well as the user's preferred language and the plugin will display the text in the correct language in your views.
 
+## Configuration
+
 ```js
 const intl = phonon.intl({
   fallbackLocale: 'en',
@@ -20,6 +22,24 @@ const intl = phonon.intl({
     }
   }
 })
+```
+
+## HTML Markup
+
+The HTML elements with the `data-i18n` attribute will be modified by the module. For example, **text** will insert the internationalized text into the element.
+
+```html
+<h1 data-i18n="text: welcome"></h1>
+<input type="text" class="form-control" data-i18n="value: welcome" value="">
+<input type="text" class="form-control" data-i18n="data-attr: welcome, placeholder: welcome" value="">
+```
+
+If the locale is `en`, the result would be:
+
+```html
+<h1 data-i18n="text: welcome">Welcome</h1>
+<input type="text" class="form-control" data-i18n="value: welcome" value="Welcome">
+<input type="text" class="form-control" data-attr="Welcome" placeholder="Welcome" data-i18n="data-attr: welcome, placeholder: welcome" value="">
 ```
 
 ## Methods
@@ -53,7 +73,7 @@ intl.translate('*') // all items
 intl.translate(['welcome', 'other']) // two items
 ```
 
-If the locale is **fr**, the results would be:
+If the locale is `fr`, the result would be:
 
 ```
 Bonjour
@@ -95,7 +115,7 @@ const intl = phonon.intl({
 intl.translate('welcome', {name1: 'Fabien', name2: 'Ben'})
 ```
 
-If the locale is **fr**, the results would be:
+If the locale is `fr`, the result would be:
 
 ```
 Bonjour Fabien et Ben
