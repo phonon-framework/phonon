@@ -41,16 +41,10 @@ const intl = new Intl({
   locale: 'en',
   data: {
     en: {
-      welcome: 'Hello (default)',
-      welcomePerson: 'Hello :name'
-    },
-    en_US: {
-      welcome: 'Hello US',
-      welcomePerson: 'Hello :name'
+      welcome: 'Hello (default)'
     },
     fr: {
-      welcome: 'Bonjour',
-      welcomePerson: 'Bonjour :name'
+      welcome: 'Bonjour'
     }
   }
 })
