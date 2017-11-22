@@ -4,7 +4,7 @@
 
 [WIP]
 
-## Dynamically created dialogs
+## Dynamically Created Dialogs
 
 By not using the `element` property, it will create a dialog's HTMLElement dynamically.
 This is particularly useful if you want to set up a dialog without worrying about its HTML code.
@@ -19,7 +19,7 @@ const dialog = phonon.dialog({
 dialog.show()
 ```
 
-## Custom dialogs
+## Custom Dialogs
 
 Conversely, you can create your own dialog by specifying the `element` property.
 
