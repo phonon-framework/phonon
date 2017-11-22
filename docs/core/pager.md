@@ -5,7 +5,7 @@
 The pager is Phonon's basic module for designing an **SPA**-like application. It connects pages together by providing **page navigation** and allows you to listen to **page events**.
 It also offers a light and simple **router** for recovering parameters with the `hash` event.
 
-If your website or web application will not be designed in SPA mode, the pager will only be useful for using the router.
+If your website or web application will not be designed in SPA mode, the pager will only be useful for its router.
 
 ## Configuration
 
@@ -18,7 +18,7 @@ const pager = phonon.pager({
 })
 ```
 
-## HTML markup
+## HTML Markup
 
 A SPA page is defined by setting up the `app-page` class and a unique data-page attribute.
 
@@ -38,7 +38,7 @@ pager.select('*') // all the pages
 pager.select('myPage, mySecondPage') // two specific pages
 ```
 
-Once you selected pages programatically, you can **listen to events** or **use a template**.
+Once you selected pages programatically, you can **use a template** or **listen to events**.
 
 ## Page Template
 
