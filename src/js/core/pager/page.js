@@ -17,7 +17,7 @@ const Page = (() => {
   const NAME = 'page'
   const VERSION = '2.0.0'
 
-  const RENDER_SELECTOR = '[data-render]'
+  const TEMPLATE_SELECTOR = '[data-template]'
 
   /**
    * ------------------------------------------------------------------------
@@ -85,7 +85,7 @@ const Page = (() => {
           render = this.getRenderFunction()
         }
 
-        render(pageElement, template, pageElement.querySelectorAll(RENDER_SELECTOR))
+        render(pageElement, template, pageElement.querySelectorAll(TEMPLATE_SELECTOR))
       }, null)
     }
 
