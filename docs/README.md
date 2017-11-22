@@ -18,7 +18,11 @@ This can be useful if you want to include specific Phonon components.
 You can import the components you want to use in this way:
 
 ```js
+// core
 import Pager from './core/pager/index'
+import Intl from './core/intl'
+
+// components
 import Dialog from 'phonon/src/js/components/dialog'
 
 const pager = new Pager({
@@ -26,6 +30,25 @@ const pager = new Pager({
   useHash: true,
   defaultPage: 'one',
   animatePages: true
+})
+
+const intl = new Intl({
+  fallbackLocale: 'en',
+  locale: 'en',
+  data: {
+    en: {
+      welcome: 'Hello (default)',
+      welcomePerson: 'Hello :name'
+    },
+    en_US: {
+      welcome: 'Hello US',
+      welcomePerson: 'Hello :name'
+    },
+    fr: {
+      welcome: 'Bonjour',
+      welcomePerson: 'Bonjour :name'
+    }
+  }
 })
 
 // instead of using phonon.dialog(...), you must use the component as an object:
