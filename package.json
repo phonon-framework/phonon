@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build": "webpack -p",
-    "test": "mocha"
+    "test": "mocha",
+    "docs": "documentor docs -o docs/index.html"
   },
   "engines": {
     "node": ">=4"

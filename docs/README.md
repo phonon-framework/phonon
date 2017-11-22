@@ -1,3 +1,7 @@
+---
+title: Documentation
+---
+
 # Documentation [WIP]
 
 Phonon builds are ready to use components.
