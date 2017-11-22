@@ -1,5 +1,9 @@
 # Dialogs
 
+## Introduction
+
+[WIP]
+
 ## Dynamically created dialogs
 
 By not using the `element` property, it will create a dialog's HTMLElement dynamically.
@@ -10,7 +14,7 @@ const dialog = phonon.dialog({
   title: 'Dialog title',
   message: 'Dialog body text goes here.',
   cancelable: true
-})// .show() // or
+})
 
 dialog.show()
 ```
@@ -47,48 +51,46 @@ const dialog = phonon.dialog({
   title: 'Dialog title',
   message: 'Dialog body text goes here.',
   cancelable: true
-})// .show() // or
+})
 
 dialog.show()
 ```
 
+## Methods
+
+### show()
+
+Any dialog can be shown with JavaScript. For this, we call the `show()` method:
+
+```js
+dialog.show()
+```
+
+
+### hide()
+
+Any dialog can be hidden with JavaScript, not only by clicking on its buttons. For this, we call the `hide()` method:
+
+```js
+dialog.hide()
+```
+
+
 ## Events
 
 It may be useful to use the events that affect your dialog.
-To do this, you can use DOM or object events.
+To do this, you can use object and DOM events.
 
-### DOM Events
 
 |     Event Type     |     Description      |
 |--------------------|----------------------|
-|  show.ph.dialog    |   This event fires immediately when the <code>show</code> instance method is called. If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.   |
-|  shown.ph.dialog   |  This event is fired when the dialog has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.    |
-|  hide.ph.dialog    |    This event is fired immediately when the <code>hide</code> instance method has been called.   |
-|  hidden.ph.dialog  |   This event is fired when the dialog has finished being hidden from the user (will wait for CSS transitions to complete).    |
+|  show    |   This event fires immediately when the <code>show</code> instance method is called. If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.   |
+|  shown   |  This event is fired when the dialog has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.    |
+|  hide    |    This event is fired immediately when the <code>hide</code> instance method has been called.   |
+|  hidden  |   This event is fired when the dialog has finished being hidden from the user (will wait for CSS transitions to complete).    |
 
-Example:
-
-```js
-document.querySelector('.dialog').addEventListener('show.ph.dialog', () => {
-  console.log('It works!')
-})
-
-document.querySelector('.dialog').addEventListener('shown.ph.dialog', () => {
-  console.log('It works!')
-})
-
-document.querySelector('.dialog').addEventListener('hide.ph.dialog', () => {
-  console.log('It works!')
-})
-
-document.querySelector('.dialog').addEventListener('hidden.ph.dialog', () => {
-  console.log('It works!')
-})
-```
 
 ### Object Events
-
-Example:
 
 ```js
 phonon.dialog({
@@ -109,3 +111,22 @@ phonon.dialog({
 })
 ```
 
+### DOM Events
+
+```js
+document.querySelector('.dialog').addEventListener('show.ph.dialog', () => {
+  console.log('It works!')
+})
+
+document.querySelector('.dialog').addEventListener('shown.ph.dialog', () => {
+  console.log('It works!')
+})
+
+document.querySelector('.dialog').addEventListener('hide.ph.dialog', () => {
+  console.log('It works!')
+})
+
+document.querySelector('.dialog').addEventListener('hidden.ph.dialog', () => {
+  console.log('It works!')
+})
+```
