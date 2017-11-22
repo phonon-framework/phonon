@@ -1,5 +1,7 @@
 # Internationalization (i18n)
 
+## Introduction
+
 The internationalization plugin is meant to be simple and light to internationalize your application. You put the texts in each language as an object, the default language (fallback) as well as the user's preferred language and the plugin will display the text in the correct language in your views.
 
 ```js
