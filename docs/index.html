@@ -389,16 +389,10 @@ const intl = new Intl({
   locale: 'en',
   data: {
     en: {
-      welcome: 'Hello (default)',
-      welcomePerson: 'Hello :name'
-    },
-    en_US: {
-      welcome: 'Hello US',
-      welcomePerson: 'Hello :name'
+      welcome: 'Hello (default)'
     },
     fr: {
-      welcome: 'Bonjour',
-      welcomePerson: 'Bonjour :name'
+      welcome: 'Bonjour'
     }
   }
 })
@@ -425,7 +419,7 @@ dialog.show()
         <h1>Dialogs</h1>
 <h2>Introduction</h2>
 <p>[WIP]</p>
-<h2>Dynamically created dialogs</h2>
+<h2>Dynamically Created Dialogs</h2>
 <p>By not using the <code>element</code> property, it will create a dialog's HTMLElement dynamically.
 This is particularly useful if you want to set up a dialog without worrying about its HTML code.</p>
 <pre><code class="language-js">const dialog = phonon.dialog({
@@ -436,7 +430,7 @@ This is particularly useful if you want to set up a dialog without worrying abou
 
 dialog.show()
 </code></pre>
-<h2>Custom dialogs</h2>
+<h2>Custom Dialogs</h2>
 <p>Conversely, you can create your own dialog by specifying the <code>element</code> property.</p>
 <pre><code class="language-html">&lt;div class=&quot;dialog&quot; id=&quot;myDialog&quot; tabindex=&quot;-1&quot; role=&quot;dialog&quot;&gt;
   &lt;div class=&quot;dialog-inner&quot; role=&quot;document&quot;&gt;
@@ -551,6 +545,7 @@ document.querySelector('.dialog').addEventListener('hidden.ph.dialog', () =&gt; 
         <h1>Internationalization (i18n)</h1>
 <h2>Introduction</h2>
 <p>The internationalization plugin is meant to be simple and light to internationalize your application. You put the texts in each language as an object, the default language (fallback) as well as the user's preferred language and the plugin will display the text in the correct language in your views.</p>
+<h2>Configuration</h2>
 <pre><code class="language-js">const intl = phonon.intl({
   fallbackLocale: 'en',
   locale: 'en',
@@ -566,6 +561,17 @@ document.querySelector('.dialog').addEventListener('hidden.ph.dialog', () =&gt; 
     }
   }
 })
+</code></pre>
+<h2>HTML Markup</h2>
+<p>The HTML elements with the <code>data-i18n</code> attribute will be modified by the module. For example, <strong>text</strong> will insert the internationalized text into the element.</p>
+<pre><code class="language-html">&lt;h1 data-i18n=&quot;text: welcome&quot;&gt;&lt;/h1&gt;
+&lt;input type=&quot;text&quot; class=&quot;form-control&quot; data-i18n=&quot;value: welcome&quot; value=&quot;&quot;&gt;
+&lt;input type=&quot;text&quot; class=&quot;form-control&quot; data-i18n=&quot;data-attr: welcome, placeholder: welcome&quot; value=&quot;&quot;&gt;
+</code></pre>
+<p>If the locale is <code>en</code>, the result would be:</p>
+<pre><code class="language-html">&lt;h1 data-i18n=&quot;text: welcome&quot;&gt;Welcome&lt;/h1&gt;
+&lt;input type=&quot;text&quot; class=&quot;form-control&quot; data-i18n=&quot;value: welcome&quot; value=&quot;Welcome&quot;&gt;
+&lt;input type=&quot;text&quot; class=&quot;form-control&quot; data-attr=&quot;Welcome&quot; placeholder=&quot;Welcome&quot; data-i18n=&quot;data-attr: welcome, placeholder: welcome&quot; value=&quot;&quot;&gt;
 </code></pre>
 <h2>Methods</h2>
 <h3>setLocale(locale: string, updateHTML: boolean)</h3>
@@ -585,7 +591,7 @@ intl.updateHtml('.my-element') // update the node .my-element
 intl.translate('*') // all items
 intl.translate(['welcome', 'other']) // two items
 </code></pre>
-<p>If the locale is <strong>fr</strong>, the results would be:</p>
+<p>If the locale is <code>fr</code>, the result would be:</p>
 <pre><code>Bonjour
 {welcome: 'Bonjour', other: 'Autre', ...}
 {welcome: 'Bonjour', other: 'Autre'}
@@ -616,7 +622,7 @@ We need to add <strong>:name1</strong> and <strong>:name2</strong> in our data c
 
 intl.translate('welcome', {name1: 'Fabien', name2: 'Ben'})
 </code></pre>
-<p>If the locale is <strong>fr</strong>, the results would be:</p>
+<p>If the locale is <code>fr</code>, the result would be:</p>
 <pre><code>Bonjour Fabien et Ben
 </code></pre>
 
@@ -627,7 +633,7 @@ intl.translate('welcome', {name1: 'Fabien', name2: 'Ben'})
 <h2>Introduction</h2>
 <p>The pager is Phonon's basic module for designing an <strong>SPA</strong>-like application. It connects pages together by providing <strong>page navigation</strong> and allows you to listen to <strong>page events</strong>.
 It also offers a light and simple <strong>router</strong> for recovering parameters with the <code>hash</code> event.</p>
-<p>If your website or web application will not be designed in SPA mode, the pager will only be useful for using the router.</p>
+<p>If your website or web application will not be designed in SPA mode, the pager will only be useful for its router.</p>
 <h2>Configuration</h2>
 <pre><code class="language-js">const pager = phonon.pager({
   hashPrefix: '#!',
@@ -636,7 +642,7 @@ It also offers a light and simple <strong>router</strong> for recovering paramet
   animatePages: true
 })
 </code></pre>
-<h2>HTML markup</h2>
+<h2>HTML Markup</h2>
 <p>A SPA page is defined by setting up the <code>app-page</code> class and a unique data-page attribute.</p>
 <pre><code class="language-html">&lt;div class=&quot;app-page&quot; data-page=&quot;myPage&quot;&gt;&lt;/div&gt;
 &lt;div class=&quot;app-page&quot; data-page=&quot;mySecondPage&quot;&gt;&lt;/div&gt;
@@ -648,7 +654,7 @@ It also offers a light and simple <strong>router</strong> for recovering paramet
 pager.select('*') // all the pages
 pager.select('myPage, mySecondPage') // two specific pages
 </code></pre>
-<p>Once you selected pages programatically, you can <strong>listen to events</strong> or <strong>use a template</strong>.</p>
+<p>Once you selected pages programatically, you can <strong>use a template</strong> or <strong>listen to events</strong>.</p>
 <h2>Page Template</h2>
 <p>To work with pages, you must use the <code>select() method</code>, then <code>useTemplate()</code>.
 By default, Pager will load the file and set it where the attribute <code>data-template</code> is present
