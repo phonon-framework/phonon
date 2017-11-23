@@ -7,7 +7,7 @@
 // core
 import Pager from './core/pager/index'
 import Ajax from './core/ajax'
-import { platform } from './core/platform'
+import platform from './core/platform'
 import Intl from './core/intl'
 import './core/network'
 import './core/events'
@@ -15,6 +15,7 @@ import './core/events'
 // visual components (ui)
 import Dialog from './components/dialog'
 import Notification from './components/notification'
+import Collapse from './components/collapse'
 
 const api = {}
 
@@ -46,7 +47,7 @@ api.pager = options => {
  * ------------------------------------------------------------------------
  */
 
-api.platform = platform()
+api.platform = platform
 
 /**
  * ------------------------------------------------------------------------
@@ -75,6 +76,13 @@ api.notification = Notification._DOMInterface
  * ------------------------------------------------------------------------
  */
 api.dialog = Dialog._DOMInterface
+
+/**
+ * ------------------------------------------------------------------------
+ * Collapse
+ * ------------------------------------------------------------------------
+ */
+api.collapse = Collapse._DOMInterface
 
 // Make the API live
 window.phonon = api
