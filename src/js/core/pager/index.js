@@ -5,6 +5,7 @@
  */
 
 import Page from './page'
+import Event from '../../core/events'
 
 const Pager = (() => {
   /**
@@ -81,7 +82,7 @@ const Pager = (() => {
     }
 
     setHash(pageName) {
-      window.location.hash = this.options.hashPrefix + '/' + pageName
+      window.location.hash = `${this.options.hashPrefix}/${pageName}`
     }
 
     areSamePage(pageName1, pageName2) {
@@ -131,7 +132,7 @@ const Pager = (() => {
       currentPage = pageName
 
       // new page
-      const newPage = this._('[data-page="' + pageName + '"]')
+      const newPage = this._(`[data-page="${pageName}"]`)
 
       newPage.classList.add('current')
 
@@ -151,7 +152,7 @@ const Pager = (() => {
         oldPage.previousPageName = oldPageName
 
         if (this.options.animatePages) {
-          oldPage.addEventListener('animationend', () => this.onPageAnimationEnd(oldPage))
+          oldPage.addEventListener(Event.ANIMATION_END, () => this.onPageAnimationEnd(oldPage))
           oldPage.classList.add('animate')
         } else {
           this.onPageAnimationEnd(oldPage)
@@ -214,9 +215,8 @@ const Pager = (() => {
     }
 
     onClick(event) {
-      const target = event.target
-      const pageName = target.getAttribute('data-navigate')
-      const pushPage = !(target.getAttribute('data-pop-page') === 'true')
+      const pageName = event.target.getAttribute('data-navigate')
+      const pushPage = !(event.target.getAttribute('data-pop-page') === 'true')
 
       if (pageName) {
         if (pageName === '$back') {
@@ -254,7 +254,7 @@ const Pager = (() => {
       this.triggerPageEvent(currentPage, Event.PAGE.SHOWN)
       this.triggerPageEvent(target.previousPageName, Event.PAGE.HIDDEN)
 
-      target.removeEventListener('animationend', event => this.onPageAnimationEnd(event))
+      target.removeEventListener(Event.ANIMATION_END, event => this.onPageAnimationEnd(event))
     }
 
     onHashChange() {
