@@ -32,25 +32,34 @@ const Intl = (() => {
      * Creates an instance of Intl.
      * @param {fallbackLocale: string, locale: string, autoBind: boolean, data: {[lang: string]: {[key: string]: string}}}
      */
-    constructor(options) {
-      options = Object.assign(DEFAULT_PROPERTIES, options)
-      
-      this.fallbackLocale = options.fallbackLocale
-      this.locale = options.locale
-      this.autoBind = options.autoBind
-      this.data = options.data
+    constructor(options = {}) {
+      this.options = Object.assign(DEFAULT_PROPERTIES, options)
 
-      if (typeof this.fallbackLocale !== 'string') {
-        throw new Error(`${NAME}. Fallback locale is mandatory and must be a string.`)
+      if (typeof this.options.fallbackLocale !== 'string') {
+        throw new Error(`${NAME}. The fallback locale is mandatory and must be a string.`)
       }
 
-      this.setLocale(this.locale, this.autoBind)
-    }
+      if (this.options.data === null) {
+        throw new Error(`${NAME}. There is no translation data.`)
+      }
 
-    // getters
+      if (typeof this.options.data[this.options.fallbackLocale] !== 'object') {
+        throw new Error(`${NAME}. The fallback locale must necessarily have translation data.`)
+      }
+
+      this.setLocale(this.options.locale, this.options.autoBind)
+    }
 
     static get version() {
       return `${NAME}.${VERSION}`
+    }
+
+    getLocale() {
+      return this.options.locale
+    }
+
+    getFallbackLocale() {
+      return this.options.fallbackLocale
     }
 
     /**
@@ -59,10 +68,10 @@ const Intl = (() => {
      * @param {boolean} [updateHTML=true]
      */
     setLocale(locale, updateHTML = true) {
-      if (typeof this.data[locale] !== 'object') {
-        console.error(`${NAME}. ${locale} has no data, fallback in ${this.fallbackLocale}.`)
+      if (typeof this.options.data[locale] !== 'object') {
+        console.error(`${NAME}. ${locale} has no data, fallback in ${this.options.fallbackLocale}.`)
       } else {
-        this.locale = locale
+        this.options.locale = locale
       }
 
       if (updateHTML) {
@@ -71,12 +80,12 @@ const Intl = (() => {
     }
 
     getLanguages() {
-      return Object.keys(this.data)
+      return Object.keys(this.options.data)
     }
 
     insertValues(value = null, injectableValues = {}) {
       if (typeof value !== 'string') {
-        return ''
+        return undefined
       }
 
       const match = value.match(/:([a-zA-Z-_0-9]+)/)
@@ -92,9 +101,9 @@ const Intl = (() => {
     }
 
     translate(keyName = null, inject = {}) {
-      let data = this.data[this.locale]
+      let data = this.options.data[this.options.locale]
       if (!data) {
-        data = this.data[this.fallbackLocale]
+        data = this.options.data[this.options.fallbackLocale]
       }
 
       if (keyName === null || keyName === '*' || Array.isArray(keyName)) {
