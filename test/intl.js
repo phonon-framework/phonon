@@ -1,21 +1,15 @@
 // load Unit.js module
-import jsdomify from 'jsdomify'
+import { JSDOM } from 'jsdom'
 import test from 'unit.js'
 import Intl from '../src/js/core/intl'
 
+const dom = new JSDOM('<body></body>', { pretendToBeVisual: true })
+
+global.window = dom.window
+global.document = dom.window.document
+global.CustomEvent = window.CustomEvent
+
 describe('Intl', () => {
-
-  before(() => {
-    jsdomify.create()
-  })
-
-  beforeEach(() => {
-    jsdomify.clear()
-  })
-
-  after(() => {
-    jsdomify.destroy()
-  })
 
   it('Invalid configuration test', () => {
 
@@ -71,7 +65,7 @@ describe('Intl', () => {
 
     intl.setLocale('en')
 
-    test.string(intl.getLocale()).is('en')    
+    test.string(intl.getLocale()).is('en')
   })
 
   it('Automatic locale fallback test', () => {
