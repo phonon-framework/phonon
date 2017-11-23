@@ -25,9 +25,15 @@ const Binder = (() => {
       this.element = element
       this.data = data
 
+      if (!this.isElement(this.element)) {
+        return
+      }
+
+      // array of HTMLElement
       if (this.element.length && this.element.length > 0) {
         this.setNodes(this.element)
       } else {
+        // single HTMLElement
         this.setNode(this.element)
       }
     }
@@ -40,16 +46,19 @@ const Binder = (() => {
 
     /**
      * Checks if the given argument is a DOM element
-     * @param {DOMObject} o the argument to test
+     * @param {HTMLElement} the argument to test
      * @return {boolean} true if the object is a DOM element, false otherwise
      */
-    isElement() {
-      return (typeof Node === 'object' ? this.element instanceof Node : this.element && typeof this.element === 'object' && typeof this.element.nodeType === 'number' && typeof this.element.nodeName === 'string')
+    isElement(element) {
+      if (element === null) {
+        return false
+      }
+      return (typeof Node === 'object' ? element instanceof Node : element && typeof element === 'object' && typeof element.nodeType === 'number' && typeof element.nodeName === 'string')
     }
 
     /**
     * Binds some text to the given DOM element
-    * @param {any} element
+    * @param {HTMLElement} element
     * @param {String} text
     */
     setText(element, text) {
@@ -62,7 +71,7 @@ const Binder = (() => {
 
     /**
      * Binds some html to the given DOM element
-     * @param {any} element
+     * @param {HTMLElement} element
      * @param {string} text
      */
     setHtml(element, text) {
@@ -70,10 +79,11 @@ const Binder = (() => {
     }
 
     /**
-    * Binds custom attributes to the given DOM element
-    * @param {String} attr
-    * @param {String} text
-    */
+     * Binds custom attributes to the given DOM element
+     * @param {HTMLElement} element
+     * @param {String} attr
+     * @param {String} text
+     */
     setAttribute(element, attr, text) {
       element.setAttribute(attr, text)
     }
