@@ -3,6 +3,7 @@
 * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
 * --------------------------------------------------------------------------
 */
+import Event from '../../core/events'
 
 const Notification = (() => {
   /**
@@ -129,7 +130,7 @@ const Notification = (() => {
 
       this.options.element.classList.remove('show')
       this.options.element.classList.add('hide')
-      this.options.element.addEventListener('transitionend', this.onHiddenTransitionHandler)
+      this.options.element.addEventListener(Event.TRANSITION_END, this.onHiddenTransitionHandler)
     }
 
     onButton(event) {
@@ -142,7 +143,7 @@ const Notification = (() => {
         this.options.element.querySelector('.btn').removeEventListener('click', this.onButtonHandler)
       }
 
-      this.options.element.removeEventListener('transitionend', this.onHiddenTransitionHandler)
+      this.options.element.removeEventListener(Event.TRANSITION_END, this.onHiddenTransitionHandler)
 
       if (this.dynamicElement) {
         document.body.removeChild(this.options.element)
