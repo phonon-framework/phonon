@@ -48,8 +48,6 @@ Then, you can work with it by using the correct `element` property.
 ```js
 const dialog = phonon.dialog({
   element: '#myDialog',
-  title: 'Dialog title',
-  message: 'Dialog body text goes here.',
   cancelable: true
 })
 
