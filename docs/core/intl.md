@@ -44,13 +44,25 @@ If the locale is `en`, the result would be:
 
 ## Methods
 
+### getLocale()
+
+Returns the current locale.
+
+### getFallbackLocale()
+
+Returns the fallback locale.
+
+### getLanguages()
+
+Returns the available languages.
+
 ### setLocale(locale: string, updateHTML: boolean)
 
 Updates the current locale with a new `locale`. By default, it will update the HTML,
 put false if you don't want to.
 
 ```js
-intl.setLocale('fr', false)
+intl.setLocale('fr')
 ```
 
 ### updateHtml(HTMLElement?)
