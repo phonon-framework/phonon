@@ -42,7 +42,6 @@ Once you selected pages programatically, you can **use a template** or **listen 
 
 ## Page Template
 
-To work with pages, you must use the `select() method`, then `useTemplate()`.
 By default, Pager will load the file and set it where the attribute `data-template` is present
 in the HTML view.
 
