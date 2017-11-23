@@ -33,20 +33,20 @@ $dialog-md: 550px;
   top: 0;
   right: 0;
   left: 0;
-  width: auto;
-  height: auto;
-  opacity: 0;
-  margin: 0 auto;
-  z-index: $zindex-dialog;
-  background-color: $dialog-content-bg;
   transform: translate3d(0, 0, 0) scale(1.125);
   transition: transform $dialog-animation-duration ease-in-out;
-  border-radius: $dialog-border-radius;
-  
-
-  // Prevent Chrome on Windows from adding a focus outline. For details, see
+  opacity: 0;
+  z-index: $zindex-dialog;
+  margin: 0 auto;
+  // prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;
+
+
+  border-radius: $dialog-border-radius;
+  background-color: $dialog-content-bg;
+  width: auto;
+  height: auto;
 
   &.show {
     transform: translate3d(0, 0, 0) scale(1);
@@ -59,13 +59,13 @@ $dialog-md: 550px;
 
   .dialog-inner {
     position: relative;
-    width: auto;
     margin: $dialog-margin;
+    width: auto;
     pointer-events: none;
-    
+
     .dialog-content {
-      position: relative;
       display: flex;
+      position: relative;
       flex-direction: column;
 
       // background-color: $alert-content-bg;
