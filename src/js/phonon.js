@@ -12,10 +12,11 @@ import Intl from './core/intl'
 import './core/network'
 import './core/events'
 
-// visual components (ui)
+// components
 import Dialog from './components/dialog'
 import Notification from './components/notification'
 import Collapse from './components/collapse'
+import Progress from './components/progress'
 
 const api = {}
 
@@ -26,7 +27,7 @@ const api = {}
  */
 api.config = {
   // global config
-  debug: true
+  debug: true,
 }
 
 /**
@@ -34,7 +35,7 @@ api.config = {
  * Pager
  * ------------------------------------------------------------------------
  */
-api.pager = options => {
+api.pager = (options) => {
   if (typeof api._pager === 'undefined') {
     api._pager = Pager._DOMInterface(options)
   }
@@ -83,6 +84,13 @@ api.dialog = Dialog._DOMInterface
  * ------------------------------------------------------------------------
  */
 api.collapse = Collapse._DOMInterface
+
+/**
+ * ------------------------------------------------------------------------
+ * Progress
+ * ------------------------------------------------------------------------
+ */
+api.progress = Progress._DOMInterface
 
 // Make the API live
 window.phonon = api
