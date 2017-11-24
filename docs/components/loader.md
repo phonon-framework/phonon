@@ -18,6 +18,7 @@ it may be useful not to show the loader, but after a while. For this, we add the
 <div class="loader hide">
   <div class="loader-spinner"></div>
 </div>
+```
 
 ## JavaScript
 
