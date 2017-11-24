@@ -21,6 +21,7 @@ const OffCanvas = (() => {
     aside: {
       md: false,
       lg: false,
+      xl: false,
     }
   }
 
