@@ -29,7 +29,7 @@ const Collapse = (() => {
     constructor(options = {}) {
       this.options = Object.assign(DEFAULT_PROPERTIES, options)
 
-      if (typeof element === 'string') {
+      if (typeof this.options.element === 'string') {
         this.options.element = document.querySelector(this.options.element)
       }
 
