@@ -17,6 +17,7 @@ import Dialog from './components/dialog'
 import Notification from './components/notification'
 import Collapse from './components/collapse'
 import Progress from './components/progress'
+import Loader from './components/loader'
 
 const api = {}
 
@@ -91,6 +92,13 @@ api.collapse = Collapse._DOMInterface
  * ------------------------------------------------------------------------
  */
 api.progress = Progress._DOMInterface
+
+/**
+ * ------------------------------------------------------------------------
+ * Loader
+ * ------------------------------------------------------------------------
+ */
+api.loader = Loader._DOMInterface
 
 // Make the API live
 window.phonon = api
