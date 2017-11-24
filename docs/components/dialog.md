@@ -13,7 +13,6 @@ This is particularly useful if you want to set up a dialog without worrying abou
 const dialog = phonon.dialog({
   title: 'Dialog title',
   message: 'Dialog body text goes here.',
-  cancelable: true
 })
 
 dialog.show()
@@ -48,11 +47,14 @@ Then, you can work with it by using the correct `element` property.
 ```js
 const dialog = phonon.dialog({
   element: '#myDialog',
-  cancelable: true
 })
 
 dialog.show()
 ```
+
+## Options
+
+- cancelable
 
 ## Methods
 

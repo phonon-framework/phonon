@@ -41,6 +41,12 @@ const notif = phonon.notification({
 notif.show()
 ```
 
+## Options
+
+- showButton
+- timeout
+- background
+
 ## Methods
 
 ### show()
@@ -61,4 +67,56 @@ notif.hide()
 
 ## Events
 
-@todo
+It may be useful to use the events that affect your notification.
+To do this, you can use object and DOM events.
+
+
+|     Event Type     |     Description      |
+|--------------------|----------------------|
+|  show    |   This event fires immediately when the <code>show</code> instance method is called. If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.   |
+|  shown   |  This event is fired when the notification has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the <code>relatedTarget</code> property of the event.    |
+|  hide    |    This event is fired immediately when the <code>hide</code> instance method has been called.   |
+|  hidden  |   This event is fired when the notification has finished being hidden from the user (will wait for CSS transitions to complete).    |
+
+
+### Object Events
+
+```js
+phonon.notification({
+  element: '#myNotification',
+  message: 'Hello',
+  show: () => { // or onShow
+    console.log('It works!')
+  },
+  shown: () => { // or onShown
+    console.log('It works!')
+  },
+  hide: () => { // or onHide
+    console.log('It works!')
+  },
+  hidden: () => { // or onHidden
+    console.log('It works!')
+  }
+})
+```
+
+### DOM Events
+
+```js
+document.querySelector('.notification').addEventListener('show.ph.notification', () => {
+  console.log('It works!')
+})
+
+document.querySelector('.notification').addEventListener('shown.ph.notification', () => {
+  console.log('It works!')
+})
+
+document.querySelector('.notification').addEventListener('hide.ph.notification', () => {
+  console.log('It works!')
+})
+
+document.querySelector('.notification').addEventListener('hidden.ph.notification', () => {
+  console.log('It works!')
+})
+```
+
