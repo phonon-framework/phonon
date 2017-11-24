@@ -3,6 +3,7 @@
  * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
+import Component from '../component'
 
 const Loader = (() => {
   /**
@@ -25,18 +26,10 @@ const Loader = (() => {
    * ------------------------------------------------------------------------
    */
 
-  class Loader {
+  class Loader extends Component {
 
     constructor(options = {}) {
-      this.options = Object.assign(DEFAULT_PROPERTIES, options)
-
-      if (typeof this.options.element === 'string') {
-        this.options.element = document.querySelector(this.options.element)
-      }
-
-      if (this.options.element === null) {
-        throw new Error(`${NAME}. The element is not a HTMLElement.`)
-      }
+      super(NAME, VERSION, DEFAULT_PROPERTIES, options, false)
 
       // set color
       const loaderSpinner = this.getSpinner()
@@ -77,6 +70,8 @@ const Loader = (() => {
         loaderSpinner.style.width = `${this.options.size}px`
         loaderSpinner.style.height = `${this.options.size}px`
       }
+
+      return true
     }
 
     animate(startAnimation = true) {
@@ -106,14 +101,12 @@ const Loader = (() => {
       if (!this.options.element.classList.contains('hide')) {
         this.options.element.classList.add('hide')
       }
-    }
 
-    static get version() {
-      return `${NAME}.${VERSION}`
+      return true
     }
 
     static _DOMInterface(options) {
-      return new Loader(options)
+      return super._DOMInterface(Loader, options)
     }
   }
 

@@ -3,6 +3,7 @@
  * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
+import Component from '../component'
 
 const Progress = (() => {
   /**
@@ -29,20 +30,12 @@ const Progress = (() => {
    * ------------------------------------------------------------------------
    */
 
-  class Progress {
+  class Progress extends Component {
 
     constructor(options = {}) {
-      this.options = Object.assign(DEFAULT_PROPERTIES, options)
+      super(NAME, VERSION, DEFAULT_PROPERTIES, options, false)
 
-      if (typeof this.options.element === 'string') {
-        this.options.element = document.querySelector(this.options.element)
-      }
-
-      if (this.options.element === null) {
-        throw new Error(`${NAME}. The element is not a HTMLElement.`)
-      }
-
-      // set the correct height
+      // set the wanted height
       this.options.element.style.height = `${this.options.height}px`
 
       // set min and max values
@@ -63,7 +56,7 @@ const Progress = (() => {
       }
     }
 
-    getProgressBar () {
+    getProgressBar() {
       return this.options.element.querySelector('.progress-bar')
     }
 
@@ -90,6 +83,8 @@ const Progress = (() => {
 
       // set percentage
       progressBar.style.width = `${progress}%`
+
+      return true
     }
 
     animate(startAnimation = true) {
@@ -115,18 +110,16 @@ const Progress = (() => {
 
     show() {
       this.options.element.style.height = `${this.options.height}px`
+      return true
     }
 
     hide() {
       this.options.element.style.height = '0px'
-    }
-
-    static get version() {
-      return `${NAME}.${VERSION}`
+      return true
     }
 
     static _DOMInterface(options) {
-      return new Progress(options)
+      return super._DOMInterface(Progress, options)
     }
   }
 

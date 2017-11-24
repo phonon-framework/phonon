@@ -4,6 +4,7 @@
 * --------------------------------------------------------------------------
 */
 import Event from '../../core/events'
+import Component from '../component'
 
 const Notification = (() => {
   /**
@@ -28,34 +29,24 @@ const Notification = (() => {
    * ------------------------------------------------------------------------
    */
 
-  class Notification {
+  class Notification extends Component {
+
     constructor(options = {}) {
-      this.options = Object.assign(DEFAULT_PROPERTIES, options)
-
-      if (typeof this.options.element === 'string') {
-        this.options.element = document.querySelector(this.options.element)
-      }
-
-      this.dynamicElement = this.options.element === null
-      this.timeoutCallback = null
+      super(NAME, VERSION, DEFAULT_PROPERTIES, options, true)
 
       this.template = '' +
         '<div class="notification-inner">' +
           '<div class="message"></div>' +
-          '<button class="btn">X</button>' +
+          '<button type="button" class="close" data-dismiss="off-canvas" aria-label="Close">' +
+            '<span aria-hidden="true">&times;</span>' +
+          '</button>' +
         '</div>'
 
       if (this.dynamicElement) {
         this.build()
       }
 
-      this.onButtonHandler = event => {
-        this.onButton(event)
-      }
-
-      this.onHiddenTransitionHandler = event => {
-        this.onHidden(event)
-      }
+      this.timeoutCallback = null
     }
 
     build() {
@@ -68,7 +59,7 @@ const Notification = (() => {
       div.querySelector('.message').innerHTML = this.options.message
 
       if (!this.options.showButton) {
-        div.querySelector('.btn').style.display = 'none'
+        div.querySelector('button').style.display = 'none'
       }
 
       this.options.element = div
@@ -84,7 +75,7 @@ const Notification = (() => {
 
       if (this.options.element.classList.contains('show')) {
         console.error(`${NAME}. The notification is already visible.`)
-        return
+        return false
       }
 
       // reset color
@@ -93,16 +84,26 @@ const Notification = (() => {
         this.options.element.setAttribute('class', 'notification')
 
         this.options.element.classList.add(`bg-${this.options.background}`)
-        this.options.element.querySelector('.btn').classList.add(`btn-${this.options.background}`)
+        this.options.element.querySelector('button').classList.add(`btn-${this.options.background}`)
       }
 
-      // attach the button handler
       if (this.options.showButton) {
-        this.options.element.querySelector('.btn').addEventListener('click', this.onButtonHandler)
+        // attach the button handler
+        const buttonElement = this.options.element.querySelector('button')
+        this.registerElement({ target: buttonElement, event: 'click' })
       }
 
       setTimeout(() => {
         this.options.element.classList.add('show')
+        this.triggerEvent(Event.SHOW)
+
+        const onShown = () => {
+          this.triggerEvent(Event.SHOWN)
+          this.options.element.removeEventListener(Event.TRANSITION_END, onShown)
+        }
+
+        this.options.element.addEventListener(Event.TRANSITION_END, onShown)
+
       }, 1)
 
       if (Number.isInteger(this.options.timeout) && this.options.timeout > 0) {
@@ -111,6 +112,8 @@ const Notification = (() => {
           this.hide()
         }, this.options.timeout + 1)
       }
+
+      return true
     }
 
     hide() {
@@ -125,38 +128,42 @@ const Notification = (() => {
 
       if (!this.options.element.classList.contains('show')) {
         console.error(`${NAME}. The notification is not visible.`)
-        return
+        return false
+      }
+
+      this.triggerEvent(Event.HIDE)
+
+      if (this.options.showButton) {
+        const buttonElement = this.options.element.querySelector('button')
+        this.unregisterElement({ target: buttonElement, event: 'click' })
       }
 
       this.options.element.classList.remove('show')
       this.options.element.classList.add('hide')
-      this.options.element.addEventListener(Event.TRANSITION_END, this.onHiddenTransitionHandler)
+
+      const onHidden = () => {
+        this.options.element.removeEventListener(Event.TRANSITION_END, onHidden)
+        this.options.element.classList.remove('hide')
+
+        this.triggerEvent(Event.HIDDEN)
+
+        if (this.dynamicElement) {
+          document.body.removeChild(this.options.element)
+          this.options.element = null
+        }
+      }
+
+      this.options.element.addEventListener(Event.TRANSITION_END, onHidden)
+
+      return true
     }
 
-    onButton(event) {
+    onElementEvent() {
       this.hide()
     }
 
-    onHidden() {
-      // detach the button handler
-      if (this.options.showButton) {
-        this.options.element.querySelector('.btn').removeEventListener('click', this.onButtonHandler)
-      }
-
-      this.options.element.removeEventListener(Event.TRANSITION_END, this.onHiddenTransitionHandler)
-
-      if (this.dynamicElement) {
-        document.body.removeChild(this.options.element)
-        this.options.element = null
-      }
-    }
-
-    static get version() {
-      return `${NAME}.${VERSION}`
-    }
-
     static _DOMInterface(options) {
-      return new Notification(options)
+      return super._DOMInterface(Notification, options)
     }
   }
 
