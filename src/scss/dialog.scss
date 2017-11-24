@@ -1,4 +1,4 @@
-$zindex-dialog-backdrop: 1060;
+$zindex-dialog-backdrop: 1000;
 $dialog-backdrop-bg: rgba(0, 0, 0, .55);
 
 $dialog-content-bg: #fff;
@@ -6,7 +6,7 @@ $dialog-margin: 15px;
 $dialog-inner-padding: 15px;
 $dialog-header-padding: $dialog-inner-padding;
 $dialog-border-radius: 3px;
-$zindex-dialog: 1070;
+$zindex-dialog: 1010;
 
 $dialog-animation-duration: 300ms;
 
@@ -41,7 +41,6 @@ $dialog-md: 550px;
   // prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;
-
 
   border-radius: $dialog-border-radius;
   background-color: $dialog-content-bg;
@@ -114,13 +113,13 @@ $dialog-md: 550px;
 
 @keyframes hideAlert {
   0% {
-    opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
   }
 
   100% {
-    opacity: 0;
     transform: translate3d(0, 0, 0) scale(0.815);
+    opacity: 0;
   }
 }
 
