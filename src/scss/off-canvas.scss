@@ -1,0 +1,106 @@
+
+$zindex-off-canvas-backdrop: 900;
+$off-canvas-backdrop-bg: rgba(0, 0, 0, .55);
+
+$off-canvas-width: 320px;
+$off-canvas-zindex: 910;
+$off-canvas-background: $white;
+$off-canvas-margin: $spacer;
+$off-canvas-header-padding: $off-canvas-margin;
+$off-canvas-inner-padding: $off-canvas-margin;
+$off-canvas-header-border-width: 1px;
+$off-canvas-header-border-color: gray('300');
+
+$off-canvas-footer-border-width: 1px;
+$off-canvas-footer-border-color: gray('300');
+
+$off-canvas-container-border-width: 1px;
+$off-canvas-container-border-color: gray('300');
+
+.off-canvas-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zindex-off-canvas-backdrop;
+  background-color: $off-canvas-backdrop-bg;
+
+  &.fadeout {
+    transition: opacity .45s linear;
+    opacity: 0;
+  }
+}
+
+.off-canvas-aside {
+  margin-left: $off-canvas-width;
+  width: calc(100% - #{$off-canvas-width});
+}
+
+.off-canvas {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transform: translate3d(-$off-canvas-width, 0, 0);
+  z-index: $off-canvas-zindex;
+  background-color: $off-canvas-background;
+  border-right: $off-canvas-container-border-width solid $off-canvas-container-border-color;
+  
+  width: $off-canvas-width;
+  height: 100%;
+
+  &.animate {
+    transition: transform 300ms ease-in-out;
+  }
+
+  &.show {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .off-canvas-inner {
+    position: relative;
+    margin: $off-canvas-margin;
+    height: 100%;
+    pointer-events: none;
+
+    .off-canvas-content {
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      background-clip: padding-box;
+      outline: 0;
+
+      pointer-events: auto;
+
+      height: 100%;
+
+      .off-canvas-header {
+        display: flex;
+        align-items: flex-start; // so the close btn always stays on the upper right corner
+        justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
+        padding: $off-canvas-header-padding;
+        border-bottom: $off-canvas-header-border-width solid $off-canvas-header-border-color;
+
+        .off-canvas-title {
+          margin-bottom: 0;
+        }
+      }
+
+      .off-canvas-body {
+        position: relative;
+        flex: 1 1 auto;
+        padding: $off-canvas-inner-padding;
+      }
+
+      // footer
+      .off-canvas-footer {
+        display: flex;
+        align-items: center; // vertically center
+        justify-content: flex-start; // left align items
+        padding: $off-canvas-inner-padding;
+        border-top: $off-canvas-footer-border-width solid $off-canvas-footer-border-color;
+      }
+    }
+  }
+}
