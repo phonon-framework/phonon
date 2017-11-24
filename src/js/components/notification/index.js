@@ -19,7 +19,7 @@ const Notification = (() => {
     message: '',
     showButton: true,
     timeout: null,
-    background: 'primary'
+    background: 'primary',
   }
 
   /**
