@@ -18,6 +18,7 @@ import Notification from './components/notification'
 import Collapse from './components/collapse'
 import Progress from './components/progress'
 import Loader from './components/loader'
+import OffCanvas from './components/off-canvas'
 
 const api = {}
 
@@ -99,6 +100,13 @@ api.progress = Progress._DOMInterface
  * ------------------------------------------------------------------------
  */
 api.loader = Loader._DOMInterface
+
+/**
+ * ------------------------------------------------------------------------
+ * Off canvas
+ * ------------------------------------------------------------------------
+ */
+api.offCanvas = OffCanvas._DOMInterface
 
 // Make the API live
 window.phonon = api
