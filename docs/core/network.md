@@ -8,14 +8,12 @@ Network is a simple module to know the status of the network, i. e. whether the 
 ### DOM Events
 
 ```js
-window.addEventListener('online.ph.network', function (event) {
-  console.log('online')
-  console.log(event.detail.date)
+window.addEventListener('online.ph.network', (event) => {
+  console.log(`online ${event.detail.date}`)
 })
 
-window.addEventListener('offline.ph.network', function (event) {
-  console.log('offline')
-  console.log(event.detail.date)
+window.addEventListener('offline.ph.network', (event) => {
+  console.log(`offline ${event.detail.date}`)
 })
 ```
 
