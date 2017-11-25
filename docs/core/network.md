@@ -20,7 +20,7 @@ window.addEventListener('offline.ph.network', (event) => {
 ### Object Events
 
 ```js
-const network = phonon.network({
+phonon.network({
   online: (event) => {
     console.log(`online ${event.date}`)
   },
