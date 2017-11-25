@@ -9,7 +9,7 @@ import Pager from './core/pager/index'
 import Ajax from './core/ajax'
 import platform from './core/platform'
 import Intl from './core/intl'
-import './core/network'
+import Network from './core/network'
 import './core/events'
 
 // components
@@ -65,6 +65,13 @@ api.ajax = Ajax._DOMInterface
  * ------------------------------------------------------------------------
  */
 api.intl = Intl._DOMInterface
+
+/**
+ * ------------------------------------------------------------------------
+ * Network
+ * ------------------------------------------------------------------------
+ */
+api.network = Network._DOMInterface
 
 /**
  * ------------------------------------------------------------------------
