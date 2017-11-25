@@ -7095,10 +7095,8 @@ a.text-dark:focus, a.text-dark:hover {
 
 .app-page {
   display: none;
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
   width: 100%;
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden; }
@@ -7116,51 +7114,51 @@ a.text-dark:focus, a.text-dark:hover {
   z-index: 2; }
 
 .app-page.animate.push-page {
-  -webkit-animation: leftTransition 300ms ease-out;
-          animation: leftTransition 300ms ease-out; }
+  -webkit-animation: upTransition 300ms ease-out;
+          animation: upTransition 300ms ease-out; }
 
 .app-page.animate.pop-page {
-  -webkit-animation: rightTransition 300ms ease-out;
-          animation: rightTransition 300ms ease-out; }
+  -webkit-animation: downTransition 300ms ease-out;
+          animation: downTransition 300ms ease-out; }
 
-@-webkit-keyframes leftTransition {
+@-webkit-keyframes upTransition {
   0% {
     -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
     opacity: 1; }
   100% {
-    -webkit-transform: translate3d(-50%, 0, 0);
-            transform: translate3d(-50%, 0, 0);
+    -webkit-transform: translate3d(0, 30%, 0);
+            transform: translate3d(0, 30%, 0);
     opacity: 0; } }
 
-@keyframes leftTransition {
+@keyframes upTransition {
   0% {
     -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
     opacity: 1; }
   100% {
-    -webkit-transform: translate3d(-50%, 0, 0);
-            transform: translate3d(-50%, 0, 0);
+    -webkit-transform: translate3d(0, 30%, 0);
+            transform: translate3d(0, 30%, 0);
     opacity: 0; } }
 
-@-webkit-keyframes rightTransition {
+@-webkit-keyframes downTransition {
   0% {
     -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
     opacity: 1; }
   100% {
-    -webkit-transform: translate3d(50%, 0, 0);
-            transform: translate3d(50%, 0, 0);
+    -webkit-transform: translate3d(0, -30%, 0);
+            transform: translate3d(0, -30%, 0);
     opacity: 0; } }
 
-@keyframes rightTransition {
+@keyframes downTransition {
   0% {
     -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
     opacity: 1; }
   100% {
-    -webkit-transform: translate3d(50%, 0, 0);
-            transform: translate3d(50%, 0, 0);
+    -webkit-transform: translate3d(0, -30%, 0);
+            transform: translate3d(0, -30%, 0);
     opacity: 0; } }
 
 .unselectable {
@@ -7169,171 +7167,153 @@ a.text-dark:focus, a.text-dark:hover {
       -ms-user-select: none;
           user-select: none; }
 
-/*
-$alert-button-height:      48px !default;
-$alert-shadow-color:       #8a8a8a !default;
-$alert-background:         #fff !default;
-
-$zindex-alert: 100 !default;
-$zindex-alert-backdrop: 90 !default;
-
-$alert-backdrop-bg: rgba(0,0,0,0.35) !default;
-
-$alert-dialog-margin: $modal-dialog-margin; // copy
-$alert-inner-padding: $modal-inner-padding; // copy
-$alert-content-bg: $modal-content-bg;
-$alert-content-border-color: $modal-content-border-color;
-$alert-content-border-width: $modal-content-border-width;
-$alert-content-xs-box-shadow: $modal-content-xs-box-shadow;
-$alert-content-sm-up-box-shadow: $modal-content-sm-up-box-shadow;
-
-$alert-header-padding: $modal-header-padding;
-$alert-header-border-width: $modal-header-border-width;
-$alert-header-border-color: $modal-header-border-color;
-
-$alert-footer-border-width: $modal-footer-border-width;
-$alert-footer-border-color: $modal-footer-border-color;
-
-$alert-sm: 300px !default;
-$alert-md: $alert-sm;
-$alert-lg: $alert-sm;
-
-.alert-open {
-  overflow: hidden;
-}
-
-.alert-backdrop {
+.dialog-backdrop {
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
-  z-index: $zindex-alert-backdrop;
-  background-color: $alert-backdrop-bg;
-
-  &.fadeout {
-    opacity: 0;
-    transition: opacity 0.45s linear;
-  }
-}
-
-.alert {
-  width: auto;
-  height: auto;
-  position: fixed;
-  opacity: 0;
-  visibility: hidden;
-  top: 0;
   left: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.55); }
+
+.dialog-backdrop.fadeout {
+  -webkit-transition: opacity .45s linear;
+  -o-transition: opacity .45s linear;
+  transition: opacity .45s linear;
+  opacity: 0; }
+
+.dialog {
+  position: fixed;
+  top: 0;
   right: 0;
+  left: 0;
+  -webkit-transform: translate3d(0, 0, 0) scale(1.125);
+          transform: translate3d(0, 0, 0) scale(1.125);
+  -webkit-transition: -webkit-transform 300ms ease-in-out;
+  transition: -webkit-transform 300ms ease-in-out;
+  -o-transition: transform 300ms ease-in-out;
+  transition: transform 300ms ease-in-out;
+  transition: transform 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 1010;
   margin: 0 auto;
-  z-index: $zindex-alert;
-  background-color: $alert-background;
-  transform: translate3d(0, 0, 0) scale(1.185);
-  transition: transform 0.3s, opacity 0.3s;
-
-  // Prevent Chrome on Windows from adding a focus outline. For details, see
-  // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;
+  border-radius: 3px;
+  background-color: #fff;
+  width: auto;
+  height: auto; }
 
-  &.active {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
+.dialog.show {
+  -webkit-transform: translate3d(0, 0, 0) scale(1);
+          transform: translate3d(0, 0, 0) scale(1);
+  visibility: visible;
+  opacity: 1; }
 
-  &.close {
-    animation: closeAlert 0.3s ease-out;
-  }
+.dialog.hide {
+  -webkit-animation: hideAlert 300ms ease-in-out;
+          animation: hideAlert 300ms ease-in-out;
+  visibility: visible; }
 
-  .alert-dialog {
-    position: relative;
-    width: auto;
-    margin: $alert-dialog-margin;
+.dialog .dialog-inner {
+  position: relative;
+  margin: 15px;
+  width: auto;
+  pointer-events: none; }
 
-    .alert-content {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      background-color: $alert-content-bg;
-      background-clip: padding-box;
-      border: $alert-content-border-width solid $alert-content-border-color;
-      @include border-radius($border-radius-lg);
-      @include box-shadow($alert-content-xs-box-shadow);
-      // Remove focus outline from opened modal
-      outline: 0;
+.dialog .dialog-inner .dialog-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-clip: padding-box;
+  outline: 0;
+  pointer-events: auto; }
 
-      .alert-header {
-        display: flex;
-        align-items: center; // vertically center it
-        justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
-        padding: $alert-header-padding;
-        border-bottom: $alert-header-border-width solid $alert-header-border-color;
-      }
+.dialog .dialog-inner .dialog-content .dialog-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 15px; }
 
-      .alert-body {
-        position: relative;
-        // Enable `flex-grow: 1` so that the body take up as much space as possible
-        // when should there be a fixed height on `.modal-dialog`.
-        flex: 1 1 auto;
-        padding: $alert-inner-padding;
-      }
+.dialog .dialog-inner .dialog-content .dialog-header .dialog-title {
+  margin-bottom: 0; }
 
-      // Footer (for actions)
-      .alert-footer {
-        display: flex;
-        align-items: center; // vertically center
-        justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
-        padding: $alert-inner-padding;
-        border-top: $alert-footer-border-width solid $alert-footer-border-color;
+.dialog .dialog-inner .dialog-content .dialog-body {
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  padding: 15px; }
 
-        > :not(:first-child) { margin-left: .25rem; }
-        > :not(:last-child) { margin-right: .25rem; }
-      }
-    }
-  }
-}
+.dialog .dialog-inner .dialog-content .dialog-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding: 15px; }
 
-@keyframes closeAlert {
+.dialog .dialog-inner .dialog-content .dialog-footer > :not(:first-child) {
+  margin-left: .25rem; }
+
+.dialog .dialog-inner .dialog-content .dialog-footer > :not(:last-child) {
+  margin-right: .25rem; }
+
+@-webkit-keyframes hideAlert {
   0% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
+    -webkit-transform: translate3d(0, 0, 0) scale(1);
+            transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1; }
   100% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0) scale(0.815);
-  }
-}
+    -webkit-transform: translate3d(0, 0, 0) scale(0.815);
+            transform: translate3d(0, 0, 0) scale(0.815);
+    opacity: 0; } }
 
-// Scale up the modal
-@include media-breakpoint-up(sm) {
-  // Automatically set modal's width for larger viewports
-  .alert-dialog {
-    max-width: $alert-md;
-  }
+@keyframes hideAlert {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0) scale(1);
+            transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1; }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0) scale(0.815);
+            transform: translate3d(0, 0, 0) scale(0.815);
+    opacity: 0; } }
 
-  .alert-content {
-    @include box-shadow($alert-content-sm-up-box-shadow);
-  }
+.dialog {
+  max-width: 85%; }
 
-  .alert-sm { max-width: $alert-sm; }
-}
+@media (min-width: 576px) {
+  .dialog {
+    max-width: 550px; } }
 
-@include media-breakpoint-up(lg) {
-  .alert-lg { max-width: $alert-lg; }
-}
-*/
 .notification {
   position: fixed;
-  width: 100%;
-  height: auto;
-  z-index: 99999;
-  color: #fff;
   bottom: 0;
-  opacity: 0;
   -webkit-transition: opacity 300ms ease-in-out;
   -o-transition: opacity 300ms ease-in-out;
-  transition: opacity 300ms ease-in-out; }
+  transition: opacity 300ms ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 1050;
+  border-radius: 3px;
+  width: 100%;
+  height: auto;
+  color: #fff; }
 
 .notification .notification-inner {
   position: relative;
@@ -7343,26 +7323,201 @@ $alert-lg: $alert-sm;
   display: inline-block;
   margin-right: 2rem; }
 
-.notification .notification-inner .btn {
-  top: 0;
-  right: 0;
-  position: absolute;
-  height: 100%;
-  background-color: transparent;
-  color: white; }
-
 .notification.show {
+  visibility: visible;
   opacity: 1; }
 
 .notification.hide {
+  visibility: visible;
   opacity: 0; }
 
 @media (min-width: 576px) {
   .notification {
-    width: auto;
-    min-width: 200px;
-    max-width: 500px;
     top: 1rem;
     right: 1rem;
-    border-radius: 4px;
-    bottom: auto; } }
+    bottom: auto;
+    width: auto;
+    min-width: 200px;
+    max-width: 500px; } }
+
+.loader {
+  width: 36px;
+  height: 36px;
+  display: inline-block; }
+
+.loader .loader-spinner {
+  border-top: 3px solid #1976d2;
+  border-right: 3px solid #1976d2;
+  border-bottom: 3px solid #1976d2;
+  border-left: 3px solid transparent;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px; }
+
+.loader .color-primary {
+  border-top-color: #1976d2;
+  border-right-color: #1976d2;
+  border-bottom-color: #1976d2; }
+
+.loader .color-secondary {
+  border-top-color: #868e96;
+  border-right-color: #868e96;
+  border-bottom-color: #868e96; }
+
+.loader .color-success {
+  border-top-color: #28a745;
+  border-right-color: #28a745;
+  border-bottom-color: #28a745; }
+
+.loader .color-info {
+  border-top-color: #17a2b8;
+  border-right-color: #17a2b8;
+  border-bottom-color: #17a2b8; }
+
+.loader .color-warning {
+  border-top-color: #ffc107;
+  border-right-color: #ffc107;
+  border-bottom-color: #ffc107; }
+
+.loader .color-danger {
+  border-top-color: #dc3545;
+  border-right-color: #dc3545;
+  border-bottom-color: #dc3545; }
+
+.loader .color-light {
+  border-top-color: #f8f9fa;
+  border-right-color: #f8f9fa;
+  border-bottom-color: #f8f9fa; }
+
+.loader .color-dark {
+  border-top-color: #343a40;
+  border-right-color: #343a40;
+  border-bottom-color: #343a40; }
+
+.loader.hide {
+  display: none; }
+
+.loader .loader-spinner-animated {
+  -webkit-animation: loader-spinner-animate 900ms infinite linear;
+          animation: loader-spinner-animate 900ms infinite linear; }
+
+@-webkit-keyframes loader-spinner-animate {
+  0% {
+    -webkit-transform: rotate(0deg) translateZ(0);
+            transform: rotate(0deg) translateZ(0); }
+  100% {
+    -webkit-transform: rotate(360deg) translateZ(0);
+            transform: rotate(360deg) translateZ(0); } }
+
+@keyframes loader-spinner-animate {
+  0% {
+    -webkit-transform: rotate(0deg) translateZ(0);
+            transform: rotate(0deg) translateZ(0); }
+  100% {
+    -webkit-transform: rotate(360deg) translateZ(0);
+            transform: rotate(360deg) translateZ(0); } }
+
+.off-canvas-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 900;
+  background-color: rgba(0, 0, 0, 0.55); }
+
+.off-canvas-backdrop.fadeout {
+  -webkit-transition: opacity .45s linear;
+  -o-transition: opacity .45s linear;
+  transition: opacity .45s linear;
+  opacity: 0; }
+
+.off-canvas-aside {
+  margin-left: 320px;
+  width: calc(100% - 320px); }
+
+.off-canvas {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-transform: translate3d(-320px, 0, 0);
+          transform: translate3d(-320px, 0, 0);
+  visibility: hidden;
+  z-index: 910;
+  border-right: 1px solid #dee2e6;
+  background-color: #fff;
+  width: 320px;
+  height: 100%; }
+
+.off-canvas.animate {
+  -webkit-transition: -webkit-transform 300ms ease-in-out;
+  transition: -webkit-transform 300ms ease-in-out;
+  -o-transition: transform 300ms ease-in-out;
+  transition: transform 300ms ease-in-out;
+  transition: transform 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
+  visibility: visible; }
+
+.off-canvas.show {
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+  visibility: visible; }
+
+.off-canvas.hide {
+  visibility: visible; }
+
+.off-canvas .off-canvas-inner {
+  position: relative;
+  margin: 1rem;
+  height: 100%;
+  pointer-events: none; }
+
+.off-canvas .off-canvas-inner .off-canvas-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-clip: padding-box;
+  outline: 0;
+  pointer-events: auto;
+  height: 100%; }
+
+.off-canvas .off-canvas-inner .off-canvas-content .off-canvas-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6; }
+
+.off-canvas .off-canvas-inner .off-canvas-content .off-canvas-header .off-canvas-title {
+  margin-bottom: 0; }
+
+.off-canvas .off-canvas-inner .off-canvas-content .off-canvas-body {
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  padding: 1rem; }
+
+.off-canvas .off-canvas-inner .off-canvas-content .off-canvas-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding: 1rem;
+  border-top: 1px solid #dee2e6; }
