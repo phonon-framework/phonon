@@ -3,7 +3,7 @@
  * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
-import { dispatchElementEvent } from '../core/events/dispatch'
+import { dispatchElementEvent, dispatchWinDocEvent } from '../core/events/dispatch'
 import { generateId } from '../core/utils'
 
 /**
@@ -70,20 +70,28 @@ export default class Component {
     }
   }
 
-  triggerEvent(eventName) {
+  triggerEvent(eventName, detail = {}, objectEventOnly = false) {
     const eventNameAlias = `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`
 
     // object event
     if (typeof this.options[eventName] === 'function') {
-      this.options[eventName].apply(this)
+      this.options[eventName].apply(this, [detail])
     }
 
     if (typeof this.options[eventNameAlias] === 'function') {
-      this.options[eventNameAlias].apply(this)
+      this.options[eventNameAlias].apply(this, [detail])
+    }
+
+    if (objectEventOnly) {
+      return
     }
 
     // dom event
-    dispatchElementEvent(this.options.element, eventName, this._name)
+    if (this.options.element) {
+      dispatchElementEvent(this.options.element, eventName, this._name, detail)
+    } else {
+      dispatchWinDocEvent(eventName, this._name, detail)
+    }
   }
 
   onElementEvent(event) {
