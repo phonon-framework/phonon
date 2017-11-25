@@ -10,7 +10,6 @@ import Ajax from './core/ajax'
 import platform from './core/platform'
 import Intl from './core/intl'
 import Network from './core/network'
-import './core/events'
 
 // components
 import Dialog from './components/dialog'
