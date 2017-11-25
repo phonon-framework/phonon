@@ -342,6 +342,7 @@ a {
         <li>
           <a href="#core">core</a>
           <ul>
+            <li><a href="#core/ajax">ajax</a></li>
             <li><a href="#core/intl">intl</a></li>
             <li><a href="#core/network">network</a></li>
             <li><a href="#core/pager">pager</a></li>
@@ -910,6 +911,13 @@ document.querySelector('.progress').addEventListener('hidden.ph.progress', () =&
         
       </div>
 
+      <div class="page" id="core/ajax">
+        <h1 class="heading">ajax</h1>
+        <h1>Ajax</h1>
+<h2>Introduction</h2>
+<p>[WIP]</p>
+
+      </div>
       <div class="page" id="core/intl">
         <h1 class="heading">intl</h1>
         <h1>Internationalization (i18n)</h1>
@@ -1010,18 +1018,16 @@ intl.translate('welcome', {name1: 'Fabien', name2: 'Ben'})
 <p>Network is a simple module to know the status of the network, i. e. whether the user has a working connection or not.</p>
 <h2>Events</h2>
 <h3>DOM Events</h3>
-<pre><code class="language-js">window.addEventListener('online.ph.network', function (event) {
-  console.log('online')
-  console.log(event.detail.date)
+<pre><code class="language-js">window.addEventListener('online.ph.network', (event) =&gt; {
+  console.log(`online ${event.detail.date}`)
 })
 
-window.addEventListener('offline.ph.network', function (event) {
-  console.log('offline')
-  console.log(event.detail.date)
+window.addEventListener('offline.ph.network', (event) =&gt; {
+  console.log(`offline ${event.detail.date}`)
 })
 </code></pre>
 <h3>Object Events</h3>
-<pre><code class="language-js">const network = phonon.network({
+<pre><code class="language-js">phonon.network({
   online: (event) =&gt; {
     console.log(`online ${event.date}`)
   },
