@@ -16,9 +16,9 @@ $dialog-md: 550px;
 .dialog-backdrop {
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
+  left: 0;
   z-index: $zindex-dialog-backdrop;
   background-color: $dialog-backdrop-bg;
 
@@ -35,6 +35,7 @@ $dialog-md: 550px;
   left: 0;
   transform: translate3d(0, 0, 0) scale(1.125);
   transition: transform $dialog-animation-duration ease-in-out;
+  visibility: hidden;
   opacity: 0;
   z-index: $zindex-dialog;
   margin: 0 auto;
@@ -49,11 +50,13 @@ $dialog-md: 550px;
 
   &.show {
     transform: translate3d(0, 0, 0) scale(1);
+    visibility: visible;
     opacity: 1;
   }
 
   &.hide {
     animation: hideAlert $dialog-animation-duration ease-in-out;
+    visibility: visible;
   }
 
   .dialog-inner {

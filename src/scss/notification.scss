@@ -1,12 +1,19 @@
+
+// notifications must be above dialogs and off-canvas
+$zindex-notification: 1050;
+$notification-border-radius: 3px;
+
 .notification {
   position: fixed;
+  bottom: 0;
+  transition: opacity 300ms ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  z-index: $zindex-notification;
+  border-radius: $notification-border-radius;
   width: 100%;
   height: auto;
-  z-index: 99999;
-  color: #fff;
-  bottom: 0;
-  opacity: 0;
-  transition: opacity 300ms ease-in-out;
+  color: $white;
 
   .notification-inner {
     position: relative;
@@ -16,34 +23,26 @@
       display: inline-block;
       margin-right: $spacer * 2;
     }
-
-    .btn {
-      top: 0;
-      right: 0;
-      position: absolute;
-      height: 100%;
-      background-color: transparent;
-      color: white;
-    }
   }
 
   &.show {
+    visibility: visible;
     opacity: 1;
   }
 
   &.hide {
+    visibility: visible;
     opacity: 0;
   }
 }
 
 @include media-breakpoint-up(sm) {
   .notification {
+    top: $spacer;
+    right: $spacer;
+    bottom: auto;
     width: auto;
     min-width: 200px;
     max-width: 500px;
-    top: $spacer;
-    right: $spacer;
-    border-radius: 4px;
-    bottom: auto;
   }
 }

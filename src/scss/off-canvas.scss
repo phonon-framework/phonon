@@ -43,19 +43,25 @@ $off-canvas-container-border-color: gray('300');
   bottom: 0;
   left: 0;
   transform: translate3d(-$off-canvas-width, 0, 0);
+  visibility: hidden;
   z-index: $off-canvas-zindex;
-  background-color: $off-canvas-background;
   border-right: $off-canvas-container-border-width solid $off-canvas-container-border-color;
-  
+  background-color: $off-canvas-background;
   width: $off-canvas-width;
   height: 100%;
 
   &.animate {
     transition: transform 300ms ease-in-out;
+    visibility: visible;
   }
 
   &.show {
     transform: translate3d(0, 0, 0);
+    visibility: visible;
+  }
+
+  &.hide {
+    visibility: visible;
   }
 
   .off-canvas-inner {
