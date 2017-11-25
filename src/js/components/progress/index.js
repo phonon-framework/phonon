@@ -4,6 +4,7 @@
  * --------------------------------------------------------------------------
  */
 import Component from '../component'
+import Event from '../../core/events'
 
 const Progress = (() => {
   /**
@@ -110,11 +111,17 @@ const Progress = (() => {
 
     show() {
       this.options.element.style.height = `${this.options.height}px`
+      this.triggerEvent(Event.SHOW)
+      this.triggerEvent(Event.SHOWN)
+      
       return true
     }
 
     hide() {
       this.options.element.style.height = '0px'
+      this.triggerEvent(Event.HIDE)
+      this.triggerEvent(Event.HIDDEN)
+      
       return true
     }
 
