@@ -39,7 +39,7 @@ offCanvas.show()
 
 ## Options
 
-- cancelable
+- aside
 
 ## Methods
 
