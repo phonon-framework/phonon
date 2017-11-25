@@ -25,7 +25,9 @@ Conversely, you can create your own notification by specifying the `element` pro
 <div class="notification" id="myNotification">
   <div class="notification-inner">
     <div class="message">You have 2 messages in your inbox</div>
-    <button class="btn">X</button>
+    <button type="button" class="close" data-dismiss="notification" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
 </div>
 ```

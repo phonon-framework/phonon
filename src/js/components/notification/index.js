@@ -37,7 +37,7 @@ const Notification = (() => {
       this.template = '' +
         '<div class="notification-inner">' +
           '<div class="message"></div>' +
-          '<button type="button" class="close" data-dismiss="off-canvas" aria-label="Close">' +
+          '<button type="button" class="close" data-dismiss="notification" aria-label="Close">' +
             '<span aria-hidden="true">&times;</span>' +
           '</button>' +
         '</div>'
