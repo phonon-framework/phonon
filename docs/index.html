@@ -437,7 +437,11 @@ dialog.show()
 </code></pre>
 <h2>Custom Dialogs</h2>
 <p>Conversely, you can create your own dialog by specifying the <code>element</code> property.</p>
-<pre><code class="language-html">&lt;div class=&quot;dialog&quot; id=&quot;myDialog&quot; tabindex=&quot;-1&quot; role=&quot;dialog&quot;&gt;
+<pre><code class="language-html">&lt;!-- Button trigger dialog --&gt;
+&lt;button class=&quot;btn btn-primary&quot; data-toggle=&quot;dialog&quot; data-target=&quot;#exampleDialog&quot;&gt;Launch demo dialog&lt;/button&gt;
+
+&lt;!-- Dialog --&gt;
+&lt;div class=&quot;dialog&quot; id=&quot;exampleDialog&quot; tabindex=&quot;-1&quot; role=&quot;dialog&quot;&gt;
   &lt;div class=&quot;dialog-inner&quot; role=&quot;document&quot;&gt;
     &lt;div class=&quot;dialog-content&quot;&gt;
       &lt;div class=&quot;dialog-header&quot;&gt;
@@ -457,7 +461,7 @@ dialog.show()
 </code></pre>
 <p>Then, you can work with it by using the correct <code>element</code> property.</p>
 <pre><code class="language-js">const dialog = phonon.dialog({
-  element: '#myDialog',
+  element: '#exampleDialog',
 })
 
 dialog.show()
@@ -604,7 +608,9 @@ notif.show()
 <pre><code class="language-html">&lt;div class=&quot;notification&quot; id=&quot;myNotification&quot;&gt;
   &lt;div class=&quot;notification-inner&quot;&gt;
     &lt;div class=&quot;message&quot;&gt;You have 2 messages in your inbox&lt;/div&gt;
-    &lt;button class=&quot;btn&quot;&gt;X&lt;/button&gt;
+    &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;notification&quot; aria-label=&quot;Close&quot;&gt;
+      &lt;span aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
+    &lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
@@ -703,7 +709,9 @@ document.querySelector('.notification').addEventListener('hidden.ph.notification
 <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Markup</h2>
-<pre><code class="language-html">&lt;div class=&quot;off-canvas&quot; id=&quot;exampleOffCanvas&quot; role=&quot;navigation&quot; aria-hidden=&quot;true&quot; aria-labelledby=&quot;exampleOffCanvasTitle&quot;&gt;
+<pre><code class="language-html">&lt;button class=&quot;btn btn-primary&quot; data-toggle=&quot;off-canvas&quot; data-target=&quot;#exampleOffCanvas&quot;&gt;Launch demo off-canvas&lt;/button&gt;
+
+&lt;div class=&quot;off-canvas&quot; id=&quot;exampleOffCanvas&quot; role=&quot;navigation&quot; aria-hidden=&quot;true&quot; aria-labelledby=&quot;exampleOffCanvasTitle&quot;&gt;
   &lt;div class=&quot;off-canvas-inner&quot;&gt;
     &lt;div class=&quot;off-canvas-content&quot;&gt;
       &lt;div class=&quot;off-canvas-header&quot;&gt;

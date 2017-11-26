@@ -4,6 +4,7 @@
 
 [WIP]
 
+
 ## Dynamically Created Dialogs
 
 By not using the `element` property, it will create a dialog's HTMLElement dynamically.
@@ -23,7 +24,11 @@ dialog.show()
 Conversely, you can create your own dialog by specifying the `element` property.
 
 ```html
-<div class="dialog" id="myDialog" tabindex="-1" role="dialog">
+<!-- Button trigger dialog -->
+<button class="btn btn-primary" data-toggle="dialog" data-target="#exampleDialog">Launch demo dialog</button>
+
+<!-- Dialog -->
+<div class="dialog" id="exampleDialog" tabindex="-1" role="dialog">
   <div class="dialog-inner" role="document">
     <div class="dialog-content">
       <div class="dialog-header">
@@ -46,7 +51,7 @@ Then, you can work with it by using the correct `element` property.
 
 ```js
 const dialog = phonon.dialog({
-  element: '#myDialog',
+  element: '#exampleDialog',
 })
 
 dialog.show()
