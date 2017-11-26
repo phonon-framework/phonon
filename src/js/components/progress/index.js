@@ -34,7 +34,7 @@ const Progress = (() => {
   class Progress extends Component {
 
     constructor(options = {}) {
-      super(NAME, VERSION, DEFAULT_PROPERTIES, options, false)
+      super(NAME, VERSION, DEFAULT_PROPERTIES, options, false, false)
 
       // set the wanted height
       this.options.element.style.height = `${this.options.height}px`

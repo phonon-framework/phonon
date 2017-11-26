@@ -6,7 +6,7 @@
 import { dispatchElementEvent, dispatchWinDocEvent } from '../core/events/dispatch'
 import { generateId } from '../core/utils'
 import Event from '../core/events'
-import ComponentManager from './componentManager'
+import ComponentManager, { setAttributesConfig, getAttributesConfig } from './componentManager'
 
 /**
  * ------------------------------------------------------------------------
@@ -16,14 +16,16 @@ import ComponentManager from './componentManager'
 
 export default class Component {
 
-  constructor(name, version, defaultOptions = {}, options = {}, supportDynamicElement = false) {
+  constructor(name, version, defaultOptions = {}, options = {}, optionAttrs = [], supportDynamicElement = false, addToStack = false) {
     this._name = name
     this._version = version
     this.options = Object.assign(defaultOptions, options)
+    this.optionAttrs = optionAttrs
     this.supportDynamicElement = supportDynamicElement
+    this.addToStack = addToStack
     this.id = generateId()
 
-    const checkElement = this.options.element !== null
+    const checkElement = !this.supportDynamicElement || this.options.element !== null
 
     if (typeof this.options.element === 'string') {
       this.options.element = document.querySelector(this.options.element)
@@ -35,7 +37,34 @@ export default class Component {
 
     this.dynamicElement = this.options.element === null
     this.registeredElements = []
-    this.elementListener = event => this.onElementEvent(event)          
+
+    if (!this.dynamicElement) {
+      /**
+       * if the element exists, we read the data attributes config
+       * then we overwrite existing config keys in JavaScript, so that
+       * we keep the following order
+       * [1] default JavaScript configuration of the component
+       * [2] Data attributes configuration if the element exists in the DOM
+       * [3] JavaScript configuration
+       */
+      this.options = Object.assign(this.options, this.assignJsConfig(this.getAttributes(), options))
+
+      console.log(this.options)
+      // then, set the new data attributes to the element
+      this.setAttributes()
+    }
+
+    this.elementListener = event => this.onBeforeElementEvent(event)          
+  }
+
+  assignJsConfig(attrConfig, options) {
+    this.optionAttrs.forEach((key) => {
+      if (options[key]) {
+        attrConfig[key] = options[key]
+      }
+    })
+
+    return attrConfig
   }
 
   get version() {
@@ -66,7 +95,6 @@ export default class Component {
       .findIndex(el => el.target === element.target && el.event === element.event)
 
     if (registeredElementIndex > -1) {
-      const registeredElement = this.registeredElements[registeredElementIndex]
       element.target.removeEventListener(element.event, this.elementListener)
       this.registeredElements.splice(registeredElementIndex, 1)
     } else {
@@ -75,10 +103,12 @@ export default class Component {
   }
 
   triggerEvent(eventName, detail = {}, objectEventOnly = false) {
-    if (eventName === Event.SHOW) {
-      ComponentManager.addComponentToStack(this)
-    } else if (eventName === Event.HIDE) {
-      ComponentManager.removeComponentToStack(this)
+    if (this.addToStack) {
+      if (eventName === Event.SHOW) {
+        ComponentManager.add(this)
+      } else if (eventName === Event.HIDE) {
+        ComponentManager.remove(this)
+      }
     }
 
     const eventNameAlias = `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`
@@ -104,13 +134,32 @@ export default class Component {
     }
   }
 
+  setAttributes() {
+    if (this.optionAttrs.length > 0) {
+      setAttributesConfig(this.options.element, this.options, this.optionAttrs)
+    }
+  }
+
+  getAttributes() {
+    const options = Object.assign({}, this.options)
+    return getAttributesConfig(this.options.element, options, this.optionAttrs)
+  }
+
   /**
-   * the closable method manages concurrency between active components.
+   * the preventClosable method manages concurrency between active components.
    * For example, if there is a shown off-canvas and dialog, the last
    * shown component gains the processing priority
    */
-  closable() {
-    return ComponentManager.componentClosable(this)
+  preventClosable() {
+    return this.addToStack && !ComponentManager.closable(this)
+  }
+
+  onBeforeElementEvent(event) {
+    if (this.preventClosable()) {
+      return
+    }
+
+    this.onElementEvent(event)
   }
 
   onElementEvent(event) {

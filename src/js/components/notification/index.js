@@ -22,6 +22,9 @@ const Notification = (() => {
     timeout: null,
     background: 'primary',
   }
+  const DATA_ATTRS_PROPERTIES = [
+    'timeout',
+  ]
 
   /**
    * ------------------------------------------------------------------------
@@ -32,7 +35,7 @@ const Notification = (() => {
   class Notification extends Component {
 
     constructor(options = {}) {
-      super(NAME, VERSION, DEFAULT_PROPERTIES, options, true)
+      super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, false)
 
       this.template = '' +
         '<div class="notification-inner">' +
@@ -65,6 +68,8 @@ const Notification = (() => {
       this.options.element = div
 
       document.body.appendChild(this.options.element)
+
+      this.setAttributes()
     }
 
     show() {
@@ -74,7 +79,6 @@ const Notification = (() => {
       }
 
       if (this.options.element.classList.contains('show')) {
-        console.error(`${NAME}. The notification is already visible.`)
         return false
       }
 
@@ -127,7 +131,6 @@ const Notification = (() => {
       }
 
       if (!this.options.element.classList.contains('show')) {
-        console.error(`${NAME}. The notification is not visible.`)
         return false
       }
 

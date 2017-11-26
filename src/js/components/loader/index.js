@@ -19,6 +19,7 @@ const Loader = (() => {
     color: null,
     size: null,
   }
+  const DATA_ATTRS_PROPERTIES = []
 
   /**
    * ------------------------------------------------------------------------
@@ -29,7 +30,7 @@ const Loader = (() => {
   class Loader extends Component {
 
     constructor(options = {}) {
-      super(NAME, VERSION, DEFAULT_PROPERTIES, options, false)
+      super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, false, false)
 
       // set color
       const loaderSpinner = this.getSpinner()

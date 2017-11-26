@@ -5,6 +5,7 @@
  */
 import Event from '../../core/events'
 import Component from '../component'
+import { getAttributesConfig } from '../componentManager'
 
 const OffCanvas = (() => {
   /**
@@ -18,12 +19,16 @@ const OffCanvas = (() => {
   const BACKDROP_SELECTOR = 'off-canvas-backdrop'
   const DEFAULT_PROPERTIES = {
     element: null,
+    setupAside: true,
     aside: {
       md: false,
       lg: false,
       xl: false,
     }
   }
+  const DATA_ATTRS_PROPERTIES = [
+    'aside',
+  ]
 
   /**
    * ------------------------------------------------------------------------
@@ -34,12 +39,10 @@ const OffCanvas = (() => {
   class OffCanvas extends Component {
 
     constructor(options = {}) {
-      super(NAME, VERSION, DEFAULT_PROPERTIES, options, false)
+      super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, false, true)
 
-      this.useBackdrop = false
-
+      this.useBackdrop = true
       this.currentWidth = null
-
       this.animate = true
 
       const sm = { name: 'sm', media: window.matchMedia('(min-width: 1px)') }
@@ -71,13 +74,15 @@ const OffCanvas = (() => {
         })
       }
 
-      setTimeout(checkWidth, 1)
+      if (this.options.setupAside) {
+        setTimeout(checkWidth, 1)
+      }
 
       window.addEventListener('resize', checkWidth, false)      
     }
 
-    closable() {
-      return super.closable() && this.options.aside[this.currentWidth] !== true
+    preventClosable() {
+      return super.preventClosable() && this.options.aside[this.currentWidth] !== true
     }
 
     setAside(name) {
@@ -111,17 +116,12 @@ const OffCanvas = (() => {
         return
       }
 
-      if (!this.closable()) {
-        return
-      }
-
       // hide the off-canvas
       this.hide()
     }
 
     show() {
       if (this.options.element.classList.contains('show')) {
-        console.error(`${NAME}. The off-canvas is already visible.`)
         return false
       }
 
@@ -162,7 +162,6 @@ const OffCanvas = (() => {
 
     hide() {
       if (!this.options.element.classList.contains('show')) {
-        console.error(`${NAME}. The off-canvas is not visible.`)
         return false
       }
 
@@ -249,6 +248,26 @@ const OffCanvas = (() => {
       return super._DOMInterface(OffCanvas, options)
     }
   }
+
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+  document.addEventListener('click', (event) => {
+    const dataToggleAttr = event.target.getAttribute('data-toggle')
+    if (dataToggleAttr && dataToggleAttr === NAME) {
+      const id = event.target.getAttribute('data-target')
+      const element = document.querySelector(id)
+
+      const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
+
+      config.element = element
+      config.setupAside = false
+
+      new OffCanvas(config).show()
+    }
+  })
 
   return OffCanvas
 })()

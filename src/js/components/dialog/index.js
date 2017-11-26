@@ -5,6 +5,7 @@
  */
 import Event from '../../core/events'
 import Component from '../component'
+import { getAttributesConfig } from '../componentManager'
 
 const Dialog = (() => {
   /**
@@ -22,6 +23,9 @@ const Dialog = (() => {
     message: null,
     cancelable: true,
   }
+  const DATA_ATTRS_PROPERTIES = [
+    'cancelable',
+  ]
 
   /**
    * ------------------------------------------------------------------------
@@ -32,7 +36,7 @@ const Dialog = (() => {
   class Dialog extends Component {
 
     constructor(options = {}) {
-      super(NAME, VERSION, DEFAULT_PROPERTIES, options, true)
+      super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, true)
 
       this.template = '' +
       '<div class="dialog-inner" role="document">' +
@@ -77,6 +81,8 @@ const Dialog = (() => {
       this.options.element = div
 
       document.body.appendChild(this.options.element)
+
+      this.setAttributes()
     }
 
     buildBackdrop() {
@@ -107,7 +113,6 @@ const Dialog = (() => {
       }
 
       if (this.options.element.classList.contains('show')) {
-        console.error(`${NAME}. The dialog is already visible.`)
         return false
       }
 
@@ -138,17 +143,12 @@ const Dialog = (() => {
         return
       }
 
-      if (!super.closable()) {
-        return
-      }
-
       // hide the dialog
       this.hide()
     }
 
     hide() {
       if (!this.options.element.classList.contains('show')) {
-        console.error(`${NAME}. The dialog is not visible.`)
         return false
       }
 
@@ -216,6 +216,25 @@ const Dialog = (() => {
       return super._DOMInterface(Dialog, options)
     }
   }
+
+
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+  document.addEventListener('click', (event) => {
+    const dataToggleAttr = event.target.getAttribute('data-toggle')
+    if (dataToggleAttr && dataToggleAttr === NAME) {
+      const id = event.target.getAttribute('data-target')
+      const element = document.querySelector(id)
+
+      const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
+      config.element = element
+
+      new Dialog(config).show()
+    }
+  })
 
   return Dialog
 })()
