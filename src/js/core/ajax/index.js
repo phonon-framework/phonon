@@ -93,7 +93,7 @@ const Ajax = (() => {
       this.xhr.open(this.opts.method, this.opts.url, true)
       this.onPreExecute()
 
-      this.xhr.onreadystatechange = (event) => {
+      this.xhr.onreadystatechange = () => {
         if (parseInt(this.xhr.readyState) === 4) {
           const status = this.xhr.status.toString()
 

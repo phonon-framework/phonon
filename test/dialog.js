@@ -9,7 +9,6 @@ global.document = dom.window.document
 global.CustomEvent = window.CustomEvent
 
 describe('Dialog', () => {
-
   it('Build a dialog without a title and message', () => {
     const dialog = new Dialog()
     const dialogElement = document.querySelector(`[data-id="${dialog.id}"]`)
@@ -43,7 +42,7 @@ describe('Dialog', () => {
     const dialogElement = document.querySelector(`[data-id="${dialog.id}"]`)
 
     setTimeout(() => {
-      test.bool(dialogElement.classList.contains('show')).isTrue() 
+      test.bool(dialogElement.classList.contains('show')).isTrue()
       done()
     }, 10)
   })
@@ -63,8 +62,8 @@ describe('Dialog', () => {
       dialog.hide()
 
       setTimeout(() => {
-        test.bool(dialogElement.classList.contains('show')).isFalse()    
-        done()  
+        test.bool(dialogElement.classList.contains('show')).isFalse()
+        done()
       }, 10)
     }, 10)
   })
@@ -85,8 +84,8 @@ describe('Dialog', () => {
       dialogElement.querySelector('[data-dismiss]').click()
 
       setTimeout(() => {
-        test.bool(dialogElement.classList.contains('show')).isFalse()    
-        done()  
+        test.bool(dialogElement.classList.contains('show')).isFalse()
+        done()
       }, 10)
     }, 10)
   })
@@ -107,8 +106,8 @@ describe('Dialog', () => {
       document.querySelector('.dialog-backdrop').dispatchEvent(new CustomEvent('mousedown'))
 
       setTimeout(() => {
-        test.bool(dialogElement.classList.contains('show')).isFalse()    
-        done()  
+        test.bool(dialogElement.classList.contains('show')).isFalse()
+        done()
       }, 10)
     }, 10)
   })
@@ -130,7 +129,7 @@ describe('Dialog', () => {
 
       setTimeout(() => {
         test.bool(dialogElement.classList.contains('show')).isFalse()
-        done()  
+        done()
       }, 10)
     }, 10)
   })
@@ -155,8 +154,8 @@ describe('Dialog', () => {
       document.dispatchEvent(new CustomEvent('keyup'), { detail: { keyCode: 27 } })
 
       setTimeout(() => {
-        test.bool(dialogElement.classList.contains('show')).isTrue()    
-        done()  
+        test.bool(dialogElement.classList.contains('show')).isTrue()
+        done()
       }, 10)
     }, 10)
   })
