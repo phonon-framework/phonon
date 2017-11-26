@@ -1,9 +1,9 @@
 $zindex-dialog-backdrop: 1000;
 $dialog-backdrop-bg: rgba(0, 0, 0, .55);
 
-$dialog-content-bg: #fff;
-$dialog-margin: 15px;
-$dialog-inner-padding: 15px;
+$dialog-content-bg: $white;
+$dialog-margin: $spacer;
+$dialog-inner-padding: $dialog-margin;
 $dialog-header-padding: $dialog-inner-padding;
 $dialog-border-radius: 3px;
 $zindex-dialog: 1010;
@@ -126,15 +126,14 @@ $dialog-md: 550px;
   }
 }
 
-// Scale up the dialog
 @include media-breakpoint-up(xs) {
   .dialog {
-    max-width: $dialog-sm;
+    width: $dialog-sm;
   }
 }
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
   .dialog {
-    max-width: $dialog-md;
+    width: $dialog-md;
   }
 }
