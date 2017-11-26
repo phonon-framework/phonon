@@ -430,7 +430,7 @@ dialog.show()
 This is particularly useful if you want to set up a dialog without worrying about its HTML code.</p>
 <pre><code class="language-js">const dialog = phonon.dialog({
   title: 'Dialog title',
-  message: 'Dialog body text goes here.',
+  message: 'Dialog body text goes here.'
 })
 
 dialog.show()
@@ -461,7 +461,7 @@ dialog.show()
 </code></pre>
 <p>Then, you can work with it by using the correct <code>element</code> property.</p>
 <pre><code class="language-js">const dialog = phonon.dialog({
-  element: '#exampleDialog',
+  element: '#exampleDialog'
 })
 
 dialog.show()
@@ -709,8 +709,10 @@ document.querySelector('.notification').addEventListener('hidden.ph.notification
 <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Markup</h2>
-<pre><code class="language-html">&lt;button class=&quot;btn btn-primary&quot; data-toggle=&quot;off-canvas&quot; data-target=&quot;#exampleOffCanvas&quot;&gt;Launch demo off-canvas&lt;/button&gt;
+<pre><code class="language-html">&lt;!-- Button trigger off canvas --&gt;
+&lt;button class=&quot;btn btn-primary&quot; data-toggle=&quot;off-canvas&quot; data-target=&quot;#exampleOffCanvas&quot;&gt;Launch demo off-canvas&lt;/button&gt;
 
+&lt;!-- Off canvas --&gt;
 &lt;div class=&quot;off-canvas&quot; id=&quot;exampleOffCanvas&quot; role=&quot;navigation&quot; aria-hidden=&quot;true&quot; aria-labelledby=&quot;exampleOffCanvasTitle&quot;&gt;
   &lt;div class=&quot;off-canvas-inner&quot;&gt;
     &lt;div class=&quot;off-canvas-content&quot;&gt;
@@ -822,6 +824,11 @@ document.querySelector('.off-canvas').addEventListener('hidden.ph.off-canvas', (
 <p>[WIP]</p>
 <h2>Markup</h2>
 <pre><code class="language-html">&lt;div class=&quot;progress&quot; id=&quot;myProgress&quot;&gt;
+  &lt;div class=&quot;progress-bar&quot; role=&quot;progressbar&quot; aria-valuenow=&quot;0&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>You can specify the height of the progress in HTML if you don't want to use JavaScript:</p>
+<pre><code class="language-html">&lt;div class=&quot;progress&quot; id=&quot;myProgress&quot; style=&quot;height: 8px&quot;&gt;
   &lt;div class=&quot;progress-bar&quot; role=&quot;progressbar&quot; aria-valuenow=&quot;0&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
@@ -979,9 +986,9 @@ intl.updateHtml('.my-element') // update the node .my-element
 </code></pre>
 <h3>translate(keyName:string | array, values?)</h3>
 <p>This method returns the desired internationalized text in the current language by providing its key.</p>
-<pre><code class="language-js">intl.translate('welcome') // one item
-intl.translate('*') // all items
-intl.translate(['welcome', 'other']) // two items
+<pre><code class="language-js">intl.translate('welcome') // one translation
+intl.translate('*') // all available translations
+intl.translate(['welcome', 'other']) // two translations
 </code></pre>
 <p>If the locale is <code>fr</code>, the result would be:</p>
 <pre><code>Bonjour
