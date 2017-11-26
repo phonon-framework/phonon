@@ -8,6 +8,9 @@
 !.env.example
 !.gitattributes
 !.babelrc
+!.eslintignore
+!.eslintrc
+!.sass-lint.yml
 
 # OS
 __*
