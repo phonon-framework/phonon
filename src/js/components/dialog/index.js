@@ -39,16 +39,18 @@ const Dialog = (() => {
       super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, true)
 
       this.template = '' +
-      '<div class="dialog-inner" role="document">' +
-        '<div class="dialog-content">' +
-          '<div class="dialog-header">' +
-            '<h5 class="dialog-title"></h5>' +
-          '</div>' +
-          '<div class="dialog-body">' +
-            '<p></p>' +
-          '</div>' +
-          '<div class="dialog-footer">' +
-            '<button type="button" class="btn btn-primary" data-dismiss="dialog">Ok</button>' +
+      '<div class="dialog" tabindex="-1" role="dialog">' +
+        '<div class="dialog-inner" role="document">' +
+          '<div class="dialog-content">' +
+            '<div class="dialog-header">' +
+              '<h5 class="dialog-title"></h5>' +
+            '</div>' +
+            '<div class="dialog-body">' +
+              '<p></p>' +
+            '</div>' +
+            '<div class="dialog-footer">' +
+              '<button type="button" class="btn btn-primary" data-dismiss="dialog">Ok</button>' +
+            '</div>' +
           '</div>' +
         '</div>' +
       '</div>'
@@ -59,26 +61,21 @@ const Dialog = (() => {
     }
 
     build() {
-      const div = document.createElement('div')
-      div.classList.add('dialog')
+      const builder = document.createElement('div')
 
-      div.setAttribute('data-id', this.id)
-      div.setAttribute('tabindex', '-1')
-      div.setAttribute('role', 'dialog')
+      builder.innerHTML = this.template
 
-      div.innerHTML = this.template
+      this.options.element = builder.firstChild
 
       // title
       if (this.options.title !== null) {
-        div.querySelector('.dialog-title').innerHTML = this.options.title
+        this.options.element.querySelector('.dialog-title').innerHTML = this.options.title
       }
 
       // message
       if (this.options.message !== null) {
-        div.querySelector('.dialog-body').firstChild.innerHTML = this.options.message
+        this.options.element.querySelector('.dialog-body').firstChild.innerHTML = this.options.message
       }
-
-      this.options.element = div
 
       document.body.appendChild(this.options.element)
 

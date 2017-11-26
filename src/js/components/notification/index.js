@@ -38,11 +38,13 @@ const Notification = (() => {
       super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, false)
 
       this.template = '' +
-        '<div class="notification-inner">' +
-          '<div class="message"></div>' +
-          '<button type="button" class="close" data-dismiss="notification" aria-label="Close">' +
-            '<span aria-hidden="true">&times;</span>' +
-          '</button>' +
+        '<div class="notification">' +
+          '<div class="notification-inner">' +
+            '<div class="message"></div>' +
+            '<button type="button" class="close" data-dismiss="notification" aria-label="Close">' +
+              '<span aria-hidden="true">&times;</span>' +
+            '</button>' +
+          '</div>' +
         '</div>'
 
       if (this.dynamicElement) {
@@ -53,19 +55,18 @@ const Notification = (() => {
     }
 
     build() {
-      const div = document.createElement('div')
-      div.classList.add('notification')
+      const builder = document.createElement('div')
 
-      div.innerHTML = this.template
+      builder.innerHTML = this.template
+
+      this.options.element = builder.firstChild
 
       // text message
-      div.querySelector('.message').innerHTML = this.options.message
+      this.options.element.querySelector('.message').innerHTML = this.options.message
 
       if (!this.options.showButton) {
-        div.querySelector('button').style.display = 'none'
+        this.options.element.querySelector('button').style.display = 'none'
       }
-
-      this.options.element = div
 
       document.body.appendChild(this.options.element)
 
