@@ -3,6 +3,10 @@
 $zindex-notification: 1050;
 $notification-border-radius: 3px;
 
+$notification-sm: 100%;
+$notification-md: 300px;
+$notification-lg: 400px;
+
 .notification {
   position: fixed;
   bottom: 0;
@@ -10,8 +14,7 @@ $notification-border-radius: 3px;
   visibility: hidden;
   opacity: 0;
   z-index: $zindex-notification;
-  border-radius: $notification-border-radius;
-  width: 100%;
+  width: $notification-sm;
   height: auto;
   color: $white;
 
@@ -36,13 +39,18 @@ $notification-border-radius: 3px;
   }
 }
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
   .notification {
     top: $spacer;
     right: $spacer;
     bottom: auto;
-    width: auto;
-    min-width: 200px;
-    max-width: 500px;
+    border-radius: $notification-border-radius;
+    width: $notification-md;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .notification {
+    width: $notification-lg;
   }
 }
