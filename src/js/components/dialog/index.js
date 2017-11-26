@@ -138,7 +138,7 @@ const Dialog = (() => {
         return
       }
 
-      if (!this.closable()) {
+      if (!super.closable()) {
         return
       }
 
@@ -210,13 +210,6 @@ const Dialog = (() => {
         this.unregisterElement({ target: backdrop, event: Event.START })
         this.unregisterElement({ target: document, event: 'keyup' })
       }
-    }
-
-    /**
-     * Closable d
-     */
-    closable() {
-      return super.closable()
     }
 
     static _DOMInterface(options) {
