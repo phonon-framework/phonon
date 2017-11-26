@@ -138,6 +138,10 @@ const Dialog = (() => {
         return
       }
 
+      if (!this.closable()) {
+        return
+      }
+
       // hide the dialog
       this.hide()
     }
@@ -179,7 +183,7 @@ const Dialog = (() => {
       return true
     }
 
-    attachEvents () {
+    attachEvents() {
       const dismissButtons = this.options.element.querySelectorAll('[data-dismiss]')
       if (dismissButtons) {
         dismissButtons.forEach(button => this.registerElement({ target: button, event: 'click' }))
@@ -195,7 +199,7 @@ const Dialog = (() => {
       }
     }
 
-    detachEvents () {
+    detachEvents() {
       const dismissButtons = this.options.element.querySelectorAll('[data-dismiss]')
       if (dismissButtons) {
         dismissButtons.forEach(button => this.unregisterElement({ target: button, event: 'click' }))
@@ -206,6 +210,13 @@ const Dialog = (() => {
         this.unregisterElement({ target: backdrop, event: Event.START })
         this.unregisterElement({ target: document, event: 'keyup' })
       }
+    }
+
+    /**
+     * Closable d
+     */
+    closable() {
+      return super.closable()
     }
 
     static _DOMInterface(options) {

@@ -5,6 +5,8 @@
  */
 import { dispatchElementEvent, dispatchWinDocEvent } from '../core/events/dispatch'
 import { generateId } from '../core/utils'
+import Event from '../core/events'
+import ComponentManager from './componentManager'
 
 /**
  * ------------------------------------------------------------------------
@@ -20,12 +22,14 @@ export default class Component {
     this.options = Object.assign(defaultOptions, options)
     this.supportDynamicElement = supportDynamicElement
     this.id = generateId()
-    
+
+    const checkElement = this.options.element !== null
+
     if (typeof this.options.element === 'string') {
       this.options.element = document.querySelector(this.options.element)
     }
 
-    if (!this.supportDynamicElement && this.options.element === null) {
+    if (checkElement && this.options.element === null) {
       throw new Error(`${this._name}. The element is not a HTMLElement.`)
     }
 
@@ -71,6 +75,12 @@ export default class Component {
   }
 
   triggerEvent(eventName, detail = {}, objectEventOnly = false) {
+    if (eventName === Event.SHOW) {
+      ComponentManager.addComponentToStack(this)
+    } else if (eventName === Event.HIDE) {
+      ComponentManager.removeComponentToStack(this)
+    }
+
     const eventNameAlias = `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`
 
     // object event
@@ -92,6 +102,15 @@ export default class Component {
     } else {
       dispatchWinDocEvent(eventName, this._name, detail)
     }
+  }
+
+  /**
+   * the closable method manages concurrency between active components.
+   * For example, if there is a shown off-canvas and dialog, the last
+   * shown component gains the processing priority
+   */
+  closable() {
+    return ComponentManager.componentClosable(this)
   }
 
   onElementEvent(event) {

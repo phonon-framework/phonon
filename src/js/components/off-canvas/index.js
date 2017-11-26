@@ -77,7 +77,7 @@ const OffCanvas = (() => {
     }
 
     closable() {
-      return this.options.aside[this.currentWidth] !== true
+      return super.closable() && this.options.aside[this.currentWidth] !== true
     }
 
     setAside(name) {
