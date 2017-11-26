@@ -5945,14 +5945,15 @@
 	    label: false,
 	    striped: false,
 	    background: null
-
-	    /**
-	     * ------------------------------------------------------------------------
-	     * Class Definition
-	     * ------------------------------------------------------------------------
-	     */
-
 	  };
+	  var DATA_ATTRS_PROPERTIES = ['height', 'min', 'max', 'label', 'striped', 'background'];
+
+	  /**
+	   * ------------------------------------------------------------------------
+	   * Class Definition
+	   * ------------------------------------------------------------------------
+	   */
+
 	  var Progress = function (_Component) {
 	    (0, _inherits3.default)(Progress, _Component);
 
@@ -5961,7 +5962,7 @@
 	      (0, _classCallCheck3.default)(this, Progress);
 
 	      // set the wanted height
-	      var _this = (0, _possibleConstructorReturn3.default)(this, (Progress.__proto__ || (0, _getPrototypeOf2.default)(Progress)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, false, false));
+	      var _this = (0, _possibleConstructorReturn3.default)(this, (Progress.__proto__ || (0, _getPrototypeOf2.default)(Progress)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, false, false));
 
 	      _this.options.element.style.height = _this.options.height + 'px';
 
