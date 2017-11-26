@@ -77,42 +77,33 @@
 
 	var _network2 = _interopRequireDefault(_network);
 
-	__webpack_require__(82);
-
-	var _dialog = __webpack_require__(111);
+	var _dialog = __webpack_require__(116);
 
 	var _dialog2 = _interopRequireDefault(_dialog);
 
-	var _notification = __webpack_require__(112);
+	var _notification = __webpack_require__(117);
 
 	var _notification2 = _interopRequireDefault(_notification);
 
-	var _collapse = __webpack_require__(117);
+	var _collapse = __webpack_require__(122);
 
 	var _collapse2 = _interopRequireDefault(_collapse);
 
-	var _progress = __webpack_require__(118);
+	var _progress = __webpack_require__(123);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
-	var _loader = __webpack_require__(119);
+	var _loader = __webpack_require__(124);
 
 	var _loader2 = _interopRequireDefault(_loader);
 
-	var _offCanvas = __webpack_require__(120);
+	var _offCanvas = __webpack_require__(125);
 
 	var _offCanvas2 = _interopRequireDefault(_offCanvas);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// components
-	/**
-	 * --------------------------------------------------------------------------
-	 * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
-	 * --------------------------------------------------------------------------
-	 */
-
-	// core
 	var api = {};
 
 	/**
@@ -120,6 +111,13 @@
 	 * Configuration
 	 * ------------------------------------------------------------------------
 	 */
+	/**
+	 * --------------------------------------------------------------------------
+	 * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
+	 * --------------------------------------------------------------------------
+	 */
+
+	// core
 	api.config = {
 	  // global config
 	  debug: true
@@ -4827,6 +4825,14 @@
 
 	var _utils = __webpack_require__(80);
 
+	var _events = __webpack_require__(82);
+
+	var _events2 = _interopRequireDefault(_events);
+
+	var _componentManager = __webpack_require__(111);
+
+	var _componentManager2 = _interopRequireDefault(_componentManager);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
@@ -4843,35 +4849,69 @@
 	var Component = function () {
 	  function Component(name, version) {
 	    var defaultOptions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+	    var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+	    var optionAttrs = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
 
 	    var _this = this;
 
-	    var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-	    var supportDynamicElement = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+	    var supportDynamicElement = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
+	    var addToStack = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false;
 	    (0, _classCallCheck3.default)(this, Component);
 
 	    this._name = name;
 	    this._version = version;
 	    this.options = (0, _assign2.default)(defaultOptions, options);
+	    this.optionAttrs = optionAttrs;
 	    this.supportDynamicElement = supportDynamicElement;
+	    this.addToStack = addToStack;
 	    this.id = (0, _utils.generateId)();
+
+	    var checkElement = !this.supportDynamicElement || this.options.element !== null;
 
 	    if (typeof this.options.element === 'string') {
 	      this.options.element = document.querySelector(this.options.element);
 	    }
 
-	    if (!this.supportDynamicElement && this.options.element === null) {
+	    if (checkElement && this.options.element === null) {
 	      throw new Error(this._name + '. The element is not a HTMLElement.');
 	    }
 
 	    this.dynamicElement = this.options.element === null;
 	    this.registeredElements = [];
+
+	    if (!this.dynamicElement) {
+	      /**
+	       * if the element exists, we read the data attributes config
+	       * then we overwrite existing config keys in JavaScript, so that
+	       * we keep the following order
+	       * [1] default JavaScript configuration of the component
+	       * [2] Data attributes configuration if the element exists in the DOM
+	       * [3] JavaScript configuration
+	       */
+	      this.options = (0, _assign2.default)(this.options, this.assignJsConfig(this.getAttributes(), options));
+
+	      console.log(this.options);
+	      // then, set the new data attributes to the element
+	      this.setAttributes();
+	    }
+
 	    this.elementListener = function (event) {
-	      return _this.onElementEvent(event);
+	      return _this.onBeforeElementEvent(event);
 	    };
 	  }
 
 	  (0, _createClass3.default)(Component, [{
+	    key: 'assignJsConfig',
+	    value: function assignJsConfig(attrConfig, options) {
+	      this.optionAttrs.forEach(function (key) {
+	        if (options[key]) {
+	          attrConfig[key] = options[key];
+	        }
+	      });
+
+	      return attrConfig;
+	    }
+	  }, {
 	    key: 'registerElements',
 	    value: function registerElements(elements) {
 	      var _this2 = this;
@@ -4903,7 +4943,6 @@
 	      });
 
 	      if (registeredElementIndex > -1) {
-	        var registeredElement = this.registeredElements[registeredElementIndex];
 	        element.target.removeEventListener(element.event, this.elementListener);
 	        this.registeredElements.splice(registeredElementIndex, 1);
 	      } else {
@@ -4915,6 +4954,14 @@
 	    value: function triggerEvent(eventName) {
 	      var detail = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 	      var objectEventOnly = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+	      if (this.addToStack) {
+	        if (eventName === _events2.default.SHOW) {
+	          _componentManager2.default.add(this);
+	        } else if (eventName === _events2.default.HIDE) {
+	          _componentManager2.default.remove(this);
+	        }
+	      }
 
 	      var eventNameAlias = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
 
@@ -4937,6 +4984,40 @@
 	      } else {
 	        (0, _dispatch.dispatchWinDocEvent)(eventName, this._name, detail);
 	      }
+	    }
+	  }, {
+	    key: 'setAttributes',
+	    value: function setAttributes() {
+	      if (this.optionAttrs.length > 0) {
+	        (0, _componentManager.setAttributesConfig)(this.options.element, this.options, this.optionAttrs);
+	      }
+	    }
+	  }, {
+	    key: 'getAttributes',
+	    value: function getAttributes() {
+	      var options = (0, _assign2.default)({}, this.options);
+	      return (0, _componentManager.getAttributesConfig)(this.options.element, options, this.optionAttrs);
+	    }
+
+	    /**
+	     * the preventClosable method manages concurrency between active components.
+	     * For example, if there is a shown off-canvas and dialog, the last
+	     * shown component gains the processing priority
+	     */
+
+	  }, {
+	    key: 'preventClosable',
+	    value: function preventClosable() {
+	      return this.addToStack && !_componentManager2.default.closable(this);
+	    }
+	  }, {
+	    key: 'onBeforeElementEvent',
+	    value: function onBeforeElementEvent(event) {
+	      if (this.preventClosable()) {
+	        return;
+	      }
+
+	      this.onElementEvent(event);
 	    }
 	  }, {
 	    key: 'onElementEvent',
@@ -4964,6 +5045,168 @@
 
 /***/ }),
 /* 111 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _is = __webpack_require__(112);
+
+	var _is2 = _interopRequireDefault(_is);
+
+	var _typeof2 = __webpack_require__(46);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
+	var _keys = __webpack_require__(88);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	exports.setAttributesConfig = setAttributesConfig;
+	exports.getAttributesConfig = getAttributesConfig;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getAttribute = function getAttribute(first, second) {
+	  if (first === '') {
+	    return 'data-' + second;
+	  }
+	  return 'data-' + first + '-' + second;
+	};
+
+	function setAttributesConfig(element) {
+	  var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	  var attrs = arguments[2];
+	  var start = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+
+	  var keys = (0, _keys2.default)(obj);
+
+	  keys.forEach(function (key) {
+	    if (start === '' && attrs.indexOf(key) === -1) {
+	      // continue with next iteration
+	      return;
+	    }
+
+	    if ((0, _typeof3.default)(obj[key]) === 'object' && obj[key] !== null) {
+	      var keyStart = key;
+	      if (start !== '') {
+	        keyStart = start + '-' + key;
+	      }
+
+	      setAttributesConfig(element, obj[key], attrs, keyStart);
+	      return;
+	    }
+
+	    var attr = getAttribute(start, key);
+	    element.setAttribute(attr, obj[key]);
+	  });
+	}
+
+	function getAttributesConfig(element) {
+	  var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	  var attrs = arguments[2];
+	  var start = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+
+	  var newObj = obj;
+	  var keys = (0, _keys2.default)(obj);
+
+	  keys.forEach(function (key) {
+	    if (start === '' && attrs.indexOf(key) === -1) {
+	      // continue with next iteration
+	      return;
+	    }
+
+	    if (obj[key] !== null && obj[key].constructor === Object) {
+	      var keyStart = key;
+	      if (start !== '') {
+	        keyStart = start + '-' + key;
+	      }
+
+	      newObj[key] = getAttributesConfig(element, obj[key], attrs, keyStart);
+	      return;
+	    }
+
+	    // update value
+	    var value = newObj[key]; // default value
+	    var type = typeof value === 'undefined' ? 'undefined' : (0, _typeof3.default)(value);
+	    var attr = getAttribute(start, key);
+	    var attrValue = element.getAttribute(attr);
+
+	    if (attrValue !== null) {
+	      if (type === 'boolean') {
+	        // convert string to boolean
+	        value = attrValue === 'true';
+	      } else if (!isNaN(attrValue)) {
+	        value = parseInt(attrValue, 10);
+	      } else {
+	        value = attrValue;
+	      }
+	    }
+
+	    newObj[key] = value;
+	  });
+
+	  return newObj;
+	}
+
+	var stack = [];
+
+	exports.default = {
+	  add: function add(component) {
+	    stack.push(component);
+	  },
+	  remove: function remove(component) {
+	    var index = stack.findIndex(function (c) {
+	      return (0, _is2.default)(component, c);
+	    });
+	    if (index > -1) {
+	      stack.splice(index, 1);
+	    }
+	  },
+	  closable: function closable(component) {
+	    return stack.length === 0 || (0, _is2.default)(stack[stack.length - 1], component);
+	  }
+	};
+
+/***/ }),
+/* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(113), __esModule: true };
+
+/***/ }),
+/* 113 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(114);
+	module.exports = __webpack_require__(8).Object.is;
+
+
+/***/ }),
+/* 114 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// 19.1.3.10 Object.is(value1, value2)
+	var $export = __webpack_require__(6);
+	$export($export.S, 'Object', { is: __webpack_require__(115) });
+
+
+/***/ }),
+/* 115 */
+/***/ (function(module, exports) {
+
+	// 7.2.9 SameValue(x, y)
+	module.exports = Object.is || function is(x, y) {
+	  // eslint-disable-next-line no-self-compare
+	  return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
+	};
+
+
+/***/ }),
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5004,13 +5247,10 @@
 
 	var _component2 = _interopRequireDefault(_component);
 
+	var _componentManager = __webpack_require__(111);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	/**
-	 * --------------------------------------------------------------------------
-	 * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
-	 * --------------------------------------------------------------------------
-	 */
 	var Dialog = function () {
 	  /**
 	   * ------------------------------------------------------------------------
@@ -5026,14 +5266,15 @@
 	    title: null,
 	    message: null,
 	    cancelable: true
-
-	    /**
-	     * ------------------------------------------------------------------------
-	     * Class Definition
-	     * ------------------------------------------------------------------------
-	     */
-
 	  };
+	  var DATA_ATTRS_PROPERTIES = ['cancelable'];
+
+	  /**
+	   * ------------------------------------------------------------------------
+	   * Class Definition
+	   * ------------------------------------------------------------------------
+	   */
+
 	  var Dialog = function (_Component) {
 	    (0, _inherits3.default)(Dialog, _Component);
 
@@ -5041,7 +5282,7 @@
 	      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	      (0, _classCallCheck3.default)(this, Dialog);
 
-	      var _this = (0, _possibleConstructorReturn3.default)(this, (Dialog.__proto__ || (0, _getPrototypeOf2.default)(Dialog)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, true));
+	      var _this = (0, _possibleConstructorReturn3.default)(this, (Dialog.__proto__ || (0, _getPrototypeOf2.default)(Dialog)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, true));
 
 	      _this.template = '' + '<div class="dialog-inner" role="document">' + '<div class="dialog-content">' + '<div class="dialog-header">' + '<h5 class="dialog-title"></h5>' + '</div>' + '<div class="dialog-body">' + '<p></p>' + '</div>' + '<div class="dialog-footer">' + '<button type="button" class="btn btn-primary" data-dismiss="dialog">Ok</button>' + '</div>' + '</div>' + '</div>';
 
@@ -5076,6 +5317,8 @@
 	        this.options.element = div;
 
 	        document.body.appendChild(this.options.element);
+
+	        this.setAttributes();
 	      }
 	    }, {
 	      key: 'buildBackdrop',
@@ -5112,7 +5355,6 @@
 	        }
 
 	        if (this.options.element.classList.contains('show')) {
-	          console.error(NAME + '. The dialog is already visible.');
 	          return false;
 	        }
 
@@ -5153,7 +5395,6 @@
 	        var _this3 = this;
 
 	        if (!this.options.element.classList.contains('show')) {
-	          console.error(NAME + '. The dialog is not visible.');
 	          return false;
 	        }
 
@@ -5235,13 +5476,36 @@
 	    return Dialog;
 	  }(_component2.default);
 
-	  return Dialog;
-	}();
+	  /**
+	   * ------------------------------------------------------------------------
+	   * Data Api implementation
+	   * ------------------------------------------------------------------------
+	   */
 
+
+	  document.addEventListener('click', function (event) {
+	    var dataToggleAttr = event.target.getAttribute('data-toggle');
+	    if (dataToggleAttr && dataToggleAttr === NAME) {
+	      var id = event.target.getAttribute('data-target');
+	      var element = document.querySelector(id);
+
+	      var config = (0, _componentManager.getAttributesConfig)(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES);
+	      config.element = element;
+
+	      new Dialog(config).show();
+	    }
+	  });
+
+	  return Dialog;
+	}(); /**
+	      * --------------------------------------------------------------------------
+	      * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
+	      * --------------------------------------------------------------------------
+	      */
 	exports.default = Dialog;
 
 /***/ }),
-/* 112 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5250,7 +5514,7 @@
 	  value: true
 	});
 
-	var _isInteger = __webpack_require__(113);
+	var _isInteger = __webpack_require__(118);
 
 	var _isInteger2 = _interopRequireDefault(_isInteger);
 
@@ -5308,14 +5572,15 @@
 	    showButton: true,
 	    timeout: null,
 	    background: 'primary'
-
-	    /**
-	     * ------------------------------------------------------------------------
-	     * Class Definition
-	     * ------------------------------------------------------------------------
-	     */
-
 	  };
+	  var DATA_ATTRS_PROPERTIES = ['timeout'];
+
+	  /**
+	   * ------------------------------------------------------------------------
+	   * Class Definition
+	   * ------------------------------------------------------------------------
+	   */
+
 	  var Notification = function (_Component) {
 	    (0, _inherits3.default)(Notification, _Component);
 
@@ -5323,9 +5588,9 @@
 	      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	      (0, _classCallCheck3.default)(this, Notification);
 
-	      var _this = (0, _possibleConstructorReturn3.default)(this, (Notification.__proto__ || (0, _getPrototypeOf2.default)(Notification)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, true));
+	      var _this = (0, _possibleConstructorReturn3.default)(this, (Notification.__proto__ || (0, _getPrototypeOf2.default)(Notification)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, false));
 
-	      _this.template = '' + '<div class="notification-inner">' + '<div class="message"></div>' + '<button type="button" class="close" data-dismiss="off-canvas" aria-label="Close">' + '<span aria-hidden="true">&times;</span>' + '</button>' + '</div>';
+	      _this.template = '' + '<div class="notification-inner">' + '<div class="message"></div>' + '<button type="button" class="close" data-dismiss="notification" aria-label="Close">' + '<span aria-hidden="true">&times;</span>' + '</button>' + '</div>';
 
 	      if (_this.dynamicElement) {
 	        _this.build();
@@ -5353,6 +5618,8 @@
 	        this.options.element = div;
 
 	        document.body.appendChild(this.options.element);
+
+	        this.setAttributes();
 	      }
 	    }, {
 	      key: 'show',
@@ -5365,7 +5632,6 @@
 	        }
 
 	        if (this.options.element.classList.contains('show')) {
-	          console.error(NAME + '. The notification is already visible.');
 	          return false;
 	        }
 
@@ -5420,7 +5686,6 @@
 	        }
 
 	        if (!this.options.element.classList.contains('show')) {
-	          console.error(NAME + '. The notification is not visible.');
 	          return false;
 	        }
 
@@ -5470,31 +5735,31 @@
 	exports.default = Notification;
 
 /***/ }),
-/* 113 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(114), __esModule: true };
+	module.exports = { "default": __webpack_require__(119), __esModule: true };
 
 /***/ }),
-/* 114 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(115);
+	__webpack_require__(120);
 	module.exports = __webpack_require__(8).Number.isInteger;
 
 
 /***/ }),
-/* 115 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 20.1.2.3 Number.isInteger(number)
 	var $export = __webpack_require__(6);
 
-	$export($export.S, 'Number', { isInteger: __webpack_require__(116) });
+	$export($export.S, 'Number', { isInteger: __webpack_require__(121) });
 
 
 /***/ }),
-/* 116 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 20.1.2.3 Number.isInteger(number)
@@ -5506,7 +5771,7 @@
 
 
 /***/ }),
-/* 117 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5615,7 +5880,7 @@
 	exports.default = Collapse;
 
 /***/ }),
-/* 118 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5696,7 +5961,7 @@
 	      (0, _classCallCheck3.default)(this, Progress);
 
 	      // set the wanted height
-	      var _this = (0, _possibleConstructorReturn3.default)(this, (Progress.__proto__ || (0, _getPrototypeOf2.default)(Progress)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, false));
+	      var _this = (0, _possibleConstructorReturn3.default)(this, (Progress.__proto__ || (0, _getPrototypeOf2.default)(Progress)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, false, false));
 
 	      _this.options.element.style.height = _this.options.height + 'px';
 
@@ -5807,7 +6072,7 @@
 	exports.default = Progress;
 
 /***/ }),
-/* 119 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5859,14 +6124,15 @@
 	    element: null,
 	    color: null,
 	    size: null
-
-	    /**
-	     * ------------------------------------------------------------------------
-	     * Class Definition
-	     * ------------------------------------------------------------------------
-	     */
-
 	  };
+	  var DATA_ATTRS_PROPERTIES = [];
+
+	  /**
+	   * ------------------------------------------------------------------------
+	   * Class Definition
+	   * ------------------------------------------------------------------------
+	   */
+
 	  var Loader = function (_Component) {
 	    (0, _inherits3.default)(Loader, _Component);
 
@@ -5875,7 +6141,7 @@
 	      (0, _classCallCheck3.default)(this, Loader);
 
 	      // set color
-	      var _this = (0, _possibleConstructorReturn3.default)(this, (Loader.__proto__ || (0, _getPrototypeOf2.default)(Loader)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, false));
+	      var _this = (0, _possibleConstructorReturn3.default)(this, (Loader.__proto__ || (0, _getPrototypeOf2.default)(Loader)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, false, false));
 
 	      var loaderSpinner = _this.getSpinner();
 	      if (typeof _this.options.color === 'string' && !loaderSpinner.classList.contains('color-' + _this.options.color)) {
@@ -5973,7 +6239,7 @@
 	exports.default = Loader;
 
 /***/ }),
-/* 120 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6014,13 +6280,10 @@
 
 	var _component2 = _interopRequireDefault(_component);
 
+	var _componentManager = __webpack_require__(111);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	/**
-	 * --------------------------------------------------------------------------
-	 * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
-	 * --------------------------------------------------------------------------
-	 */
 	var OffCanvas = function () {
 	  /**
 	   * ------------------------------------------------------------------------
@@ -6033,19 +6296,21 @@
 	  var BACKDROP_SELECTOR = 'off-canvas-backdrop';
 	  var DEFAULT_PROPERTIES = {
 	    element: null,
+	    setupAside: true,
 	    aside: {
 	      md: false,
 	      lg: false,
 	      xl: false
 	    }
-
-	    /**
-	     * ------------------------------------------------------------------------
-	     * Class Definition
-	     * ------------------------------------------------------------------------
-	     */
-
 	  };
+	  var DATA_ATTRS_PROPERTIES = ['aside'];
+
+	  /**
+	   * ------------------------------------------------------------------------
+	   * Class Definition
+	   * ------------------------------------------------------------------------
+	   */
+
 	  var OffCanvas = function (_Component) {
 	    (0, _inherits3.default)(OffCanvas, _Component);
 
@@ -6053,12 +6318,10 @@
 	      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	      (0, _classCallCheck3.default)(this, OffCanvas);
 
-	      var _this = (0, _possibleConstructorReturn3.default)(this, (OffCanvas.__proto__ || (0, _getPrototypeOf2.default)(OffCanvas)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, false));
+	      var _this = (0, _possibleConstructorReturn3.default)(this, (OffCanvas.__proto__ || (0, _getPrototypeOf2.default)(OffCanvas)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, false, true));
 
-	      _this.useBackdrop = false;
-
+	      _this.useBackdrop = true;
 	      _this.currentWidth = null;
-
 	      _this.animate = true;
 
 	      var sm = { name: 'sm', media: window.matchMedia('(min-width: 1px)') };
@@ -6090,16 +6353,18 @@
 	        });
 	      };
 
-	      setTimeout(checkWidth, 1);
+	      if (_this.options.setupAside) {
+	        setTimeout(checkWidth, 1);
+	      }
 
 	      window.addEventListener('resize', checkWidth, false);
 	      return _this;
 	    }
 
 	    (0, _createClass3.default)(OffCanvas, [{
-	      key: 'closable',
-	      value: function closable() {
-	        return this.options.aside[this.currentWidth] !== true;
+	      key: 'preventClosable',
+	      value: function preventClosable() {
+	        return (0, _get3.default)(OffCanvas.prototype.__proto__ || (0, _getPrototypeOf2.default)(OffCanvas.prototype), 'preventClosable', this).call(this) && this.options.aside[this.currentWidth] !== true;
 	      }
 	    }, {
 	      key: 'setAside',
@@ -6135,10 +6400,6 @@
 	          return;
 	        }
 
-	        if (!this.closable()) {
-	          return;
-	        }
-
 	        // hide the off-canvas
 	        this.hide();
 	      }
@@ -6148,7 +6409,6 @@
 	        var _this2 = this;
 
 	        if (this.options.element.classList.contains('show')) {
-	          console.error(NAME + '. The off-canvas is already visible.');
 	          return false;
 	        }
 
@@ -6191,7 +6451,6 @@
 	        var _this3 = this;
 
 	        if (!this.options.element.classList.contains('show')) {
-	          console.error(NAME + '. The off-canvas is not visible.');
 	          return false;
 	        }
 
@@ -6295,9 +6554,34 @@
 	    return OffCanvas;
 	  }(_component2.default);
 
-	  return OffCanvas;
-	}();
+	  /**
+	   * ------------------------------------------------------------------------
+	   * Data Api implementation
+	   * ------------------------------------------------------------------------
+	   */
 
+
+	  document.addEventListener('click', function (event) {
+	    var dataToggleAttr = event.target.getAttribute('data-toggle');
+	    if (dataToggleAttr && dataToggleAttr === NAME) {
+	      var id = event.target.getAttribute('data-target');
+	      var element = document.querySelector(id);
+
+	      var config = (0, _componentManager.getAttributesConfig)(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES);
+
+	      config.element = element;
+	      config.setupAside = false;
+
+	      new OffCanvas(config).show();
+	    }
+	  });
+
+	  return OffCanvas;
+	}(); /**
+	      * --------------------------------------------------------------------------
+	      * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
+	      * --------------------------------------------------------------------------
+	      */
 	exports.default = OffCanvas;
 
 /***/ })
