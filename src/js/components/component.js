@@ -49,7 +49,6 @@ export default class Component {
        */
       this.options = Object.assign(this.options, this.assignJsConfig(this.getAttributes(), options))
 
-      console.log(this.options)
       // then, set the new data attributes to the element
       this.setAttributes()
     }
