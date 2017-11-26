@@ -80,9 +80,9 @@ intl.updateHtml('.my-element') // update the node .my-element
 This method returns the desired internationalized text in the current language by providing its key.
 
 ```js
-intl.translate('welcome') // one item
-intl.translate('*') // all items
-intl.translate(['welcome', 'other']) // two items
+intl.translate('welcome') // one translation
+intl.translate('*') // all available translations
+intl.translate(['welcome', 'other']) // two translations
 ```
 
 If the locale is `fr`, the result would be:

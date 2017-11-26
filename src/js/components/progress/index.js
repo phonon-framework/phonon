@@ -24,6 +24,14 @@ const Progress = (() => {
     striped: false,
     background: null,
   }
+  const DATA_ATTRS_PROPERTIES = [
+    'height',
+    'min',
+    'max',
+    'label',
+    'striped',
+    'background',
+  ]
 
   /**
    * ------------------------------------------------------------------------
@@ -34,7 +42,7 @@ const Progress = (() => {
   class Progress extends Component {
 
     constructor(options = {}) {
-      super(NAME, VERSION, DEFAULT_PROPERTIES, options, false, false)
+      super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, false, false)
 
       // set the wanted height
       this.options.element.style.height = `${this.options.height}px`

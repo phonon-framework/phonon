@@ -45,6 +45,7 @@ notif.show()
 
 ## Options
 
+- message
 - showButton
 - timeout
 - background

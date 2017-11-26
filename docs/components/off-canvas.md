@@ -7,8 +7,10 @@
 ## Markup
 
 ```html
+<!-- Button trigger off-canvas -->
 <button class="btn btn-primary" data-toggle="off-canvas" data-target="#exampleOffCanvas">Launch demo off-canvas</button>
 
+<!-- Off-canvas -->
 <div class="off-canvas" id="exampleOffCanvas" role="navigation" aria-hidden="true" aria-labelledby="exampleOffCanvasTitle">
   <div class="off-canvas-inner">
     <div class="off-canvas-content">

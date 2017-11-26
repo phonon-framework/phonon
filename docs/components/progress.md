@@ -12,6 +12,14 @@
 </div>
 ```
 
+You can specify the height of the progress in HTML if you don't want to use JavaScript:
+
+```html
+<div class="progress" id="myProgress" style="height: 8px">
+  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+```
+
 ## JavaScript
 
 ```js
@@ -25,6 +33,15 @@ const progress = phonon.progress({
   background: null,
 })
 ```
+
+## Options
+
+- height
+- min
+- max
+- label
+- striped
+- background
 
 ## Methods
 
