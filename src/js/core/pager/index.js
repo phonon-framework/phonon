@@ -5,7 +5,6 @@
  */
 
 import Page from './page'
-import Event from '../../core/events'
 
 const Pager = (() => {
   /**
@@ -20,7 +19,7 @@ const Pager = (() => {
     hashPrefix: '#!',
     useHash: true,
     defaultPage: null,
-    animatePages: true
+    animatePages: true,
   }
 
   const Event = {
@@ -34,7 +33,6 @@ const Pager = (() => {
   }
 
   let currentPage
-  let oldPage
   /**
    * ------------------------------------------------------------------------
    * Class Definition

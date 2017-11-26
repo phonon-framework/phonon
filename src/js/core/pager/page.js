@@ -70,7 +70,7 @@ const Page = (() => {
     loadTemplate() {
       const pageElement = document.querySelector(`[data-page="${this.name}"]`)
 
-      loadFile(this.getTemplate(), template => {
+      loadFile(this.getTemplate(), (template) => {
         let render = function (DOMPage, template, elements) {
           if (elements) {
             elements.forEach((el) => {
@@ -130,7 +130,7 @@ const Page = (() => {
     triggerScopes(eventName, eventParams = {}) {
       const eventNameAlias = `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`
 
-      this.events.forEach(scope => {
+      this.events.forEach((scope) => {
         const scopeEvent = scope[eventName]
         const scopeEventAlias = scope[eventNameAlias]
         if (typeof scopeEvent === 'function') {

@@ -34,7 +34,10 @@ const Network = (() => {
    */
 
   class Network extends Component {
-
+    /**
+     * Creates an instance of Network.
+     * @param {{}} [options={}]
+     */
     constructor(options = {}) {
       super(NAME, VERSION, DEFAULT_PROPERTIES, options, true)
       this.addEvents()

@@ -18,7 +18,7 @@ const Intl = (() => {
     fallbackLocale: 'en',
     locale: 'en',
     autoBind: true,
-    data: null
+    data: null,
   }
 
   /**
