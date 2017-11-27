@@ -74,6 +74,10 @@ export default class Component {
     this._version = version
   }
 
+  getElement() {
+    return this.options.element
+  }
+
   registerElements(elements) {
     elements.forEach(element => this.registerElement(element))
   }

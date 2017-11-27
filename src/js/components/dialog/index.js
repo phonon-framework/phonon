@@ -217,19 +217,34 @@ const Dialog = (() => {
 
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * DOM Api implementation
    * ------------------------------------------------------------------------
    */
+  const components = []
+  
+  const dialogs = document.querySelectorAll(`.${NAME}`)
+  if (dialogs) {
+    dialogs.forEach((element) => {
+      const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
+      config.element = element
+
+      components.push({ element, dialog: new Dialog(config) })
+    })
+  }
+
   document.addEventListener('click', (event) => {
     const dataToggleAttr = event.target.getAttribute('data-toggle')
     if (dataToggleAttr && dataToggleAttr === NAME) {
       const id = event.target.getAttribute('data-target')
       const element = document.querySelector(id)
 
-      const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
-      config.element = element
+      const component = components.find(c => c.element === element)
 
-      new Dialog(config).show()
+      if (!component) {
+        return
+      }
+
+      component.dialog.show()
     }
   })
 

@@ -19,7 +19,6 @@ const OffCanvas = (() => {
   const BACKDROP_SELECTOR = 'off-canvas-backdrop'
   const DEFAULT_PROPERTIES = {
     element: null,
-    setupAside: true,
     aside: {
       md: false,
       lg: false,
@@ -74,15 +73,12 @@ const OffCanvas = (() => {
         })
       }
 
-      if (this.options.setupAside) {
-        setTimeout(checkWidth, 1)
-      }
-
+      checkWidth()
       window.addEventListener('resize', checkWidth, false)      
     }
 
     preventClosable() {
-      return super.preventClosable() && this.options.aside[this.currentWidth] !== true
+      return super.preventClosable() || this.options.aside[this.currentWidth] === true
     }
 
     setAside(name) {
@@ -251,21 +247,34 @@ const OffCanvas = (() => {
 
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * DOM Api implementation
    * ------------------------------------------------------------------------
    */
+  const components = []
+
+  const offCanvas = document.querySelectorAll(`.${NAME}`)
+  if (offCanvas) {
+    offCanvas.forEach((element) => {
+      const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
+      config.element = element
+
+      components.push({ element, offCanvas: new OffCanvas(config) })
+    })
+  }
+
   document.addEventListener('click', (event) => {
     const dataToggleAttr = event.target.getAttribute('data-toggle')
     if (dataToggleAttr && dataToggleAttr === NAME) {
       const id = event.target.getAttribute('data-target')
       const element = document.querySelector(id)
 
-      const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
+      const component = components.find(c => c.element === element)
 
-      config.element = element
-      config.setupAside = false
+      if (!component) {
+        return
+      }
 
-      new OffCanvas(config).show()
+      component.offCanvas.show()
     }
   })
 
