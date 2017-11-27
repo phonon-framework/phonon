@@ -1,6 +1,7 @@
 # Network
 
 ## Introduction
+
 Network is a simple module to know the status of the network, i. e. whether the user has a working connection or not.
 
 ## Events
@@ -27,5 +28,23 @@ phonon.network({
   offline: (event) => {
     console.log(`offline ${event.date}`)
   }
+})
+```
+
+## Use Case
+
+It can be useful to notify the user of a network change with a notification.
+
+```js
+window.addEventListener('online.ph.network', (event) => {
+  phonon.notification({
+    message: 'You are now online.'
+  }).show()
+})
+
+window.addEventListener('offline.ph.network', (event) => {
+  phonon.notification({
+    message: 'You are now offline.'
+  }).show()
 })
 ```
