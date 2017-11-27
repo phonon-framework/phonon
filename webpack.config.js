@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   // entry point of our application
   entry: [
-    './src/js/phonon.js',
+    './src/js/index.js',
   ],
 
   // where to place the compiled bundle

@@ -18,7 +18,7 @@ gulp.task('serve', ['sass'], () => {
   browserSync.init({
     // server: ['test', 'dist'],
     proxy: 'localhost:80',
-    open: false,
+    open: true,
   })
 
   gulp.watch(src.scss, ['sass'])
@@ -26,7 +26,7 @@ gulp.task('serve', ['sass'], () => {
 })
 
 gulp.task('script', () => {
-  return gulp.src('src/js/phonon.js')
+  return gulp.src('src/js/index.js')
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest('./'))
     .pipe(reload({ stream: true }))
@@ -41,7 +41,6 @@ gulp.task('sass', () => {
     .pipe(autoprefixer())
     .pipe(gulp.dest(src.css))
     .pipe(reload({ stream: true }))
-    // .pipe(reload({ stream: true }))
 })
 
 gulp.task('default', ['serve'])
