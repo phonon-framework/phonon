@@ -61,19 +61,19 @@
 
 	var _index2 = _interopRequireDefault(_index);
 
-	var _ajax = __webpack_require__(83);
+	var _ajax = __webpack_require__(82);
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _platform = __webpack_require__(84);
+	var _platform = __webpack_require__(83);
 
 	var _platform2 = _interopRequireDefault(_platform);
 
-	var _intl = __webpack_require__(87);
+	var _intl = __webpack_require__(86);
 
 	var _intl2 = _interopRequireDefault(_intl);
 
-	var _network = __webpack_require__(93);
+	var _network = __webpack_require__(92);
 
 	var _network2 = _interopRequireDefault(_network);
 
@@ -236,17 +236,7 @@
 
 	var _page2 = _interopRequireDefault(_page);
 
-	var _events = __webpack_require__(82);
-
-	var _events2 = _interopRequireDefault(_events);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/**
-	 * --------------------------------------------------------------------------
-	 * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
-	 * --------------------------------------------------------------------------
-	 */
 
 	var Pager = function () {
 	  /**
@@ -275,7 +265,6 @@
 	  };
 
 	  var currentPage = void 0;
-	  var oldPage = void 0;
 	  /**
 	   * ------------------------------------------------------------------------
 	   * Class Definition
@@ -675,7 +664,11 @@
 	  }();
 
 	  return Pager;
-	}();
+	}(); /**
+	      * --------------------------------------------------------------------------
+	      * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
+	      * --------------------------------------------------------------------------
+	      */
 
 	exports.default = Pager;
 
@@ -2439,85 +2432,6 @@
 
 /***/ }),
 /* 82 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	// @todo keep ?
-	if (typeof window !== 'undefined') {
-	  window.addEventListener('error', function () {
-	    console.error('An error has occured! You can pen an issue here: https://github.com/quark-dev/Phonon-Framework/issues');
-	  });
-	}
-
-	// Use available events
-	var availableEvents = ['mousedown', 'mousemove', 'mouseup'];
-	var touchScreen = false;
-
-	if (typeof window !== 'undefined') {
-	  if ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch) {
-	    touchScreen = true;
-	    availableEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
-	  }
-
-	  if (window.navigator.pointerEnabled) {
-	    availableEvents = ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'];
-	  } else if (window.navigator.msPointerEnabled) {
-	    availableEvents = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp', 'MSPointerCancel'];
-	  }
-	}
-
-	var el = document.createElement('div');
-	var transitions = [{ name: 'transition', start: 'transitionstart', end: 'transitionend' }, { name: 'MozTransition', start: 'transitionstart', end: 'transitionend' }, { name: 'msTransition', start: 'msTransitionStart', end: 'msTransitionEnd' }, { name: 'WebkitTransition', start: 'webkitTransitionStart', end: 'webkitTransitionEnd' }];
-	var animations = [{ name: 'animation', start: 'animationstart', end: 'animationend' }, { name: 'MozAnimation', start: 'animationstart', end: 'animationend' }, { name: 'msAnimation', start: 'msAnimationStart', end: 'msAnimationEnd' }, { name: 'WebkitAnimation', start: 'webkitAnimationStart', end: 'webkitAnimationEnd' }];
-
-	var transitionStart = transitions.find(function (t) {
-	  return el.style[t.name] !== undefined;
-	}).start;
-	var transitionEnd = transitions.find(function (t) {
-	  return el.style[t.name] !== undefined;
-	}).end;
-	var animationStart = animations.find(function (t) {
-	  return el.style[t.name] !== undefined;
-	}).start;
-	var animationEnd = animations.find(function (t) {
-	  return el.style[t.name] !== undefined;
-	}).end;
-
-	exports.default = {
-	  // touch screen support
-	  TOUCH_SCREEN: touchScreen,
-
-	  // network
-	  NETWORK_ONLINE: 'online',
-	  NETWORK_OFFLINE: 'offline',
-
-	  // user interface states
-	  SHOW: 'show',
-	  SHOWN: 'shown',
-	  HIDE: 'hide',
-	  HIDDEN: 'hidden',
-
-	  // touch, mouse and pointer events polyfill
-	  START: availableEvents[0],
-	  MOVE: availableEvents[1],
-	  END: availableEvents[2],
-	  CANCEL: typeof availableEvents[3] === 'undefined' ? null : availableEvents[3],
-
-	  // transitions
-	  TRANSITION_START: transitionStart,
-	  TRANSITION_END: transitionEnd,
-
-	  // animations
-	  ANIMATION_START: animationStart,
-	  ANIMATION_END: animationEnd
-	};
-
-/***/ }),
-/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2651,7 +2565,7 @@
 	        this.xhr.open(this.opts.method, this.opts.url, true);
 	        this.onPreExecute();
 
-	        this.xhr.onreadystatechange = function (event) {
+	        this.xhr.onreadystatechange = function () {
 	          if (parseInt(_this2.xhr.readyState) === 4) {
 	            var status = _this2.xhr.status.toString();
 
@@ -2718,7 +2632,7 @@
 	exports.default = Ajax;
 
 /***/ }),
-/* 84 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2727,7 +2641,7 @@
 	  value: true
 	});
 
-	var _platform = __webpack_require__(85);
+	var _platform = __webpack_require__(84);
 
 	var _platform2 = _interopRequireDefault(_platform);
 
@@ -2740,7 +2654,7 @@
 	                                       */
 
 /***/ }),
-/* 85 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*!
@@ -3961,10 +3875,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(86)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(85)(module), (function() { return this; }())))
 
 /***/ }),
-/* 86 */
+/* 85 */
 /***/ (function(module, exports) {
 
 	module.exports = function(module) {
@@ -3980,7 +3894,7 @@
 
 
 /***/ }),
-/* 87 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3989,7 +3903,7 @@
 	  value: true
 	});
 
-	var _keys = __webpack_require__(88);
+	var _keys = __webpack_require__(87);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
@@ -4009,7 +3923,7 @@
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
-	var _binder = __webpack_require__(92);
+	var _binder = __webpack_require__(91);
 
 	var _binder2 = _interopRequireDefault(_binder);
 
@@ -4212,28 +4126,28 @@
 	exports.default = Intl;
 
 /***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(88), __esModule: true };
+
+/***/ }),
 /* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(89), __esModule: true };
-
-/***/ }),
-/* 89 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(90);
+	__webpack_require__(89);
 	module.exports = __webpack_require__(8).Object.keys;
 
 
 /***/ }),
-/* 90 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 19.1.2.14 Object.keys(O)
 	var toObject = __webpack_require__(39);
 	var $keys = __webpack_require__(22);
 
-	__webpack_require__(91)('keys', function () {
+	__webpack_require__(90)('keys', function () {
 	  return function keys(it) {
 	    return $keys(toObject(it));
 	  };
@@ -4241,7 +4155,7 @@
 
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// most Object methods by ES6 should accept primitives
@@ -4257,7 +4171,7 @@
 
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4441,7 +4355,7 @@
 	exports.default = Binder;
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4450,7 +4364,7 @@
 	  value: true
 	});
 
-	var _getPrototypeOf = __webpack_require__(94);
+	var _getPrototypeOf = __webpack_require__(93);
 
 	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -4462,19 +4376,19 @@
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(97);
+	var _possibleConstructorReturn2 = __webpack_require__(96);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _get2 = __webpack_require__(98);
+	var _get2 = __webpack_require__(97);
 
 	var _get3 = _interopRequireDefault(_get2);
 
-	var _inherits2 = __webpack_require__(102);
+	var _inherits2 = __webpack_require__(101);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _events = __webpack_require__(82);
+	var _events = __webpack_require__(109);
 
 	var _events2 = _interopRequireDefault(_events);
 
@@ -4514,6 +4428,10 @@
 	  var Network = function (_Component) {
 	    (0, _inherits3.default)(Network, _Component);
 
+	    /**
+	     * Creates an instance of Network.
+	     * @param {{}} [options={}]
+	     */
 	    function Network() {
 	      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	      (0, _classCallCheck3.default)(this, Network);
@@ -4556,28 +4474,28 @@
 	exports.default = Network;
 
 /***/ }),
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(94), __esModule: true };
+
+/***/ }),
 /* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(95), __esModule: true };
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(96);
+	__webpack_require__(95);
 	module.exports = __webpack_require__(8).Object.getPrototypeOf;
 
 
 /***/ }),
-/* 96 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 19.1.2.9 Object.getPrototypeOf(O)
 	var toObject = __webpack_require__(39);
 	var $getPrototypeOf = __webpack_require__(61);
 
-	__webpack_require__(91)('getPrototypeOf', function () {
+	__webpack_require__(90)('getPrototypeOf', function () {
 	  return function getPrototypeOf(it) {
 	    return $getPrototypeOf(toObject(it));
 	  };
@@ -4585,7 +4503,7 @@
 
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4607,18 +4525,18 @@
 	};
 
 /***/ }),
-/* 98 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _getPrototypeOf = __webpack_require__(94);
+	var _getPrototypeOf = __webpack_require__(93);
 
 	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-	var _getOwnPropertyDescriptor = __webpack_require__(99);
+	var _getOwnPropertyDescriptor = __webpack_require__(98);
 
 	var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -4650,16 +4568,16 @@
 	};
 
 /***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(99), __esModule: true };
+
+/***/ }),
 /* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(100), __esModule: true };
-
-/***/ }),
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(101);
+	__webpack_require__(100);
 	var $Object = __webpack_require__(8).Object;
 	module.exports = function getOwnPropertyDescriptor(it, key) {
 	  return $Object.getOwnPropertyDescriptor(it, key);
@@ -4667,14 +4585,14 @@
 
 
 /***/ }),
-/* 101 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
 	var toIObject = __webpack_require__(25);
 	var $getOwnPropertyDescriptor = __webpack_require__(76).f;
 
-	__webpack_require__(91)('getOwnPropertyDescriptor', function () {
+	__webpack_require__(90)('getOwnPropertyDescriptor', function () {
 	  return function getOwnPropertyDescriptor(it, key) {
 	    return $getOwnPropertyDescriptor(toIObject(it), key);
 	  };
@@ -4682,18 +4600,18 @@
 
 
 /***/ }),
-/* 102 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _setPrototypeOf = __webpack_require__(103);
+	var _setPrototypeOf = __webpack_require__(102);
 
 	var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-	var _create = __webpack_require__(107);
+	var _create = __webpack_require__(106);
 
 	var _create2 = _interopRequireDefault(_create);
 
@@ -4720,30 +4638,30 @@
 	};
 
 /***/ }),
+/* 102 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(103), __esModule: true };
+
+/***/ }),
 /* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(104), __esModule: true };
+	__webpack_require__(104);
+	module.exports = __webpack_require__(8).Object.setPrototypeOf;
+
 
 /***/ }),
 /* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(105);
-	module.exports = __webpack_require__(8).Object.setPrototypeOf;
+	// 19.1.3.19 Object.setPrototypeOf(O, proto)
+	var $export = __webpack_require__(6);
+	$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(105).set });
 
 
 /***/ }),
 /* 105 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// 19.1.3.19 Object.setPrototypeOf(O, proto)
-	var $export = __webpack_require__(6);
-	$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(106).set });
-
-
-/***/ }),
-/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -4774,16 +4692,16 @@
 
 
 /***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(107), __esModule: true };
+
+/***/ }),
 /* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(108), __esModule: true };
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(109);
+	__webpack_require__(108);
 	var $Object = __webpack_require__(8).Object;
 	module.exports = function create(P, D) {
 	  return $Object.create(P, D);
@@ -4791,13 +4709,92 @@
 
 
 /***/ }),
-/* 109 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var $export = __webpack_require__(6);
 	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 	$export($export.S, 'Object', { create: __webpack_require__(56) });
 
+
+/***/ }),
+/* 109 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// @todo keep ?
+	if (typeof window !== 'undefined') {
+	  window.addEventListener('error', function () {
+	    console.error('An error has occured! You can pen an issue here: https://github.com/quark-dev/Phonon-Framework/issues');
+	  });
+	}
+
+	// Use available events
+	var availableEvents = ['mousedown', 'mousemove', 'mouseup'];
+	var touchScreen = false;
+
+	if (typeof window !== 'undefined') {
+	  if ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch) {
+	    touchScreen = true;
+	    availableEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
+	  }
+
+	  if (window.navigator.pointerEnabled) {
+	    availableEvents = ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'];
+	  } else if (window.navigator.msPointerEnabled) {
+	    availableEvents = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp', 'MSPointerCancel'];
+	  }
+	}
+
+	var el = document.createElement('div');
+	var transitions = [{ name: 'transition', start: 'transitionstart', end: 'transitionend' }, { name: 'MozTransition', start: 'transitionstart', end: 'transitionend' }, { name: 'msTransition', start: 'msTransitionStart', end: 'msTransitionEnd' }, { name: 'WebkitTransition', start: 'webkitTransitionStart', end: 'webkitTransitionEnd' }];
+	var animations = [{ name: 'animation', start: 'animationstart', end: 'animationend' }, { name: 'MozAnimation', start: 'animationstart', end: 'animationend' }, { name: 'msAnimation', start: 'msAnimationStart', end: 'msAnimationEnd' }, { name: 'WebkitAnimation', start: 'webkitAnimationStart', end: 'webkitAnimationEnd' }];
+
+	var transitionStart = transitions.find(function (t) {
+	  return el.style[t.name] !== undefined;
+	}).start;
+	var transitionEnd = transitions.find(function (t) {
+	  return el.style[t.name] !== undefined;
+	}).end;
+	var animationStart = animations.find(function (t) {
+	  return el.style[t.name] !== undefined;
+	}).start;
+	var animationEnd = animations.find(function (t) {
+	  return el.style[t.name] !== undefined;
+	}).end;
+
+	exports.default = {
+	  // touch screen support
+	  TOUCH_SCREEN: touchScreen,
+
+	  // network
+	  NETWORK_ONLINE: 'online',
+	  NETWORK_OFFLINE: 'offline',
+
+	  // user interface states
+	  SHOW: 'show',
+	  SHOWN: 'shown',
+	  HIDE: 'hide',
+	  HIDDEN: 'hidden',
+
+	  // touch, mouse and pointer events polyfill
+	  START: availableEvents[0],
+	  MOVE: availableEvents[1],
+	  END: availableEvents[2],
+	  CANCEL: typeof availableEvents[3] === 'undefined' ? null : availableEvents[3],
+
+	  // transitions
+	  TRANSITION_START: transitionStart,
+	  TRANSITION_END: transitionEnd,
+
+	  // animations
+	  ANIMATION_START: animationStart,
+	  ANIMATION_END: animationEnd
+	};
 
 /***/ }),
 /* 110 */
@@ -4825,7 +4822,7 @@
 
 	var _utils = __webpack_require__(80);
 
-	var _events = __webpack_require__(82);
+	var _events = __webpack_require__(109);
 
 	var _events2 = _interopRequireDefault(_events);
 
@@ -4890,7 +4887,6 @@
 	       */
 	      this.options = (0, _assign2.default)(this.options, this.assignJsConfig(this.getAttributes(), options));
 
-	      console.log(this.options);
 	      // then, set the new data attributes to the element
 	      this.setAttributes();
 	    }
@@ -4910,6 +4906,11 @@
 	      });
 
 	      return attrConfig;
+	    }
+	  }, {
+	    key: 'getElement',
+	    value: function getElement() {
+	      return this.options.element;
 	    }
 	  }, {
 	    key: 'registerElements',
@@ -5061,7 +5062,7 @@
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
-	var _keys = __webpack_require__(88);
+	var _keys = __webpack_require__(87);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
@@ -5215,7 +5216,7 @@
 	  value: true
 	});
 
-	var _getPrototypeOf = __webpack_require__(94);
+	var _getPrototypeOf = __webpack_require__(93);
 
 	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -5227,19 +5228,19 @@
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(97);
+	var _possibleConstructorReturn2 = __webpack_require__(96);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _get2 = __webpack_require__(98);
+	var _get2 = __webpack_require__(97);
 
 	var _get3 = _interopRequireDefault(_get2);
 
-	var _inherits2 = __webpack_require__(102);
+	var _inherits2 = __webpack_require__(101);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _events = __webpack_require__(82);
+	var _events = __webpack_require__(109);
 
 	var _events2 = _interopRequireDefault(_events);
 
@@ -5284,7 +5285,7 @@
 
 	      var _this = (0, _possibleConstructorReturn3.default)(this, (Dialog.__proto__ || (0, _getPrototypeOf2.default)(Dialog)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, true));
 
-	      _this.template = '' + '<div class="dialog-inner" role="document">' + '<div class="dialog-content">' + '<div class="dialog-header">' + '<h5 class="dialog-title"></h5>' + '</div>' + '<div class="dialog-body">' + '<p></p>' + '</div>' + '<div class="dialog-footer">' + '<button type="button" class="btn btn-primary" data-dismiss="dialog">Ok</button>' + '</div>' + '</div>' + '</div>';
+	      _this.template = '' + '<div class="dialog" tabindex="-1" role="dialog">' + '<div class="dialog-inner" role="document">' + '<div class="dialog-content">' + '<div class="dialog-header">' + '<h5 class="dialog-title"></h5>' + '</div>' + '<div class="dialog-body">' + '<p></p>' + '</div>' + '<div class="dialog-footer">' + '<button type="button" class="btn btn-primary" data-dismiss="dialog">Ok</button>' + '</div>' + '</div>' + '</div>' + '</div>';
 
 	      if (_this.dynamicElement) {
 	        _this.build();
@@ -5295,26 +5296,21 @@
 	    (0, _createClass3.default)(Dialog, [{
 	      key: 'build',
 	      value: function build() {
-	        var div = document.createElement('div');
-	        div.classList.add('dialog');
+	        var builder = document.createElement('div');
 
-	        div.setAttribute('data-id', this.id);
-	        div.setAttribute('tabindex', '-1');
-	        div.setAttribute('role', 'dialog');
+	        builder.innerHTML = this.template;
 
-	        div.innerHTML = this.template;
+	        this.options.element = builder.firstChild;
 
 	        // title
 	        if (this.options.title !== null) {
-	          div.querySelector('.dialog-title').innerHTML = this.options.title;
+	          this.options.element.querySelector('.dialog-title').innerHTML = this.options.title;
 	        }
 
 	        // message
 	        if (this.options.message !== null) {
-	          div.querySelector('.dialog-body').firstChild.innerHTML = this.options.message;
+	          this.options.element.querySelector('.dialog-body').firstChild.innerHTML = this.options.message;
 	        }
-
-	        this.options.element = div;
 
 	        document.body.appendChild(this.options.element);
 
@@ -5478,10 +5474,22 @@
 
 	  /**
 	   * ------------------------------------------------------------------------
-	   * Data Api implementation
+	   * DOM Api implementation
 	   * ------------------------------------------------------------------------
 	   */
 
+
+	  var components = [];
+
+	  var dialogs = document.querySelectorAll('.' + NAME);
+	  if (dialogs) {
+	    dialogs.forEach(function (element) {
+	      var config = (0, _componentManager.getAttributesConfig)(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES);
+	      config.element = element;
+
+	      components.push({ element: element, dialog: new Dialog(config) });
+	    });
+	  }
 
 	  document.addEventListener('click', function (event) {
 	    var dataToggleAttr = event.target.getAttribute('data-toggle');
@@ -5489,10 +5497,15 @@
 	      var id = event.target.getAttribute('data-target');
 	      var element = document.querySelector(id);
 
-	      var config = (0, _componentManager.getAttributesConfig)(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES);
-	      config.element = element;
+	      var component = components.find(function (c) {
+	        return c.element === element;
+	      });
 
-	      new Dialog(config).show();
+	      if (!component) {
+	        return;
+	      }
+
+	      component.dialog.show();
 	    }
 	  });
 
@@ -5518,7 +5531,7 @@
 
 	var _isInteger2 = _interopRequireDefault(_isInteger);
 
-	var _getPrototypeOf = __webpack_require__(94);
+	var _getPrototypeOf = __webpack_require__(93);
 
 	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -5530,19 +5543,19 @@
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(97);
+	var _possibleConstructorReturn2 = __webpack_require__(96);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _get2 = __webpack_require__(98);
+	var _get2 = __webpack_require__(97);
 
 	var _get3 = _interopRequireDefault(_get2);
 
-	var _inherits2 = __webpack_require__(102);
+	var _inherits2 = __webpack_require__(101);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _events = __webpack_require__(82);
+	var _events = __webpack_require__(109);
 
 	var _events2 = _interopRequireDefault(_events);
 
@@ -5590,7 +5603,7 @@
 
 	      var _this = (0, _possibleConstructorReturn3.default)(this, (Notification.__proto__ || (0, _getPrototypeOf2.default)(Notification)).call(this, NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, false));
 
-	      _this.template = '' + '<div class="notification-inner">' + '<div class="message"></div>' + '<button type="button" class="close" data-dismiss="notification" aria-label="Close">' + '<span aria-hidden="true">&times;</span>' + '</button>' + '</div>';
+	      _this.template = '' + '<div class="notification">' + '<div class="notification-inner">' + '<div class="message"></div>' + '<button type="button" class="close" data-dismiss="notification" aria-label="Close">' + '<span aria-hidden="true">&times;</span>' + '</button>' + '</div>' + '</div>';
 
 	      if (_this.dynamicElement) {
 	        _this.build();
@@ -5603,19 +5616,18 @@
 	    (0, _createClass3.default)(Notification, [{
 	      key: 'build',
 	      value: function build() {
-	        var div = document.createElement('div');
-	        div.classList.add('notification');
+	        var builder = document.createElement('div');
 
-	        div.innerHTML = this.template;
+	        builder.innerHTML = this.template;
+
+	        this.options.element = builder.firstChild;
 
 	        // text message
-	        div.querySelector('.message').innerHTML = this.options.message;
+	        this.options.element.querySelector('.message').innerHTML = this.options.message;
 
 	        if (!this.options.showButton) {
-	          div.querySelector('button').style.display = 'none';
+	          this.options.element.querySelector('button').style.display = 'none';
 	        }
-
-	        this.options.element = div;
 
 	        document.body.appendChild(this.options.element);
 
@@ -5889,7 +5901,7 @@
 	  value: true
 	});
 
-	var _getPrototypeOf = __webpack_require__(94);
+	var _getPrototypeOf = __webpack_require__(93);
 
 	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -5901,15 +5913,15 @@
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(97);
+	var _possibleConstructorReturn2 = __webpack_require__(96);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _get2 = __webpack_require__(98);
+	var _get2 = __webpack_require__(97);
 
 	var _get3 = _interopRequireDefault(_get2);
 
-	var _inherits2 = __webpack_require__(102);
+	var _inherits2 = __webpack_require__(101);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -5917,7 +5929,7 @@
 
 	var _component2 = _interopRequireDefault(_component);
 
-	var _events = __webpack_require__(82);
+	var _events = __webpack_require__(109);
 
 	var _events2 = _interopRequireDefault(_events);
 
@@ -6082,7 +6094,7 @@
 	  value: true
 	});
 
-	var _getPrototypeOf = __webpack_require__(94);
+	var _getPrototypeOf = __webpack_require__(93);
 
 	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -6094,15 +6106,15 @@
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(97);
+	var _possibleConstructorReturn2 = __webpack_require__(96);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _get2 = __webpack_require__(98);
+	var _get2 = __webpack_require__(97);
 
 	var _get3 = _interopRequireDefault(_get2);
 
-	var _inherits2 = __webpack_require__(102);
+	var _inherits2 = __webpack_require__(101);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -6249,7 +6261,7 @@
 	  value: true
 	});
 
-	var _getPrototypeOf = __webpack_require__(94);
+	var _getPrototypeOf = __webpack_require__(93);
 
 	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -6261,19 +6273,19 @@
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(97);
+	var _possibleConstructorReturn2 = __webpack_require__(96);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _get2 = __webpack_require__(98);
+	var _get2 = __webpack_require__(97);
 
 	var _get3 = _interopRequireDefault(_get2);
 
-	var _inherits2 = __webpack_require__(102);
+	var _inherits2 = __webpack_require__(101);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _events = __webpack_require__(82);
+	var _events = __webpack_require__(109);
 
 	var _events2 = _interopRequireDefault(_events);
 
@@ -6297,7 +6309,6 @@
 	  var BACKDROP_SELECTOR = 'off-canvas-backdrop';
 	  var DEFAULT_PROPERTIES = {
 	    element: null,
-	    setupAside: true,
 	    aside: {
 	      md: false,
 	      lg: false,
@@ -6354,10 +6365,7 @@
 	        });
 	      };
 
-	      if (_this.options.setupAside) {
-	        setTimeout(checkWidth, 1);
-	      }
-
+	      checkWidth();
 	      window.addEventListener('resize', checkWidth, false);
 	      return _this;
 	    }
@@ -6365,7 +6373,7 @@
 	    (0, _createClass3.default)(OffCanvas, [{
 	      key: 'preventClosable',
 	      value: function preventClosable() {
-	        return (0, _get3.default)(OffCanvas.prototype.__proto__ || (0, _getPrototypeOf2.default)(OffCanvas.prototype), 'preventClosable', this).call(this) && this.options.aside[this.currentWidth] !== true;
+	        return (0, _get3.default)(OffCanvas.prototype.__proto__ || (0, _getPrototypeOf2.default)(OffCanvas.prototype), 'preventClosable', this).call(this) || this.options.aside[this.currentWidth] === true;
 	      }
 	    }, {
 	      key: 'setAside',
@@ -6557,10 +6565,22 @@
 
 	  /**
 	   * ------------------------------------------------------------------------
-	   * Data Api implementation
+	   * DOM Api implementation
 	   * ------------------------------------------------------------------------
 	   */
 
+
+	  var components = [];
+
+	  var offCanvas = document.querySelectorAll('.' + NAME);
+	  if (offCanvas) {
+	    offCanvas.forEach(function (element) {
+	      var config = (0, _componentManager.getAttributesConfig)(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES);
+	      config.element = element;
+
+	      components.push({ element: element, offCanvas: new OffCanvas(config) });
+	    });
+	  }
 
 	  document.addEventListener('click', function (event) {
 	    var dataToggleAttr = event.target.getAttribute('data-toggle');
@@ -6568,12 +6588,15 @@
 	      var id = event.target.getAttribute('data-target');
 	      var element = document.querySelector(id);
 
-	      var config = (0, _componentManager.getAttributesConfig)(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES);
+	      var component = components.find(function (c) {
+	        return c.element === element;
+	      });
 
-	      config.element = element;
-	      config.setupAside = false;
+	      if (!component) {
+	        return;
+	      }
 
-	      new OffCanvas(config).show();
+	      component.offCanvas.show();
 	    }
 	  });
 
