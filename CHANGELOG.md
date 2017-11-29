@@ -1,3 +1,9 @@
+### 1.4.7 (2017-11-29)
+
+### Features
+
+* Added the ability to update the state of dynamically created inputs [#271](https://github.com/quark-dev/Phonon-Framework/issues/271))
+
 ### 1.4.6 (2017-11-19)
 
 #### Features
