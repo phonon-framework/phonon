@@ -4,7 +4,7 @@
  * ========================================================================
  * Licensed under MIT (http://phonon.quarkdev.com)
  * ======================================================================== */
-;(function (window) {
+;(function (window, phonon) {
 
 	'use strict';
 
@@ -29,6 +29,16 @@
 		}
 	}
 
+	function update(input) {
+		addListener(input);
+
+		/*
+			* Do this once at start also, otherwise pre-populated inputs
+			* will have labels directly overlapping on top of the input value on page load.
+			*/
+		isInputFilled(input);
+	}
+
 	/*
 	 * Attachs events once
 	 */
@@ -36,13 +46,7 @@
 		var page = document.querySelector(evt.detail.page);
 		var inputs = page.querySelectorAll('input.with-label'), i = inputs.length - 1;
 		for (; i >= 0; i--) {
-			addListener(inputs[i]);
-
-			/*
-			 * Do this once at start also, otherwise pre-populated inputs
-			 * will have labels directly overlapping on top of the input value on page load.
-			*/
-			isInputFilled(inputs[i]);
+			update(inputs[i]);
 		}
 	});
 
@@ -57,4 +61,16 @@
 		}
 	});
 
-}(typeof window !== 'undefined' ? window : this));
+	phonon.forms = {
+		update: update
+	};
+
+	window.phonon = phonon;
+	
+	if(typeof exports === 'object') {
+		module.exports = phonon.popover;
+	} else if(typeof define === 'function' && define.amd) {
+		define(function() { return phonon.popover });
+	}
+
+}(typeof window !== 'undefined' ? window : this, window.phonon || {}));
