@@ -6,6 +6,7 @@
 import Event from '../../core/events'
 import Component from '../component'
 import { getAttributesConfig } from '../componentManager'
+import { findTargetByAttr } from '../../core/utils'
 
 const OffCanvas = (() => {
   /**
@@ -23,7 +24,7 @@ const OffCanvas = (() => {
       md: false,
       lg: false,
       xl: false,
-    }
+    },
   }
   const DATA_ATTRS_PROPERTIES = [
     'aside',
@@ -74,6 +75,7 @@ const OffCanvas = (() => {
       }
 
       checkWidth()
+
       window.addEventListener('resize', checkWidth, false)      
     }
 
@@ -262,21 +264,30 @@ const OffCanvas = (() => {
     })
   }
 
-  document.addEventListener('click', (event) => {
-    const dataToggleAttr = event.target.getAttribute('data-toggle')
-    if (dataToggleAttr && dataToggleAttr === NAME) {
-      const id = event.target.getAttribute('data-target')
-      const element = document.querySelector(id)
-
-      const component = components.find(c => c.element === element)
-
-      if (!component) {
+  if (offCanvas) {
+    document.addEventListener('click', (event) => {
+      const target = findTargetByAttr(event.target, 'data-toggle')
+      if (!target) {
         return
       }
 
-      component.offCanvas.show()
-    }
-  })
+      const dataToggleAttr = target.getAttribute('data-toggle')
+      if (dataToggleAttr && dataToggleAttr === NAME) {
+        const id = target.getAttribute('data-target')
+        const element = document.querySelector(id)
+
+        const component = components.find(c => c.element === element)
+
+        if (!component) {
+          return
+        }
+
+        target.blur()
+
+        component.offCanvas.show()
+      }
+    })
+  }
 
   return OffCanvas
 })()
