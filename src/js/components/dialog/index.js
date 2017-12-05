@@ -131,7 +131,7 @@ const Dialog = (() => {
         this.options.element.classList.add('show')
 
         this.center()
-      }, 1)
+      }, 10)
 
       return true
     }
