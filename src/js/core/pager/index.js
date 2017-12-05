@@ -5,6 +5,7 @@
  */
 
 import Page from './page'
+import Event from '../../core/events'
 
 const Pager = (() => {
   /**
@@ -20,16 +21,6 @@ const Pager = (() => {
     useHash: true,
     defaultPage: null,
     animatePages: true,
-  }
-
-  const Event = {
-    PAGE: {
-      SHOW: 'show',
-      SHOWN: 'shown',
-      HIDE: 'hide',
-      HIDDEN: 'hidden',
-      HASH: 'hash',
-    },
   }
 
   let currentPage
@@ -122,10 +113,10 @@ const Pager = (() => {
         // history
         window.history.replaceState({ page: oldPageName }, oldPageName, window.location.href)
 
-        this.triggerPageEvent(oldPageName, Event.PAGE.HIDE)
+        this.triggerPageEvent(oldPageName, Event.HIDE)
       }
 
-      this.triggerPageEvent(pageName, Event.PAGE.SHOW)
+      this.triggerPageEvent(pageName, Event.SHOW)
 
       currentPage = pageName
 
@@ -149,11 +140,24 @@ const Pager = (() => {
         oldPage.back = back
         oldPage.previousPageName = oldPageName
 
+        const onPageAnimationEnd = () => {
+          if (oldPage.classList.contains('animate')) {
+            oldPage.classList.remove('animate')
+          }
+
+          oldPage.classList.remove(oldPage.back ? 'pop-page' : 'push-page')
+
+          this.triggerPageEvent(currentPage, Event.SHOWN)
+          this.triggerPageEvent(oldPage.previousPageName, Event.HIDDEN)
+
+          oldPage.removeEventListener(Event.ANIMATION_END, onPageAnimationEnd)
+        }
+
         if (this.options.animatePages) {
-          oldPage.addEventListener(Event.ANIMATION_END, () => this.onPageAnimationEnd(oldPage))
+          oldPage.addEventListener(Event.ANIMATION_END, onPageAnimationEnd)
           oldPage.classList.add('animate')
         } else {
-          this.onPageAnimationEnd(oldPage)
+          onPageAnimationEnd()
         }
 
         oldPage.classList.add(back ? 'pop-page' : 'push-page')
@@ -245,16 +249,6 @@ const Pager = (() => {
       this.showPage(pageName, true, true)
     }
 
-    onPageAnimationEnd(target) {
-      target.classList.remove('animate')
-      target.classList.remove(target.back ? 'pop-page' : 'push-page')
-
-      this.triggerPageEvent(currentPage, Event.PAGE.SHOWN)
-      this.triggerPageEvent(target.previousPageName, Event.PAGE.HIDDEN)
-
-      target.removeEventListener(Event.ANIMATION_END, event => this.onPageAnimationEnd(event))
-    }
-
     onHashChange() {
       const params = (this.getHash() ? this.getHash().split('/') : []).filter(p => p.length > 0)
       if (params.length > 0) {
@@ -262,7 +256,7 @@ const Pager = (() => {
         params.shift()
       }
 
-      this.triggerPageEvent(currentPage, Event.PAGE.HASH, params)
+      this.triggerPageEvent(currentPage, Event.HASH, params)
 
       const navPage = this.getPageFromHash()
       if (navPage) {
