@@ -15,9 +15,12 @@ import Network from './core/network'
 import Dialog from './components/dialog'
 import Notification from './components/notification'
 import Collapse from './components/collapse'
+import Accordion from './components/accordion'
+import Tab from './components/tab'
 import Progress from './components/progress'
 import Loader from './components/loader'
 import OffCanvas from './components/off-canvas'
+import Dropdown from './components/dropdown'
 
 const api = {}
 
@@ -95,6 +98,21 @@ api.collapse = Collapse._DOMInterface
 
 /**
  * ------------------------------------------------------------------------
+ * Accordion
+ * ------------------------------------------------------------------------
+ */
+api.accordion = Accordion._DOMInterface
+
+
+/**
+ * ------------------------------------------------------------------------
+ * Tab
+ * ------------------------------------------------------------------------
+ */
+api.tab = Tab._DOMInterface
+
+/**
+ * ------------------------------------------------------------------------
  * Progress
  * ------------------------------------------------------------------------
  */
@@ -113,6 +131,13 @@ api.loader = Loader._DOMInterface
  * ------------------------------------------------------------------------
  */
 api.offCanvas = OffCanvas._DOMInterface
+
+/**
+ * ------------------------------------------------------------------------
+ * Dropdown
+ * ------------------------------------------------------------------------
+ */
+api.dropdown = Dropdown._DOMInterface
 
 // Make the API live
 window.phonon = api
