@@ -55,6 +55,9 @@ export default {
   HIDE: 'hide',
   HIDDEN: 'hidden',
 
+  // hash
+  HASH: 'hash',
+
   // touch, mouse and pointer events polyfill
   START: availableEvents[0],
   MOVE: availableEvents[1],
@@ -68,4 +71,7 @@ export default {
   // animations
   ANIMATION_START: animationStart,
   ANIMATION_END: animationEnd,
+
+  // dropdown
+  ITEM_SELECTED: 'itemSelected',
 }
