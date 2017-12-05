@@ -19,6 +19,7 @@ __*
 .DS_Store
 Thumbs.db
 .Trash-*
+*.log
 
 # IDE
 *~
