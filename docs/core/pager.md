@@ -57,6 +57,14 @@ pager.select('myPage').useTemplate('path/to/template.html', (page, template, ele
 })
 ```
 
+The page template will be injected as a node child where the attribute `data-push-template` is.
+
+```html
+<div data-push-template>
+  <!-- Template will replace this comment -->
+</div>
+```
+
 ## Events
 
 |     Event Type     |     Description      |
