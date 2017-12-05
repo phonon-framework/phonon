@@ -17,9 +17,19 @@ import ComponentManager, { setAttributesConfig, getAttributesConfig } from './co
 export default class Component {
 
   constructor(name, version, defaultOptions = {}, options = {}, optionAttrs = [], supportDynamicElement = false, addToStack = false) {
-    this._name = name
-    this._version = version
-    this.options = Object.assign(defaultOptions, options)
+    this.name = name
+    this.version = version
+    this.options = options
+
+    //this.options = Object.assign(defaultOptions, options)
+    /*
+    Object.keys(defaultOptions).every((prop) => {
+      if (this.options[prop] === undefined) {
+        this.options[prop] = defaultOptions[prop]
+      }
+    })
+    */
+
     this.optionAttrs = optionAttrs
     this.supportDynamicElement = supportDynamicElement
     this.addToStack = addToStack
@@ -31,8 +41,8 @@ export default class Component {
       this.options.element = document.querySelector(this.options.element)
     }
 
-    if (checkElement && this.options.element === null) {
-      throw new Error(`${this._name}. The element is not a HTMLElement.`)
+    if (checkElement && !this.options.element) {
+      throw new Error(`${this.name}. The element is not a HTMLElement.`)
     }
 
     this.dynamicElement = this.options.element === null
@@ -66,16 +76,16 @@ export default class Component {
     return attrConfig
   }
 
-  get version() {
-    return `${this._name}-${this._version}`
-  }
-
-  set version(version) {
-    this._version = version
+  getVersion() {
+    return this.version
   }
 
   getElement() {
     return this.options.element
+  }
+
+  getId() {
+    return this.id
   }
 
   registerElements(elements) {
@@ -131,9 +141,9 @@ export default class Component {
 
     // dom event
     if (this.options.element) {
-      dispatchElementEvent(this.options.element, eventName, this._name, detail)
+      dispatchElementEvent(this.options.element, eventName, this.name, detail)
     } else {
-      dispatchWinDocEvent(eventName, this._name, detail)
+      dispatchWinDocEvent(eventName, this.name, detail)
     }
   }
 
