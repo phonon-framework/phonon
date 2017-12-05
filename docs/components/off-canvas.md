@@ -33,6 +33,8 @@
 
 Then, you can work with it by using the correct `element` property.
 
+Note that you can add the class `off-canvas-aside` in the body element so that the correct view in CSS is already ready before the JavaScript API adds it.
+
 ```js
 const offCanvas = phonon.offCanvas({
   element: '#myOffCanvas'

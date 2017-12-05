@@ -332,8 +332,12 @@ a {
         <li>
           <a href="#components">components</a>
           <ul>
+            <li><a href="#components/accordion">accordion</a></li>
+            <li><a href="#components/collapse">collapse</a></li>
             <li><a href="#components/dialog">dialog</a></li>
+            <li><a href="#components/dropdown">dropdown</a></li>
             <li><a href="#components/loader">loader</a></li>
+            <li><a href="#components/nav">nav</a></li>
             <li><a href="#components/notification">notification</a></li>
             <li><a href="#components/off-canvas">off-canvas</a></li>
             <li><a href="#components/progress">progress</a></li>
@@ -420,6 +424,80 @@ dialog.show()
         
       </div>
 
+      <div class="page" id="components/accordion">
+        <h1 class="heading">accordion</h1>
+        <h1>Accordion</h1>
+<h2>Introduction</h2>
+<p>[WIP]</p>
+<h2>Markup</h2>
+<pre><code class="language-html">&lt;div class=&quot;accordion&quot; id=&quot;exampleAccordion&quot; role=&quot;tablist&quot;&gt;
+  &lt;a class=&quot;d-block&quot; data-toggle=&quot;accordion&quot; href=&quot;#collapseOne&quot; aria-expanded=&quot;true&quot; aria-controls=&quot;collapseOne&quot;&gt;
+    Collapsible Group Item #1
+  &lt;/a&gt;
+
+  &lt;div id=&quot;collapseOne&quot; class=&quot;collapse&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;headingOne&quot;&gt;
+    &lt;div class=&quot;card-body&quot;&gt;
+      This is the content of the group item #1.
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;a class=&quot;d-block&quot; data-toggle=&quot;accordion&quot; href=&quot;#collapseTwo&quot; aria-expanded=&quot;true&quot; aria-controls=&quot;collapseTwo&quot;&gt;
+    Collapsible Group Item #2
+  &lt;/a&gt;
+
+  &lt;div id=&quot;collapseTwo&quot; class=&quot;collapse&quot; role=&quot;tabpane2&quot; aria-labelledby=&quot;headingTwo&quot;&gt;
+    &lt;div class=&quot;card-body&quot;&gt;
+      This is the content of the group item #2.
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h2>JavaScript</h2>
+<pre><code class="language-js">const accordion = phonon.accordion({
+  element: '#exampleAccordion',
+})
+</code></pre>
+<h2>Methods</h2>
+<h3>show(collapse: any)</h3>
+<pre><code class="language-js">accordion.show('#myCollapse')
+</code></pre>
+<h3>hide(collapse: any)</h3>
+<pre><code class="language-js">accordion.hide('#myCollapse')
+</code></pre>
+
+      </div>
+      <div class="page" id="components/collapse">
+        <h1 class="heading">collapse</h1>
+        <h1>Collapse</h1>
+<h2>Introduction</h2>
+<p>[WIP]</p>
+<h2>Markup</h2>
+<pre><code class="language-html">&lt;p&gt;
+  &lt;a class=&quot;btn btn-primary&quot; data-toggle=&quot;collapse&quot; href=&quot;#collapseExample&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;collapseExample&quot;&gt;
+    Link with href
+  &lt;/a&gt;
+  &lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot; data-toggle=&quot;collapse&quot; data-target=&quot;#collapseExample&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;collapseExample&quot;&gt;
+    Button with data-target
+  &lt;/button&gt;
+&lt;/p&gt;
+
+&lt;div class=&quot;collapse&quot; id=&quot;collapseExample&quot;&gt;
+  Collapse content.
+&lt;/div&gt;
+</code></pre>
+<h3>Options</h3>
+<ul>
+<li>toggle: toggles immediately once the collapse is initialized when called in JavaScript.</li>
+<li>parent</li>
+</ul>
+<h2>JavaScript</h2>
+<h3>Methods</h3>
+<h4>show()</h4>
+<p>...</p>
+<h4>hide()</h4>
+<p>...</p>
+
+      </div>
       <div class="page" id="components/dialog">
         <h1 class="heading">dialog</h1>
         <h1>Dialogs</h1>
@@ -468,6 +546,8 @@ dialog.show()
 </code></pre>
 <h2>Options</h2>
 <ul>
+<li>title</li>
+<li>message</li>
 <li>cancelable</li>
 </ul>
 <h2>Methods</h2>
@@ -545,6 +625,71 @@ document.querySelector('.dialog').addEventListener('hidden.ph.dialog', () =&gt; 
 </code></pre>
 
       </div>
+      <div class="page" id="components/dropdown">
+        <h1 class="heading">dropdown</h1>
+        <h1>Dropdown</h1>
+<h2>Introduction</h2>
+<p>[WIP]</p>
+<h2>Markup</h2>
+<pre><code class="language-html">
+</code></pre>
+<p>For the selected item, add <code>data-selected</code>.
+For each item, you must add <code>data-value</code>.
+By default, the module will try to find the text node otherwise, it will check if the attribute <code>data-text</code> is present.</p>
+<p>Add the class <code>dropdown-lg</code> to increase the size.</p>
+<pre><code class="language-html">
+</code></pre>
+<p>Add the class <code>dropdown-sm</code> to reduce the size.</p>
+<pre><code class="language-html">
+</code></pre>
+<h2>JavaScript</h2>
+<pre><code class="language-js">const dropdown = phonon.dropdown({
+  element: '.dropdown'
+})
+</code></pre>
+<h2>Options</h2>
+<h2>Methods</h2>
+<h3>getSelected()</h3>
+<p>Returns the selected value.</p>
+<h3>setSelected(value: string, text: string)</h3>
+<p>Set the current value.</p>
+<pre><code class="language-js">dropdown.setSelected('green')
+</code></pre>
+<p>it is possible to display a custom text with the second parameter.</p>
+<pre><code class="language-js">dropdown.setSelected('green', 'Current text')
+</code></pre>
+<h3>show()</h3>
+<p>...</p>
+<h3>hide()</h3>
+<p>...</p>
+<h3>toggle()</h3>
+<p>...</p>
+<h2>Events</h2>
+<h3>Object Events</h3>
+<pre><code class="language-js">phonon.dropdown({
+  element: '.dropdown',
+  show: () =&gt; { // or onShow
+    console.log('It works!')
+  },
+  shown: () =&gt; { // or onShown
+    console.log('It works!')
+  },
+  hide: () =&gt; { // or onHide
+    console.log('It works!')
+  },
+  hidden: () =&gt; { // or onHidden
+    console.log('It works!')
+  },
+  itemSelected(selected) { // or onItemSelected
+    console.log('It works!')
+    console.log(selected.item)
+    console.log(selected.text)
+    console.log(selected.value)
+  }
+})
+</code></pre>
+
+      </div>
       <div class="page" id="components/loader">
         <h1 class="heading">loader</h1>
         <h1>Loader</h1>
@@ -589,6 +734,41 @@ loader.animate(false) // hide and stop the animation
 <p>@todo</p>
 
       </div>
+      <div class="page" id="components/nav">
+        <h1 class="heading">nav</h1>
+        <h1>Nav</h1>
+<h2>Introduction</h2>
+<p>[WIP]</p>
+<h2>Tabs</h2>
+<h3>Markup</h3>
+<pre><code class="language-html">&lt;ul class=&quot;nav nav-tabs&quot; role=&quot;tablist&quot;&gt;
+  &lt;li class=&quot;nav-item&quot;&gt;
+    &lt;a class=&quot;nav-link active&quot; id=&quot;home-tab&quot; data-toggle=&quot;tab&quot; href=&quot;#home&quot; role=&quot;tab&quot; aria-controls=&quot;home&quot; aria-selected=&quot;true&quot;&gt;Home&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class=&quot;nav-item&quot;&gt;
+    &lt;a class=&quot;nav-link&quot; id=&quot;profile-tab&quot; data-toggle=&quot;tab&quot; href=&quot;#profile&quot; role=&quot;tab&quot; aria-controls=&quot;profile&quot; aria-selected=&quot;false&quot;&gt;Profile&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class=&quot;nav-item&quot;&gt;
+    &lt;a class=&quot;nav-link&quot; id=&quot;messages-tab&quot; data-toggle=&quot;tab&quot; href=&quot;#messages&quot; role=&quot;tab&quot; aria-controls=&quot;messages&quot; aria-selected=&quot;false&quot;&gt;Messages&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;tab-content&quot;&gt;
+  &lt;div class=&quot;tab-pane active&quot; id=&quot;home&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;home-tab&quot;&gt;First content.&lt;/div&gt;
+  &lt;div class=&quot;tab-pane&quot; id=&quot;profile&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;profile-tab&quot;&gt;Second content.&lt;/div&gt;
+  &lt;div class=&quot;tab-pane&quot; id=&quot;messages&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;messages-tab&quot;&gt;Third content.&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h3>JavaScript</h3>
+<pre><code class="language-js">const tab = phonon.tab({
+  element: '[href=&quot;#profile&quot;]'
+})
+</code></pre>
+<h3>Methods</h3>
+<h4>show()</h4>
+<h4>hide()</h4>
+
+      </div>
       <div class="page" id="components/notification">
         <h1 class="heading">notification</h1>
         <h1>Notification</h1>
@@ -624,6 +804,7 @@ notif.show()
 </code></pre>
 <h2>Options</h2>
 <ul>
+<li>message</li>
 <li>showButton</li>
 <li>timeout</li>
 <li>background</li>
@@ -709,10 +890,10 @@ document.querySelector('.notification').addEventListener('hidden.ph.notification
 <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Markup</h2>
-<pre><code class="language-html">&lt;!-- Button trigger off canvas --&gt;
+<pre><code class="language-html">&lt;!-- Button trigger off-canvas --&gt;
 &lt;button class=&quot;btn btn-primary&quot; data-toggle=&quot;off-canvas&quot; data-target=&quot;#exampleOffCanvas&quot;&gt;Launch demo off-canvas&lt;/button&gt;
 
-&lt;!-- Off canvas --&gt;
+&lt;!-- Off-canvas --&gt;
 &lt;div class=&quot;off-canvas&quot; id=&quot;exampleOffCanvas&quot; role=&quot;navigation&quot; aria-hidden=&quot;true&quot; aria-labelledby=&quot;exampleOffCanvasTitle&quot;&gt;
   &lt;div class=&quot;off-canvas-inner&quot;&gt;
     &lt;div class=&quot;off-canvas-content&quot;&gt;
@@ -733,6 +914,7 @@ document.querySelector('.notification').addEventListener('hidden.ph.notification
 &lt;/div&gt;
 </code></pre>
 <p>Then, you can work with it by using the correct <code>element</code> property.</p>
+<p>Note that you can add the class <code>off-canvas-aside</code> in the body element so that the correct view in CSS is already ready before the JavaScript API adds it.</p>
 <pre><code class="language-js">const offCanvas = phonon.offCanvas({
   element: '#myOffCanvas'
 })
@@ -843,6 +1025,15 @@ document.querySelector('.off-canvas').addEventListener('hidden.ph.off-canvas', (
   background: null,
 })
 </code></pre>
+<h2>Options</h2>
+<ul>
+<li>height</li>
+<li>min</li>
+<li>max</li>
+<li>label</li>
+<li>striped</li>
+<li>background</li>
+</ul>
 <h2>Methods</h2>
 <h3>set(value: int)</h3>
 <p>Updates the current value of the progress bar.</p>
@@ -1051,6 +1242,20 @@ window.addEventListener('offline.ph.network', (event) =&gt; {
   }
 })
 </code></pre>
+<h2>Use Case</h2>
+<p>It can be useful to notify the user of a network change with a notification.</p>
+<pre><code class="language-js">window.addEventListener('online.ph.network', (event) =&gt; {
+  phonon.notification({
+    message: 'You are now online.'
+  }).show()
+})
+
+window.addEventListener('offline.ph.network', (event) =&gt; {
+  phonon.notification({
+    message: 'You are now offline.'
+  }).show()
+})
+</code></pre>
 
       </div>
       <div class="page" id="core/pager">
@@ -1090,6 +1295,11 @@ in the HTML view.</p>
 <pre><code class="language-js">pager.select('myPage').useTemplate('path/to/template.html', (page, template, elements) =&gt; {
   page.querySelector('[data-template]').innerHTML = template
 })
+</code></pre>
+<p>The page template will be injected as a node child where the attribute <code>data-push-template</code> is.</p>
+<pre><code class="language-html">&lt;div data-push-template&gt;
+  &lt;!-- Template will replace this comment --&gt;
+&lt;/div&gt;
 </code></pre>
 <h2>Events</h2>
 <table>
