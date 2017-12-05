@@ -8,7 +8,7 @@ const getAttribute = (first, second) => {
 
 export function setAttributesConfig(element, obj = {}, attrs, start = '') {
   const keys = Object.keys(obj)
-
+  
   keys.forEach((key) => {
     if (start === '' && attrs.indexOf(key) === -1) {
       // continue with next iteration
@@ -31,7 +31,7 @@ export function setAttributesConfig(element, obj = {}, attrs, start = '') {
 }
 
 export function getAttributesConfig(element, obj = {}, attrs, start = '') {
-  const newObj = obj
+  const newObj = Object.assign({}, obj)
   const keys = Object.keys(obj)
 
   keys.forEach((key) => {
@@ -51,7 +51,7 @@ export function getAttributesConfig(element, obj = {}, attrs, start = '') {
     }
 
     // update value
-    let value = newObj[key] // default value
+    let value = obj[key] // default value
     const type = typeof value
     const attr = getAttribute(start, key)
     const attrValue = element.getAttribute(attr)
