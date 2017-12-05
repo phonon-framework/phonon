@@ -121,15 +121,16 @@ const Dialog = (() => {
         const onShown = () => {
           this.triggerEvent(Event.SHOWN)
           this.options.element.removeEventListener(Event.TRANSITION_END, onShown)
+
+          // attach event
+          this.attachEvents()
         }
 
         this.options.element.addEventListener(Event.TRANSITION_END, onShown)
 
         this.options.element.classList.add('show')
-        this.center()
 
-        // attach event
-        this.attachEvents()
+        this.center()
       }, 1)
 
       return true
@@ -214,14 +215,13 @@ const Dialog = (() => {
     }
   }
 
-
   /**
    * ------------------------------------------------------------------------
    * DOM Api implementation
    * ------------------------------------------------------------------------
    */
   const components = []
-  
+
   const dialogs = document.querySelectorAll(`.${NAME}`)
   if (dialogs) {
     dialogs.forEach((element) => {
@@ -232,21 +232,25 @@ const Dialog = (() => {
     })
   }
 
-  document.addEventListener('click', (event) => {
-    const dataToggleAttr = event.target.getAttribute('data-toggle')
-    if (dataToggleAttr && dataToggleAttr === NAME) {
-      const id = event.target.getAttribute('data-target')
-      const element = document.querySelector(id)
+  if (dialogs) {
+    document.addEventListener('click', (event) => {
+      const dataToggleAttr = event.target.getAttribute('data-toggle')
+      if (dataToggleAttr && dataToggleAttr === NAME) {
+        const id = event.target.getAttribute('data-target')
+        const element = document.querySelector(id)
 
-      const component = components.find(c => c.element === element)
+        const component = components.find(c => c.element === element)
 
-      if (!component) {
-        return
+        if (!component) {
+          return
+        }
+
+        event.target.blur()
+
+        component.dialog.show()
       }
-
-      component.dialog.show()
-    }
-  })
+    })
+  }
 
   return Dialog
 })()
