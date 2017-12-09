@@ -21,14 +21,13 @@ export default class Component {
     this.version = version
     this.options = options
 
-    //this.options = Object.assign(defaultOptions, options)
-    /*
-    Object.keys(defaultOptions).every((prop) => {
-      if (this.options[prop] === undefined) {
+    // @todo keep?
+    // this.options = Object.assign(defaultOptions, options)
+    Object.keys(defaultOptions).forEach((prop) => {
+      if (typeof this.options[prop] === 'undefined') {
         this.options[prop] = defaultOptions[prop]
       }
     })
-    */
 
     this.optionAttrs = optionAttrs
     this.supportDynamicElement = supportDynamicElement
@@ -116,6 +115,10 @@ export default class Component {
   }
 
   triggerEvent(eventName, detail = {}, objectEventOnly = false) {
+    if (typeof eventName !== 'string') {
+      throw new Error('The event name is not valid.')
+    }
+
     if (this.addToStack) {
       if (eventName === Event.SHOW) {
         ComponentManager.add(this)
@@ -124,11 +127,20 @@ export default class Component {
       }
     }
 
-    const eventNameAlias = `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`
+    // event names can be with dot notation like reconnecting.success
+    const eventNameObject = eventName.split('.').reduce((acc, current, index) => {
+      if (index === 0) {
+        return current
+      }
+
+      return acc + current.charAt(0).toUpperCase() + current.slice(1)
+    })
+
+    const eventNameAlias = `on${eventNameObject.charAt(0).toUpperCase()}${eventNameObject.slice(1)}`
 
     // object event
-    if (typeof this.options[eventName] === 'function') {
-      this.options[eventName].apply(this, [detail])
+    if (typeof this.options[eventNameObject] === 'function') {
+      this.options[eventNameObject].apply(this, [detail])
     }
 
     if (typeof this.options[eventNameAlias] === 'function') {
