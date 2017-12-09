@@ -17,15 +17,13 @@ const Network = (() => {
 
   const NAME = 'network'
   const VERSION = '2.0.0'
-  const DEFAULT_PROPERTIES = {}
-
-  window.addEventListener('online', () => {
-    dispatchWinDocEvent(Event.NETWORK_ONLINE, NAME, { date: new Date() })
-  })
-
-  window.addEventListener('offline', () => {
-    dispatchWinDocEvent(Event.NETWORK_OFFLINE, NAME, { date: new Date() })
-  })
+  const DEFAULT_PROPERTIES = {
+    element: null,
+    initialDelay: 3000,
+    delay: 5000,
+  }
+  const DATA_ATTRS_PROPERTIES = [
+  ]
 
   /**
    * ------------------------------------------------------------------------
@@ -39,18 +37,91 @@ const Network = (() => {
      * @param {{}} [options={}]
      */
     constructor(options = {}) {
-      super(NAME, VERSION, DEFAULT_PROPERTIES, options, true)
-      this.addEvents()
+      super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, false)
+
+      this.xhr = null
+      this.checkInterval = null
+
+      this.setStatus(Event.NETWORK_ONLINE)
+
+      setTimeout(() => {
+        this.startCheck()
+      }, this.options.initialDelay)
     }
 
-    addEvents() {
-      window.addEventListener('online.ph.network', () => {
-        this.triggerEvent(Event.NETWORK_ONLINE, { date: new Date() }, true)
-      })
+    getStatus() {
+      return this.status
+    }
 
-      window.addEventListener('offline.ph.network', () => {
-        this.triggerEvent(Event.NETWORK_OFFLINE, { date: new Date() }, true)
-      })
+    setStatus(status) {
+      this.status = status
+    }
+
+    startRequest() {
+      this.xhr = new XMLHttpRequest()
+      this.xhr.offline = false
+
+      const url = `/favicon.ico?_=${new Date().getTime()}`
+
+      this.triggerEvent(Event.NETWORK_RECONNECTING, { date: new Date() }, false)            
+
+      this.xhr.open('HEAD', url, true)
+
+      this.xhr.timeout = this.options.delay - 1
+      this.xhr.ontimeout = () => {
+        this.xhr.abort()
+        this.xhr = null
+      }
+
+      this.xhr.onload = () => {
+        this.onUp()
+      }
+      this.xhr.onerror = () => {
+        this.onDown()
+      }
+
+      try {
+        this.xhr.send()
+      } catch (e) {
+        this.onDown()
+      }
+    }
+
+    onUp() {
+      this.triggerEvent(Event.NETWORK_RECONNECTING_SUCCESS, { date: new Date() }, false)
+
+      if (this.getStatus() !== Event.NETWORK_ONLINE) {
+        this.triggerEvent(Event.NETWORK_ONLINE, { date: new Date() }, false)
+      }
+
+      this.setStatus(Event.NETWORK_ONLINE)      
+    }
+
+    onDown() {
+      this.triggerEvent(Event.NETWORK_RECONNECTING_FAILURE, { date: new Date() }, false)
+
+      if (this.getStatus() !== Event.NETWORK_OFFLINE) {
+        this.triggerEvent(Event.NETWORK_OFFLINE, { date: new Date() }, false)
+      }
+
+      this.setStatus(Event.NETWORK_OFFLINE)      
+    }
+
+    startCheck() {
+      this.stopCheck()
+
+      this.startRequest()      
+
+      this.checkInterval = setInterval(() => {
+        this.startRequest()
+      }, this.options.delay)
+    }
+
+    stopCheck() {
+      if (this.checkInterval !== null) {
+        clearInterval(this.checkInterval)
+        this.checkInterval = null
+      }
     }
 
     static _DOMInterface(options) {

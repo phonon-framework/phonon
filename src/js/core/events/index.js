@@ -48,6 +48,9 @@ export default {
   // network
   NETWORK_ONLINE: 'online',
   NETWORK_OFFLINE: 'offline',
+  NETWORK_RECONNECTING: 'reconnecting',
+  NETWORK_RECONNECTING_SUCCESS: 'reconnect.success',
+  NETWORK_RECONNECTING_FAILURE: 'reconnect.failure',
 
   // user interface states
   SHOW: 'show',
