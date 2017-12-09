@@ -38,22 +38,22 @@ const Dialog = (() => {
     constructor(options = {}) {
       super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, true)
 
-      this.template = `
-      <div class="dialog" tabindex="-1" role="dialog">
-        <div class="dialog-inner" role="document">
-          <div class="dialog-content">
-            <div class="dialog-header">
-              <h5 class="dialog-title"></h5>
-            </div>
-            <div class="dialog-body">
-              <p></p>
-            </div>
-            <div class="dialog-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="dialog">Ok</button>
-            </div>
-          </div>
-        </div>
-      </div>`
+      this.template = '' +
+      '<div class="dialog" tabindex="-1" role="dialog">' +
+        '<div class="dialog-inner" role="document">' +
+          '<div class="dialog-content">' +
+            '<div class="dialog-header">' +
+              '<h5 class="dialog-title"></h5>' +
+            '</div>' +
+            '<div class="dialog-body">' +
+              '<p></p>' +
+            '</div>' +
+            '<div class="dialog-footer">' +
+              '<button type="button" class="btn btn-primary" data-dismiss="dialog">Ok</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
 
       if (this.dynamicElement) {
         this.build()
