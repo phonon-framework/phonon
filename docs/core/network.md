@@ -16,6 +16,18 @@ window.addEventListener('online.ph.network', (event) => {
 window.addEventListener('offline.ph.network', (event) => {
   console.log(`offline ${event.detail.date}`)
 })
+
+window.addEventListener('reconnecting.ph.network', (event) => {
+  console.log(`reconnecting ${event.detail.date}`)
+})
+
+window.addEventListener('reconnect.success.ph.network', (event) => {
+  console.log(`reconnect success ${event.detail.date}`)
+})
+
+window.addEventListener('reconnect.failure.ph.network', (event) => {
+  console.log(`reconnect failure ${event.detail.date}`)
+})
 ```
 
 ### Object Events
@@ -27,6 +39,15 @@ phonon.network({
   },
   offline: (event) => {
     console.log(`offline ${event.date}`)
+  },
+  reconnecting: (event) => {
+    console.log(`reconnecting ${event.date}`)
+  },
+  reconnectSuccess: (event) => {
+    console.log(`reconnect success ${event.date}`)
+  },
+  reconnectFailure: (event) => {
+    console.log(`reconnect failure ${event.date}`)
   }
 })
 ```
