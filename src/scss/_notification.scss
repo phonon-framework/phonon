@@ -44,6 +44,7 @@ $notification-lg: 400px;
     top: $spacer;
     right: $spacer;
     bottom: auto;
+    margin-bottom: $spacer; // add margin if several notifications are shown
     border-radius: $notification-border-radius;
     width: $notification-md;
   }
