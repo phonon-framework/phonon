@@ -4,6 +4,11 @@
 
 Network is a simple module to know the status of the network, i. e. whether the user has a working connection or not.
 
+## Options
+
+- initialDelay
+- delay
+
 ## Events
 
 ### DOM Events
