@@ -37,15 +37,15 @@ const Notification = (() => {
     constructor(options = {}) {
       super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, false)
 
-      this.template = '' +
-        '<div class="notification">' +
-          '<div class="notification-inner">' +
-            '<div class="message"></div>' +
-            '<button type="button" class="close" data-dismiss="notification" aria-label="Close">' +
-              '<span aria-hidden="true">&times;</span>' +
-            '</button>' +
-          '</div>' +
-        '</div>'
+      this.template = `
+        <div class="notification">
+          <div class="notification-inner">
+            <div class="message"></div>
+            <button type="button" class="close" data-dismiss="notification" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>`
 
       if (this.dynamicElement) {
         this.build()
