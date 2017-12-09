@@ -31,7 +31,3 @@ Thumbs.db
 
 # Npm
 node_modules
-package-lock.json
-
-# Yarn
-yarn.lock
