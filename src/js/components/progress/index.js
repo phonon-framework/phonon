@@ -121,7 +121,7 @@ const Progress = (() => {
       this.options.element.style.height = `${this.options.height}px`
       this.triggerEvent(Event.SHOW)
       this.triggerEvent(Event.SHOWN)
-      
+
       return true
     }
 
@@ -129,7 +129,7 @@ const Progress = (() => {
       this.options.element.style.height = '0px'
       this.triggerEvent(Event.HIDE)
       this.triggerEvent(Event.HIDDEN)
-      
+
       return true
     }
 
