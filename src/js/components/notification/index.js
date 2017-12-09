@@ -37,15 +37,15 @@ const Notification = (() => {
     constructor(options = {}) {
       super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, false)
 
-      this.template = `
-        <div class="notification">
-          <div class="notification-inner">
-            <div class="message"></div>
-            <button type="button" class="close" data-dismiss="notification" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        </div>`
+      this.template = '' +
+      '<div class="notification">' +
+        '<div class="notification-inner">' +
+          '<div class="message"></div>' +
+          '<button type="button" class="close" data-dismiss="notification" aria-label="Close">' +
+            '<span aria-hidden="true">&times;</span>' +
+          '</button>' +
+        '</div>' +
+      '</div>'
 
       if (this.dynamicElement) {
         this.build()
@@ -100,6 +100,19 @@ const Notification = (() => {
 
       setTimeout(() => {
         this.options.element.classList.add('show')
+
+        // set position
+        const activeNotifications = document.querySelectorAll('.notification.show') || []
+        let pushDistance = 0
+        activeNotifications.forEach((notification) => {
+          if (this.options.element !== notification) {
+            const style = getComputedStyle(notification)
+            pushDistance += notification.offsetHeight + parseInt(style.marginBottom, 10)
+          }
+        })
+
+        this.options.element.style.transform = `translateY(${pushDistance}px)`
+
         this.triggerEvent(Event.SHOW)
 
         const onShown = () => {
