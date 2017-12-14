@@ -112,9 +112,16 @@ Add the class `dropdown-sm` to reduce the size.
 const dropdown = phonon.dropdown({
   element: '.dropdown'
 })
+
+// or for a search dropdown
+const searchDropdown = phonon.searchDropdown({
+  element: '.dropdown'
+})
 ```
 
 ## Options
+
+- filterItem(search, item)
 
 ## Methods
 
