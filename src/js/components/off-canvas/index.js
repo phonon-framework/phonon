@@ -45,6 +45,8 @@ const OffCanvas = (() => {
       this.currentWidth = null
       this.animate = true
 
+      this.directions = ['left', 'right']
+
       const sm = { name: 'sm', media: window.matchMedia('(min-width: 1px)') }
       const md = { name: 'md', media: window.matchMedia('(min-width: 768px)') }
       const lg = { name: 'lg', media: window.matchMedia('(min-width: 992px)') }
@@ -52,9 +54,20 @@ const OffCanvas = (() => {
 
       this.sizes = [sm, md, lg, xl].reverse()
 
+      this.checkDirection()
       this.checkWidth()
 
       window.addEventListener('resize', this.checkWidth, false)      
+    }
+
+    checkDirection() {
+      this.directions.every((direction) => {
+        if (this.options.element.classList.contains(`off-canvas-${direction}`)) {
+          this.direction = direction
+          return false
+        }
+        return true
+      })
     }
 
     checkWidth() {
@@ -87,8 +100,8 @@ const OffCanvas = (() => {
       const content = document.body
 
       if (this.options.aside[name] === true) {
-        if (!content.classList.contains('off-canvas-aside')) {
-          content.classList.add('off-canvas-aside')
+        if (!content.classList.contains(`off-canvas-aside-${this.direction}`)) {
+          content.classList.add(`off-canvas-aside-${this.direction}`)
         }
 
         this.useBackdrop = false
@@ -99,8 +112,8 @@ const OffCanvas = (() => {
         // remove previous backdrop
         this.removeBackdrop()
       } else {
-        if (content.classList.contains('off-canvas-aside')) {
-          content.classList.remove('off-canvas-aside')
+        if (content.classList.contains(`off-canvas-aside-${this.direction}`)) {
+          content.classList.remove(`off-canvas-aside-${this.direction}`)
         }
 
         this.hide()
