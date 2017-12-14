@@ -10,8 +10,11 @@
 <!-- Button trigger off-canvas -->
 <button class="btn btn-primary" data-toggle="off-canvas" data-target="#exampleOffCanvas">Launch demo off-canvas</button>
 
-<!-- Off-canvas -->
-<div class="off-canvas" id="exampleOffCanvas" role="navigation" aria-hidden="true" aria-labelledby="exampleOffCanvasTitle">
+Add the class `off-canvas-left` if you want that the off-canvas appears from the left.
+Add the class `off-canvas-right` if you want that the off-canvas appears from the right.
+
+<!-- Off-canvas, left direction -->
+<div class="off-canvas off-canvas-left" id="exampleOffCanvas" role="navigation" aria-hidden="true" aria-labelledby="exampleOffCanvasTitle">
   <div class="off-canvas-inner">
     <div class="off-canvas-content">
       <div class="off-canvas-header">
