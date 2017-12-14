@@ -40,12 +40,6 @@ const Dropdown = (() => {
       const item = this.getItemData(selected)
 
       this.setSelected(item.value, item.text, false)
-
-      // search input
-      const searchInput = this.options.element.querySelector('.dropdown-menu input')
-      if (searchInput) {
-        this.initSearch(searchInput)
-      }
     }
 
     setSelected(value = '', text = null, checkExists = true) {
@@ -86,47 +80,6 @@ const Dropdown = (() => {
       return true
     }
 
-    initSearch(searchInput) {
-      this.filterItemsHandler = (event) => {
-        const search = event.target.value
-        let items = Array.from(this.options.element.querySelectorAll('.item') || [])
-
-        items = items.map((item) => {
-          const info = this.getItemData(item)
-          return { text: info.text, value: info.value, element: item }
-        })
-
-        if (search === '') {
-          items.forEach((item) => {
-            item.element.style.display = 'block'
-          })
-
-          return
-        }
-
-        Array.from(items).forEach((item) => {
-          const fn = typeof this.options.filterItem === 'function' ? this.options.filterItem : this.filterItem
-
-          if (fn(search, item)) {
-            item.element.style.display = 'block'
-          } else {
-            item.element.style.display = 'none'
-          }
-        })
-      }
-
-      searchInput.addEventListener('keyup', this.filterItemsHandler)
-    }
-
-    filterItem(search, item) {
-      if (item.value.indexOf(search) > -1
-        || item.text.indexOf(search) > -1) {
-        return true
-      } else {
-        return false
-      }
-    }
-
     getSelected() {
       return this.options.element.querySelector('input[type="hidden"]').value
     }
@@ -152,7 +105,12 @@ const Dropdown = (() => {
     onElementEvent(event) {
       if (event.type === Event.START) {
         const dropdown = findTargetByClass(event.target, 'dropdown')
-        if (!dropdown) {
+
+        /*
+         * hide the current dropdown only if the event concerns another dropdown
+         * hide also if the user clicks outside a dropdown
+         */
+        if (!dropdown || dropdown !== this.getElement()) {
           this.hide()
         }
 
@@ -250,7 +208,9 @@ const Dropdown = (() => {
       const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
       config.element = element
 
-      components.push(new Dropdown(config))
+      if (!element.querySelector('.dropdown-menu input')) {
+        components.push(new Dropdown(config))
+      }
     })
   }
 

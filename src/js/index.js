@@ -21,6 +21,7 @@ import Progress from './components/progress'
 import Loader from './components/loader'
 import OffCanvas from './components/off-canvas'
 import Dropdown from './components/dropdown'
+import SearchDropdown from './components/dropdown/search'
 
 const api = {}
 
@@ -138,6 +139,13 @@ api.offCanvas = OffCanvas._DOMInterface
  * ------------------------------------------------------------------------
  */
 api.dropdown = Dropdown._DOMInterface
+
+/**
+ * ------------------------------------------------------------------------
+ * Search Dropdown
+ * ------------------------------------------------------------------------
+ */
+api.searchDropdown = SearchDropdown._DOMInterface
 
 // Make the API live
 window.phonon = api
