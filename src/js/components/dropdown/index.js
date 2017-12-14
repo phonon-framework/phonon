@@ -40,6 +40,12 @@ const Dropdown = (() => {
       const item = this.getItemData(selected)
 
       this.setSelected(item.value, item.text, false)
+
+      // search input
+      const searchInput = this.options.element.querySelector('.dropdown-menu input')
+      if (searchInput) {
+        this.initSearch(searchInput)
+      }
     }
 
     setSelected(value = '', text = null, checkExists = true) {
@@ -54,7 +60,7 @@ const Dropdown = (() => {
       const items = this.options.element.querySelectorAll('.item') || []
       let itemFound = false
 
-      Array.from(items).forEach(() => {
+      Array.from(items).forEach((item) => {
         if (item.classList.contains('selected')) {
           item.classList.remove('selected')
         }
@@ -76,6 +82,49 @@ const Dropdown = (() => {
       } else if (checkExists && !itemFound) {
         throw new Error(`${NAME}. The value "${value}" does not exist in the list of items.`)        
       }
+
+      return true
+    }
+
+    initSearch(searchInput) {
+      this.filterItemsHandler = (event) => {
+        const search = event.target.value
+        let items = Array.from(this.options.element.querySelectorAll('.item') || [])
+
+        items = items.map((item) => {
+          const info = this.getItemData(item)
+          return { text: info.text, value: info.value, element: item }
+        })
+
+        if (search === '') {
+          items.forEach((item) => {
+            item.element.style.display = 'block'
+          })
+
+          return
+        }
+
+        Array.from(items).forEach((item) => {
+          const fn = typeof this.options.filterItem === 'function' ? this.options.filterItem : this.filterItem
+
+          if (fn(search, item)) {
+            item.element.style.display = 'block'
+          } else {
+            item.element.style.display = 'none'
+          }
+        })
+      }
+
+      searchInput.addEventListener('keyup', this.filterItemsHandler)
+    }
+
+    filterItem(search, item) {
+      if (item.value.indexOf(search) > -1
+        || item.text.indexOf(search) > -1) {
+        return true
+      } else {
+        return false
+      }
     }
 
     getSelected() {
@@ -94,7 +143,7 @@ const Dropdown = (() => {
           text = selectedTextNode.innerHTML
         }
 
-        value = item.getAttribute('data-value')
+        value = item.getAttribute('data-value') || ''
       }
 
       return { text, value }

@@ -153,6 +153,10 @@ $dropdown-menu-description-color: $white;
       white-space: nowrap;
     }
 
+    .input-search-container {
+      margin: ($spacer / 2) $spacer;
+    }
+
     // menu item
     .item {
       display: block;

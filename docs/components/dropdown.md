@@ -7,7 +7,86 @@
 ## Markup
 
 ```html
+<div class="dropdown" data-toggle="dropdown">
+  <input type="hidden" name="color">
+  <i class="dropdown-icon"></i>
+  <div class="default-text">Blue</div>
+  <div class="dropdown-menu">
+    <div class="item" data-value="blue" data-selected="true">Blue</div>
+    <div class="item" data-value="red">Red</div>
+    <div class="item selected" data-value="green">
+      <span class="description">Best one!</span>
+      <span class="text">Green</span>
+    </div>
+  </div>
+</div>
+```
 
+### Dropdown with invalid item
+
+Add the class `disabled` to the item.
+
+```html
+<div class="dropdown" data-toggle="dropdown">
+  <input type="hidden" name="color">
+  <i class="dropdown-icon"></i>
+  <div class="default-text">Blue</div>
+  <div class="dropdown-menu">
+    <div class="item" data-value="blue" data-selected="true">Blue</div>
+    <div class="item" data-value="red">Red</div>
+    <div class="item disabled">Invalid item</div> 
+  </div>
+</div>
+```
+
+### Dropdown with header
+
+```html
+<div class="dropdown" data-toggle="dropdown">
+  <input type="hidden" name="color">
+  <i class="dropdown-icon"></i>
+  <div class="default-text">Blue</div>
+  <div class="dropdown-menu">
+    <div class="header">Header</div>
+    <div class="item" data-value="blue" data-selected=true>Blue</div>
+    <div class="item" data-value="red">Red</div>
+  </div>
+</div>
+```
+
+### Dropdown with divider
+
+```html
+<div class="dropdown" data-toggle="dropdown">
+  <input type="hidden" name="color">
+  <i class="dropdown-icon"></i>
+  <div class="default-text">Blue</div>
+  <div class="dropdown-menu">
+    <div class="item" data-value="blue" data-selected=true>Blue</div>
+    <div class="item" data-value="red">Red</div>
+    <div class="divider"></div>
+    <div class="item" data-value="orange">Orange</div>
+    <div class="item" data-value="yellow">Yellow</div>
+  </div>
+</div>
+```
+
+### Dropdown with search input
+
+```html
+<div class="dropdown" data-toggle="dropdown">
+  <input type="hidden" name="color">
+  <i class="dropdown-icon"></i>
+  <div class="default-text">Blue</div>
+  <div class="dropdown-menu">
+    <div class="input-search-container">
+      <input class="form-control" type="text" name="search">    
+    </div>          
+    <div class="item" data-value="blue" data-selected=true>Blue</div>
+    <div class="item" data-value="red">Red</div>
+    <div class="item" data-value="green">Green</div>
+  </div>
+</div>
 ```
 
 For the selected item, add `data-selected`.
