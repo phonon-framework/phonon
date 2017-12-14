@@ -2,6 +2,9 @@
 
 [WIP]
 
+Starting with v2.0, Phonon takes full advantage of ECMAScript.
+
+
 ## Versioning
 
 Phonon Framework is maintained under the [Semantic Versioning guidelines](http://semver.org/).
@@ -14,7 +17,6 @@ Editor preferences are available in the [editor config](https://github.com/quark
 ## Copyright and license
 
 Code released under the [MIT License](https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE).
-
 
 
 ## Core
