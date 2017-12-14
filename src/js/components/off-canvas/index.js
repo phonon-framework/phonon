@@ -50,33 +50,33 @@ const OffCanvas = (() => {
       const lg = { name: 'lg', media: window.matchMedia('(min-width: 992px)') }
       const xl = { name: 'xl', media: window.matchMedia('(min-width: 1200px)') }
 
-      const sizes = [sm, md, lg, xl].reverse()
+      this.sizes = [sm, md, lg, xl].reverse()
 
-      const checkWidth = () => {
-        if (!('matchMedia' in window)) {
-          return
-        }
+      this.checkWidth()
 
-        sizes.every((size) => {
-          const match = size.media.media.match(/[a-z]?-width:\s?([0-9]+)/)
+      window.addEventListener('resize', this.checkWidth, false)      
+    }
 
-          if (match) {
-            if (size.media.matches) {
-              if (this.currentWidth !== size.name) {
-                this.setAside(size.name)
-              }
-              this.currentWidth = size.name
-              return false
-            }
-          }
-
-          return true
-        })
+    checkWidth() {
+      if (!('matchMedia' in window)) {
+        return
       }
 
-      checkWidth()
+      this.sizes.every((size) => {
+        const match = size.media.media.match(/[a-z]?-width:\s?([0-9]+)/)
 
-      window.addEventListener('resize', checkWidth, false)      
+        if (match) {
+          if (size.media.matches) {
+            if (this.currentWidth !== size.name) {
+              this.setAside(size.name)
+            }
+            this.currentWidth = size.name
+            return false
+          }
+        }
+
+        return true
+      })
     }
 
     preventClosable() {
@@ -216,7 +216,7 @@ const OffCanvas = (() => {
       const dismissButtons = this.options.element.querySelectorAll('[data-dismiss]')
 
       if (dismissButtons) {
-        dismissButtons.forEach(button => this.registerElement({ target: button, event: 'click' }))
+        Array.from(dismissButtons).forEach(button => this.registerElement({ target: button, event: 'click' }))
       }
 
       if (this.useBackdrop) {
@@ -231,7 +231,7 @@ const OffCanvas = (() => {
       const dismissButtons = this.options.element.querySelectorAll('[data-dismiss]')
 
       if (dismissButtons) {
-        dismissButtons.forEach(button => this.unregisterElement({ target: button, event: 'click' }))
+        Array.from(dismissButtons).forEach(button => this.unregisterElement({ target: button, event: 'click' }))
       }
 
       if (this.useBackdrop) {
@@ -256,7 +256,7 @@ const OffCanvas = (() => {
 
   const offCanvas = document.querySelectorAll(`.${NAME}`)
   if (offCanvas) {
-    offCanvas.forEach((element) => {
+    Array.from(offCanvas).forEach((element) => {
       const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
       config.element = element
 

@@ -8,7 +8,7 @@ const getAttribute = (first, second) => {
 
 export function setAttributesConfig(element, obj = {}, attrs, start = '') {
   const keys = Object.keys(obj)
-  
+
   keys.forEach((key) => {
     if (start === '' && attrs.indexOf(key) === -1) {
       // continue with next iteration

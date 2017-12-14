@@ -38,7 +38,7 @@ const Accordion = (() => {
       this.collapses = []
 
       const toggles = this.options.element.querySelectorAll(`[data-toggle="${NAME}"]`)
-      toggles.forEach((toggle) => {
+      Array.from(toggles).forEach((toggle) => {
         const collapseId = toggle.getAttribute('href')
         const collapse = document.querySelector(collapseId)
 
@@ -133,7 +133,7 @@ const Accordion = (() => {
 
   const accordions = document.querySelectorAll(`.${NAME}`)
   if (accordions) {
-    accordions.forEach((element) => {
+    Array.from(accordions).forEach((element) => {
       const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
       config.element = element
 

@@ -73,7 +73,7 @@ const Page = (() => {
       loadFile(this.getTemplate(), (template) => {
         let render = function (DOMPage, template, elements) {
           if (elements) {
-            elements.forEach((el) => {
+            Array.from(elements).forEach((el) => {
               el.innerHTML = template
             })
           } else {

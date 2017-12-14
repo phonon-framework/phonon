@@ -123,7 +123,7 @@ const Binder = (() => {
     * Set values to DOM nodes
     */
     setNodes(element) {
-      element.forEach(el => this.setNode(el))
+      Array.from(element).forEach(el => this.setNode(el))
     }
   }
 

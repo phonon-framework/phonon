@@ -184,7 +184,7 @@ const Dialog = (() => {
     attachEvents() {
       const dismissButtons = this.options.element.querySelectorAll('[data-dismiss]')
       if (dismissButtons) {
-        dismissButtons.forEach(button => this.registerElement({ target: button, event: 'click' }))
+        Array.from(dismissButtons).forEach(button => this.registerElement({ target: button, event: 'click' }))
       }
 
       // add events if the dialog is cancelable
@@ -200,7 +200,7 @@ const Dialog = (() => {
     detachEvents() {
       const dismissButtons = this.options.element.querySelectorAll('[data-dismiss]')
       if (dismissButtons) {
-        dismissButtons.forEach(button => this.unregisterElement({ target: button, event: 'click' }))
+        Array.from(dismissButtons).forEach(button => this.unregisterElement({ target: button, event: 'click' }))
       }
 
       if (this.options.cancelable) {
@@ -224,7 +224,7 @@ const Dialog = (() => {
 
   const dialogs = document.querySelectorAll(`.${NAME}`)
   if (dialogs) {
-    dialogs.forEach((element) => {
+    Array.from(dialogs).forEach((element) => {
       const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
       config.element = element
 

@@ -46,7 +46,7 @@ const Tab = (() => {
       const navTabs = nav ? nav.querySelectorAll(`[data-toggle="${NAME}"]`) : null
 
       if (navTabs) {
-        navTabs.forEach((tab) => {
+        Array.from(navTabs).forEach((tab) => {
           if (tab.classList.contains('active')) {
             tab.classList.remove('active')
           }
@@ -61,7 +61,7 @@ const Tab = (() => {
       const tabContents = tabContent.parentNode.querySelectorAll(TAB_CONTENT_SELECTOR)
 
       if (tabContents) {
-        tabContents.forEach((tab) => {
+        Array.from(tabContents).forEach((tab) => {
           if (tab.classList.contains('active')) {
             tab.classList.remove('active')
           }
@@ -122,7 +122,7 @@ const Tab = (() => {
 
   const tabs = document.querySelectorAll(`[data-toggle="${NAME}"]`)
   if (tabs) {
-    tabs.forEach((element) => {
+    Array.from(tabs).forEach((element) => {
       // const config = {}
       const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
       config.element = element

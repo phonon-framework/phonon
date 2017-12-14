@@ -42,10 +42,6 @@ const Dropdown = (() => {
       this.setSelected(item.value, item.text, false)
     }
 
-    setPosition(button) {
-
-    }
-
     setSelected(value = '', text = null, checkExists = true) {
       if (!this.options.default) {
         return false
@@ -55,29 +51,30 @@ const Dropdown = (() => {
       this.options.element.querySelector('.default-text').innerHTML = text
       this.options.element.querySelector('input[type="hidden"]').value = value
 
-      if (checkExists) {
-        let found = false
-        const items = this.options.element.querySelectorAll('.item')
-        if (items) {
-          for (const item of items) {
-            const data = this.getItemData(item)
-            if (value === data.value) {
-              // update the text to display if it is null only
-              if (textDisplay === null) {
-                textDisplay = data.text
-              }
-              found = true
-              break
-            }
+      const items = this.options.element.querySelectorAll('.item') || []
+      let itemFound = false
+
+      Array.from(items).forEach(() => {
+        if (item.classList.contains('selected')) {
+          item.classList.remove('selected')
+        }
+
+        const data = this.getItemData(item)
+
+        if (value === data.value) {
+          if (!item.classList.contains('selected')) {
+            item.classList.add('selected')
           }
-        }
 
+          textDisplay = data.text
+          itemFound = true
+        }
+      })
+
+      if (checkExists && itemFound) {
         this.options.element.querySelector('.default-text').innerHTML = textDisplay
-        this.options.element.querySelector('input[type="hidden"]').value = value
-
-        if (!found) {
-          throw new Error(`${NAME}. The value "${value}" does not exist in the list of items.`)
-        }
+      } else if (checkExists && !itemFound) {
+        throw new Error(`${NAME}. The value "${value}" does not exist in the list of items.`)        
       }
     }
 
@@ -119,10 +116,13 @@ const Dropdown = (() => {
           }
 
           const itemInfo = this.getItemData(item)
-          this.setSelected(itemInfo.value, itemInfo.text, false)
 
-          const detail = { item, text: itemInfo.text, value: itemInfo.value }
-          this.triggerEvent(Event.ITEM_SELECTED, detail)
+          if (this.getSelected() !== itemInfo.value) {
+            // the user selected another value, we dispatch the event
+            this.setSelected(itemInfo.value, itemInfo.text, false)
+            const detail = { item, text: itemInfo.text, value: itemInfo.value }
+            this.triggerEvent(Event.ITEM_SELECTED, detail)
+          }
 
           this.hide()
           return
@@ -197,7 +197,7 @@ const Dropdown = (() => {
 
   const dropdowns = document.querySelectorAll(`.${NAME}`)
   if (dropdowns) {
-    dropdowns.forEach((element) => {
+    Array.from(dropdowns).forEach((element) => {
       const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
       config.element = element
 
