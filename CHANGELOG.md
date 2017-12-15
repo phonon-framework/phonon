@@ -1,8 +1,14 @@
+### 1.4.8 (2017-12-15)
+
+### Features
+
+* Added the ability to position dynamic popovers [#274](https://github.com/quark-dev/Phonon-Framework/pull/274)
+
 ### 1.4.7 (2017-11-29)
 
 ### Features
 
-* Added the ability to update the state of dynamically created inputs [#271](https://github.com/quark-dev/Phonon-Framework/issues/271))
+* Added the ability to update the state of dynamically created inputs [#271](https://github.com/quark-dev/Phonon-Framework/issues/271)
 
 ### 1.4.6 (2017-11-19)
 
