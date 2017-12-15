@@ -1,4 +1,6 @@
-# Notification
+---
+title: Notification
+---
 
 ## Introduction
 

@@ -1,5 +1,0 @@
-#  Ajax
-
-## Introduction
-
-[WIP]

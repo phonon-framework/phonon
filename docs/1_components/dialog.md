@@ -1,4 +1,6 @@
-# Dialogs
+---
+title: Dialog
+---
 
 ## Introduction
 

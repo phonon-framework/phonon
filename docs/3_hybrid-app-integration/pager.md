@@ -1,4 +1,6 @@
-# Pager
+---
+title: Pager
+---
 
 ## Introduction
 
@@ -49,7 +51,15 @@ in the HTML view.
 pager.select('myPage').useTemplate('path/to/template.html')
 ```
 
-You may want to use a template engine or change the initial behavior of Pager. In this case, the second argument is necessary.
+The page template will be injected as a node child where the attribute `data-push-template` is.
+
+```html
+<div data-push-template>
+  <!-- The template will be injected here -->
+</div>
+```
+
+You may want to use a template engine or change the default behavior of Pager. In this case, the second argument of `useTemplate()` is useful.
 
 ```js
 pager.select('myPage').useTemplate('path/to/template.html', (page, template, elements) => {
@@ -57,13 +67,18 @@ pager.select('myPage').useTemplate('path/to/template.html', (page, template, ele
 })
 ```
 
-The page template will be injected as a node child where the attribute `data-push-template` is.
+## Page Navigation
+
+Page navigation works with the attribute `data-navigate`.
 
 ```html
-<div data-push-template>
-  <!-- Template will replace this comment -->
-</div>
+<button class="btn btn-primary" data-navigate="myPage">Go to page</button>
 ```
+
+If you want to force the back animation, you can use the attribute `data-pop-page`.
+
+<button class="btn btn-primary" data-navigate="home" data-pop-page="true">Back to home</button>
+
 
 ## Events
 

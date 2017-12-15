@@ -1,4 +1,6 @@
-# Collapse
+---
+title: Collapse
+---
 
 ## Introduction
 

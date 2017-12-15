@@ -1,8 +1,17 @@
-# Network
+---
+title: Network
+---
 
 ## Introduction
 
 Network is a simple module to know the status of the network, i. e. whether the user has a working connection or not.
+
+```js
+const network = phonon.network({
+  initialDelay: 3000,
+  delay: 5000
+})
+```
 
 ## Options
 

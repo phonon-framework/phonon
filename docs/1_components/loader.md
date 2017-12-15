@@ -1,4 +1,6 @@
-# Loader
+---
+title: Loader
+---
 
 ## Introduction
 

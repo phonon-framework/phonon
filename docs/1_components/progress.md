@@ -1,4 +1,6 @@
-# Progress
+---
+title: Progress
+---
 
 ## Introduction
 

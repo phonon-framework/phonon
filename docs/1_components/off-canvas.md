@@ -1,4 +1,6 @@
-# Off Canvas
+---
+title: Off-canvas
+---
 
 ## Introduction
 

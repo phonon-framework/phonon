@@ -1,4 +1,6 @@
-# Nav
+---
+title: Nav
+---
 
 ## Introduction
 
@@ -32,7 +34,7 @@
 
 ```js
 const tab = phonon.tab({
-  element: '[href="#profile"]'
+  element: '[href="#home"]'
 })
 ```
 

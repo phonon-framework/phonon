@@ -1,4 +1,6 @@
-# Dropdown
+---
+title: Dropdown
+---
 
 ## Introduction
 
@@ -74,7 +76,7 @@ Add the class `disabled` to the item.
 ### Dropdown with search input
 
 ```html
-<div class="dropdown" data-toggle="dropdown">
+<div class="dropdown" data-search="true" data-toggle="dropdown">
   <input type="hidden" name="color">
   <i class="dropdown-icon"></i>
   <div class="default-text">Blue</div>
@@ -114,13 +116,15 @@ const dropdown = phonon.dropdown({
 })
 
 // or for a search dropdown
-const searchDropdown = phonon.searchDropdown({
-  element: '.dropdown'
+const searchDropdown = phonon.dropdown({
+  element: '.dropdown-search',
+  search: true
 })
 ```
 
 ## Options
 
+- search
 - filterItem(search, item)
 
 ## Methods

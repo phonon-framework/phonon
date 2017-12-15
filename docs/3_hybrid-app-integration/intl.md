@@ -1,4 +1,6 @@
-# Internationalization (i18n)
+---
+title: Internationalization (i18n)
+---
 
 ## Introduction
 

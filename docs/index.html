@@ -328,28 +328,41 @@ a {
       </div>
 
       <ul class="menu">
-        <li><a href="#README">Documentation</a></li>
         <li>
-          <a href="#components">components</a>
+          <a href="#0_getting-started">getting-started</a>
           <ul>
-            <li><a href="#components/accordion">accordion</a></li>
-            <li><a href="#components/collapse">collapse</a></li>
-            <li><a href="#components/dialog">dialog</a></li>
-            <li><a href="#components/dropdown">dropdown</a></li>
-            <li><a href="#components/loader">loader</a></li>
-            <li><a href="#components/nav">nav</a></li>
-            <li><a href="#components/notification">notification</a></li>
-            <li><a href="#components/off-canvas">off-canvas</a></li>
-            <li><a href="#components/progress">progress</a></li>
+            <li><a href="#0_getting-started/0_introduction">Introduction</a></li>
+            <li><a href="#0_getting-started/1_quick-start">Quick start</a></li>
+            <li><a href="#0_getting-started/2_custom-build">Custom builds</a></li>
+            <li><a href="#0_getting-started/3_theming">Theming</a></li>
           </ul>
         </li>
         <li>
-          <a href="#core">core</a>
+          <a href="#1_components">components</a>
           <ul>
-            <li><a href="#core/ajax">ajax</a></li>
-            <li><a href="#core/intl">intl</a></li>
-            <li><a href="#core/network">network</a></li>
-            <li><a href="#core/pager">pager</a></li>
+            <li><a href="#1_components/accordion">Accordion</a></li>
+            <li><a href="#1_components/collapse">Collapse</a></li>
+            <li><a href="#1_components/dialog">Dialog</a></li>
+            <li><a href="#1_components/dropdown">Dropdown</a></li>
+            <li><a href="#1_components/loader">Loader</a></li>
+            <li><a href="#1_components/nav">Nav</a></li>
+            <li><a href="#1_components/notification">Notification</a></li>
+            <li><a href="#1_components/off-canvas">Off-canvas</a></li>
+            <li><a href="#1_components/progress">Progress</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#2_utilities">utilities</a>
+          <ul>
+            <li><a href="#2_utilities/network">Network</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#3_hybrid-app-integration">hybrid-app-integration</a>
+          <ul>
+            <li><a href="#3_hybrid-app-integration/getting_started">Getting started</a></li>
+            <li><a href="#3_hybrid-app-integration/intl">Internationalization (i18n)</a></li>
+            <li><a href="#3_hybrid-app-integration/pager">Pager</a></li>
           </ul>
         </li>
       </ul>
@@ -367,45 +380,46 @@ a {
         <button class="next-page">></button>
       </div>
 
-      <div class="page" id="README">
-        <h1 class="heading">Documentation</h1>
-        <h1>Documentation [WIP]</h1>
-<p>Phonon builds are ready to use components.
+      <div class="page" id="0_getting-started">
+        <h1 class="heading">getting-started</h1>
+        
+      </div>
+
+      <div class="page" id="0_getting-started/0_introduction">
+        <h1 class="heading">Introduction</h1>
+        <p>Welcome to Phonon v2.0!</p>
+
+      </div>
+      <div class="page" id="0_getting-started/1_quick-start">
+        <h1 class="heading">Quick start</h1>
+        <p>Phonon builds are ready to use components. They are located in the <code>dist/</code> directory.
 They provide convenient solutions that can be installed with no effort and that satisfy the most common editing use cases.</p>
-<h2>Ready to use builds</h2>
-<p>Ready to use builds are located in the <code>dist/</code> directory.</p>
-<pre><code class="language-js">import 'phonon/dist/js/phonon'
-// that's it!
+<h2>CSS</h2>
+<p>Option 1:</p>
+<p>@todo &lt;link...&gt;</p>
+<p>Option 2:</p>
+<pre><code class="language-scss">@import '@todo';
 </code></pre>
-<h2>Build customization</h2>
-<p>This can be useful if you want to include specific Phonon components.
-You can import the components you want to use in this way:</p>
-<pre><code class="language-js">// core
-import Pager from './core/pager/index'
-import Intl from './core/intl'
+<h2>JavaScript</h2>
+<p>Option 1:</p>
+<p>@todo &lt;script...&gt;</p>
+<p>Option 2:</p>
+<pre><code class="language-js">import 'phonon/dist/js/phonon'
+</code></pre>
 
-// components
-import Dialog from 'phonon/src/js/components/dialog'
-
-const pager = new Pager({
-  hashPrefix: '#!',
-  useHash: true,
-  defaultPage: 'one',
-  animatePages: true
-})
-
-const intl = new Intl({
-  fallbackLocale: 'en',
-  locale: 'en',
-  data: {
-    en: {
-      welcome: 'Hello (default)'
-    },
-    fr: {
-      welcome: 'Bonjour'
-    }
-  }
-})
+      </div>
+      <div class="page" id="0_getting-started/2_custom-build">
+        <h1 class="heading">Custom builds</h1>
+        <h2>CSS</h2>
+<pre><code class="language-scss">// required
+@import 'scss/functions';
+@import 'scss/variables';
+@import 'scss/mixins';
+</code></pre>
+<h2>JavaScript</h2>
+<p>This can be useful if you want to include <strong>only</strong> some components.</p>
+<p>For example, for the dialog component:</p>
+<pre><code class="language-js">import Dialog from 'phonon/src/js/components/dialog'
 
 // instead of using phonon.dialog(...), you must use the component as an object:
 const dialog = new Dialog({
@@ -418,16 +432,19 @@ dialog.show()
 </code></pre>
 
       </div>
+      <div class="page" id="0_getting-started/3_theming">
+        <h1 class="heading">Theming</h1>
+        <p>Edit variables.</p>
 
-      <div class="page" id="components">
+      </div>
+      <div class="page" id="1_components">
         <h1 class="heading">components</h1>
         
       </div>
 
-      <div class="page" id="components/accordion">
-        <h1 class="heading">accordion</h1>
-        <h1>Accordion</h1>
-<h2>Introduction</h2>
+      <div class="page" id="1_components/accordion">
+        <h1 class="heading">Accordion</h1>
+        <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Markup</h2>
 <pre><code class="language-html">&lt;div class=&quot;accordion&quot; id=&quot;exampleAccordion&quot; role=&quot;tablist&quot;&gt;
@@ -466,10 +483,9 @@ dialog.show()
 </code></pre>
 
       </div>
-      <div class="page" id="components/collapse">
-        <h1 class="heading">collapse</h1>
-        <h1>Collapse</h1>
-<h2>Introduction</h2>
+      <div class="page" id="1_components/collapse">
+        <h1 class="heading">Collapse</h1>
+        <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Markup</h2>
 <pre><code class="language-html">&lt;p&gt;
@@ -498,10 +514,9 @@ dialog.show()
 <p>...</p>
 
       </div>
-      <div class="page" id="components/dialog">
-        <h1 class="heading">dialog</h1>
-        <h1>Dialogs</h1>
-<h2>Introduction</h2>
+      <div class="page" id="1_components/dialog">
+        <h1 class="heading">Dialog</h1>
+        <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Dynamically Created Dialogs</h2>
 <p>By not using the <code>element</code> property, it will create a dialog's HTMLElement dynamically.
@@ -562,76 +577,82 @@ dialog.show()
 <h2>Events</h2>
 <p>It may be useful to use the events that affect your dialog.
 To do this, you can use object and DOM events.</p>
-<table>
-<thead>
-<tr>
-<th>Event Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>show</td>
-<td>This event fires immediately when the &lt;code&gt;show&lt;/code&gt; instance method is called. If caused by a click, the clicked element is available as the &lt;code&gt;relatedTarget&lt;/code&gt; property of the event.</td>
-</tr>
-<tr>
-<td>shown</td>
-<td>This event is fired when the dialog has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the &lt;code&gt;relatedTarget&lt;/code&gt; property of the event.</td>
-</tr>
-<tr>
-<td>hide</td>
-<td>This event is fired immediately when the &lt;code&gt;hide&lt;/code&gt; instance method has been called.</td>
-</tr>
-<tr>
-<td>hidden</td>
-<td>This event is fired when the dialog has finished being hidden from the user (will wait for CSS transitions to complete).</td>
-</tr>
-</tbody>
-</table>
-<h3>Object Events</h3>
-<pre><code class="language-js">phonon.dialog({
-  title: 'Dialog title',
-  message: 'Dialog body text goes here.',
-  show: () =&gt; { // or onShow
-    console.log('It works!')
-  },
-  shown: () =&gt; { // or onShown
-    console.log('It works!')
-  },
-  hide: () =&gt; { // or onHide
-    console.log('It works!')
-  },
-  hidden: () =&gt; { // or onHidden
-    console.log('It works!')
-  }
-})
-</code></pre>
-<h3>DOM Events</h3>
-<pre><code class="language-js">document.querySelector('.dialog').addEventListener('show.ph.dialog', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.dialog').addEventListener('shown.ph.dialog', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.dialog').addEventListener('hide.ph.dialog', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.dialog').addEventListener('hidden.ph.dialog', () =&gt; {
-  console.log('It works!')
-})
-</code></pre>
+<p>|     Event Type     |     Description      |
+|</p>
 
       </div>
-      <div class="page" id="components/dropdown">
-        <h1 class="heading">dropdown</h1>
-        <h1>Dropdown</h1>
-<h2>Introduction</h2>
+      <div class="page" id="1_components/dropdown">
+        <h1 class="heading">Dropdown</h1>
+        <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Markup</h2>
-<pre><code class="language-html">
+<pre><code class="language-html">&lt;div class=&quot;dropdown&quot; data-toggle=&quot;dropdown&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;color&quot;&gt;
+  &lt;i class=&quot;dropdown-icon&quot;&gt;&lt;/i&gt;
+  &lt;div class=&quot;default-text&quot;&gt;Blue&lt;/div&gt;
+  &lt;div class=&quot;dropdown-menu&quot;&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;blue&quot; data-selected=&quot;true&quot;&gt;Blue&lt;/div&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;red&quot;&gt;Red&lt;/div&gt;
+    &lt;div class=&quot;item selected&quot; data-value=&quot;green&quot;&gt;
+      &lt;span class=&quot;description&quot;&gt;Best one!&lt;/span&gt;
+      &lt;span class=&quot;text&quot;&gt;Green&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h3>Dropdown with invalid item</h3>
+<p>Add the class <code>disabled</code> to the item.</p>
+<pre><code class="language-html">&lt;div class=&quot;dropdown&quot; data-toggle=&quot;dropdown&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;color&quot;&gt;
+  &lt;i class=&quot;dropdown-icon&quot;&gt;&lt;/i&gt;
+  &lt;div class=&quot;default-text&quot;&gt;Blue&lt;/div&gt;
+  &lt;div class=&quot;dropdown-menu&quot;&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;blue&quot; data-selected=&quot;true&quot;&gt;Blue&lt;/div&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;red&quot;&gt;Red&lt;/div&gt;
+    &lt;div class=&quot;item disabled&quot;&gt;Invalid item&lt;/div&gt; 
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h3>Dropdown with header</h3>
+<pre><code class="language-html">&lt;div class=&quot;dropdown&quot; data-toggle=&quot;dropdown&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;color&quot;&gt;
+  &lt;i class=&quot;dropdown-icon&quot;&gt;&lt;/i&gt;
+  &lt;div class=&quot;default-text&quot;&gt;Blue&lt;/div&gt;
+  &lt;div class=&quot;dropdown-menu&quot;&gt;
+    &lt;div class=&quot;header&quot;&gt;Header&lt;/div&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;blue&quot; data-selected=true&gt;Blue&lt;/div&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;red&quot;&gt;Red&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h3>Dropdown with divider</h3>
+<pre><code class="language-html">&lt;div class=&quot;dropdown&quot; data-toggle=&quot;dropdown&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;color&quot;&gt;
+  &lt;i class=&quot;dropdown-icon&quot;&gt;&lt;/i&gt;
+  &lt;div class=&quot;default-text&quot;&gt;Blue&lt;/div&gt;
+  &lt;div class=&quot;dropdown-menu&quot;&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;blue&quot; data-selected=true&gt;Blue&lt;/div&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;red&quot;&gt;Red&lt;/div&gt;
+    &lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;orange&quot;&gt;Orange&lt;/div&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;yellow&quot;&gt;Yellow&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h3>Dropdown with search input</h3>
+<pre><code class="language-html">&lt;div class=&quot;dropdown&quot; data-search=&quot;true&quot; data-toggle=&quot;dropdown&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;color&quot;&gt;
+  &lt;i class=&quot;dropdown-icon&quot;&gt;&lt;/i&gt;
+  &lt;div class=&quot;default-text&quot;&gt;Blue&lt;/div&gt;
+  &lt;div class=&quot;dropdown-menu&quot;&gt;
+    &lt;div class=&quot;input-search-container&quot;&gt;
+      &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;search&quot;&gt;    
+    &lt;/div&gt;          
+    &lt;div class=&quot;item&quot; data-value=&quot;blue&quot; data-selected=true&gt;Blue&lt;/div&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;red&quot;&gt;Red&lt;/div&gt;
+    &lt;div class=&quot;item&quot; data-value=&quot;green&quot;&gt;Green&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 </code></pre>
 <p>For the selected item, add <code>data-selected</code>.
 For each item, you must add <code>data-value</code>.
@@ -646,8 +667,18 @@ By default, the module will try to find the text node otherwise, it will check i
 <pre><code class="language-js">const dropdown = phonon.dropdown({
   element: '.dropdown'
 })
+
+// or for a search dropdown
+const searchDropdown = phonon.dropdown({
+  element: '.dropdown-search',
+  search: true
+})
 </code></pre>
 <h2>Options</h2>
+<ul>
+<li>search</li>
+<li>filterItem(search, item)</li>
+</ul>
 <h2>Methods</h2>
 <h3>getSelected()</h3>
 <p>Returns the selected value.</p>
@@ -690,10 +721,9 @@ By default, the module will try to find the text node otherwise, it will check i
 </code></pre>
 
       </div>
-      <div class="page" id="components/loader">
-        <h1 class="heading">loader</h1>
-        <h1>Loader</h1>
-<h2>Introduction</h2>
+      <div class="page" id="1_components/loader">
+        <h1 class="heading">Loader</h1>
+        <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Markup</h2>
 <pre><code class="language-html">&lt;div class=&quot;loader&quot;&gt;
@@ -734,10 +764,9 @@ loader.animate(false) // hide and stop the animation
 <p>@todo</p>
 
       </div>
-      <div class="page" id="components/nav">
-        <h1 class="heading">nav</h1>
-        <h1>Nav</h1>
-<h2>Introduction</h2>
+      <div class="page" id="1_components/nav">
+        <h1 class="heading">Nav</h1>
+        <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Tabs</h2>
 <h3>Markup</h3>
@@ -769,10 +798,9 @@ loader.animate(false) // hide and stop the animation
 <h4>hide()</h4>
 
       </div>
-      <div class="page" id="components/notification">
-        <h1 class="heading">notification</h1>
-        <h1>Notification</h1>
-<h2>Introduction</h2>
+      <div class="page" id="1_components/notification">
+        <h1 class="heading">Notification</h1>
+        <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Dynamically Created Notifications</h2>
 <p>By not using the <code>element</code> property, it will create a notification's HTMLElement dynamically.
@@ -821,80 +849,23 @@ notif.show()
 <h2>Events</h2>
 <p>It may be useful to use the events that affect your notification.
 To do this, you can use object and DOM events.</p>
-<table>
-<thead>
-<tr>
-<th>Event Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>show</td>
-<td>This event fires immediately when the &lt;code&gt;show&lt;/code&gt; instance method is called. If caused by a click, the clicked element is available as the &lt;code&gt;relatedTarget&lt;/code&gt; property of the event.</td>
-</tr>
-<tr>
-<td>shown</td>
-<td>This event is fired when the notification has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the &lt;code&gt;relatedTarget&lt;/code&gt; property of the event.</td>
-</tr>
-<tr>
-<td>hide</td>
-<td>This event is fired immediately when the &lt;code&gt;hide&lt;/code&gt; instance method has been called.</td>
-</tr>
-<tr>
-<td>hidden</td>
-<td>This event is fired when the notification has finished being hidden from the user (will wait for CSS transitions to complete).</td>
-</tr>
-</tbody>
-</table>
-<h3>Object Events</h3>
-<pre><code class="language-js">phonon.notification({
-  element: '#myNotification',
-  message: 'Hello',
-  show: () =&gt; { // or onShow
-    console.log('It works!')
-  },
-  shown: () =&gt; { // or onShown
-    console.log('It works!')
-  },
-  hide: () =&gt; { // or onHide
-    console.log('It works!')
-  },
-  hidden: () =&gt; { // or onHidden
-    console.log('It works!')
-  }
-})
-</code></pre>
-<h3>DOM Events</h3>
-<pre><code class="language-js">document.querySelector('.notification').addEventListener('show.ph.notification', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.notification').addEventListener('shown.ph.notification', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.notification').addEventListener('hide.ph.notification', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.notification').addEventListener('hidden.ph.notification', () =&gt; {
-  console.log('It works!')
-})
-</code></pre>
+<p>|     Event Type     |     Description      |
+|</p>
 
       </div>
-      <div class="page" id="components/off-canvas">
-        <h1 class="heading">off-canvas</h1>
-        <h1>Off Canvas</h1>
-<h2>Introduction</h2>
+      <div class="page" id="1_components/off-canvas">
+        <h1 class="heading">Off-canvas</h1>
+        <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Markup</h2>
 <pre><code class="language-html">&lt;!-- Button trigger off-canvas --&gt;
 &lt;button class=&quot;btn btn-primary&quot; data-toggle=&quot;off-canvas&quot; data-target=&quot;#exampleOffCanvas&quot;&gt;Launch demo off-canvas&lt;/button&gt;
 
-&lt;!-- Off-canvas --&gt;
-&lt;div class=&quot;off-canvas&quot; id=&quot;exampleOffCanvas&quot; role=&quot;navigation&quot; aria-hidden=&quot;true&quot; aria-labelledby=&quot;exampleOffCanvasTitle&quot;&gt;
+Add the class `off-canvas-left` if you want that the off-canvas appears from the left.
+Add the class `off-canvas-right` if you want that the off-canvas appears from the right.
+
+&lt;!-- Off-canvas, left direction --&gt;
+&lt;div class=&quot;off-canvas off-canvas-left&quot; id=&quot;exampleOffCanvas&quot; role=&quot;navigation&quot; aria-hidden=&quot;true&quot; aria-labelledby=&quot;exampleOffCanvasTitle&quot;&gt;
   &lt;div class=&quot;off-canvas-inner&quot;&gt;
     &lt;div class=&quot;off-canvas-content&quot;&gt;
       &lt;div class=&quot;off-canvas-header&quot;&gt;
@@ -937,72 +908,13 @@ offCanvas.show()
 <h2>Events</h2>
 <p>It may be useful to use the events that affect your off-canvas.
 To do this, you can use object and DOM events.</p>
-<table>
-<thead>
-<tr>
-<th>Event Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>show</td>
-<td>This event fires immediately when the &lt;code&gt;show&lt;/code&gt; instance method is called. If caused by a click, the clicked element is available as the &lt;code&gt;relatedTarget&lt;/code&gt; property of the event.</td>
-</tr>
-<tr>
-<td>shown</td>
-<td>This event is fired when the off-canvas has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the &lt;code&gt;relatedTarget&lt;/code&gt; property of the event.</td>
-</tr>
-<tr>
-<td>hide</td>
-<td>This event is fired immediately when the &lt;code&gt;hide&lt;/code&gt; instance method has been called.</td>
-</tr>
-<tr>
-<td>hidden</td>
-<td>This event is fired when the off-canvas has finished being hidden from the user (will wait for CSS transitions to complete).</td>
-</tr>
-</tbody>
-</table>
-<h3>Object Events</h3>
-<pre><code class="language-js">phonon.offCanvas({
-  element: '#exampleOffCanvas',
-  show: () =&gt; { // or onShow
-    console.log('It works!')
-  },
-  shown: () =&gt; { // or onShown
-    console.log('It works!')
-  },
-  hide: () =&gt; { // or onHide
-    console.log('It works!')
-  },
-  hidden: () =&gt; { // or onHidden
-    console.log('It works!')
-  }
-})
-</code></pre>
-<h3>DOM Events</h3>
-<pre><code class="language-js">document.querySelector('.off-canvas').addEventListener('show.ph.off-canvas', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.off-canvas').addEventListener('shown.ph.off-canvas', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.off-canvas').addEventListener('hide.ph.off-canvas', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.off-canvas').addEventListener('hidden.ph.off-canvas', () =&gt; {
-  console.log('It works!')
-})
-</code></pre>
+<p>|     Event Type     |     Description      |
+|</p>
 
       </div>
-      <div class="page" id="components/progress">
-        <h1 class="heading">progress</h1>
-        <h1>Progress</h1>
-<h2>Introduction</h2>
+      <div class="page" id="1_components/progress">
+        <h1 class="heading">Progress</h1>
+        <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Markup</h2>
 <pre><code class="language-html">&lt;div class=&quot;progress&quot; id=&quot;myProgress&quot;&gt;
@@ -1050,84 +962,95 @@ document.querySelector('.off-canvas').addEventListener('hidden.ph.off-canvas', (
 <h2>Events</h2>
 <p>It may be useful to use the events that affect your progress.
 To do this, you can use object and DOM events.</p>
-<table>
-<thead>
-<tr>
-<th>Event Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>show</td>
-<td>This event fires immediately when the &lt;code&gt;show&lt;/code&gt; instance method is called. If caused by a click, the clicked element is available as the &lt;code&gt;relatedTarget&lt;/code&gt; property of the event.</td>
-</tr>
-<tr>
-<td>shown</td>
-<td>This event is fired when the progress has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the &lt;code&gt;relatedTarget&lt;/code&gt; property of the event.</td>
-</tr>
-<tr>
-<td>hide</td>
-<td>This event is fired immediately when the &lt;code&gt;hide&lt;/code&gt; instance method has been called.</td>
-</tr>
-<tr>
-<td>hidden</td>
-<td>This event is fired when the progress has finished being hidden from the user (will wait for CSS transitions to complete).</td>
-</tr>
-</tbody>
-</table>
-<h3>Object Events</h3>
-<pre><code class="language-js">phonon.offCanvas({
-  element: '#exampleProgress',
-  show: () =&gt; { // or onShow
-    console.log('It works!')
-  },
-  shown: () =&gt; { // or onShown
-    console.log('It works!')
-  },
-  hide: () =&gt; { // or onHide
-    console.log('It works!')
-  },
-  hidden: () =&gt; { // or onHidden
-    console.log('It works!')
-  }
-})
-</code></pre>
-<h3>DOM Events</h3>
-<pre><code class="language-js">document.querySelector('.progress').addEventListener('show.ph.progress', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.progress').addEventListener('shown.ph.progress', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.progress').addEventListener('hide.ph.progress', () =&gt; {
-  console.log('It works!')
-})
-
-document.querySelector('.progress').addEventListener('hidden.ph.progress', () =&gt; {
-  console.log('It works!')
-})
-</code></pre>
+<p>|     Event Type     |     Description      |
+|</p>
 
       </div>
-      <div class="page" id="core">
-        <h1 class="heading">core</h1>
+      <div class="page" id="2_utilities">
+        <h1 class="heading">utilities</h1>
         
       </div>
 
-      <div class="page" id="core/ajax">
-        <h1 class="heading">ajax</h1>
-        <h1>Ajax</h1>
-<h2>Introduction</h2>
-<p>[WIP]</p>
+      <div class="page" id="2_utilities/network">
+        <h1 class="heading">Network</h1>
+        <h2>Introduction</h2>
+<p>Network is a simple module to know the status of the network, i. e. whether the user has a working connection or not.</p>
+<h2>Options</h2>
+<ul>
+<li>initialDelay</li>
+<li>delay</li>
+</ul>
+<h2>Events</h2>
+<h3>DOM Events</h3>
+<pre><code class="language-js">window.addEventListener('online.ph.network', (event) =&gt; {
+  console.log(`online ${event.detail.date}`)
+})
+
+window.addEventListener('offline.ph.network', (event) =&gt; {
+  console.log(`offline ${event.detail.date}`)
+})
+
+window.addEventListener('reconnecting.ph.network', (event) =&gt; {
+  console.log(`reconnecting ${event.detail.date}`)
+})
+
+window.addEventListener('reconnect.success.ph.network', (event) =&gt; {
+  console.log(`reconnect success ${event.detail.date}`)
+})
+
+window.addEventListener('reconnect.failure.ph.network', (event) =&gt; {
+  console.log(`reconnect failure ${event.detail.date}`)
+})
+</code></pre>
+<h3>Object Events</h3>
+<pre><code class="language-js">phonon.network({
+  online: (event) =&gt; {
+    console.log(`online ${event.date}`)
+  },
+  offline: (event) =&gt; {
+    console.log(`offline ${event.date}`)
+  },
+  reconnecting: (event) =&gt; {
+    console.log(`reconnecting ${event.date}`)
+  },
+  reconnectSuccess: (event) =&gt; {
+    console.log(`reconnect success ${event.date}`)
+  },
+  reconnectFailure: (event) =&gt; {
+    console.log(`reconnect failure ${event.date}`)
+  }
+})
+</code></pre>
+<h2>Use Case</h2>
+<p>It can be useful to notify the user of a network change with a notification.</p>
+<pre><code class="language-js">window.addEventListener('online.ph.network', (event) =&gt; {
+  phonon.notification({
+    message: 'You are now online.'
+  }).show()
+})
+
+window.addEventListener('offline.ph.network', (event) =&gt; {
+  phonon.notification({
+    message: 'You are now offline.'
+  }).show()
+})
+</code></pre>
 
       </div>
-      <div class="page" id="core/intl">
-        <h1 class="heading">intl</h1>
-        <h1>Internationalization (i18n)</h1>
-<h2>Introduction</h2>
+      <div class="page" id="3_hybrid-app-integration">
+        <h1 class="heading">hybrid-app-integration</h1>
+        
+      </div>
+
+      <div class="page" id="3_hybrid-app-integration/getting_started">
+        <h1 class="heading">Getting started</h1>
+        <h2>Cordova Integration</h2>
+<p>@todo</p>
+
+      </div>
+      <div class="page" id="3_hybrid-app-integration/intl">
+        <h1 class="heading">Internationalization (i18n)</h1>
+        <h2>Introduction</h2>
 <p>The internationalization plugin is meant to be simple and light to internationalize your application. You put the texts in each language as an object, the default language (fallback) as well as the user's preferred language and the plugin will display the text in the correct language in your views.</p>
 <h2>Configuration</h2>
 <pre><code class="language-js">const intl = phonon.intl({
@@ -1217,51 +1140,9 @@ intl.translate('welcome', {name1: 'Fabien', name2: 'Ben'})
 </code></pre>
 
       </div>
-      <div class="page" id="core/network">
-        <h1 class="heading">network</h1>
-        <h1>Network</h1>
-<h2>Introduction</h2>
-<p>Network is a simple module to know the status of the network, i. e. whether the user has a working connection or not.</p>
-<h2>Events</h2>
-<h3>DOM Events</h3>
-<pre><code class="language-js">window.addEventListener('online.ph.network', (event) =&gt; {
-  console.log(`online ${event.detail.date}`)
-})
-
-window.addEventListener('offline.ph.network', (event) =&gt; {
-  console.log(`offline ${event.detail.date}`)
-})
-</code></pre>
-<h3>Object Events</h3>
-<pre><code class="language-js">phonon.network({
-  online: (event) =&gt; {
-    console.log(`online ${event.date}`)
-  },
-  offline: (event) =&gt; {
-    console.log(`offline ${event.date}`)
-  }
-})
-</code></pre>
-<h2>Use Case</h2>
-<p>It can be useful to notify the user of a network change with a notification.</p>
-<pre><code class="language-js">window.addEventListener('online.ph.network', (event) =&gt; {
-  phonon.notification({
-    message: 'You are now online.'
-  }).show()
-})
-
-window.addEventListener('offline.ph.network', (event) =&gt; {
-  phonon.notification({
-    message: 'You are now offline.'
-  }).show()
-})
-</code></pre>
-
-      </div>
-      <div class="page" id="core/pager">
-        <h1 class="heading">pager</h1>
-        <h1>Pager</h1>
-<h2>Introduction</h2>
+      <div class="page" id="3_hybrid-app-integration/pager">
+        <h1 class="heading">Pager</h1>
+        <h2>Introduction</h2>
 <p>The pager is Phonon's basic module for designing an <strong>SPA</strong>-like application. It connects pages together by providing <strong>page navigation</strong> and allows you to listen to <strong>page events</strong>.
 It also offers a light and simple <strong>router</strong> for recovering parameters with the <code>hash</code> event.</p>
 <p>If your website or web application will not be designed in SPA mode, the pager will only be useful for its router.</p>
@@ -1291,91 +1172,25 @@ pager.select('myPage, mySecondPage') // two specific pages
 in the HTML view.</p>
 <pre><code class="language-js">pager.select('myPage').useTemplate('path/to/template.html')
 </code></pre>
-<p>You may want to use a template engine or change the initial behavior of Pager. In this case, the second argument is necessary.</p>
+<p>The page template will be injected as a node child where the attribute <code>data-push-template</code> is.</p>
+<pre><code class="language-html">&lt;div data-push-template&gt;
+  &lt;!-- The template will be injected here --&gt;
+&lt;/div&gt;
+</code></pre>
+<p>You may want to use a template engine or change the default behavior of Pager. In this case, the second argument of <code>useTemplate()</code> is useful.</p>
 <pre><code class="language-js">pager.select('myPage').useTemplate('path/to/template.html', (page, template, elements) =&gt; {
   page.querySelector('[data-template]').innerHTML = template
 })
 </code></pre>
-<p>The page template will be injected as a node child where the attribute <code>data-push-template</code> is.</p>
-<pre><code class="language-html">&lt;div data-push-template&gt;
-  &lt;!-- Template will replace this comment --&gt;
-&lt;/div&gt;
+<h2>Page Navigation</h2>
+<p>Page navigation works with the attribute <code>data-navigate</code>.</p>
+<pre><code class="language-html">&lt;button class=&quot;btn btn-primary&quot; data-navigate=&quot;myPage&quot;&gt;Go to page&lt;/button&gt;
 </code></pre>
+<p>If you want to force the back animation, you can use the attribute <code>data-pop-page</code>.</p>
+<p>&lt;button class=&quot;btn btn-primary&quot; data-navigate=&quot;home&quot; data-pop-page=&quot;true&quot;&gt;Back to home&lt;/button&gt;</p>
 <h2>Events</h2>
-<table>
-<thead>
-<tr>
-<th>Event Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>show</td>
-<td>This event fires immediately when the &lt;code&gt;show&lt;/code&gt; instance method is called. If caused by a click, the clicked element is available as the &lt;code&gt;relatedTarget&lt;/code&gt; property of the event.</td>
-</tr>
-<tr>
-<td>shown</td>
-<td>This event is fired when the dialog has been made visible to the user (will wait for CSS transitions to complete). If caused by a click, the clicked element is available as the &lt;code&gt;relatedTarget&lt;/code&gt; property of the event.</td>
-</tr>
-<tr>
-<td>hide</td>
-<td>This event is fired immediately when the &lt;code&gt;hide&lt;/code&gt; instance method has been called.</td>
-</tr>
-<tr>
-<td>hidden</td>
-<td>This event is fired when the dialog has finished being hidden from the user (will wait for CSS transitions to complete).</td>
-</tr>
-<tr>
-<td>hash</td>
-<td>This event is fired when the hash has changed.</td>
-</tr>
-</tbody>
-</table>
-<h3>Object Events</h3>
-<pre><code class="language-js">pager.select('myPage').addEvents({
-  show: () =&gt; {
-    console.log('It works!')
-  },
-  shown: () =&gt; {
-    console.log('It works!')
-  },
-  hide: () =&gt; {
-    console.log('It works!')
-  },
-  hidden: () =&gt; {
-    console.log('It works!')
-  },
-  hash: (param1, param2) =&gt; {
-    console.log('It works!')
-  }
-})
-</code></pre>
-<h3>DOM Events</h3>
-<p>For DOM events, you must specify the name of the page followed by a dot and then the event in question.
-Note that DOM events are dispatched in both <code>window</code> and <code>document</code>.</p>
-<pre><code class="language-js">window.addEventListener('myPage.show', () =&gt; {
-  console.log('It works!')
-})
-
-window.addEventListener('myPage.shown', () =&gt; {
-  console.log('It works!')
-})
-
-window.addEventListener('myPage.hide', () =&gt; {
-  console.log('It works!')
-})
-
-window.addEventListener('myPage.hidden', () =&gt; {
-  console.log('It works!')
-})
-
-window.addEventListener('myPage.hash', event =&gt; {
-  console.log('It works!')
-  const firstParam = event.detail[0]
-  const secondParam = event.detail[1]
-})
-</code></pre>
+<p>|     Event Type     |     Description      |
+|</p>
 
       </div>
 

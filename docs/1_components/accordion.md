@@ -1,4 +1,6 @@
-# Accordion
+---
+title: Accordion
+---
 
 ## Introduction
 
@@ -51,3 +53,7 @@ accordion.show('#myCollapse')
 ```js
 accordion.hide('#myCollapse')
 ```
+
+## Events
+
+@todo
