@@ -4915,7 +4915,7 @@ phonon.autocomplete = (function (Awesomplete) {
       return false;
   }
 
-  function openFrom(popover, trigger) {
+  function openFrom(popover, trigger, options) {
       var page = document.querySelector('.app-page.app-active');
       trigger = (typeof trigger === 'string' ? page.querySelector(trigger) : trigger);
 
@@ -4926,9 +4926,34 @@ phonon.autocomplete = (function (Awesomplete) {
       if(!openable(popover)) return
 
       var rect = trigger.getBoundingClientRect();
-      popover.style.width = trigger.clientWidth + 'px';
-      popover.style.top = rect.top + 'px';
-      popover.style.left = rect.left + 'px';
+      var width = (options && options.width) ? options.width : trigger.clientWidth;
+      var top = rect.top;
+      var left = rect.left;
+      
+      if (options && options.direction) {
+        var deltaLeft = (trigger.clientWidth - width) / 2;
+        var deltaTop = 0;
+        var margin = options.margin ? options.margin : 0;
+
+        var directions = options.direction.split(' ');
+        for (var i = 0; i < directions.length; i++) {
+          if (directions[i] === 'left') {
+            deltaLeft = -width - margin;
+          } else if (directions[i] === 'right') {
+            deltaLeft = trigger.clientWidth + margin;
+          } else if (directions[i] === 'top') {
+            deltaTop = -popover.clientHeight - margin;
+          } else if (directions[i] === 'bottom') {
+            deltaTop = trigger.clientHeight + margin;
+          }
+        }
+
+        left += deltaLeft;
+        top += deltaTop;
+      }
+      popover.style.top = top + 'px';
+      popover.style.left = left + 'px';
+      popover.style.width = width + 'px';
   }
 
   function open(popover, direction) {
@@ -5005,8 +5030,8 @@ phonon.autocomplete = (function (Awesomplete) {
               open(popover, direction);
               return this;
           },
-          openFrom: function (trigger) {
-              openFrom(popover, trigger);
+          openFrom: function (trigger, options) {
+              openFrom(popover, trigger, options);
               return this;
           },
           close: function () {
