@@ -1,5 +1,5 @@
 ---
-title: NavBar
+title: Navbar
 ---
 
 ## Introduction
