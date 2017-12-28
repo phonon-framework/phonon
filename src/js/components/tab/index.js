@@ -135,22 +135,20 @@ const Tab = (() => {
     })
   }
 
-  if (tabs) {
-    document.addEventListener('click', (event) => {
-      const dataToggleAttr = event.target.getAttribute('data-toggle')
-      if (dataToggleAttr && dataToggleAttr === NAME) {
-        const id = event.target.getAttribute('href')
+  document.addEventListener('click', (event) => {
+    const dataToggleAttr = event.target.getAttribute('data-toggle')
+    if (dataToggleAttr && dataToggleAttr === NAME) {
+      const id = event.target.getAttribute('href')
 
-        const component = components.find(c => c.getElement().getAttribute('href') === id)
+      const component = components.find(c => c.getElement().getAttribute('href') === id)
 
-        if (!component) {
-          return
-        }
-
-        component.show()
+      if (!component) {
+        return
       }
-    })
-  }
+
+      component.show()
+    }
+  })
 
   return Tab
 })()

@@ -281,30 +281,28 @@ const OffCanvas = (() => {
     })
   }
 
-  if (offCanvas) {
-    document.addEventListener('click', (event) => {
-      const target = findTargetByAttr(event.target, 'data-toggle')
-      if (!target) {
+  document.addEventListener('click', (event) => {
+    const target = findTargetByAttr(event.target, 'data-toggle')
+    if (!target) {
+      return
+    }
+
+    const dataToggleAttr = target.getAttribute('data-toggle')
+    if (dataToggleAttr && dataToggleAttr === NAME) {
+      const id = target.getAttribute('data-target')
+      const element = document.querySelector(id)
+
+      const component = components.find(c => c.element === element)
+
+      if (!component) {
         return
       }
 
-      const dataToggleAttr = target.getAttribute('data-toggle')
-      if (dataToggleAttr && dataToggleAttr === NAME) {
-        const id = target.getAttribute('data-target')
-        const element = document.querySelector(id)
+      target.blur()
 
-        const component = components.find(c => c.element === element)
-
-        if (!component) {
-          return
-        }
-
-        target.blur()
-
-        component.offCanvas.show()
-      }
-    })
-  }
+      component.offCanvas.show()
+    }
+  })
 
   return OffCanvas
 })()

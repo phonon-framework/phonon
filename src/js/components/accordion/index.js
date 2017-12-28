@@ -144,36 +144,34 @@ const Accordion = (() => {
     })
   }
 
-  if (accordions) {
-    document.addEventListener('click', (event) => {
-      const dataToggleAttr = event.target.getAttribute('data-toggle')
-      if (dataToggleAttr && dataToggleAttr === NAME) {
-        const collapseId = event.target.getAttribute('data-target') || event.target.getAttribute('href')
-        const collapseEl = document.querySelector(collapseId)
+  document.addEventListener('click', (event) => {
+    const dataToggleAttr = event.target.getAttribute('data-toggle')
+    if (dataToggleAttr && dataToggleAttr === NAME) {
+      const collapseId = event.target.getAttribute('data-target') || event.target.getAttribute('href')
+      const collapseEl = document.querySelector(collapseId)
 
-        const accordion = findTargetByClass(event.target, 'accordion')
+      const accordion = findTargetByClass(event.target, 'accordion')
 
-        if (accordion === null) {
-          return
-        }
-
-        const accordionId = accordion.getAttribute('id')
-        const component = components.find(c => c.getElement().getAttribute('id') === accordionId)
-
-        if (!component) {
-          return
-        }
-
-        // if the collapse has been added programmatically, we add it
-        const targetCollapse = component.getCollapses().find(c => c.getElement() === collapseEl)
-        if (!targetCollapse) {
-          component.addCollapse(collapseEl)
-        }
-
-        component.show(collapseId)
+      if (accordion === null) {
+        return
       }
-    })
-  }
+
+      const accordionId = accordion.getAttribute('id')
+      const component = components.find(c => c.getElement().getAttribute('id') === accordionId)
+
+      if (!component) {
+        return
+      }
+
+      // if the collapse has been added programmatically, we add it
+      const targetCollapse = component.getCollapses().find(c => c.getElement() === collapseEl)
+      if (!targetCollapse) {
+        component.addCollapse(collapseEl)
+      }
+
+      component.show(collapseId)
+    }
+  })
 
   return Accordion
 })()

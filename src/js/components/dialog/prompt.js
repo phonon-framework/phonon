@@ -81,29 +81,27 @@ const Prompt = (() => {
     })
   }
 
-  if (dialogs) {
-    document.addEventListener('click', (event) => {
-      const dropdownMenu = findTargetByClass(event.target, 'dropdown-menu')
-      if (dropdownMenu) {
-        return
-      }
+  document.addEventListener('click', (event) => {
+    const dropdownMenu = findTargetByClass(event.target, 'dropdown-menu')
+    if (dropdownMenu) {
+      return
+    }
 
-      const dropdown = findTargetByClass(event.target, 'dropdown')
+    const dropdown = findTargetByClass(event.target, 'dropdown')
 
-      if (dropdown) {
-        const dataToggleAttr = dropdown.getAttribute('data-toggle')
-        if (dataToggleAttr && dataToggleAttr === NAME && dropdown) {
-          const component = components.find(c => c.getElement() === dropdown)
+    if (dropdown) {
+      const dataToggleAttr = dropdown.getAttribute('data-toggle')
+      if (dataToggleAttr && dataToggleAttr === NAME && dropdown) {
+        const component = components.find(c => c.getElement() === dropdown)
 
-          if (!component) {
-            return
-          }
-
-          component.toggle()
+        if (!component) {
+          return
         }
+
+        component.toggle()
       }
-    })
-  }
+    }
+  })
 
   return Prompt
 })()

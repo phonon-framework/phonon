@@ -155,29 +155,27 @@ const Collapse = (() => {
     })
   }
 
-  if (collapses) {
-    document.addEventListener('click', (event) => {
-      const target = findTargetByAttr(event.target, 'data-toggle')
-      if (!target) {
+  document.addEventListener('click', (event) => {
+    const target = findTargetByAttr(event.target, 'data-toggle')
+    if (!target) {
+      return
+    }
+
+    const dataToggleAttr = target.getAttribute('data-toggle')
+
+    if (dataToggleAttr && dataToggleAttr === NAME) {
+      let id = target.getAttribute('data-target') || target.getAttribute('href')
+      id = id.replace('#', '')
+
+      const component = components.find(c => c.getElement().getAttribute('id') === id)
+
+      if (!component) {
         return
       }
 
-      const dataToggleAttr = target.getAttribute('data-toggle')
-
-      if (dataToggleAttr && dataToggleAttr === NAME) {
-        let id = target.getAttribute('data-target') || target.getAttribute('href')
-        id = id.replace('#', '')
-
-        const component = components.find(c => c.getElement().getAttribute('id') === id)
-
-        if (!component) {
-          return
-        }
-
-        component.toggle()
-      }
-    })
-  }
+      component.toggle()
+    }
+  })
 
   return Collapse
 })()

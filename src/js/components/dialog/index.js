@@ -236,26 +236,24 @@ const Dialog = (() => {
     })
   }
 
-  if (dialogs) {
-    document.addEventListener('click', (event) => {
-      const dataToggleAttr = event.target.getAttribute('data-toggle')
-      if (dataToggleAttr && dataToggleAttr === NAME) {
-        const id = event.target.getAttribute('data-target')
-        const element = document.querySelector(id)
+  document.addEventListener('click', (event) => {
+    const dataToggleAttr = event.target.getAttribute('data-toggle')
+    if (dataToggleAttr && dataToggleAttr === NAME) {
+      const id = event.target.getAttribute('data-target')
+      const element = document.querySelector(id)
 
-        const component = components.find(c => c.element === element)
+      const component = components.find(c => c.element === element)
 
-        if (!component) {
-          return
-        }
-
-        // remove the focus state of the trigger
-        event.target.blur()
-
-        component.dialog.show()
+      if (!component) {
+        return
       }
-    })
-  }
+
+      // remove the focus state of the trigger
+      event.target.blur()
+
+      component.dialog.show()
+    }
+  })
 
   return Dialog
 })()
