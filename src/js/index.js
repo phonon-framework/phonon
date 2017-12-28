@@ -6,7 +6,7 @@
 
 import Pager from './hybrid-apps/pager/index'
 import Intl from './hybrid-apps/intl'
-import Network from './utilities/network'
+import Network from './common/network'
 
 // components
 import Dialog from './components/dialog'
@@ -22,16 +22,6 @@ import Dropdown from './components/dropdown'
 import DropdownSearch from './components/dropdown/search'
 
 const api = {}
-
-/**
- * ------------------------------------------------------------------------
- * Configuration
- * ------------------------------------------------------------------------
- */
-api.config = {
-  // global config
-  debug: true,
-}
 
 /**
  * ------------------------------------------------------------------------
@@ -132,12 +122,12 @@ api.offCanvas = OffCanvas._DOMInterface
  */
 api.dropdown = (options) => {
   if (options.search) {
-    // generic dropdown
-    return Dropdown._DOMInterface
-  } else {
     // search dropdown
     return DropdownSearch._DOMInterface
   }
+
+  // generic dropdown
+  return Dropdown._DOMInterface
 }
 
 // Make the API live

@@ -320,13 +320,6 @@ const Pager = (() => {
         throw new Error(`${NAME}. The default page must exist for forcing its launch!`)
       }
 
-      // Log the device info
-      if (phonon.debug) {
-        console.log('Starting Phonon in ' + platform.description)
-        console.log(this.pages.length + ' pages found')
-        console.log('Loading ' + pageName)
-      }
-
       /*
        * if the app is configurated to use hash tracking
        * we add the page dynamically in the url
