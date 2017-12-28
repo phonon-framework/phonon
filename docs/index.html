@@ -341,19 +341,25 @@ a {
           <a href="#1_components">components</a>
           <ul>
             <li><a href="#1_components/accordion">Accordion</a></li>
+            <li><a href="#1_components/button">Button</a></li>
             <li><a href="#1_components/collapse">Collapse</a></li>
             <li><a href="#1_components/dialog">Dialog</a></li>
             <li><a href="#1_components/dropdown">Dropdown</a></li>
+            <li><a href="#1_components/form">Form</a></li>
+            <li><a href="#1_components/grid">Grid</a></li>
             <li><a href="#1_components/loader">Loader</a></li>
             <li><a href="#1_components/nav">Nav</a></li>
+            <li><a href="#1_components/navbar">NavBar</a></li>
             <li><a href="#1_components/notification">Notification</a></li>
             <li><a href="#1_components/off-canvas">Off-canvas</a></li>
             <li><a href="#1_components/progress">Progress</a></li>
+            <li><a href="#1_components/table">Table</a></li>
           </ul>
         </li>
         <li>
           <a href="#2_utilities">utilities</a>
           <ul>
+            <li><a href="#2_utilities/borders">Borders</a></li>
             <li><a href="#2_utilities/network">Network</a></li>
           </ul>
         </li>
@@ -481,6 +487,16 @@ dialog.show()
 <h3>hide(collapse: any)</h3>
 <pre><code class="language-js">accordion.hide('#myCollapse')
 </code></pre>
+<h2>Events</h2>
+<p>@todo</p>
+
+      </div>
+      <div class="page" id="1_components/button">
+        <h1 class="heading">Button</h1>
+        <h2>Introduction</h2>
+<p>[WIP]</p>
+<h2>Button</h2>
+<h2>Button group</h2>
 
       </div>
       <div class="page" id="1_components/collapse">
@@ -721,6 +737,153 @@ const searchDropdown = phonon.dropdown({
 </code></pre>
 
       </div>
+      <div class="page" id="1_components/form">
+        <h1 class="heading">Form</h1>
+        <h2>Introduction</h2>
+<h2>Input</h2>
+<pre><code class="language-html">&lt;form&gt;
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;exampleFormControlInput1&quot;&gt;Email address&lt;/label&gt;
+    &lt;input type=&quot;email&quot; class=&quot;form-control&quot; id=&quot;exampleFormControlInput1&quot; placeholder=&quot;name@example.com&quot;&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+<h3>Sizing</h3>
+<pre><code class="language-html">&lt;input class=&quot;form-control form-control-lg&quot; type=&quot;text&quot; placeholder=&quot;.form-control-lg&quot;&gt;
+&lt;input class=&quot;form-control&quot; type=&quot;text&quot; placeholder=&quot;Default input&quot;&gt;
+&lt;input class=&quot;form-control form-control-sm&quot; type=&quot;text&quot; placeholder=&quot;.form-control-sm&quot;
+</code></pre>
+<h3>Readonly</h3>
+<pre><code class="language-html">&lt;input class=&quot;form-control&quot; type=&quot;text&quot; placeholder=&quot;Readonly input here…&quot; readonly&gt;
+</code></pre>
+<h3>Disabled</h3>
+<pre><code class="language-html">&lt;input class=&quot;form-control&quot; id=&quot;disabledInput&quot; type=&quot;text&quot; placeholder=&quot;Disabled input here...&quot; disabled&gt;
+</code></pre>
+<h3>Readonly plain text</h3>
+<pre><code class="language-html">&lt;form&gt;
+  &lt;div class=&quot;form-group row&quot;&gt;
+    &lt;label for=&quot;staticEmail&quot; class=&quot;col-sm-2 col-form-label&quot;&gt;Email&lt;/label&gt;
+    &lt;div class=&quot;col-sm-10&quot;&gt;
+      &lt;input type=&quot;text&quot; readonly class=&quot;form-control-plaintext&quot; id=&quot;staticEmail&quot; value=&quot;email@example.com&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;form-group row&quot;&gt;
+    &lt;label for=&quot;inputPassword&quot; class=&quot;col-sm-2 col-form-label&quot;&gt;Password&lt;/label&gt;
+    &lt;div class=&quot;col-sm-10&quot;&gt;
+      &lt;input type=&quot;password&quot; class=&quot;form-control&quot; id=&quot;inputPassword&quot; placeholder=&quot;Password&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+<h2>Form with grid</h2>
+<pre><code class="language-html">&lt;form&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;First name&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;Last name&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+<p>More compact with <code>.form-row</code>.</p>
+<pre><code class="language-html">&lt;form&gt;
+  &lt;div class=&quot;form-row&quot;&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;First name&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;Last name&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+<h2>Horizontal form</h2>
+<pre><code class="language-html">&lt;form&gt;
+  &lt;div class=&quot;form-group row&quot;&gt;
+    &lt;label for=&quot;inputEmail3&quot; class=&quot;col-sm-2 col-form-label&quot;&gt;Email&lt;/label&gt;
+    &lt;div class=&quot;col-sm-10&quot;&gt;
+      &lt;input type=&quot;email&quot; class=&quot;form-control&quot; id=&quot;inputEmail3&quot; placeholder=&quot;Email&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;form-group row&quot;&gt;
+    &lt;label for=&quot;inputPassword3&quot; class=&quot;col-sm-2 col-form-label&quot;&gt;Password&lt;/label&gt;
+    &lt;div class=&quot;col-sm-10&quot;&gt;
+      &lt;input type=&quot;password&quot; class=&quot;form-control&quot; id=&quot;inputPassword3&quot; placeholder=&quot;Password&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+<h2>Validation</h2>
+<h3>Info</h3>
+<pre><code class="language-html">&lt;label for=&quot;inputPassword5&quot;&gt;Password&lt;/label&gt;
+&lt;input type=&quot;password&quot; id=&quot;inputPassword5&quot; class=&quot;form-control&quot; aria-describedby=&quot;passwordHelpBlock&quot;&gt;
+&lt;small id=&quot;passwordHelpBlock&quot; class=&quot;form-text text-muted&quot;&gt;
+  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+&lt;/small&gt;
+</code></pre>
+<h3>Error</h3>
+<pre><code class="language-html">&lt;label for=&quot;inputPassword5&quot;&gt;Password&lt;/label&gt;
+&lt;input type=&quot;password&quot; id=&quot;inputPassword5&quot; class=&quot;form-control is-invalid&quot; aria-describedby=&quot;passwordHelpBlock&quot;&gt;
+&lt;small id=&quot;passwordHelpBlock&quot; class=&quot;invalid-feedback&quot;&gt;
+  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+&lt;/small&gt;
+</code></pre>
+<h3>Success</h3>
+<pre><code class="language-html">&lt;label for=&quot;inputPassword5&quot;&gt;Password&lt;/label&gt;
+&lt;input type=&quot;password&quot; id=&quot;inputPassword5&quot; class=&quot;form-control is-valid&quot; aria-describedby=&quot;passwordHelpBlock&quot;&gt;
+&lt;small id=&quot;passwordHelpBlock&quot; class=&quot;valid-feedback&quot;&gt;
+  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+&lt;/small&gt;
+</code></pre>
+<h2>Checkboxes</h2>
+<pre><code class="language-html">&lt;label class=&quot;custom-control custom-checkbox&quot;&gt;
+  &lt;input type=&quot;checkbox&quot; class=&quot;custom-control-input&quot;&gt;
+  &lt;span class=&quot;custom-control-indicator&quot;&gt;&lt;/span&gt;
+  &lt;span class=&quot;custom-control-description&quot;&gt;Check this custom checkbox&lt;/span&gt;
+&lt;/label&gt;
+</code></pre>
+<h2>Radios</h2>
+<pre><code class="language-html">&lt;label class=&quot;custom-control custom-radio&quot;&gt;
+  &lt;input id=&quot;radio1&quot; name=&quot;radio&quot; type=&quot;radio&quot; class=&quot;custom-control-input&quot;&gt;
+  &lt;span class=&quot;custom-control-indicator&quot;&gt;&lt;/span&gt;
+  &lt;span class=&quot;custom-control-description&quot;&gt;Toggle this custom radio&lt;/span&gt;
+&lt;/label&gt;
+&lt;label class=&quot;custom-control custom-radio&quot;&gt;
+  &lt;input id=&quot;radio2&quot; name=&quot;radio&quot; type=&quot;radio&quot; class=&quot;custom-control-input&quot;&gt;
+  &lt;span class=&quot;custom-control-indicator&quot;&gt;&lt;/span&gt;
+  &lt;span class=&quot;custom-control-description&quot;&gt;Or toggle this other custom radio&lt;/span&gt;
+&lt;/label&gt;
+</code></pre>
+<h3>Stacked</h3>
+<pre><code class="language-html">&lt;div class=&quot;custom-controls-stacked&quot;&gt;
+  &lt;label class=&quot;custom-control custom-radio&quot;&gt;
+    &lt;input id=&quot;radioStacked3&quot; name=&quot;radio-stacked&quot; type=&quot;radio&quot; class=&quot;custom-control-input&quot;&gt;
+    &lt;span class=&quot;custom-control-indicator&quot;&gt;&lt;/span&gt;
+    &lt;span class=&quot;custom-control-description&quot;&gt;Toggle this custom radio&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;label class=&quot;custom-control custom-radio&quot;&gt;
+    &lt;input id=&quot;radioStacked4&quot; name=&quot;radio-stacked&quot; type=&quot;radio&quot; class=&quot;custom-control-input&quot;&gt;
+    &lt;span class=&quot;custom-control-indicator&quot;&gt;&lt;/span&gt;
+    &lt;span class=&quot;custom-control-description&quot;&gt;Or toggle this other custom radio&lt;/span&gt;
+  &lt;/label&gt;
+&lt;/div&gt;
+</code></pre>
+<h2>File browser</h2>
+<pre><code class="language-html">&lt;label class=&quot;custom-file&quot;&gt;
+  &lt;input type=&quot;file&quot; id=&quot;file2&quot; class=&quot;custom-file-input&quot;&gt;
+  &lt;span class=&quot;custom-file-control&quot;&gt;&lt;/span&gt;
+&lt;/label&gt;
+</code></pre>
+
+      </div>
+      <div class="page" id="1_components/grid">
+        <h1 class="heading">Grid</h1>
+        <h2>Introduction</h2>
+<p>[WIP]</p>
+
+      </div>
       <div class="page" id="1_components/loader">
         <h1 class="heading">Loader</h1>
         <h2>Introduction</h2>
@@ -790,12 +953,18 @@ loader.animate(false) // hide and stop the animation
 </code></pre>
 <h3>JavaScript</h3>
 <pre><code class="language-js">const tab = phonon.tab({
-  element: '[href=&quot;#profile&quot;]'
+  element: '[href=&quot;#home&quot;]'
 })
 </code></pre>
 <h3>Methods</h3>
 <h4>show()</h4>
 <h4>hide()</h4>
+
+      </div>
+      <div class="page" id="1_components/navbar">
+        <h1 class="heading">NavBar</h1>
+        <h2>Introduction</h2>
+<p>[WIP]</p>
 
       </div>
       <div class="page" id="1_components/notification">
@@ -966,15 +1135,32 @@ To do this, you can use object and DOM events.</p>
 |</p>
 
       </div>
+      <div class="page" id="1_components/table">
+        <h1 class="heading">Table</h1>
+        <h2>Introduction</h2>
+<p>[WIP]</p>
+
+      </div>
       <div class="page" id="2_utilities">
         <h1 class="heading">utilities</h1>
         
       </div>
 
+      <div class="page" id="2_utilities/borders">
+        <h1 class="heading">Borders</h1>
+        <h2>Introduction</h2>
+<p>[WIP]</p>
+
+      </div>
       <div class="page" id="2_utilities/network">
         <h1 class="heading">Network</h1>
         <h2>Introduction</h2>
 <p>Network is a simple module to know the status of the network, i. e. whether the user has a working connection or not.</p>
+<pre><code class="language-js">const network = phonon.network({
+  initialDelay: 3000,
+  delay: 5000
+})
+</code></pre>
 <h2>Options</h2>
 <ul>
 <li>initialDelay</li>

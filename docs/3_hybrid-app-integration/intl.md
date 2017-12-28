@@ -26,7 +26,7 @@ const intl = phonon.intl({
 })
 ```
 
-## HTML Markup
+## Markup
 
 The HTML elements with the `data-i18n` attribute will be modified by the module. For example, **text** will insert the internationalized text into the element.
 

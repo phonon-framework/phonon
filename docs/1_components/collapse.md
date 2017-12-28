@@ -26,7 +26,6 @@ title: Collapse
 ### Options
 
 - toggle: toggles immediately once the collapse is initialized when called in JavaScript.
-- parent
 
 ## JavaScript
 

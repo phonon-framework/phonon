@@ -8,12 +8,12 @@ title: Off-canvas
 
 ## Markup
 
+Add the class `off-canvas-left` if you want that the off-canvas appears from the left.
+Add the class `off-canvas-right` if you want that the off-canvas appears from the right.
+
 ```html
 <!-- Button trigger off-canvas -->
 <button class="btn btn-primary" data-toggle="off-canvas" data-target="#exampleOffCanvas">Launch demo off-canvas</button>
-
-Add the class `off-canvas-left` if you want that the off-canvas appears from the left.
-Add the class `off-canvas-right` if you want that the off-canvas appears from the right.
 
 <!-- Off-canvas, left direction -->
 <div class="off-canvas off-canvas-left" id="exampleOffCanvas" role="navigation" aria-hidden="true" aria-labelledby="exampleOffCanvasTitle">

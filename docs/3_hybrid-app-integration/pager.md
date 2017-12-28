@@ -20,7 +20,7 @@ const pager = phonon.pager({
 })
 ```
 
-## HTML Markup
+## Markup
 
 A SPA page is defined by setting up the `app-page` class and a unique data-page attribute.
 
