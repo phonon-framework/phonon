@@ -1,7 +1,7 @@
 // load Unit.js module
 import { JSDOM } from 'jsdom'
 import test from 'unit.js'
-import Intl from '../src/js/core/intl'
+import Intl from '../src/js/hybrid-apps/intl'
 
 const dom = new JSDOM('<body></body>', { pretendToBeVisual: true })
 
