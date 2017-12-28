@@ -12,6 +12,14 @@ Starting with v2.0, Phonon takes full advantage of ECMAScript.
 
 The best place to start with Phonon is the documentation place.
 
+To start without reading text, several options are available:
+
+- [Download the latest release](https://github.com/quark-dev/Phonon-Framework/releases) and use dist files.
+- Clone the repo: `git clone https://github.com/quark-dev/Phonon-Framework.git`. Do not forget to run `npm install`.
+- Install with [npm](https://www.npmjs.com): `npm install phonon`.
+- Install with [Bower](https://bower.io): `bower install phonon`.
+- Use [CDNJS](https://cdnjs.com/libraries/PhononJs).
+
 
 ## Versioning
 
