@@ -1,3 +1,7 @@
+---
+title: Migration
+---
+
 # Upgrade guide
 
 Upgrading to 2.0 from 1.x.
