@@ -335,6 +335,7 @@ a {
             <li><a href="#0_getting-started/1_quick-start">Quick start</a></li>
             <li><a href="#0_getting-started/2_custom-build">Custom builds</a></li>
             <li><a href="#0_getting-started/3_theming">Theming</a></li>
+            <li><a href="#0_getting-started/4_migration">Migration</a></li>
           </ul>
         </li>
         <li>
@@ -349,7 +350,7 @@ a {
             <li><a href="#1_components/grid">Grid</a></li>
             <li><a href="#1_components/loader">Loader</a></li>
             <li><a href="#1_components/nav">Nav</a></li>
-            <li><a href="#1_components/navbar">NavBar</a></li>
+            <li><a href="#1_components/navbar">Navbar</a></li>
             <li><a href="#1_components/notification">Notification</a></li>
             <li><a href="#1_components/off-canvas">Off-canvas</a></li>
             <li><a href="#1_components/progress">Progress</a></li>
@@ -361,6 +362,7 @@ a {
           <ul>
             <li><a href="#2_utilities/borders">Borders</a></li>
             <li><a href="#2_utilities/network">Network</a></li>
+            <li><a href="#2_utilities/unselectable">Unselectable</a></li>
           </ul>
         </li>
         <li>
@@ -369,6 +371,12 @@ a {
             <li><a href="#3_hybrid-app-integration/getting_started">Getting started</a></li>
             <li><a href="#3_hybrid-app-integration/intl">Internationalization (i18n)</a></li>
             <li><a href="#3_hybrid-app-integration/pager">Pager</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#4_extend">extend</a>
+          <ul>
+            <li><a href="#4_extend/icons">Icons</a></li>
           </ul>
         </li>
       </ul>
@@ -412,6 +420,27 @@ They provide convenient solutions that can be installed with no effort and that 
 <p>Option 2:</p>
 <pre><code class="language-js">import 'phonon/dist/js/phonon'
 </code></pre>
+<h2>Starter Template</h2>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;!-- Required meta tags --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;&gt;
+
+    &lt;!-- Bootstrap CSS --&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;@todo.css&quot;&gt;
+
+    &lt;title&gt;Hello, world!&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello, world!&lt;/h1&gt;
+
+    &lt;!-- Optional JavaScript --&gt;
+    &lt;script src=&quot;@todo&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 
       </div>
       <div class="page" id="0_getting-started/2_custom-build">
@@ -441,6 +470,202 @@ dialog.show()
       <div class="page" id="0_getting-started/3_theming">
         <h1 class="heading">Theming</h1>
         <p>Edit variables.</p>
+
+      </div>
+      <div class="page" id="0_getting-started/4_migration">
+        <h1 class="heading">Migration</h1>
+        <h1>Upgrade guide</h1>
+<p>Upgrading to 2.0 from 1.x.</p>
+<p><strong>Estimated time</strong>: 4 hours.</p>
+<p><strong>Prepare a coffee</strong> and start it right now!</p>
+<h2>Table of contents</h2>
+<ul>
+<li>Core features</li>
+<li>phonon.options()</li>
+<li>Page events</li>
+<li>Page templates</li>
+<li>Navigation between pages</li>
+<li>Ajax</li>
+<li>Internationalisation (i18n)</li>
+<li>Components</li>
+<li>Utility</li>
+</ul>
+<h2>Core features</h2>
+<h3>phonon.options() &lt;i&gt;Removed&lt;/i&gt;</h3>
+<p>Options are now passed in:</p>
+<pre><code class="language-js">const pager = phonon.pager({
+  hashPrefix: '#!',
+  useHash: true,
+  defaultPage: 'one',
+  animatePages: false,
+})
+</code></pre>
+<h3>Page events &lt;i&gt;Changed&lt;/i&gt;</h3>
+<p>For a given page <code>myPage</code> for example.
+Assuming this page is present in the DOM like the following:</p>
+<pre><code class="language-html">&lt;div data-page=&quot;myPage&quot;&gt;&lt;/div&gt;
+</code></pre>
+<p>Page events are now used with <code>.select()</code>.</p>
+<pre><code class="language-js">pager.select('myPage').addEvents({
+  show: function () {
+    console.log('myPage: show')
+  },
+  shown: function () {
+    console.log('myPage: shown')
+  },
+  hide: function () {
+    console.log('myPage: hide')
+  },
+  hidden: function () {
+    console.log('myPage: hidden')
+  },
+  hash: function () {
+    console.log('myPage: hash')
+  }
+})
+</code></pre>
+<p>In some situations, it may be useful to listen to certain events that affect all pages.</p>
+<pre><code class="language-js">pager.select('*').addEvents({
+  show: function () {
+    console.log('global: show')
+  },
+  shown: function () {
+    console.log('global: shown')
+  },
+  hide: function () {
+    console.log('global: hide')
+  },
+  hidden: function () {
+    console.log('global: hidden')
+  },
+  hash: function () {
+    console.log('global: hash')
+  }
+})
+</code></pre>
+<p>Page events are also dispatched in the DOM.</p>
+<pre><code class="language-js">window.addEventListener('myPage.show', function () {
+  console.log('myPage: show (DOM event)')
+})
+</code></pre>
+<p>Finally, page events have their own aliases.
+Instead of using the event name called <code>show</code> for example, you can use <code>onShow</code>:</p>
+<pre><code class="language-js">pager.select('myPage').addEvents({
+  show: function () {
+    console.log('myPage: show')
+  },
+  onShow: function () {
+    console.log('myPage: show (alias)')
+  }
+})
+</code></pre>
+<h3>Page templates &lt;i&gt;Changed&lt;/i&gt;</h3>
+<p>You need to use <code>useTemplate()</code>.
+The first argument is the path to the template file.</p>
+<pre><code class="language-js">pager.select('myPage').useTemplate('templates/template.html')
+</code></pre>
+<p>It is now possible to use custom template renderers.
+This feature is interesting if you want to use a template engine such as <a href="https://mustache.github.io">Mustache</a>.</p>
+<pre><code class="language-js">pager.select('myPage').useTemplate('template.html', function (page, template, elements) {
+  page.querySelector('[data-render]').innerHTML = template
+})
+</code></pre>
+<h3>Navigation between pages</h3>
+<p>Replace <code>data-navigation</code> by <code>data-navigate</code>.
+Note: <code>data-navigate=&quot;$back&quot;</code> still works.
+Use <code>data-pop-page</code> for back animation if you want to force the back animation.</p>
+<h3>Ajax &lt;i&gt;nothing changed&lt;/i&gt;</h3>
+<p>As a reminder, here is an example of a code:</p>
+<pre><code class="language-js">const request = phonon.ajax({
+  method: 'GET',
+  url: 'http://url.com',
+  crossDomain: true,
+  dataType: 'json',
+  //contentType: '',
+  //data: {key1: 'val1', key2: 'val2'}, (will be converted in string format)
+  timeout: 1,
+  headers: {
+      'Access-Control-Allow-Origin': '*'
+  },
+  success: function (res, xhr) {
+    console.log(res)
+  },
+  error: function(flagError, xhr) {
+    console.error(flagError)
+  }
+})
+</code></pre>
+<h3>Internationalisation (i18n) &lt;i&gt;Changed&lt;/i&gt;</h3>
+<p>For the internationalisation, there are many changes.
+Now, you need to pass all the data directly.</p>
+<pre><code class="language-js">phonon.intl({
+  fallbackLocale: 'en',
+  locale: 'en',
+  data: {
+    en: {
+      welcome: 'Hello (default)',
+      welcomePerson: 'Hello :name'
+    },
+    en_US: {
+      welcome: 'Hello (US)',
+      welcomePerson: 'Hello :name'
+    },
+    fr: {
+      welcome: 'Bonjour',
+      welcomePerson: 'Bonjour :name'
+    }
+  }
+})
+</code></pre>
+<p>It is no longer possible to load JSON by doing Ajax requests.
+If you need to keep this feature, you can load JSON language files and then
+pass everything as the second argument.</p>
+<pre><code class="language-js">phonon.ajax({
+  method: 'GET',
+  url: '/path/to/languages.json',
+  dataType: 'json',
+  success: function (data, xhr) {
+    const config = {
+      fallbackLocale: 'en',
+      locale: 'en',
+      data: data
+    }
+    phonon.intl(config)
+  }
+})
+
+</code></pre>
+<h2>Components</h2>
+<h3>Utility</h3>
+<h4>Padding</h4>
+<p>More information can be found here: <a href="https://getbootstrap.com/docs/4.0/utilities/spacing/">https://getbootstrap.com/docs/4.0/utilities/spacing/</a></p>
+<p>Replace <strong>.padded-full</strong> by <strong>.p-1</strong>.
+Replace <strong>.padded-top</strong> by <strong>.pt-1</strong>.
+Replace <strong>.padded-left</strong> by <strong>.pl-1</strong>.
+Replace <strong>.padded-right</strong> by <strong>.pr-1</strong>.
+Replace <strong>.padded-bottom</strong> by <strong>.pb-1</strong>.</p>
+<h4>Show/Hide Elements</h4>
+<p>Replace <strong>.show-for-phone-only</strong> by <strong>.d-sm-none</strong>.
+Replace <strong>.show-for-tablet-only</strong> by <strong>?</strong>.
+Replace <strong>.show-for-tablet-up</strong> by <strong>?</strong>.
+Replace <strong>.show-for-large-only</strong> by <strong>?</strong>.
+Replace <strong>.show-for-android-only</strong> by <strong>?</strong>.
+Replace <strong>.show-for-ios-only</strong> by <strong>?</strong>.
+Replace <strong>.show-for-web-only</strong> by <strong>?</strong>.</p>
+<h4>Text Alignment</h4>
+<p>More information can be found here: <a href="https://getbootstrap.com/docs/4.0/utilities/text/#text-alignment">https://getbootstrap.com/docs/4.0/utilities/text/#text-alignment</a></p>
+<p>Replace <strong>.padded-full</strong> by <strong>.p-1</strong>.
+Replace <strong>.padded-top</strong> by <strong>.pt-1</strong>.
+Replace <strong>.padded-left</strong> by <strong>.pl-1</strong>.
+Replace <strong>.padded-right</strong> by <strong>.pr-1</strong>.
+Replace <strong>.padded-bottom</strong> by <strong>.pb-1</strong>.</p>
+<h4>Float</h4>
+<p>Replace <strong>.pull-left</strong> by <strong>.float-left</strong>.
+Replace <strong>.pull-right</strong> by <strong>.float-right</strong>.</p>
+<h4>Expand Width</h4>
+<p>Replace <strong>.fit-parent</strong> by <strong>.w-100</strong>.</p>
+<h4>Unselectable</h4>
+<p>To make an element unselectable use the class <strong>.unselectable</strong>.</p>
 
       </div>
       <div class="page" id="1_components">
@@ -520,7 +745,6 @@ dialog.show()
 <h3>Options</h3>
 <ul>
 <li>toggle: toggles immediately once the collapse is initialized when called in JavaScript.</li>
-<li>parent</li>
 </ul>
 <h2>JavaScript</h2>
 <h3>Methods</h3>
@@ -674,10 +898,14 @@ To do this, you can use object and DOM events.</p>
 For each item, you must add <code>data-value</code>.
 By default, the module will try to find the text node otherwise, it will check if the attribute <code>data-text</code> is present.</p>
 <p>Add the class <code>dropdown-lg</code> to increase the size.</p>
-<pre><code class="language-html">
+<pre><code class="language-html">&lt;div class=&quot;dropdown dropdown-lg&quot; data-toggle=&quot;dropdown&quot;&gt;
+...
+&lt;/div&gt;
 </code></pre>
 <p>Add the class <code>dropdown-sm</code> to reduce the size.</p>
-<pre><code class="language-html">
+<pre><code class="language-html">&lt;div class=&quot;dropdown dropdown-sm&quot; data-toggle=&quot;dropdown&quot;&gt;
+...
+&lt;/div&gt;
 </code></pre>
 <h2>JavaScript</h2>
 <pre><code class="language-js">const dropdown = phonon.dropdown({
@@ -962,7 +1190,7 @@ loader.animate(false) // hide and stop the animation
 
       </div>
       <div class="page" id="1_components/navbar">
-        <h1 class="heading">NavBar</h1>
+        <h1 class="heading">Navbar</h1>
         <h2>Introduction</h2>
 <p>[WIP]</p>
 
@@ -1027,11 +1255,10 @@ To do this, you can use object and DOM events.</p>
         <h2>Introduction</h2>
 <p>[WIP]</p>
 <h2>Markup</h2>
+<p>Add the class <code>off-canvas-left</code> if you want that the off-canvas appears from the left.
+Add the class <code>off-canvas-right</code> if you want that the off-canvas appears from the right.</p>
 <pre><code class="language-html">&lt;!-- Button trigger off-canvas --&gt;
 &lt;button class=&quot;btn btn-primary&quot; data-toggle=&quot;off-canvas&quot; data-target=&quot;#exampleOffCanvas&quot;&gt;Launch demo off-canvas&lt;/button&gt;
-
-Add the class `off-canvas-left` if you want that the off-canvas appears from the left.
-Add the class `off-canvas-right` if you want that the off-canvas appears from the right.
 
 &lt;!-- Off-canvas, left direction --&gt;
 &lt;div class=&quot;off-canvas off-canvas-left&quot; id=&quot;exampleOffCanvas&quot; role=&quot;navigation&quot; aria-hidden=&quot;true&quot; aria-labelledby=&quot;exampleOffCanvasTitle&quot;&gt;
@@ -1223,6 +1450,11 @@ window.addEventListener('offline.ph.network', (event) =&gt; {
 </code></pre>
 
       </div>
+      <div class="page" id="2_utilities/unselectable">
+        <h1 class="heading">Unselectable</h1>
+        <p>[WIP]</p>
+
+      </div>
       <div class="page" id="3_hybrid-app-integration">
         <h1 class="heading">hybrid-app-integration</h1>
         
@@ -1255,7 +1487,7 @@ window.addEventListener('offline.ph.network', (event) =&gt; {
   }
 })
 </code></pre>
-<h2>HTML Markup</h2>
+<h2>Markup</h2>
 <p>The HTML elements with the <code>data-i18n</code> attribute will be modified by the module. For example, <strong>text</strong> will insert the internationalized text into the element.</p>
 <pre><code class="language-html">&lt;h1 data-i18n=&quot;text: welcome&quot;&gt;&lt;/h1&gt;
 &lt;input type=&quot;text&quot; class=&quot;form-control&quot; data-i18n=&quot;value: welcome&quot; value=&quot;&quot;&gt;
@@ -1340,7 +1572,7 @@ It also offers a light and simple <strong>router</strong> for recovering paramet
   animatePages: true
 })
 </code></pre>
-<h2>HTML Markup</h2>
+<h2>Markup</h2>
 <p>A SPA page is defined by setting up the <code>app-page</code> class and a unique data-page attribute.</p>
 <pre><code class="language-html">&lt;div class=&quot;app-page&quot; data-page=&quot;myPage&quot;&gt;&lt;/div&gt;
 &lt;div class=&quot;app-page&quot; data-page=&quot;mySecondPage&quot;&gt;&lt;/div&gt;
@@ -1377,6 +1609,16 @@ in the HTML view.</p>
 <h2>Events</h2>
 <p>|     Event Type     |     Description      |
 |</p>
+
+      </div>
+      <div class="page" id="4_extend">
+        <h1 class="heading">extend</h1>
+        
+      </div>
+
+      <div class="page" id="4_extend/icons">
+        <h1 class="heading">Icons</h1>
+        <h2>Introduction</h2>
 
       </div>
 
