@@ -98,14 +98,18 @@ By default, the module will try to find the text node otherwise, it will check i
 Add the class `dropdown-lg` to increase the size.
 
 ```html
-
+<div class="dropdown dropdown-lg" data-toggle="dropdown">
+...
+</div>
 ```
 
 
 Add the class `dropdown-sm` to reduce the size.
 
 ```html
-
+<div class="dropdown dropdown-sm" data-toggle="dropdown">
+...
+</div>
 ```
 
 ## JavaScript
