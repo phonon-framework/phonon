@@ -3,9 +3,9 @@
  * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
-import { dispatchElementEvent, dispatchWinDocEvent } from '../core/events/dispatch'
-import { generateId } from '../core/utils'
-import Event from '../core/events'
+import { dispatchElementEvent, dispatchWinDocEvent } from '../common/events/dispatch'
+import { generateId } from '../common/utils'
+import Event from '../common/events'
 import ComponentManager, { setAttributesConfig, getAttributesConfig } from './componentManager'
 
 /**
@@ -189,6 +189,10 @@ export default class Component {
 
   onElementEvent(event) {
     //
+  }
+
+  static identifier() {
+    return this.name
   }
 
   static _DOMInterface(ComponentClass, options) {

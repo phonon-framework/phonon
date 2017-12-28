@@ -3,7 +3,7 @@
 * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
 * --------------------------------------------------------------------------
 */
-import Event from '../../core/events'
+import Event from '../../common/events'
 import Component from '../component'
 
 const Notification = (() => {
@@ -177,6 +177,10 @@ const Notification = (() => {
 
     onElementEvent() {
       this.hide()
+    }
+
+    static identifier() {
+      return NAME
     }
 
     static _DOMInterface(options) {

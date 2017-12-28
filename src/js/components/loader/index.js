@@ -106,6 +106,10 @@ const Loader = (() => {
       return true
     }
 
+    static identifier() {
+      return NAME
+    }
+
     static _DOMInterface(options) {
       return super._DOMInterface(Loader, options)
     }

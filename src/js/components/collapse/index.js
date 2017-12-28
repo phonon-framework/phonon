@@ -5,8 +5,8 @@
  */
 import Component from '../component'
 import { getAttributesConfig } from '../componentManager'
-import Event from '../../core/events'
-import { findTargetByAttr } from '../../core/utils'
+import Event from '../../common/events'
+import { findTargetByAttr } from '../../common/utils'
 
 const Collapse = (() => {
   /**
@@ -126,6 +126,10 @@ const Collapse = (() => {
       this.options.element.classList.remove('show')
 
       return true
+    }
+
+    static identifier() {
+      return NAME
     }
 
     static _DOMInterface(options) {

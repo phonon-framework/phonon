@@ -6,8 +6,7 @@
 import Component from '../component'
 import Collapse from '../collapse'
 import { getAttributesConfig } from '../componentManager'
-import Event from '../../core/events'
-import { findTargetByClass } from '../../core/utils'
+import { findTargetByClass } from '../../common/utils'
 
 const Accordion = (() => {
   /**
@@ -117,6 +116,10 @@ const Accordion = (() => {
 
       const collapseObj = this.getCollapse(collapse)
       return collapseObj.hide()
+    }
+
+    static identifier() {
+      return NAME
     }
 
     static _DOMInterface(options) {

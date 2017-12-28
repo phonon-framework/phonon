@@ -4,10 +4,10 @@
  * --------------------------------------------------------------------------
  */
 import Dropdown from './index'
-import { findTargetByClass } from '../../core/utils'
+import { findTargetByClass } from '../../common/utils'
 import { getAttributesConfig } from '../componentManager'
 
-const SearchDropdown = (() => {
+const DropdownSearch = (() => {
 
   /**
    * ------------------------------------------------------------------------
@@ -15,14 +15,15 @@ const SearchDropdown = (() => {
    * ------------------------------------------------------------------------
    */
 
-  const NAME = 'dropdown'
-  const VERSION = '2.0.0'
+  const NAME = Dropdown.identifier()
   const DEFAULT_PROPERTIES = {
     element: null,
     default: true,
+    search: true,
   }
   const DATA_ATTRS_PROPERTIES = [
     'default',
+    'search',
   ]
 
   /**
@@ -31,7 +32,7 @@ const SearchDropdown = (() => {
    * ------------------------------------------------------------------------
    */
 
-  class SearchDropdown extends Dropdown {
+  class DropdownSearch extends Dropdown {
 
     constructor(options = {}) {
       super(options)
@@ -98,7 +99,7 @@ const SearchDropdown = (() => {
     }
 
     static _DOMInterface(options) {
-      return super._DOMInterface(SearchDropdown, options)
+      return new DropdownSearch(options)
     }
   }
 
@@ -115,9 +116,9 @@ const SearchDropdown = (() => {
       const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
       config.element = element
 
-      if (element.querySelector('.dropdown-menu input')) {
+      if (config.search) {
         // search
-        components.push(new SearchDropdown(config))
+        components.push(new DropdownSearch(config))
       }
     })
   }
@@ -146,7 +147,7 @@ const SearchDropdown = (() => {
     })
   }
 
-  return SearchDropdown
+  return DropdownSearch
 })()
 
-export default SearchDropdown
+export default DropdownSearch

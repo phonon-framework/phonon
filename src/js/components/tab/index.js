@@ -5,8 +5,8 @@
  */
 import Component from '../component'
 import { getAttributesConfig } from '../componentManager'
-import Event from '../../core/events'
-import { findTargetByClass } from '../../core/utils'
+import Event from '../../common/events'
+import { findTargetByClass } from '../../common/utils'
 
 const Tab = (() => {
   /**
@@ -106,6 +106,10 @@ const Tab = (() => {
       }
 
       return true
+    }
+
+    static identifier() {
+      return NAME
     }
 
     static _DOMInterface(options) {

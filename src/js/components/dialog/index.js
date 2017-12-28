@@ -3,7 +3,7 @@
  * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
-import Event from '../../core/events'
+import Event from '../../common/events'
 import Component from '../component'
 import { getAttributesConfig } from '../componentManager'
 
@@ -35,10 +35,10 @@ const Dialog = (() => {
 
   class Dialog extends Component {
 
-    constructor(options = {}) {
+    constructor(options = {}, template = null) {
       super(NAME, VERSION, DEFAULT_PROPERTIES, options, DATA_ATTRS_PROPERTIES, true, true)
 
-      this.template = '' +
+      this.template = template || '' +
       '<div class="dialog" tabindex="-1" role="dialog">' +
         '<div class="dialog-inner" role="document">' +
           '<div class="dialog-content">' +
@@ -210,6 +210,10 @@ const Dialog = (() => {
       }
     }
 
+    static identifier() {
+      return NAME
+    }
+
     static _DOMInterface(options) {
       return super._DOMInterface(Dialog, options)
     }
@@ -245,6 +249,7 @@ const Dialog = (() => {
           return
         }
 
+        // remove the focus state of the trigger
         event.target.blur()
 
         component.dialog.show()

@@ -4,8 +4,8 @@
  * --------------------------------------------------------------------------
  */
 import Component from '../component'
-import Event from '../../core/events'
-import { findTargetByClass } from '../../core/utils'
+import Event from '../../common/events'
+import { findTargetByClass } from '../../common/utils'
 import { getAttributesConfig } from '../componentManager'
 
 const Dropdown = (() => {
@@ -20,9 +20,11 @@ const Dropdown = (() => {
   const DEFAULT_PROPERTIES = {
     element: null,
     default: true,
+    search: false,
   }
   const DATA_ATTRS_PROPERTIES = [
     'default',
+    'search',    
   ]
 
   /**
@@ -190,6 +192,10 @@ const Dropdown = (() => {
       return true
     }
 
+    static identifier() {
+      return NAME
+    }
+
     static _DOMInterface(options) {
       return super._DOMInterface(Dropdown, options)
     }
@@ -208,7 +214,7 @@ const Dropdown = (() => {
       const config = getAttributesConfig(element, DEFAULT_PROPERTIES, DATA_ATTRS_PROPERTIES)
       config.element = element
 
-      if (!element.querySelector('.dropdown-menu input')) {
+      if (!config.search) {
         components.push(new Dropdown(config))
       }
     })

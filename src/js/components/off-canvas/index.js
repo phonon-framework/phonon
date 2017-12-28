@@ -3,10 +3,10 @@
  * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
-import Event from '../../core/events'
+import Event from '../../common/events'
 import Component from '../component'
 import { getAttributesConfig } from '../componentManager'
-import { findTargetByAttr } from '../../core/utils'
+import { findTargetByAttr } from '../../common/utils'
 
 const OffCanvas = (() => {
   /**
@@ -57,7 +57,7 @@ const OffCanvas = (() => {
       this.checkDirection()
       this.checkWidth()
 
-      window.addEventListener('resize', this.checkWidth, false)      
+      window.addEventListener('resize', () => this.checkWidth(), false)      
     }
 
     checkDirection() {
@@ -253,6 +253,10 @@ const OffCanvas = (() => {
       }
 
       this.unregisterElement({ target: document, event: 'keyup' })
+    }
+
+    static identifier() {
+      return NAME
     }
 
     static _DOMInterface(options) {

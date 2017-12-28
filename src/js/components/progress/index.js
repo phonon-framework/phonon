@@ -4,7 +4,7 @@
  * --------------------------------------------------------------------------
  */
 import Component from '../component'
-import Event from '../../core/events'
+import Event from '../../common/events'
 
 const Progress = (() => {
   /**
@@ -131,6 +131,10 @@ const Progress = (() => {
       this.triggerEvent(Event.HIDDEN)
 
       return true
+    }
+
+    static identifier() {
+      return NAME
     }
 
     static _DOMInterface(options) {
