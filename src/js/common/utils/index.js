@@ -3,7 +3,8 @@ export function loadFile(url, fn, postData) {
   const req = new XMLHttpRequest()
   if (req.overrideMimeType) req.overrideMimeType('text/html; charset=utf-8')
   req.onreadystatechange = () => {
-    if (req.readyState === 4 && (parseInt(req.status) === 200 || !req.status && req.responseText.length)) {
+    if (req.readyState === 4 && (parseInt(req.status, 10) === 200
+      || !req.status && req.responseText.length)) {
       fn(req.responseText)
     }
   }
