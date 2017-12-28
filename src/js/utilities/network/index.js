@@ -4,9 +4,8 @@
  * --------------------------------------------------------------------------
  */
 
-import Event from '../events'
+import Event from '../../common/events'
 import Component from '../../components/component'
-import { dispatchWinDocEvent } from '../events/dispatch'
 
 const Network = (() => {
   /**

@@ -4,15 +4,13 @@
  * --------------------------------------------------------------------------
  */
 
-// core
-import Pager from './core/pager/index'
-import Ajax from './core/ajax'
-import platform from './core/platform'
-import Intl from './core/intl'
-import Network from './core/network'
+import Pager from './hybrid-apps/pager/index'
+import Intl from './hybrid-apps/intl'
+import Network from './utilities/network'
 
 // components
 import Dialog from './components/dialog'
+import Prompt from './components/dialog/prompt'
 import Notification from './components/notification'
 import Collapse from './components/collapse'
 import Accordion from './components/accordion'
@@ -21,7 +19,7 @@ import Progress from './components/progress'
 import Loader from './components/loader'
 import OffCanvas from './components/off-canvas'
 import Dropdown from './components/dropdown'
-import SearchDropdown from './components/dropdown/search'
+import DropdownSearch from './components/dropdown/search'
 
 const api = {}
 
@@ -46,21 +44,6 @@ api.pager = (options) => {
   }
   return api._pager
 }
-
-/**
- * ------------------------------------------------------------------------
- * Platform
- * ------------------------------------------------------------------------
- */
-
-api.platform = platform
-
-/**
- * ------------------------------------------------------------------------
- * Ajax
- * ------------------------------------------------------------------------
- */
-api.ajax = Ajax._DOMInterface
 
 /**
  * ------------------------------------------------------------------------
@@ -89,6 +72,15 @@ api.notification = Notification._DOMInterface
  * ------------------------------------------------------------------------
  */
 api.dialog = Dialog._DOMInterface
+
+setTimeout(() => {
+  Prompt._DOMInterface({
+    element: null,
+    title: 'HELLOW',
+    message: null,
+    cancelable: true,
+  }).show()
+}, 1000)
 
 /**
  * ------------------------------------------------------------------------
@@ -138,14 +130,15 @@ api.offCanvas = OffCanvas._DOMInterface
  * Dropdown
  * ------------------------------------------------------------------------
  */
-api.dropdown = Dropdown._DOMInterface
-
-/**
- * ------------------------------------------------------------------------
- * Search Dropdown
- * ------------------------------------------------------------------------
- */
-api.searchDropdown = SearchDropdown._DOMInterface
+api.dropdown = (options) => {
+  if (options.search) {
+    // generic dropdown
+    return Dropdown._DOMInterface
+  } else {
+    // search dropdown
+    return DropdownSearch._DOMInterface
+  }
+}
 
 // Make the API live
 window.phonon = api

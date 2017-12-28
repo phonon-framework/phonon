@@ -4,8 +4,8 @@
  * --------------------------------------------------------------------------
  */
 
-import { loadFile } from '../utils'
-import { dispatchPageEvent } from '../events/dispatch'
+import { loadFile } from '../../common/utils'
+import { dispatchPageEvent } from '../../common/events/dispatch'
 
 const Page = (() => {
   /**

@@ -5,7 +5,7 @@
  */
 
 import Page from './page'
-import Event from '../../core/events'
+import Event from '../../common/events'
 
 const Pager = (() => {
   /**
