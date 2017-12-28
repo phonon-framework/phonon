@@ -1,0 +1,7 @@
+.unselectable {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
+
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVuc2VsZWN0YWJsZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSwwQkFBa0I7S0FBbEIsdUJBQWtCO01BQWxCLHNCQUFrQjtVQUFsQixrQkFBa0IsRUFBRSIsImZpbGUiOiJ1dGlsaXRpZXMvdW5zZWxlY3RhYmxlLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi51bnNlbGVjdGFibGUge1xuICB1c2VyLXNlbGVjdDogbm9uZTsgfVxuIl19 */
