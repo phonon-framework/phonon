@@ -24,6 +24,7 @@ const Dialog = (() => {
     cancelable: true,
     buttons: [
       {
+        event: 'confirm',
         text: 'Ok',
         dismiss: true,
         class: 'btn btn-primary',
@@ -108,6 +109,7 @@ const Dialog = (() => {
       const button = document.createElement('button')
       button.setAttribute('type', 'button')
       button.setAttribute('class', buttonInfo.class || 'btn')
+      button.setAttribute('data-event', buttonInfo.event)
       button.innerHTML = buttonInfo.text
 
       if (buttonInfo.dismiss) {
@@ -184,6 +186,16 @@ const Dialog = (() => {
         return
       }
 
+      const eventName = event.target.getAttribute('data-event')
+
+      if (eventName) {
+        this.triggerEvent(eventName)
+      }
+
+      if (event.target.getAttribute('data-dismiss') !== NAME) {
+        return
+      }
+
       // hide the dialog
       this.hide()
     }
@@ -225,9 +237,9 @@ const Dialog = (() => {
     }
 
     attachEvents() {
-      const dismissButtons = this.options.element.querySelectorAll('[data-dismiss]')
-      if (dismissButtons) {
-        Array.from(dismissButtons).forEach(button => this.registerElement({ target: button, event: 'click' }))
+      const buttons = this.options.element.querySelectorAll('[data-dismiss], .dialog-footer button')
+      if (buttons) {
+        Array.from(buttons).forEach(button => this.registerElement({ target: button, event: 'click' }))
       }
 
       // add events if the dialog is cancelable
@@ -241,9 +253,9 @@ const Dialog = (() => {
     }
 
     detachEvents() {
-      const dismissButtons = this.options.element.querySelectorAll('[data-dismiss]')
-      if (dismissButtons) {
-        Array.from(dismissButtons).forEach(button => this.unregisterElement({ target: button, event: 'click' }))
+      const buttons = this.options.element.querySelectorAll('[data-dismiss], .dialog-footer button')
+      if (buttons) {
+        Array.from(buttons).forEach(button => this.unregisterElement({ target: button, event: 'click' }))
       }
 
       if (this.options.cancelable) {

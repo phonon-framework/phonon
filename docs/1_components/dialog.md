@@ -12,7 +12,7 @@ title: Dialog
 By not using the `element` property, it will create a dialog's HTMLElement dynamically.
 This is particularly useful if you want to set up a dialog without worrying about its HTML code.
 
-### Normal dialog
+### Simple dialog
 
 ```js
 const dialog = phonon.dialog({
@@ -60,6 +60,60 @@ const loader = phonon.dialog({
 })
 
 loader.show()
+```
+
+### Dialog with custom buttons
+
+Each dialog type (normal, prompt, confirm and prompt) supports custom buttons.
+Note that the event of the button **must be unique**.
+The click event of a button will fire the associated callback automatically.
+
+```js
+const dialog = phonon.dialog({
+  title: 'Dialog title',
+  message: 'Dialog body text goes here.',
+  buttons: [
+    {
+      event: 'cancel',
+      text: 'Cancel',
+      dismiss: true,
+      class: 'btn btn-secondary',
+    },
+    {
+      event: 'confirm',
+      text: 'Ok',
+      dismiss: true,
+      class: 'btn btn-primary',
+    },
+  ],
+  onCancel: () => { // or cancel
+    console.log('Cancel')
+  },
+  onConfirm: () => { // or confirm
+    console.log('Confirm')
+  }
+})
+```
+
+You can also define your own event names.
+In the following example, we trigger the event called `neutralAnswer` when we click on the button.
+
+```js
+const dialog = phonon.dialog({
+  title: 'Dialog title',
+  message: 'Dialog body text goes here.',
+  buttons: [
+    {
+      event: 'neutralAnswer',
+      text: 'Custom button',
+      dismiss: true,
+      class: 'btn btn-primary',
+    }
+  ],
+  neutralAnswer: () => { // or onNeutralAnswer
+    console.log('Well we close it!')
+  }
+})
 ```
 
 

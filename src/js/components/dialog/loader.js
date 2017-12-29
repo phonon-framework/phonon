@@ -22,13 +22,7 @@ const Loader = (() => {
     message: null,
     cancelable: true,
     type: NAME,
-    buttons: [
-      {
-        text: 'Cancel',
-        dismiss: true,
-        class: 'btn btn-primary',
-      },
-    ],
+    buttons: [],
   }
   const DATA_ATTRS_PROPERTIES = [
     'cancelable',

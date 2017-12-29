@@ -23,11 +23,13 @@ const Prompt = (() => {
     type: NAME,
     buttons: [
       {
+        event: 'cancel',
         text: 'Cancel',
         dismiss: true,
         class: 'btn btn-secondary',
       },
       {
+        event: 'confirm',
         text: 'Ok',
         dismiss: true,
         class: 'btn btn-primary',
