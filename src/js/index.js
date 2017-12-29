@@ -11,6 +11,8 @@ import Network from './common/network'
 // components
 import Dialog from './components/dialog'
 import Prompt from './components/dialog/prompt'
+import Confirm from './components/dialog/confirm'
+import DialogLoader from './components/dialog/loader'
 import Notification from './components/notification'
 import Collapse from './components/collapse'
 import Accordion from './components/accordion'
@@ -61,16 +63,25 @@ api.notification = Notification._DOMInterface
  * Dialog
  * ------------------------------------------------------------------------
  */
-api.dialog = Dialog._DOMInterface
+api.dialog = (options) => {
+  if (options.type === Prompt.identifier()) {
+    // prompt dialog
+    return Prompt._DOMInterface(options)
+  }
 
-setTimeout(() => {
-  Prompt._DOMInterface({
-    element: null,
-    title: 'HELLOW',
-    message: null,
-    cancelable: true,
-  }).show()
-}, 1000)
+  if (options.type === Confirm.identifier()) {
+    // confirm dialog
+    return Confirm._DOMInterface(options)
+  }
+
+  if (options.type === DialogLoader.identifier()) {
+    // confirm dialog
+    return DialogLoader._DOMInterface(options)
+  }
+
+  // generic dialog
+  return Dialog._DOMInterface(options)
+}
 
 /**
  * ------------------------------------------------------------------------
@@ -123,11 +134,11 @@ api.offCanvas = OffCanvas._DOMInterface
 api.dropdown = (options) => {
   if (options.search) {
     // search dropdown
-    return DropdownSearch._DOMInterface
+    return DropdownSearch._DOMInterface(options)
   }
 
   // generic dropdown
-  return Dropdown._DOMInterface
+  return Dropdown._DOMInterface(options)
 }
 
 // Make the API live
