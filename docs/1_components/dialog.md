@@ -12,6 +12,8 @@ title: Dialog
 By not using the `element` property, it will create a dialog's HTMLElement dynamically.
 This is particularly useful if you want to set up a dialog without worrying about its HTML code.
 
+### Normal dialog
+
 ```js
 const dialog = phonon.dialog({
   title: 'Dialog title',
@@ -20,6 +22,46 @@ const dialog = phonon.dialog({
 
 dialog.show()
 ```
+
+### Prompt dialog
+
+```js
+const prompt = phonon.dialog({
+  title: 'Prompt title',
+  message: 'Prompt body text goes here.',
+  type: 'prompt'
+})
+
+prompt.show()
+
+prompt.setInputValue() // only available with prompts
+prompt.getInputValue() // only available with prompts
+```
+
+### Confirm dialog
+
+```js
+const confirm = phonon.dialog({
+  title: 'Confirm title',
+  message: 'Confirm body text goes here.',
+  type: 'confirm'
+})
+
+confirm.show()
+```
+
+### Loader dialog
+
+```js
+const loader = phonon.dialog({
+  title: 'Loader title',
+  message: 'Loader body text goes here.',
+  type: 'loader'
+})
+
+loader.show()
+```
+
 
 ## Custom Dialogs
 
@@ -64,6 +106,7 @@ dialog.show()
 - title
 - message
 - cancelable
+- type
 
 ## Methods
 
@@ -84,6 +127,13 @@ Any dialog can be hidden with JavaScript, not only by clicking on its buttons. F
 dialog.hide()
 ```
 
+### getInputValue()
+
+It is possible to retrieve the text field value of any prompt type.
+
+### setInputValue()
+
+It is possible to set the text field value of any prompt type.
 
 ## Events
 
