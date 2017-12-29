@@ -24,7 +24,7 @@ const Dropdown = (() => {
   }
   const DATA_ATTRS_PROPERTIES = [
     'default',
-    'search',    
+    'search',
   ]
 
   /**

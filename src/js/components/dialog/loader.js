@@ -4,9 +4,10 @@
  * --------------------------------------------------------------------------
  */
 import Dialog from './index'
+import Spinner from '../loader/index'
 import { getAttributesConfig } from '../componentManager'
 
-const Prompt = (() => {
+const Loader = (() => {
 
   /**
    * ------------------------------------------------------------------------
@@ -14,7 +15,7 @@ const Prompt = (() => {
    * ------------------------------------------------------------------------
    */
 
-  const NAME = 'prompt'
+  const NAME = 'loader'
   const DEFAULT_PROPERTIES = {
     element: null,
     title: null,
@@ -24,11 +25,6 @@ const Prompt = (() => {
     buttons: [
       {
         text: 'Cancel',
-        dismiss: true,
-        class: 'btn btn-secondary',
-      },
-      {
-        text: 'Ok',
         dismiss: true,
         class: 'btn btn-primary',
       },
@@ -44,7 +40,7 @@ const Prompt = (() => {
    * ------------------------------------------------------------------------
    */
 
-  class Prompt extends Dialog {
+  class Loader extends Dialog {
 
     constructor(options = {}) {
       const template = '' +
@@ -56,7 +52,11 @@ const Prompt = (() => {
             '</div>' +
             '<div class="dialog-body">' +
               '<p></p>' +
-              '<input class="form-control" type="text" value="">' +
+              '<div class="mx-auto text-center">' +
+                '<div class="loader mx-auto d-block">' +
+                  '<div class="loader-spinner"></div>' +
+                '</div>' +
+              '</div>' +
             '</div>' +
             '<div class="dialog-footer">' +
             '</div>' +
@@ -65,48 +65,26 @@ const Prompt = (() => {
       '</div>'
 
       if (!Array.isArray(options.buttons)) {
-        options.buttons = DEFAULT_PROPERTIES.buttons
+        options.buttons = options.cancelable ? DEFAULT_PROPERTIES.buttons : []
       }
 
       super(options, template)
+
+      this.spinner = null
     }
 
     show() {
       super.show()
-      this.attachInputEvent()
+
+      this.spinner = new Spinner({element: this.getElement().querySelector('.loader')})
+      this.spinner.animate(true)
     }
 
     hide() {
-      super.hide()   
-      this.detachInputEvent()   
-    }
+      super.hide()
 
-    getInput() {
-      return this.options.element.querySelector('.form-control')
-    }
-
-    attachInputEvent() {
-      this.registerElement({ target: this.getInput(), event: 'keyup' })
-    }
-
-    detachInputEvent() {
-      this.unregisterElement({ target: this.getInput(), event: 'keyup' })         
-    }
-
-    onElementEvent(event) {
-      if (event.target === this.getInput()) {
-        return
-      }
-
-      super.onElementEvent(event)
-    }
-
-    setInputValue(value = '') {
-      this.getInput().value = value
-    }
-
-    getInputValue() {
-      return this.getInput().value
+      this.spinner.animate(false)
+      this.spinner = null
     }
 
     static identifier() {
@@ -114,7 +92,7 @@ const Prompt = (() => {
     }
 
     static _DOMInterface(options) {
-      return new Prompt(options)
+      return new Loader(options)
     }
   }
 
@@ -132,8 +110,8 @@ const Prompt = (() => {
       config.element = element
 
       if (config.type === NAME) {
-        // prompt
-        components.push(new Prompt(config))
+        // loader
+        components.push(new Loader(config))
       }
     })
   }
@@ -157,7 +135,7 @@ const Prompt = (() => {
     }
   })
 
-  return Prompt
+  return Loader
 })()
 
-export default Prompt
+export default Loader

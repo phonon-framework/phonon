@@ -6,7 +6,7 @@
 import Dialog from './index'
 import { getAttributesConfig } from '../componentManager'
 
-const Prompt = (() => {
+const Confirm = (() => {
 
   /**
    * ------------------------------------------------------------------------
@@ -14,7 +14,7 @@ const Prompt = (() => {
    * ------------------------------------------------------------------------
    */
 
-  const NAME = 'prompt'
+  const NAME = 'confirm'
   const DEFAULT_PROPERTIES = {
     element: null,
     title: null,
@@ -44,7 +44,7 @@ const Prompt = (() => {
    * ------------------------------------------------------------------------
    */
 
-  class Prompt extends Dialog {
+  class Confirm extends Dialog {
 
     constructor(options = {}) {
       const template = '' +
@@ -56,7 +56,6 @@ const Prompt = (() => {
             '</div>' +
             '<div class="dialog-body">' +
               '<p></p>' +
-              '<input class="form-control" type="text" value="">' +
             '</div>' +
             '<div class="dialog-footer">' +
             '</div>' +
@@ -71,50 +70,12 @@ const Prompt = (() => {
       super(options, template)
     }
 
-    show() {
-      super.show()
-      this.attachInputEvent()
-    }
-
-    hide() {
-      super.hide()   
-      this.detachInputEvent()   
-    }
-
-    getInput() {
-      return this.options.element.querySelector('.form-control')
-    }
-
-    attachInputEvent() {
-      this.registerElement({ target: this.getInput(), event: 'keyup' })
-    }
-
-    detachInputEvent() {
-      this.unregisterElement({ target: this.getInput(), event: 'keyup' })         
-    }
-
-    onElementEvent(event) {
-      if (event.target === this.getInput()) {
-        return
-      }
-
-      super.onElementEvent(event)
-    }
-
-    setInputValue(value = '') {
-      this.getInput().value = value
-    }
-
-    getInputValue() {
-      return this.getInput().value
-    }
-
     static identifier() {
       return NAME
     }
 
     static _DOMInterface(options) {
-      return new Prompt(options)
+      return new Confirm(options)
     }
   }
 
@@ -132,8 +93,8 @@ const Prompt = (() => {
       config.element = element
 
       if (config.type === NAME) {
-        // prompt
-        components.push(new Prompt(config))
+        // confirm
+        components.push(new Confirm(config))
       }
     })
   }
@@ -157,7 +118,7 @@ const Prompt = (() => {
     }
   })
 
-  return Prompt
+  return Confirm
 })()
 
-export default Prompt
+export default Confirm

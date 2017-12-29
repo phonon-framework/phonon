@@ -81,7 +81,8 @@ const DropdownSearch = (() => {
 
     showItems() {
       this.getItems().forEach((item) => {
-        item.element.style.display = 'block'
+        const i = item
+        i.element.style.display = 'block'
       })
     }
 

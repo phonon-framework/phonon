@@ -22,6 +22,13 @@ const Dialog = (() => {
     title: null,
     message: null,
     cancelable: true,
+    buttons: [
+      {
+        text: 'Ok',
+        dismiss: true,
+        class: 'btn btn-primary',
+      },
+    ],
   }
   const DATA_ATTRS_PROPERTIES = [
     'cancelable',
@@ -49,7 +56,6 @@ const Dialog = (() => {
               '<p></p>' +
             '</div>' +
             '<div class="dialog-footer">' +
-              '<button type="button" class="btn btn-primary" data-dismiss="dialog">Ok</button>' +
             '</div>' +
           '</div>' +
         '</div>' +
@@ -75,11 +81,40 @@ const Dialog = (() => {
       // message
       if (this.options.message !== null) {
         this.options.element.querySelector('.dialog-body').firstChild.innerHTML = this.options.message
+      } else {
+        // remove paragraph node
+        this.removeTextBody()
+      }
+
+      // buttons
+      if (this.options.buttons !== null && Array.isArray(this.options.buttons)) {
+        if (this.options.buttons.length > 0) {
+          this.options.buttons.forEach((button) => {
+            this.options.element.querySelector('.dialog-footer').appendChild(this.buildButton(button))
+          })
+        } else {
+          this.removeFooter()
+        }
+      } else {
+        this.removeFooter()
       }
 
       document.body.appendChild(this.options.element)
 
       this.setAttributes()
+    }
+
+    buildButton(buttonInfo = {}) {
+      const button = document.createElement('button')
+      button.setAttribute('type', 'button')
+      button.setAttribute('class', buttonInfo.class || 'btn')
+      button.innerHTML = buttonInfo.text
+
+      if (buttonInfo.dismiss) {
+        button.setAttribute('data-dismiss', NAME)
+      }
+
+      return button
     }
 
     buildBackdrop() {
@@ -94,9 +129,17 @@ const Dialog = (() => {
       return document.querySelector(`.${BACKDROP_SELECTOR}[data-id="${this.id}"]`)
     }
 
+    removeTextBody() {
+      this.options.element.querySelector('.dialog-body').removeChild(this.options.element.querySelector('.dialog-body').firstChild)      
+    }
+
+    removeFooter() {
+      const footer = this.options.element.querySelector('.dialog-footer')      
+      this.options.element.querySelector('.dialog-content').removeChild(footer)
+    }
+
     center() {
       const computedStyle = window.getComputedStyle(this.options.element)
-      // const width = computedStyle.width.slice(0, computedStyle.width.length - 2)
       const height = computedStyle.height.slice(0, computedStyle.height.length - 2)
 
       const top = (window.innerHeight / 2) - (height / 2)
