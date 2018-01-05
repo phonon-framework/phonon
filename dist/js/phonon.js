@@ -1849,6 +1849,7 @@ phonon.tagManager = (function () {
 ;(function (window, document) {
 
     var jsonCache = null;
+    var localeUsed = null;
 
     var opts = {
         localeFallback: null,
@@ -2020,9 +2021,10 @@ phonon.tagManager = (function () {
             xhr.onreadystatechange = function () {
                 if(xhr.readyState === 4 && (xhr.status === 200 || !xhr.status && xhr.responseText.length)) {
                     try {
-                        var json = JSON.parse(xhr.responseText)
-                        jsonCache = json
-                        callback(jsonCache);                        
+                        var json = JSON.parse(xhr.responseText);
+                        jsonCache = json;
+                        localeUsed = locale;
+                        callback(jsonCache);
                     } catch (e) {
                         fallback();
                     }
@@ -2186,6 +2188,9 @@ phonon.tagManager = (function () {
             },
             getLocale: function () {
                 return getLocale();
+            },
+            getLoadedLocale: function () {
+                return localeUsed;
             }
         };
     };
