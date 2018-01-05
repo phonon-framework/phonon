@@ -132,11 +132,11 @@ const Dialog = (() => {
     }
 
     removeTextBody() {
-      this.options.element.querySelector('.dialog-body').removeChild(this.options.element.querySelector('.dialog-body').firstChild)      
+      this.options.element.querySelector('.dialog-body').removeChild(this.options.element.querySelector('.dialog-body').firstChild)
     }
 
     removeFooter() {
-      const footer = this.options.element.querySelector('.dialog-footer')      
+      const footer = this.options.element.querySelector('.dialog-footer')
       this.options.element.querySelector('.dialog-content').removeChild(footer)
     }
 

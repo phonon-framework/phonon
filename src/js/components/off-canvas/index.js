@@ -57,7 +57,7 @@ const OffCanvas = (() => {
       this.checkDirection()
       this.checkWidth()
 
-      window.addEventListener('resize', () => this.checkWidth(), false)      
+      window.addEventListener('resize', () => this.checkWidth(), false)
     }
 
     checkDirection() {
@@ -155,14 +155,14 @@ const OffCanvas = (() => {
 
 
         if (this.animate) {
-          this.options.element.addEventListener(Event.TRANSITION_END, onShown)        
+          this.options.element.addEventListener(Event.TRANSITION_END, onShown)
           this.options.element.classList.add('animate')
         } else {
           // directly trigger the onShown
           onShown()
         }
 
-        this.options.element.classList.add('show')        
+        this.options.element.classList.add('show')
 
         // attach event
         this.attachEvents()
@@ -195,7 +195,7 @@ const OffCanvas = (() => {
           }
 
           backdrop.removeEventListener(Event.TRANSITION_END, onHidden)
-          this.triggerEvent(Event.HIDDEN)        
+          this.triggerEvent(Event.HIDDEN)
           this.removeBackdrop()
         }
 
@@ -233,7 +233,7 @@ const OffCanvas = (() => {
       }
 
       if (this.useBackdrop) {
-        const backdrop = this.getBackdrop()      
+        const backdrop = this.getBackdrop()
         this.registerElement({ target: backdrop, event: Event.START })
       }
 

@@ -81,7 +81,6 @@ const Tab = (() => {
         tabContent.addEventListener(Event.TRANSITION_END, onShowed)
 
         tabContent.classList.add('animate')
-
       }, 20)
 
       return true

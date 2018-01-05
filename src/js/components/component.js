@@ -62,7 +62,7 @@ export default class Component {
       this.setAttributes()
     }
 
-    this.elementListener = event => this.onBeforeElementEvent(event)          
+    this.elementListener = event => this.onBeforeElementEvent(event)
   }
 
   assignJsConfig(attrConfig, options) {

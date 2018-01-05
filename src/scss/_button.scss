@@ -19,6 +19,7 @@
   @include hover-focus {
     text-decoration: none;
   }
+
   &:focus,
   &.focus {
     outline: 0;
@@ -28,14 +29,14 @@
   // Disabled comes first so active can properly restyle
   &.disabled,
   &:disabled {
-    opacity: .65;
     @include box-shadow(none);
+    opacity: .65;
   }
 
   &:not([disabled]):not(.disabled):active,
   &:not([disabled]):not(.disabled).active {
-    background-image: none;
     @include box-shadow($input-btn-focus-box-shadow, $btn-active-box-shadow);
+    background-image: none;
   }
 }
 

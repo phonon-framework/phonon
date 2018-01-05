@@ -79,11 +79,11 @@ const Progress = (() => {
       }
 
       if (value > this.options.max) {
-        console.error(`${NAME}. Warning, ${value} is above max value.`)          
+        console.error(`${NAME}. Warning, ${value} is above max value.`)
         return false
       }
 
-      progressBar.setAttribute('aria-valuenow', `${value}`)      
+      progressBar.setAttribute('aria-valuenow', `${value}`)
 
       // set label
       if (this.options.label) {

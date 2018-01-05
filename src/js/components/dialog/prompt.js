@@ -79,8 +79,8 @@ const Prompt = (() => {
     }
 
     hide() {
-      super.hide()   
-      this.detachInputEvent()   
+      super.hide()
+      this.detachInputEvent()
     }
 
     getInput() {
@@ -92,7 +92,7 @@ const Prompt = (() => {
     }
 
     detachInputEvent() {
-      this.unregisterElement({ target: this.getInput(), event: 'keyup' })         
+      this.unregisterElement({ target: this.getInput(), event: 'keyup' })
     }
 
     onElementEvent(event) {

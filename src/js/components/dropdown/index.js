@@ -76,7 +76,7 @@ const Dropdown = (() => {
       if (checkExists && itemFound) {
         this.options.element.querySelector('.default-text').innerHTML = textDisplay
       } else if (checkExists && !itemFound) {
-        throw new Error(`${NAME}. The value "${value}" does not exist in the list of items.`)        
+        throw new Error(`${NAME}. The value "${value}" does not exist in the list of items.`)
       }
 
       return true
@@ -115,7 +115,6 @@ const Dropdown = (() => {
         if (!dropdown || dropdown !== this.getElement()) {
           this.hide()
         }
-
       } else if (event.type === 'click') {
         const item = findTargetByClass(event.target, 'item')
 
@@ -170,7 +169,7 @@ const Dropdown = (() => {
       this.triggerEvent(Event.SHOW)
       this.triggerEvent(Event.SHOWN)
 
-      this.registerElement({ target: dropdownMenu, event: 'click' })      
+      this.registerElement({ target: dropdownMenu, event: 'click' })
       this.registerElement({ target: document.body, event: Event.START })
 
       return true
@@ -186,7 +185,7 @@ const Dropdown = (() => {
       this.triggerEvent(Event.HIDE)
       this.triggerEvent(Event.HIDDEN)
 
-      this.unregisterElement({ target: this.options.element.querySelector('.dropdown-menu'), event: 'click' })      
+      this.unregisterElement({ target: this.options.element.querySelector('.dropdown-menu'), event: 'click' })
       this.unregisterElement({ target: document.body, event: Event.START })
 
       return true
