@@ -41,7 +41,7 @@ phonon.ajax = (function () {
 	* @param {Object} data
 	*/
 	var objToString = function(data) {
-		var strData = '';
+		var strData = '?';
 		var key;
 
 		for(key in data) {
@@ -50,7 +50,7 @@ phonon.ajax = (function () {
 
 		var last = strData.lastIndexOf('&');
 		if(last !== -1) {
-			data = strData.substring(0, last);
+			strData = strData.substring(0, last);
 		}
 		return strData;
 	};
@@ -76,13 +76,18 @@ phonon.ajax = (function () {
 		if(typeof url !== 'string') throw new TypeError('url must be a string');
 		// https://github.com/quark-dev/Phonon-Framework/issues/195#issuecomment-274266194
 		if(typeof opts.contentType === 'undefined') opts.contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
-		if(typeof data === 'object') data = contentType === 'application/json' ? JSON.stringify(data) : objToString(data);
 
 		var xhr = createXhr(crossDomain);
 		var flagError = 'NO_INTERNET_ACCESS';
 
-		if(xhr) {
+		if(typeof method === 'string' && method.toLowerCase().trim() === 'get'
+			&& data !== null && typeof data === 'object') {
+			url += objToString(data)
+		}
 
+		if(typeof data === 'object' && data !== null) data = JSON.stringify(data);
+
+		if(xhr) {
 			xhr.open(method, url, true);
 
 			if(typeof contentType === 'string') {
