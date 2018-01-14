@@ -1343,7 +1343,7 @@ phonon.ajax = (function () {
 	* @param {Object} data
 	*/
 	var objToString = function(data) {
-		var strData = '';
+		var strData = '?';
 		var key;
 
 		for(key in data) {
@@ -1352,7 +1352,7 @@ phonon.ajax = (function () {
 
 		var last = strData.lastIndexOf('&');
 		if(last !== -1) {
-			data = strData.substring(0, last);
+			strData = strData.substring(0, last);
 		}
 		return strData;
 	};
@@ -1378,13 +1378,18 @@ phonon.ajax = (function () {
 		if(typeof url !== 'string') throw new TypeError('url must be a string');
 		// https://github.com/quark-dev/Phonon-Framework/issues/195#issuecomment-274266194
 		if(typeof opts.contentType === 'undefined') opts.contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
-		if(typeof data === 'object') data = contentType === 'application/json' ? JSON.stringify(data) : objToString(data);
 
 		var xhr = createXhr(crossDomain);
 		var flagError = 'NO_INTERNET_ACCESS';
 
-		if(xhr) {
+		if(typeof method === 'string' && method.toLowerCase().trim() === 'get'
+			&& data !== null && typeof data === 'object') {
+			url += objToString(data)
+		}
 
+		if(typeof data === 'object' && data !== null) data = JSON.stringify(data);
+
+		if(xhr) {
 			xhr.open(method, url, true);
 
 			if(typeof contentType === 'string') {
@@ -1849,7 +1854,7 @@ phonon.tagManager = (function () {
 ;(function (window, document) {
 
     var jsonCache = null;
-    var localeUsed = null;
+    var currentLocale = null;
 
     var opts = {
         localeFallback: null,
@@ -1975,6 +1980,8 @@ phonon.tagManager = (function () {
             opts[prop] = options[prop];
         }
 
+        currentLocale = opts.localeFallback
+
 		if(typeof options.use !== 'undefined') {
             opts.loadJson = false
         }
@@ -1996,6 +2003,8 @@ phonon.tagManager = (function () {
         }
 
         var locale = opts.localePreferred ? opts.localePreferred : opts.localeFallback;
+
+        currentLocale = locale
 
         if(opts.loadJson) {
             // JSON
@@ -2023,7 +2032,6 @@ phonon.tagManager = (function () {
                     try {
                         var json = JSON.parse(xhr.responseText);
                         jsonCache = json;
-                        localeUsed = locale;
                         callback(jsonCache);
                     } catch (e) {
                         fallback();
@@ -2189,8 +2197,8 @@ phonon.tagManager = (function () {
             getLocale: function () {
                 return getLocale();
             },
-            getLoadedLocale: function () {
-                return localeUsed;
+            getCurrentLocale: function () {
+                return currentLocale;
             }
         };
     };

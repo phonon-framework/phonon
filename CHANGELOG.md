@@ -1,3 +1,13 @@
+### 1.4.9 (2018-01-14)
+
+### Features
+
+* Added `getCurrentLocale()` to retrieve the language used with the [i18n](http://phonon.quarkdev.com/docs/i18n) module.
+
+### Bug Fixes
+
+* GET requests with parameters [#100](https://github.com/quark-dev/Phonon-Framework/issues/100)
+
 ### 1.4.8 (2017-12-15)
 
 ### Features
