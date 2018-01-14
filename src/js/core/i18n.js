@@ -7,7 +7,7 @@
 ;(function (window, document) {
 
     var jsonCache = null;
-    var localeUsed = null;
+    var currentLocale = null;
 
     var opts = {
         localeFallback: null,
@@ -133,6 +133,8 @@
             opts[prop] = options[prop];
         }
 
+        currentLocale = opts.localeFallback
+
 		if(typeof options.use !== 'undefined') {
             opts.loadJson = false
         }
@@ -154,6 +156,8 @@
         }
 
         var locale = opts.localePreferred ? opts.localePreferred : opts.localeFallback;
+
+        currentLocale = locale
 
         if(opts.loadJson) {
             // JSON
@@ -181,7 +185,6 @@
                     try {
                         var json = JSON.parse(xhr.responseText);
                         jsonCache = json;
-                        localeUsed = locale;
                         callback(jsonCache);
                     } catch (e) {
                         fallback();
@@ -347,8 +350,8 @@
             getLocale: function () {
                 return getLocale();
             },
-            getLoadedLocale: function () {
-                return localeUsed;
+            getCurrentLocale: function () {
+                return currentLocale;
             }
         };
     };
