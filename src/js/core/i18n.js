@@ -172,8 +172,13 @@
             if(xhr.overrideMimeType) xhr.overrideMimeType('application/json; charset=utf-8');
 
             var fallback = function() {
-                // The preferred locale is not available
-                opts.localePreferred = null;
+                if(opts.localePreferred && opts.localePreferred.length > 2) {
+                    // region specific text not available - try generic language
+                    opts.localePreferred = opts.localePreferred.substring(0, 2);
+                } else {
+                    // The preferred locale is not available
+                    opts.localePreferred = null;
+                }
                 getAll(function (json) {
                     jsonCache = json;
                     callback(json);
