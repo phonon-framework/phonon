@@ -72,8 +72,10 @@ function removeClasses(element: HTMLElement, classList: string[], prefix: string
   });
 }
 
-export function isElement(node: Node) {
-  return node.nodeType === 1; // <p> or <div>
+export function isElement(node: Node): boolean {
+  return node.nodeType === 1 // element node like <p> or <div>
+    // SVG type has object className (containing SVGAnimatedString)
+    && typeof (node as HTMLElement).className === 'string';
 }
 
 export default {
