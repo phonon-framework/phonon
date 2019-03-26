@@ -50,9 +50,8 @@ function dispatchChangeEvent(subscriber: IMutatorSubscriber, eventName: string, 
   callback.apply(callback, args);
 }
 
-function nodeFn(node: Node, added = true) {
-  const nodeElement = (node as HTMLElement);
-  const elementClasses = nodeElement.className.split(' ');
+function nodeFn(element: HTMLElement, added = true) {
+  const elementClasses = element.className.split(' ');
   const subscriber = mutatorSubscribers.find(l => elementClasses.indexOf(l.componentClass) > -1);
 
   if (!subscriber) {
@@ -60,7 +59,7 @@ function nodeFn(node: Node, added = true) {
   }
 
   const eventName = added ? 'onAdded' : 'onRemoved';
-  const args = added ? [nodeElement, stack.addComponent] : [nodeElement, stack.removeComponent];
+  const args = added ? [element, stack.addComponent] : [element, stack.removeComponent];
 
   dispatchChangeEvent(subscriber, eventName, ...args);
 }
