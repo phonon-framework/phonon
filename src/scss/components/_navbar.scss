@@ -1,0 +1,130 @@
+// Name:            Navbar
+// ================================================================
+
+.navbar {
+  display: flex;
+  position: relative;
+
+  padding: $navbar-padding-y 0;
+
+  > .container,
+  > .container-fluid {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+
+// color variant
+@each $color, $value in $theme-colors {
+  .navbar-#{$color} {
+    background-color: $value;
+
+    @include navbar-variant(theme-color-tone($color));
+  }
+}
+
+
+// alignment possibilities in the navbar
+.navbar-left,
+.navbar-center {
+  justify-content: start;
+}
+
+.navbar-left,
+.navbar-right {
+  display: flex;
+  flex-wrap: wrap; // wrap containers
+  flex: 1;
+  align-items: center;
+}
+
+.navbar-right {
+  justify-content: flex-end;
+}
+
+// nav menu
+.navbar-nav {
+  display: flex;
+  margin: 0; // reset ul list
+  padding: 0;
+  list-style: none;
+}
+
+.navbar-nav .nav-item .nav-link,    // Link nav item
+.navbar-title,                      // Title item
+.navbar-toggle {                    // Toggle button item
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: $navbar-nav-item-height;
+  padding: 0 $navbar-nav-item-padding-x;
+  font-size: $navbar-nav-item-font-size;
+  font-family: $navbar-nav-item-font-family;
+  // remove default underline
+  text-decoration: none;
+}
+
+
+.navbar-title {
+  @include hover-focus {
+    text-decoration: none;
+  }
+
+  img {
+    margin-right: $navbar-nav-item-padding-x;
+  }
+}
+
+.navbar-nav {
+
+  .active {
+    background-color: hsla(0,0%,100%,.1);
+  }
+
+  .nav-link {
+    transition: color 300ms ease-in-out;
+
+    &.disabled {
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+}
+
+// toggle visibility of the nav menu
+.navbar-expand {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    $next: breakpoint-next($breakpoint, $grid-breakpoints);
+    $infix: breakpoint-infix($next, $grid-breakpoints);
+
+    &#{$infix} {
+      @include media-breakpoint-down($breakpoint) {
+        > .container,
+        > .container-fluid {
+          padding-right: 0;
+          padding-left: 0;
+        }
+
+        .navbar-nav {
+          display: none;
+        }
+      }
+
+      @include media-breakpoint-up($next) {
+        .navbar-toggle {
+          display: none;
+        }
+
+        // For nesting containers, have to redeclare for alignment purposes
+        > .container,
+        > .container-fluid {
+          flex-wrap: nowrap;
+        }
+      }
+    }
+  }
+}

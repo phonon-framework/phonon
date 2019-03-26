@@ -1,0 +1,197 @@
+/* ========================================================================
+   Component: Table
+ ========================================================================== */
+
+/*
+ * 1. Remove most spacing between table cells.
+ * 2. Behave like a block element
+ * 3. Style
+ */
+
+.table {
+    /* 1 */
+    border-collapse: collapse;
+    border-spacing: 0;
+    /* 2 */
+    width: 100%;
+    /* 3 */
+    margin-bottom: $table-margin-y;
+    @if(mixin-exists(hook-table)) {@include hook-table();}
+}
+
+/* Add margin if adjacent element */
+* + .table { margin-top: $table-margin-y; }
+
+
+/* Header cell
+ ========================================================================== */
+
+/*
+ * 1. Style
+ */
+
+.table th {
+    padding: $table-cell-padding-y $table-cell-padding-x;
+    text-align: left;
+    vertical-align: bottom;
+    /* 1 */
+    font-size: $table-header-cell-font-size;
+    font-weight: $table-header-cell-font-weight;
+    text-transform: $table-header-cell-text-transform;
+    color: $table-header-cell-color;
+}
+
+
+/* Cell
+ ========================================================================== */
+
+.table td {
+    padding: $table-cell-padding-y $table-cell-padding-x;
+    vertical-align: top;
+}
+
+/*
+ * Remove margin from the last-child
+ */
+
+.table td > :last-child { margin-bottom: 0; }
+
+
+/* Footer
+ ========================================================================== */
+
+.table tfoot {
+    font-size: $table-footer-font-size;
+}
+
+
+/* Caption
+ ========================================================================== */
+
+.table caption {
+    font-size: $table-caption-font-size;
+    text-align: left;
+    color: $table-caption-color;
+}
+
+
+/* Alignment modifier
+ ========================================================================== */
+
+.table-middle,
+.table-middle td { vertical-align: middle !important; }
+
+
+/* Style modifiers
+ ========================================================================== */
+
+/*
+ * Divider
+ */
+
+.table-divider > tr:not(:first-child),
+.table-divider > :not(:first-child) > tr,
+.table-divider > :first-child > tr:not(:first-child) {
+    border-top: $table-divider-border-width solid $table-divider-border;
+}
+
+/*
+ * Striped
+ */
+
+.table-striped > tr:nth-of-type(odd),
+.table-striped tbody tr:nth-of-type(odd) {
+    background: $table-striped-row-background;
+}
+
+/*
+ * Hover
+ */
+
+.table-hover > tr:hover,
+.table-hover tbody tr:hover {
+    background: $table-hover-row-background;
+}
+
+
+/* Active state
+ ========================================================================== */
+
+.table > tr.uk-active,
+.table tbody tr.uk-active {
+    background: $table-row-active-background;
+}
+
+/* Size modifier
+ ========================================================================== */
+
+.table-sm th,
+.table-sm td {
+    padding: $table-sm-cell-padding-y $table-sm-cell-padding-x;
+}
+
+.table-lg th,
+.table-lg td {
+    padding: $table-lg-cell-padding-y $table-lg-cell-padding-x;
+}
+
+
+/* Justify modifier
+ ========================================================================== */
+
+.table-justify th:first-child,
+.table-justify td:first-child { padding-left: 0; }
+
+.table-justify th:last-child,
+.table-justify td:last-child { padding-right: 0; }
+
+
+/* Cell size modifier
+ ========================================================================== */
+
+.table-shrink { width: 1px; }
+.table-expand { min-width: $table-expand-min-width; }
+
+
+/* Cell link modifier
+ ========================================================================== */
+
+/*
+ * Does not work with `table-justify` at the moment
+ */
+
+.table-link { padding: 0 !important; }
+
+.table-link > a {
+    display: block;
+    padding: $table-cell-padding-y $table-cell-padding-x;
+}
+
+.table-sm .table-link > a { padding: $table-sm-cell-padding-y $table-sm-cell-padding-x; }
+
+
+/* Responsive table
+ ========================================================================== */
+
+
+.table-responsive {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    $next: breakpoint-next($breakpoint, $grid-breakpoints);
+    $infix: breakpoint-infix($next, $grid-breakpoints);
+
+    &#{$infix} {
+      @include media-breakpoint-down($breakpoint) {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar; // See https://github.com/twbs/bootstrap/pull/10057
+
+        // Prevent double border on horizontal scroll due to use of `display: block;`
+        > .table-bordered {
+          border: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@mixin icon($name, $image, $button-size, $icon-size) {
+  .icon-#{$name} {
+    min-width: $button-size;
+    min-height: $button-size;
+
+    .icon {
+      background-image: $image;
+      display: inline-block;
+      width: $icon-size;
+      height: $icon-size;
+
+      vertical-align: middle;
+      content: "";
+
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+  }
+}

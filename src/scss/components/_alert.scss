@@ -1,0 +1,64 @@
+// Name:            Alert
+// Description:     Component to create alerts
+// ================================================================
+
+.alert {
+  position: relative;
+  padding: $alert-padding-y $alert-padding-x;
+  margin-bottom: $alert-margin-bottom;
+  @include border-radius($alert-border-radius);
+
+  .alert-heading {
+    color: inherit;
+  }
+
+  &.alert-dismissible {
+    padding-right: $alert-padding-x * 2;
+
+    // Adjust close link position
+    .icon-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: $alert-padding-y $alert-padding-x;
+      color: inherit;
+    }
+  }
+
+  &.fade {
+    @include transition($transition-fade);
+  }
+
+  &.show {
+    opacity: 1;
+  }
+
+  &.hide {
+    opacity: 0;
+  }
+
+  &.alert-border {
+    border: $alert-border-width solid $alert-border-color;
+
+    @each $color, $value in $theme-colors {
+      &.border-top-#{$color} {
+        border-top: $alert-colored-border-width solid $value !important;
+      }
+      &.border-right-#{$color} {
+        border-right: $alert-colored-border-width solid $value !important;
+      }
+      &.border-bottom-#{$color} {
+        border-bottom: $alert-colored-border-width solid $value !important;
+      }
+      &.border-left-#{$color} {
+        border-left: $alert-colored-border-width solid $value !important;
+      }
+    }
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .alert-#{$color} {
+    @include alert-variant(theme-color-level($color, $alert-bg-level), theme-color-level($color, $alert-hr-level), theme-color-level($color, $alert-color-level));
+  }
+}

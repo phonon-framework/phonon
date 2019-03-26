@@ -1,0 +1,148 @@
+// Name:            Notification
+// ================================================================
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0; // remove padding of <ul> lists
+  list-style: none;
+
+  .tab-item {
+    .tab-link {
+      /* 1 */
+      display: block;
+      text-align: center;
+      /* 2 */
+      padding: $tab-item-padding-y $tab-item-padding-x;
+      color: $tab-item-color;
+      text-decoration: none;
+      transition: color 300ms ease-in-out;
+
+      border-bottom: 1px solid $tab-item-border-color;
+      padding-bottom: $tab-item-padding-y + ($tab-item-active-border-width - $tab-item-border-width);
+
+      // Hover + Focus
+      &:hover,
+      &:focus {
+        color: $tab-item-hover-color;
+        text-decoration: $tab-item-hover-text-decoration;
+      }
+    }
+
+    // Active
+    &.active {
+      border-bottom: $tab-item-active-border-width solid $tab-item-active-border-color;
+
+      .tab-link {
+        color: $tab-item-active-color;
+      }
+    }
+
+    // Disabled
+    &.tab-disabled {
+      .tab-link {
+        color: $tab-item-disabled-color;
+        pointer-events: none;
+        cursor: default;
+      }
+    }
+  }
+
+  &.tabs-vertical {
+    flex-direction: column;
+
+    &.tabs-left {
+      .tab-item {
+        padding-right: ($tab-item-active-border-width - $tab-item-border-width);
+        border-right: 1px solid $tab-item-border-color;
+
+        .tab-link {
+          border-bottom: 0; // horizontal property
+        }
+
+        &.active {
+          padding-right: 0;
+          border-bottom: 0; // horizontal property
+          border-right: $tab-item-active-border-width solid $tab-item-active-border-color;
+        }
+      }
+    }
+
+
+    &.tabs-right {
+      .tab-item {
+        padding-left: ($tab-item-active-border-width - $tab-item-border-width);
+        border-left: 1px solid $tab-item-border-color;
+
+        .tab-link {
+          border-bottom: 0; // horizontal property
+        }
+
+        &.active {
+          padding-left: 0;
+          border-bottom: 0; // horizontal property
+          border-left: $tab-item-active-border-width solid $tab-item-active-border-color;
+        }
+      }
+    }
+  }
+}
+
+/* Justified modifier
+ ========================================================================== */
+.tabs-fill {
+  .tab-item {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+.tabs-justified {
+  .tab-item {
+    flex-basis: 0;
+    flex-grow: 1;
+    text-align: center;
+  }
+}
+
+
+/* Position modifier
+ ========================================================================== */
+
+/*
+ * Left + Center + Right
+ */
+.tabs-left {
+  justify-content: flex-start;
+}
+
+.tabs-center {
+  justify-content: center;
+}
+
+.tabs-right {
+  justify-content: flex-end;
+}
+
+// Tab content
+
+.tab-content {
+  .tab-pane {
+    display: none;
+    opacity: 0;
+  }
+
+  .animate {
+    transition: opacity 300ms ease-in-out;
+    opacity: 1;
+  }
+
+  .showing {
+    display: block;
+  }
+
+  .active {
+    display: block;
+    opacity: 1;
+  }
+}

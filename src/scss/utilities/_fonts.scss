@@ -1,0 +1,41 @@
+// Common sans-serif fonts
+.font-helvetica {
+  font-family: helvetica, sans-serif;
+}
+
+.font-arial {
+  font-family: arial, helvetica, sans-serif;
+}
+
+// less common sans-serif
+.font-verdana {
+  font-family: verdana,			/* Windows, MacOS */
+  /* Fallback options */
+      arial,			/* Windows, MacOS */
+      helvetica,			/* Unix+X, MacOS */
+      sans-serif;
+}
+
+// Common serif fonts
+.font-times-new-roman {
+  font-family: "Times New Roman",		/* Windows, MacOS */
+    "Times Roman",		/* Windows */
+    TimesNR,			/* Macintosh ? */
+    times,			/* Unix+X, Macintosh */
+    serif;
+}
+
+.font-georgia {
+  font-family: georgia,			/* Windows, MacOS */
+  /* Fallback options */
+      times,			/* Unix+X, MacOS */
+      serif;
+}
+
+// Common monospace fonts
+.font-courier {
+  font-family: courier, monospace;
+}
+
+
+

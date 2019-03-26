@@ -1,0 +1,76 @@
+@mixin navbar-variant($tone) {
+  .navbar-title {
+    @if ($tone == 'dark') {
+      color: $navbar-dark-title-color;
+    }
+    @else {
+      color: $navbar-light-title-color;
+    }
+
+    @include hover-focus {
+      @if ($tone == 'dark') {
+        color: $navbar-dark-title-hover-color;
+      }
+      @else {
+        color: $navbar-light-title-hover-color;
+      }
+    }
+  }
+
+  .navbar-nav {
+    .nav-link {
+      @if ($tone == 'dark') {
+        color: $navbar-dark-nav-item-color;
+      }
+      @else {
+        color: $navbar-light-nav-item-color;
+      }
+
+      @include hover-focus {
+        @if ($tone == 'dark') {
+          color: $navbar-dark-nav-item-hover-color;
+        }
+        @else {
+          color: $navbar-light-nav-item-hover-color;
+        }
+      }
+
+      &.disabled {
+        @if ($tone == 'dark') {
+          color: $navbar-dark-nav-item-disabled-color;
+        }
+        @else {
+          color: $navbar-light-nav-item-disabled-color;
+        }
+      }
+    }
+
+    .active > .nav-link,
+    .nav-link.active {
+      @if ($tone == 'dark') {
+        color: $navbar-dark-nav-item-active-color;
+      }
+      @else {
+        color: $navbar-light-nav-item-active-color;
+      }
+    }
+  }
+
+  .navbar-toggle {
+    @if ($tone == 'dark') {
+      color: $navbar-dark-nav-item-color;
+    }
+    @else {
+      color: $navbar-light-nav-item-color;
+    }
+
+    .icon {
+      @if ($tone == 'dark') {
+        background-image: $hamburger-dark-bg;
+      }
+      @else {
+        background-image: $hamburger-light-bg;
+      }
+    }
+  }
+}

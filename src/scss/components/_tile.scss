@@ -1,0 +1,11 @@
+.tile {
+  display: inline-block;
+  text-align: center;
+}
+
+@each $color, $value in $theme-colors {
+  .tile-#{$color} {
+    background-color: $value;
+    color: map-get($inverse-colors, $color);
+  }
+}

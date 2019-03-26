@@ -1,0 +1,39 @@
+# Exclude some files from .gitignore
+.*
+!.gitignore
+!.gitmodules
+!.htaccess
+!.gitkeep
+!.editorconfig
+!.env.example
+!.gitattributes
+!.babelrc
+!.eslintignore
+!.eslintrc
+!.sass-lint.yml
+!.travis.yml
+
+coverage
+
+# OS
+__*
+*.bak
+*.lnk
+.DS_Store
+Thumbs.db
+.Trash-*
+*.log
+
+# IDE
+*~
+*.sublime-project
+.idea
+.vscode
+*.swo
+*.swp
+
+# Npm
+node_modules
+
+# Typescript
+.rpt2_cache

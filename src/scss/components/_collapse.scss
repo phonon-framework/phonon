@@ -1,0 +1,13 @@
+.collapse {
+  display: none;
+  transition: height 300ms ease-in-out;
+
+  &.show {
+    display: block;
+  }
+}
+
+.collapsing {
+  display: block;
+  overflow: hidden;
+}

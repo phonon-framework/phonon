@@ -1,0 +1,170 @@
+// Name:            Off-canvas
+// ================================================================
+
+.offcanvas-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zindex-offcanvas-backdrop;
+  background-color: $offcanvas-backdrop-bg;
+  will-change: opacity;
+
+  &.fadeout {
+    transition: opacity .45s linear;
+    opacity: 0;
+  }
+}
+
+.offcanvas-aside-left {
+  transition: margin-left 1ms ease-in-out;
+  will-change: margin-left;
+
+  &.show {
+    margin-left: $offcanvas-sm;
+    width: calc(100% - #{$offcanvas-sm});
+  }
+}
+
+.offcanvas-aside-right {
+  transition: margin-right 1ms ease-in-out;
+  will-change: margin-right;
+
+  &.show {
+    margin-right: $offcanvas-sm;
+    width: calc(100% - #{$offcanvas-sm});
+  }
+}
+
+.offcanvas {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  visibility: hidden;
+  z-index: $zindex-offcanvas;
+  background-color: $offcanvas-background;
+  width: $offcanvas-sm;
+  max-width: 100%;
+  height: 100%;
+  will-change: transform;
+
+  &.offcanvas-left {
+    border-right: $offcanvas-container-border-width solid $offcanvas-container-border-color;
+    left: 0;
+    transform: translate3d(#{-($offcanvas-sm + $offcanvas-inner-padding)}, 0, 0);
+  }
+
+  &.offcanvas-right {
+    border-left: $offcanvas-container-border-width solid $offcanvas-container-border-color;
+    right: 0;
+    transform: translate3d(#{$offcanvas-sm + $offcanvas-inner-padding}, 0, 0);
+  }
+
+  &.animate {
+    transition: transform 300ms ease-in-out;
+    visibility: visible;
+  }
+
+  &.show {
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+  }
+
+  &.hide {
+    visibility: visible;
+  }
+
+  .icon-close {
+    float: right;
+  }
+
+  .offcanvas-inner {
+    position: relative;
+    height: 100%;
+    pointer-events: none;
+
+    .offcanvas-content {
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      background-clip: padding-box;
+      outline: 0;
+
+      pointer-events: auto;
+
+      height: 100%;
+
+      .offcanvas-header {
+        display: flex;
+        align-items: center; // so the close btn always stays centered
+        justify-content: space-between; // Put offcanvas header elements (title and dismiss) on opposite ends
+        padding: $offcanvas-header-padding;
+        border-bottom: $offcanvas-header-border-width solid $offcanvas-header-border-color;
+
+        .offcanvas-title {
+          margin-bottom: 0;
+        }
+      }
+
+      .offcanvas-body {
+        position: relative;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: $offcanvas-inner-padding;
+      }
+
+      // footer
+      .offcanvas-footer {
+        display: flex;
+        align-items: center; // vertically center
+        justify-content: flex-start; // left align items
+        padding: $offcanvas-footer-padding;
+        border-top: $offcanvas-footer-border-width solid $offcanvas-footer-border-color;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .offcanvas {
+    transform: translate3d(#{-($offcanvas-md + $offcanvas-inner-padding)}, 0, 0);
+    width: $offcanvas-md;
+  }
+
+  .offcanvas-aside-left {
+    &.show {
+      margin-left: $offcanvas-md;
+      width: calc(100% - #{($offcanvas-md + $offcanvas-inner-padding)});
+    }
+  }
+
+  .offcanvas-aside-right {
+    &.show {
+      margin-right: $offcanvas-md;
+      width: calc(100% - #{$offcanvas-md});
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .offcanvas {
+    transform: translate3d(#{-$offcanvas-lg}, 0, 0);
+    width: $offcanvas-lg;
+  }
+
+  .offcanvas-aside-left {
+    &.show {
+      margin-left: $offcanvas-lg;
+      width: calc(100% - #{$offcanvas-lg});
+    }
+  }
+
+  .offcanvas-aside-right {
+    &.show {
+      margin-left: $offcanvas-lg;
+      width: calc(100% - #{$offcanvas-lg});
+    }
+  }
+}

@@ -1,0 +1,15 @@
+// Name:            Footer
+// ================================================================
+
+.footer {
+  width: 100%;
+  padding: $footer-padding-y $footer-padding-x;
+
+  ul {
+    list-style: none;
+
+    li {
+      margin: $footer-list-item-padding-y 0;
+    }
+  }
+}

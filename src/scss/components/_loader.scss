@@ -1,0 +1,46 @@
+// Name:            Loader
+// Description:     Component to create loaders
+// ================================================================
+
+.loader {
+  width: $loader-size;
+  height: $loader-height;
+  display: $loader-display;
+
+  .loader-spinner {
+    border-top: $loader-spinner-border-weight solid $loader-spinner-color;
+    border-right: $loader-spinner-border-weight solid $loader-spinner-color;
+    border-bottom: $loader-spinner-border-weight solid $loader-spinner-color;
+    border-left: $loader-spinner-border-weight solid transparent;
+    border-radius: 50%;
+    width: $loader-size;
+    height: $loader-height;
+  }
+
+  // Colors
+  @each $color, $value in $theme-colors {
+    .loader-#{$color} {
+      border-top-color: $value;
+      border-right-color: $value;
+      border-bottom-color: $value;
+    }
+  }
+
+  &.hide {
+    display: none;
+  }
+
+  .loader-spinner-animated {
+    animation: loader-spinner-animate 900ms infinite linear;
+  }
+}
+
+@keyframes loader-spinner-animate {
+  0% {
+    transform: rotate(0deg) translateZ(0);
+  }
+
+  100% {
+    transform: rotate(360deg) translateZ(0);
+  }
+}

@@ -1,0 +1,24 @@
+@mixin notification-variant($tone) {
+  .notification-header {
+
+    .notification-title {
+      @if ($tone == 'dark') {
+        color: $notification-dark-title;
+      }
+      @else {
+        color: $notification-light-title;
+      }
+    }
+
+    .icon-close {
+      .icon {
+        @if ($tone == 'dark') {
+          background-image: $close-dark-bg;
+        }
+        @else {
+          background-image: $close-light-bg;
+        }
+      }
+    }
+  }
+}

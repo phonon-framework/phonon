@@ -1,0 +1,52 @@
+// Name:            Image
+// Description:     Component to create fluid images, thumbnails & figures
+// ================================================================
+
+
+// Variables
+// ================================================================
+
+$thumbnail-padding:                 .25rem !default;
+$thumbnail-bg:                      $body-bg !default;
+$thumbnail-border-width:            $border-width !default;
+$thumbnail-border-color:            $light !default;
+$thumbnail-border-radius:           $border-radius !default;
+
+$figure-caption-font-size:          90% !default;
+$figure-caption-color:              $dark !default;
+
+// Responsive images with max width
+.img-fluid {
+  @include img-fluid;
+}
+
+
+// Image thumbnails
+.thumbnail {
+  padding: $thumbnail-padding;
+  background-color: $thumbnail-bg;
+  border: $thumbnail-border-width solid $thumbnail-border-color;
+  @include border-radius($thumbnail-border-radius);
+
+  // Keep them at most 100% wide
+  @include img-fluid;
+}
+
+//
+// Figures
+//
+
+.figure {
+  // Ensures the caption's text aligns with the image.
+  display: inline-block;
+}
+
+.figure-img {
+  margin-bottom: $spacer / 2;
+  line-height: 1;
+}
+
+.figure-caption {
+  font-size: $figure-caption-font-size;
+  color: $figure-caption-color;
+}

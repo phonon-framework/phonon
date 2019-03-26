@@ -1,0 +1,59 @@
+// Name:            Breadcrumb
+// Description:     Component to create breadcrumbs
+// ================================================================
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: $breadcrumb-padding-y $breadcrumb-padding-x;
+  margin-bottom: $breadcrumb-margin-bottom;
+  list-style: none;
+  background-color: $breadcrumb-bg;
+  @include border-radius($breadcrumb-border-radius);
+
+  align-items: center;
+  height: 100%;
+}
+
+.breadcrumb-item {
+  position: relative;
+  color: $breadcrumb-color;
+  padding: 11px 11px 11px 22px;
+
+  &:first-child {
+    padding: 11px 5.5px 11px 11px;
+  }
+
+  &:last-child {
+    color: $breadcrumb-divider-color;
+  }
+
+  &:before,
+  &:after {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 21px solid transparent;
+    border-bottom: 21px solid transparent;
+    position: absolute;
+    top: 50%;
+    margin-top: -21px;
+    left: 100%;
+    z-index: 3;
+  }
+
+  &:after {
+    border-left: 10px solid #fff;
+  }
+
+  &:before {
+    border-left: 10px solid $breadcrumb-divider-color;
+    margin-left: 1px;
+  }
+
+
+  &.active {
+    color: $breadcrumb-active-color;
+  }
+}

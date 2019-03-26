@@ -1,0 +1,46 @@
+//
+// Horizontal rules
+//
+
+hr {
+  margin-top: $hr-margin-y;
+  margin-bottom: $hr-margin-y;
+  border: 0;
+  border-top: $hr-border-width solid $hr-border-color;
+
+  &.emphasis {
+    border-color: $hr-emphasis-border-color;
+  }
+
+  &.w-sm {
+    width: $hr-emphasis-border-length-sm;
+  }
+
+  &.w-md {
+    width: $hr-emphasis-border-length-md;
+  }
+
+  &.w-lg {
+    width: $hr-emphasis-border-length-lg;
+  }
+
+  &.w-xl {
+    width: $hr-emphasis-border-length-xl;
+  }
+
+  &.h-sm {
+    border-top: $hr-emphasis-border-width-sm solid $hr-emphasis-border-color;
+  }
+
+  &.h-md {
+    border-top: $hr-emphasis-border-width-md solid $hr-emphasis-border-color;
+  }
+
+  &.h-lg {
+    border-top: $hr-emphasis-border-width-lg solid $hr-emphasis-border-color;
+  }
+
+  &.h-xl {
+    border-top: $hr-emphasis-border-width-xl solid $hr-emphasis-border-color;
+  }
+}

@@ -1,0 +1,23 @@
+@mixin modal-variant($value, $tone) {
+  .modal-header {
+    background-color: $value;
+
+    @if ($tone == 'dark') {
+      color: $modal-dark-header-color;
+    }
+    @else {
+      color: $modal-light-header-color;
+    }
+
+    .icon-close {
+      .icon {
+        @if ($tone == 'dark') {
+          background-image: $close-dark-bg;
+        }
+        @else {
+          background-image: $close-light-bg;
+        }
+      }
+    }
+  }
+}

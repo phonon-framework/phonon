@@ -1,0 +1,314 @@
+// Name:            Selectbox
+// ================================================================
+
+.selectbox {
+  display: inline-block;
+  position: relative;
+  transform: rotateZ(0deg);
+  transition: border-color $selectbox-border-transition-duration ease-in-out;
+  outline: none;
+  border: $selectbox-border-weight solid $selectbox-border-color;
+
+  @if $enable-rounded {
+    border-radius: $selectbox-border-radius;
+  }
+
+  border-color: $selectbox-border-color;
+  background-color: $selectbox-background;
+  cursor: pointer;
+  user-select: none;
+
+  font-family: $input-font-family;
+  font-size: $font-size-base;
+
+  // padding: $selectbox-padding-y $selectbox-padding-x;
+  padding: 0 $selectbox-padding-x;
+
+  width: $selectbox-width;
+  min-width: $selectbox-min-width;
+
+  white-space: normal;
+  word-wrap: break-word;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  &.active {
+    height: auto;
+    z-index: 10;
+
+    .selectbox-icon {
+      transform: rotate(180deg);
+    }
+
+    .selectbox-menu {
+      display: block;
+      border-top: 0;
+    }
+
+    &:focus {
+      box-shadow: none !important;
+    }
+  }
+
+  // hidden input
+  // @todo keep?
+  select {
+    display: none;
+  }
+
+  &:hover {
+    border-color: $selectbox-hover-border-color;
+
+    .selectbox-menu {
+      border-color: $selectbox-menu-hover-border-color;
+    }
+  }
+
+  .selectbox-input-container {
+    position: relative;
+    width: 100%;
+    padding-right: 15px; // padding for icon, avoid tags to overlap
+    overflow: hidden;
+    white-space: nowrap;
+
+    .selectbox-item-selection {
+      min-height: $selectbox-height;
+
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .item-selected {
+        width: auto;
+        display: inline-block;
+        color: $selectbox-item-selected-color;
+
+        // padding: $selectbox-item-selected-padding-y $selectbox-item-selected-padding-x;
+        margin: $selectbox-item-selected-margin-y 4px $selectbox-item-selected-margin-y 0;
+
+        &.tag {
+          padding: $selectbox-item-selected-padding-y 8px;
+          color: $white;
+          background-color: $primary;
+
+          .icon-close {
+            float: right;
+
+            .icon {
+              background-image: $close-dark-bg;
+            }
+          }
+        }
+      }
+    }
+
+    // in select
+    .input-select-one {
+      width: calc(100% - 15px); // space for icon
+      height: $selectbox-height;
+      display: inline-block;
+      border: none;
+      padding: 0 0 0 4px;
+
+      box-shadow: none;
+      background-color: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        color: $selectbox-input-placeholder-color;
+      }
+
+      &.hide-placeholder {
+        &::placeholder {
+          color: transparent;
+        }
+      }
+    }
+  }
+
+  &.selectbox-sm {
+    font-size: $selectbox-font-size-sm;
+    padding: 0 $selectbox-padding-x-sm;
+
+    .input-select-one {
+      height: $selectbox-height-sm;
+    }
+
+    .selectbox-item-selection {
+      min-height: $selectbox-height-sm;
+    }
+  }
+
+  &.selectbox-lg {
+    font-size: $selectbox-font-size-lg;
+    padding: 0 $selectbox-padding-x-lg;
+
+    .input-select-one {
+      height: $selectbox-height-lg;
+    }
+
+    .selectbox-item-selection {
+      min-height: $selectbox-height-lg;
+    }
+  }
+
+  .selectbox-menu {
+    display: none;
+    position: absolute;
+    width: calc(100% + 2px);
+    top: 100%;
+    left: 0;
+    transition: border-color $selectbox-menu-border-transition-duration ease-in-out;
+    z-index: 11;
+    margin: 0 -1px 0 -1px;
+    outline: none;
+    border: $selectbox-menu-border-weight solid $selectbox-menu-border-color;
+
+    @if $enable-rounded {
+      border-radius: 0 0 $selectbox-border-radius $selectbox-border-radius;
+    }
+
+    background-color: $selectbox-menu-background;
+    cursor: auto;
+    padding: 0;
+    // min-width: max-content;
+    max-height: $selectbox-menu-max-height;
+
+    // font-size: $font-size-base;
+    will-change: transform;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    backface-visibility: hidden;
+
+    -webkit-overflow-scrolling: touch;
+
+    > * {
+      white-space: nowrap;
+    }
+
+    .selectbox-menu-header {
+      display: flex;
+      align-items: center; // so the close btn is horizontally centered
+      justify-content: space-between; // opposite ends
+      padding: $selectbox-menu-item-padding-y $selectbox-menu-item-padding-x;
+      background-color: $bg-light;
+    }
+
+    .selectbox-menu-input-container {
+      width: 100%;
+      padding: $selectbox-menu-item-padding-y $selectbox-menu-item-padding-x;
+
+      .input-select-one {
+        width: 100%;
+      }
+    }
+
+    // menu item
+    .selectbox-menu-item {
+      display: flex;
+      align-items: center; // vertical alignment
+      justify-content: space-between; // Put item elements on opposite ends
+
+      position: relative;
+      background-color: $selectbox-menu-item-background;
+      cursor: pointer;
+      height: auto;
+      color: $selectbox-menu-item-color;
+
+      padding: $selectbox-menu-item-padding-y $selectbox-menu-item-padding-x;
+
+      transition: background-color $selectbox-border-transition-duration ease-in-out,
+      color $selectbox-border-transition-duration ease-in-out;
+
+      -webkit-touch-callout: none;
+
+      border-top: $selectbox-menu-item-border-weight solid $selectbox-menu-item-border-color;
+      white-space: normal;
+      word-wrap: normal;
+
+      &:hover {
+        z-index: 13;
+        background-color: $selectbox-menu-item-hover-background;
+        color: $selectbox-menu-item-hover-color;
+      }
+
+      &.selected {
+        pointer-events: none;
+        cursor: default;
+
+        background-color: $selectbox-menu-item-selected-background;
+        color: $selectbox-menu-item-selected-color;
+
+        // keep same style
+        &:hover {
+          background-color: $selectbox-menu-item-selected-background;
+          color: $selectbox-menu-item-selected-color;
+        }
+
+        .description {
+          color: $selectbox-menu-item-selected-color;
+        }
+      }
+
+      &.disabled {
+        pointer-events: none;
+        cursor: default;
+        opacity: .45;
+      }
+    }
+  }
+
+  // icon
+  .selectbox-icon {
+    position: absolute;
+
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 4px 0 4px;
+    border-color: #000 transparent transparent transparent;
+
+    top: calc(50% - 4px);
+    right: 0;
+
+    transition: transform 300ms ease-in-out;
+
+    z-index: 3;
+    cursor: pointer;
+    text-align: center;
+
+    backface-visibility: hidden;
+  }
+
+  // menu header
+  .header {
+    margin: 1rem 0rem 0.75rem 0rem;
+    padding: 0em $selectbox-padding-x;
+    text-transform: uppercase;
+    color: $selectbox-menu-header-color;
+    // font-size: $font-size-sm;
+    font-weight: bold;
+  }
+
+  // menu divider
+  .divider {
+    margin: .5em 0;
+    border-top: $selectbox-menu-divider-border-weight solid $selectbox-menu-divider-border-color;
+    height: 0;
+  }
+
+  // menu item description
+  .description {
+    float: right;
+    color: $selectbox-menu-description-color;
+    // font-size: $font-size-sm;
+    margin-top: 2px;
+  }
+}

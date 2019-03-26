@@ -1,0 +1,141 @@
+// Name:            Modal
+// ================================================================
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zindex-modal-backdrop;
+  background-color: $modal-backdrop-bg;
+
+  &.fadeout {
+    transition: opacity .45s linear;
+    opacity: 0;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  left: 0;
+  transform: translate3d(0, 0, 0) scale(1.125);
+  transition: transform $modal-animation-duration ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  z-index: $zindex-modal;
+  margin: 0 auto;
+  // prevent Chrome on Windows from adding a focus outline. For details, see
+  // https://github.com/twbs/bootstrap/pull/10951.
+  outline: 0;
+
+  @if $enable-rounded {
+    border-radius: $modal-border-radius;
+  }
+
+  background-color: $modal-content-bg;
+  width: auto;
+  height: auto;
+
+  &.show {
+    transform: translate3d(0, 0, 0) scale(1);
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.hide {
+    animation: hideModal $modal-animation-duration ease-in-out;
+    visibility: visible;
+  }
+
+  .modal-inner {
+    position: relative;
+    margin: $modal-margin;
+    width: auto;
+    pointer-events: none;
+
+    .modal-content {
+      display: flex;
+      position: relative;
+      flex-direction: column;
+
+      // background-color: $alert-content-bg;
+      background-clip: padding-box;
+      // @include border-radius($border-radius-lg);
+      // Remove focus outline from opened modal
+      outline: 0;
+
+      pointer-events: auto;
+
+      .modal-header {
+        display: flex;
+        align-items: center; // so the close btn is horizontally centered
+        justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
+        padding: $modal-header-padding;
+        // border-bottom: $alert-header-border-width solid $alert-header-border-color;
+
+        .modal-title {
+          margin-bottom: 0;
+        }
+      }
+
+      .modal-body {
+        position: relative;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+
+        // min-height: 200px;
+        max-height: 460px;
+
+        // Enable `flex-grow: 1` so that the body take up as much space as possible
+        // when should there be a fixed height on `.modal-modal`.
+        flex: 1 1 auto;
+        padding: $modal-inner-padding;
+      }
+
+      // Footer (for actions)
+      .modal-footer {
+        display: flex;
+        align-items: center; // vertically center
+        justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
+        padding: $modal-inner-padding;
+        // border-top: $alert-footer-border-width solid $alert-footer-border-color;
+
+        > :not(:first-child) { margin-left: .25rem; }
+        > :not(:last-child) { margin-right: .25rem; }
+      }
+    }
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .modal-#{$color} {
+    @include modal-variant($value, theme-color-tone($color));
+  }
+}
+
+@keyframes hideModal {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.815);
+    opacity: 0;
+  }
+}
+
+@include media-breakpoint-up(xs) {
+  .modal {
+    width: $modal-sm;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .modal {
+    width: $modal-md;
+  }
+}

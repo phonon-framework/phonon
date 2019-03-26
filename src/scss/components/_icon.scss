@@ -1,0 +1,30 @@
+// Name:            Icon
+// ================================================================
+
+// default rules applied for all icons
+.icon-close,
+.icon-hamburger,
+.icon-plus,
+.icon-minus {
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+
+  min-width: $icon-button-size;
+  min-height: $icon-button-size;
+
+  @include hover-focus {
+    text-decoration: none;
+    outline: none;
+  }
+}
+
+@include icon('close', $close-light-bg, $close-button-size, $close-icon-size);
+
+@include icon('hamburger', $hamburger-light-bg, $hamburger-button-size, $hamburger-icon-size);
+
+@include icon('plus', $plus-light-bg, $plus-button-size, $plus-icon-size);
+
+@include icon('minus', $minus-light-bg, $minus-button-size, $minus-icon-size);
