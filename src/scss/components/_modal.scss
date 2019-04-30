@@ -31,9 +31,7 @@
   // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;
 
-  @if $enable-rounded {
-    border-radius: $modal-border-radius;
-  }
+  @include border-radius($modal-border-radius);
 
   background-color: $modal-content-bg;
   width: auto;
@@ -61,9 +59,7 @@
       position: relative;
       flex-direction: column;
 
-      // background-color: $alert-content-bg;
       background-clip: padding-box;
-      // @include border-radius($border-radius-lg);
       // Remove focus outline from opened modal
       outline: 0;
 
@@ -101,7 +97,8 @@
         align-items: center; // vertically center
         justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
         padding: $modal-inner-padding;
-        // border-top: $alert-footer-border-width solid $alert-footer-border-color;
+
+        background-color: $modal-footer-bg;
 
         > :not(:first-child) { margin-left: .25rem; }
         > :not(:last-child) { margin-right: .25rem; }

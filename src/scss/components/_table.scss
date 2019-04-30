@@ -2,178 +2,166 @@
    Component: Table
  ========================================================================== */
 
-/*
- * 1. Remove most spacing between table cells.
- * 2. Behave like a block element
- * 3. Style
- */
-
 .table {
-    /* 1 */
-    border-collapse: collapse;
-    border-spacing: 0;
-    /* 2 */
-    width: 100%;
-    /* 3 */
-    margin-bottom: $table-margin-y;
-    @if(mixin-exists(hook-table)) {@include hook-table();}
-}
+  // reset spacing
+  border-collapse: collapse;
+  border-spacing: 0;
+  // set width
+  width: 100%;
+  margin-bottom: $table-margin-y;
 
-/* Add margin if adjacent element */
-* + .table { margin-top: $table-margin-y; }
-
-
-/* Header cell
- ========================================================================== */
-
-/*
- * 1. Style
- */
-
-.table th {
+  // All cells
+  th,
+  td {
     padding: $table-cell-padding-y $table-cell-padding-x;
+    vertical-align: top;
+    border-top: $table-border-width solid $table-border-color;
+  }
+
+  // Header cell
+  thead th {
     text-align: left;
     vertical-align: bottom;
-    /* 1 */
+
     font-size: $table-header-cell-font-size;
     font-weight: $table-header-cell-font-weight;
     text-transform: $table-header-cell-text-transform;
     color: $table-header-cell-color;
+
+    border-bottom: (2 * $table-border-width) solid $table-border-color;
+  }
+
+  tbody + tbody {
+    border-top: (2 * $table-border-width) solid $table-border-color;
+  }
+
+  .text-truncate {
+    max-width: 1px;
+  }
 }
 
 
-/* Cell
- ========================================================================== */
-
-.table td {
-    padding: $table-cell-padding-y $table-cell-padding-x;
-    vertical-align: top;
-}
-
-/*
- * Remove margin from the last-child
- */
-
-.table td > :last-child { margin-bottom: 0; }
-
-
-/* Footer
- ========================================================================== */
-
+// Footer
 .table tfoot {
-    font-size: $table-footer-font-size;
+  font-size: $table-footer-font-size;
 }
 
 
-/* Caption
- ========================================================================== */
-
+// Caption
 .table caption {
-    font-size: $table-caption-font-size;
-    text-align: left;
-    color: $table-caption-color;
+  padding: $table-cell-padding-y $table-cell-padding-x;
+  font-size: $table-caption-font-size;
+  color: $table-caption-color;
+  text-align: left;
+}
+
+.caption-top {
+  caption-side: top;
+}
+
+.caption-bottom {
+  caption-side: bottom;
+}
+
+// Borderless
+.table-borderless {
+  th,
+  td,
+  thead th,
+  tbody + tbody {
+    border: 0;
+  }
 }
 
 
-/* Alignment modifier
- ========================================================================== */
-
-.table-middle,
-.table-middle td { vertical-align: middle !important; }
-
-
-/* Style modifiers
- ========================================================================== */
-
-/*
- * Divider
- */
-
-.table-divider > tr:not(:first-child),
-.table-divider > :not(:first-child) > tr,
-.table-divider > :first-child > tr:not(:first-child) {
-    border-top: $table-divider-border-width solid $table-divider-border;
+// Alignment
+.table-align-top,
+.table-align-top td {
+  vertical-align: top !important;
 }
 
-/*
- * Striped
- */
-
-.table-striped > tr:nth-of-type(odd),
-.table-striped tbody tr:nth-of-type(odd) {
-    background: $table-striped-row-background;
+.table-align-middle,
+.table-align-middle td {
+  vertical-align: middle !important;
 }
 
-/*
- * Hover
- */
-
-.table-hover > tr:hover,
-.table-hover tbody tr:hover {
-    background: $table-hover-row-background;
+.table-align-bottom,
+.table-align-bottom td {
+  vertical-align: bottom !important;
 }
 
 
-/* Active state
- ========================================================================== */
+// Bordered
+.table-bordered {
+  border: $table-border-width solid $table-border-color;
 
-.table > tr.uk-active,
-.table tbody tr.uk-active {
-    background: $table-row-active-background;
+  th,
+  td {
+    border: $table-border-width solid $table-border-color;
+  }
+
+  thead {
+    th,
+    td {
+      border-bottom-width: 2 * $table-border-width;
+    }
+  }
 }
 
-/* Size modifier
- ========================================================================== */
+// Striped
+.table-striped {
+  tbody tr:nth-of-type(#{$table-striped-order}) {
+    background-color: $table-striped-bg;
+  }
+}
 
-.table-sm th,
-.table-sm td {
+
+// Dark head
+.table {
+  .thead-dark {
+    th {
+      color: $table-dark-color;
+      background-color: $table-dark-bg;
+      border-color: $table-dark-border-color;
+    }
+  }
+
+  .thead-light {
+    th {
+      color: $table-head-color;
+      background-color: $table-head-bg;
+      border-color: $table-border-color;
+    }
+  }
+}
+
+// Hover
+.table-hover {
+  tbody tr {
+    @include hover {
+      color: $table-hover-color;
+      background-color: $table-hover-bg;
+    }
+  }
+}
+
+// Sizing
+.table-sm {
+  th,
+  td {
     padding: $table-sm-cell-padding-y $table-sm-cell-padding-x;
+  }
 }
 
-.table-lg th,
-.table-lg td {
+.table-lg {
+  th,
+  td {
     padding: $table-lg-cell-padding-y $table-lg-cell-padding-x;
+  }
 }
 
 
-/* Justify modifier
- ========================================================================== */
-
-.table-justify th:first-child,
-.table-justify td:first-child { padding-left: 0; }
-
-.table-justify th:last-child,
-.table-justify td:last-child { padding-right: 0; }
-
-
-/* Cell size modifier
- ========================================================================== */
-
-.table-shrink { width: 1px; }
-.table-expand { min-width: $table-expand-min-width; }
-
-
-/* Cell link modifier
- ========================================================================== */
-
-/*
- * Does not work with `table-justify` at the moment
- */
-
-.table-link { padding: 0 !important; }
-
-.table-link > a {
-    display: block;
-    padding: $table-cell-padding-y $table-cell-padding-x;
-}
-
-.table-sm .table-link > a { padding: $table-sm-cell-padding-y $table-sm-cell-padding-x; }
-
-
-/* Responsive table
- ========================================================================== */
-
-
+// Responsive
 .table-responsive {
   @each $breakpoint in map-keys($grid-breakpoints) {
     $next: breakpoint-next($breakpoint, $grid-breakpoints);
@@ -185,7 +173,6 @@
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: -ms-autohiding-scrollbar; // See https://github.com/twbs/bootstrap/pull/10057
 
         // Prevent double border on horizontal scroll due to use of `display: block;`
         > .table-bordered {

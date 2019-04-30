@@ -43,9 +43,9 @@
 
 // Sizes
 .font-size-md,
-.font-size-base   { font-weight: $font-size-base !important; }
-.font-size-lg   { font-weight: $font-size-lg !important; }
-.font-size-sm   { font-weight: $font-size-sm !important; }
+.font-size-base   { font-size: $font-size-base !important; }
+.font-size-lg   { font-size: $font-size-lg !important; }
+.font-size-sm   { font-size: $font-size-sm !important; }
 
 // Contextual colors
 

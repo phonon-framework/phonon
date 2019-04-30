@@ -5,7 +5,7 @@
   display: flex;
   position: relative;
 
-  padding: $navbar-padding-y 0;
+  padding: $navbar-padding-y $navbar-padding-x;
 
   > .container,
   > .container-fluid {
@@ -28,8 +28,7 @@
 
 
 // alignment possibilities in the navbar
-.navbar-left,
-.navbar-center {
+.navbar-left {
   justify-content: start;
 }
 
@@ -37,8 +36,11 @@
 .navbar-right {
   display: flex;
   flex-wrap: wrap; // wrap containers
-  flex: 1;
   align-items: center;
+}
+
+.navbar-left {
+  flex: 1;
 }
 
 .navbar-right {
@@ -61,15 +63,21 @@
   align-items: center;
   box-sizing: border-box;
   min-height: $navbar-nav-item-height;
-  padding: 0 $navbar-nav-item-padding-x;
   font-size: $navbar-nav-item-font-size;
   font-family: $navbar-nav-item-font-family;
   // remove default underline
   text-decoration: none;
 }
 
+.navbar-nav .nav-item .nav-link,    // Link nav item
+.navbar-toggle {                    // Toggle button item
+  padding: 0 $navbar-nav-item-padding-x;
+}
+
 
 .navbar-title {
+  padding-right: $navbar-nav-item-padding-x;
+
   @include hover-focus {
     text-decoration: none;
   }
@@ -80,7 +88,6 @@
 }
 
 .navbar-nav {
-
   .active {
     background-color: hsla(0,0%,100%,.1);
   }
@@ -115,10 +122,6 @@
       }
 
       @include media-breakpoint-up($next) {
-        .navbar-toggle {
-          display: none;
-        }
-
         // For nesting containers, have to redeclare for alignment purposes
         > .container,
         > .container-fluid {

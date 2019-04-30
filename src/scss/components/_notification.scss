@@ -13,9 +13,7 @@
   color: $body-color;
   background-color: $white;
 
-  @if $enable-rounded {
-    border-radius: $notification-border-radius;
-  }
+  @include border-radius($notification-border-radius);
 
   .notification-inner {
     position: relative;

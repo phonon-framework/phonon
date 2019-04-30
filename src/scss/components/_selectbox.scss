@@ -9,9 +9,7 @@
   outline: none;
   border: $selectbox-border-weight solid $selectbox-border-color;
 
-  @if $enable-rounded {
-    border-radius: $selectbox-border-radius;
-  }
+  @include border-radius($selectbox-border-radius);
 
   border-color: $selectbox-border-color;
   background-color: $selectbox-background;
@@ -230,8 +228,14 @@
       -webkit-touch-callout: none;
 
       border-top: $selectbox-menu-item-border-weight solid $selectbox-menu-item-border-color;
+      border-bottom: $selectbox-menu-item-border-weight solid $selectbox-menu-item-border-color;
+
       white-space: normal;
       word-wrap: normal;
+
+      &:last-of-type {
+        border-bottom: 0;
+      }
 
       &:hover {
         z-index: 13;
@@ -299,7 +303,7 @@
 
   // menu divider
   .divider {
-    margin: .5em 0;
+    margin: .8em 0;
     border-top: $selectbox-menu-divider-border-weight solid $selectbox-menu-divider-border-color;
     height: 0;
   }
