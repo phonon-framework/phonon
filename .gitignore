@@ -37,3 +37,6 @@ node_modules
 
 # Typescript
 .rpt2_cache
+
+# Local tests
+test/local/**/*
