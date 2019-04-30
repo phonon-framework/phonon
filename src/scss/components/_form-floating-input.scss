@@ -1,0 +1,17 @@
+.floating-label-group {
+  position: relative;
+
+  label {
+    position: absolute;
+    top: calc(50% - 28px);
+    left: 0;
+    opacity: 0;
+    transition: all .3s ease-in-out;
+    font-size: $input-btn-font-size-sm;
+  }
+
+  input:not(:placeholder-shown) + label {
+    transform: translateY(-10px);
+    opacity: .7;
+  }
+}
