@@ -6,7 +6,6 @@
 @import "mixins/breakpoints";
 @import "mixins/hover";
 @import "mixins/image";
-@import "mixins/badge";
 @import "mixins/resize";
 @import "mixins/screen-reader";
 @import "mixins/size";
@@ -23,7 +22,9 @@
 @import "mixins/pagination";
 @import "mixins/lists";
 @import "mixins/list-group";
+@import "mixins/collection";
 @import "mixins/forms";
+@import "mixins/progress";
 @import "mixins/table-row";
 @import "mixins/navbar";
 @import "mixins/modal";
