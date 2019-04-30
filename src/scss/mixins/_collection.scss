@@ -1,0 +1,4 @@
+@mixin collection-variant($background, $border) {
+  background-color: $background;
+  border-color: $border;
+}
