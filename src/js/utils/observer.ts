@@ -27,7 +27,7 @@ function subscribe(subscriber: IMutatorSubscriber) {
 
   if (document.body) {
     Array.from(document.body.querySelectorAll(`.${subscriber.componentClass}`) || [])
-      .filter(component => !component.getAttribute('data-no-boot'))
+      .filter(component => component.getAttribute('data-no-boot') === null)
       .forEach((component) => {
         dispatchChangeEvent(subscriber, 'onAdded', component as HTMLElement, stack.addComponent);
       });
@@ -51,6 +51,11 @@ function dispatchChangeEvent(subscriber: IMutatorSubscriber, eventName: string, 
 }
 
 function nodeFn(element: HTMLElement, added = true) {
+  // Check no-boot attribute for child nodes
+  if (element.getAttribute('data-no-boot') !== null) {
+    return;
+  }
+
   const elementClasses = element.className.split(' ');
   const subscriber = mutatorSubscribers.find(l => elementClasses.indexOf(l.componentClass) > -1);
 
@@ -83,13 +88,14 @@ function apply(node, added = true) {
 function getElements(nodes: NodeList) {
   return Array
     .from(nodes)
-    .filter((node: Node) => isElement(node) && !(node as HTMLElement).getAttribute('data-no-boot'));
+    .filter((node: Node) => isElement(node));
 }
 
 function observe() {
   (new MutationObserver(mutations => mutations.forEach((mutation: MutationRecord) => {
     if (mutation.type === 'attributes') {
       // stop observing attrs
+      // @todo
       return;
     }
 
