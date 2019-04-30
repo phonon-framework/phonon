@@ -9,7 +9,7 @@ $white:                      #fff !default;
 $black:                      #000 !default;
 
 $dark:                       #000 !default;
-$light:                      #eee !default;
+$light:                      #f6f8fa !default;
 
 $primary:                    #3271d1 !default;
 $secondary:                  #666 !default;
@@ -63,10 +63,11 @@ $emphasis-color:            darken($text-light, 5%);
 
 
 // default for components
-$component-bg:              $bg-light;
-$component-active-bg:       darken($bg-light, 5%);
-$component-border-color:    lighten($body-color, 70%);
-$component-active-color:    $primary;
+$component-bg:              $bg-light !default;
+$component-active-bg:       darken($bg-light, 5%) !default;
+$component-border-color:    #ced2d7 !default;
+$component-active-color:    $primary !default;
+$component-border-width:    1px !default;
 
 // ------------------------------------------------------
 // Spacing
@@ -226,6 +227,54 @@ $hr-emphasis-border-width-md:  $hr-emphasis-border-width-sm * 2;
 $hr-emphasis-border-width-lg:  $hr-emphasis-border-width-md * 2;
 $hr-emphasis-border-width-xl:  $hr-emphasis-border-width-lg * 2;
 $hr-emphasis-border-color: $dark;
+
+
+// ------------------------------------------------------
+// Component: Embed
+// ------------------------------------------------------
+$embed-responsive-aspect-ratios: () !default;
+$embed-responsive-aspect-ratios: join(
+  (
+    (21 9),
+    (16 9),
+    (4 3),
+    (1 1),
+  ),
+  $embed-responsive-aspect-ratios
+);
+
+
+
+// ------------------------------------------------------
+// Component: Collection
+// ------------------------------------------------------
+$collection-margin-bottom:               1rem !default;
+$collection-border-color:           $component-border-color !default;
+$collection-border-radius:          $border-radius !default;
+$collection-border-width:           $component-border-width !default;
+$collection-border-style:           solid;
+$collection-item-padding-y:         .55rem !default;
+$collection-item-padding-x:         .85rem !default;
+
+// Sizing
+$collection-sm-line-height:         $headings-line-height !default;
+$collection-item-sm-padding-y:      $collection-item-padding-y - 0.2rem !default;
+$collection-item-sm-padding-x:      $collection-item-padding-x - 0.2rem !default;
+
+$collection-lg-line-height:         $headings-line-height !default;
+$collection-item-lg-padding-y:      $collection-item-padding-y + 0.45rem !default;
+$collection-item-lg-padding-x:      $collection-item-padding-x + 0.45rem !default;
+
+$collection-title-font-size:        $font-size-base !default;
+$collection-title-font-weight:      $font-weight-bold !default;
+
+$collection-row-border-color:       lighten($collection-border-color, 5%);
+
+// Colors
+$collection-bg-level:               -10 !default;
+$collection-color-level:            $collection-bg-level - -(2) !default;
+$collection-emphasis-size:          2px !default;
+$collection-emphasis-color:         $primary !default;
 
 
 // ------------------------------------------------------
@@ -400,9 +449,10 @@ $notification-light-body:                         $body-color !default;
 // ------------------------------------------------------
 
 $navbar-padding-y:                               8px !default;
+$navbar-padding-x:                               15px !default;
 
 $navbar-nav-item-height:                         (60px - ($navbar-padding-y * 2)) !default;
-$navbar-nav-item-padding-x:                      15px !default;
+$navbar-nav-item-padding-x:                      $navbar-padding-x !default;
 $navbar-nav-item-font-size:                      $font-size-base !default;
 $navbar-nav-item-font-family:                    $font-family-base !default;
 
@@ -442,12 +492,13 @@ $navbar-toggle-padding-x:          .75rem !default;
 // Component: Table
 // ------------------------------------------------------
 
-$table-cell-padding: 16px !default;
 $table-caption-color: $text-light;
 
 $table-margin-y:                                 20px !default;
+$table-border-width:                             1px !default;
+$table-border-color:                             $component-border-color !default;
 
-$table-cell-padding-y:                           $table-cell-padding;
+$table-cell-padding-y:                           16px !default;
 $table-cell-padding-x:                           12px !default;
 
 $table-header-cell-font-size:                    $font-size-base;
@@ -455,26 +506,33 @@ $table-header-cell-font-weight:                  $font-weight-normal;
 $table-header-cell-color:                        $body-color;
 $table-header-cell-text-transform:               uppercase;
 
-$table-footer-font-size:                         $font-size-sm;
+$table-footer-font-size:                         $font-size-base;
 
-$table-caption-font-size:                        $font-size-sm;
+$table-caption-font-size:                        $font-size-base;
 $table-caption-color:                            $text-light;
 
-$table-row-active-background:                    #ffd !default;
+$table-active-bg:                              #ffffe7 !default;
 
-$table-divider-border-width:                     $border-width !default;
-$table-divider-border:                           $border-color !default;
+$table-bordered-border-width:                    $border-width !default;
+$table-bordered-border:                          $border-color !default;
 
-$table-striped-row-background:                   $bg-light !default;
+$table-striped-order:                            odd !default;
+$table-striped-bg:                               $bg-light !default;
 
-$table-hover-row-background:                     $table-row-active-background !default;
+$table-hover-color:                              $body-color !default;
+$table-hover-bg:                                 $table-active-bg !default;
 $table-sm-cell-padding-y:                        10px !default;
 $table-sm-cell-padding-x:                        12px !default;
 
 $table-lg-cell-padding-y:                        22px !default;
 $table-lg-cell-padding-x:                        12px !default;
 
-$table-expand-min-width:                         150px !default;
+// Colors
+$table-head-color:                               $body-color;
+$table-head-bg:                                  $white !default;
+$table-dark-color:                               $white !default;
+$table-dark-bg:                                  $dark !default;
+$table-dark-border-color:                        $white !default;
 
 
 
@@ -551,8 +609,9 @@ $modal-header-padding:          $modal-inner-padding !default;
 $modal-border-radius:           3px !default;
 
 $modal-dark-header-color:       $white;
-$modal-light-header-color:       $dark;
+$modal-light-header-color:      $dark;
 
+$modal-footer-bg:               $light;
 
 $modal-animation-duration:      300ms !default;
 
@@ -835,19 +894,18 @@ $custom-select-height-lg:           $input-height-lg !default;
 $custom-range-track-width:          100% !default;
 $custom-range-track-height:         .5rem !default;
 $custom-range-track-cursor:         pointer !default;
-$custom-range-track-bg:             $primary !default; // @todo
+$custom-range-track-bg:             $component-bg !default; // @todo
 $custom-range-track-border-radius:  1rem !default;
 $custom-range-track-box-shadow:     inset 0 .25rem .25rem rgba($black, .1) !default;
 
 $custom-range-thumb-width:                   1rem !default;
 $custom-range-thumb-height:                  $custom-range-thumb-width !default;
-$custom-range-thumb-bg:                      $component-active-bg !default;
+$custom-range-thumb-bg:                      $primary !default;
 $custom-range-thumb-border:                  0 !default;
-$custom-range-thumb-border-radius:           1rem !default;
-$custom-range-thumb-box-shadow:              0 .1rem .25rem rgba($black, .1) !default;
+$custom-range-thumb-border-radius:           $border-radius !default;
 $custom-range-thumb-focus-box-shadow:        0 0 0 1px $body-bg, $input-focus-box-shadow !default;
 $custom-range-thumb-focus-box-shadow-width:  $input-focus-width !default; // For focus box shadow issue in IE/Edge
-$custom-range-thumb-active-bg:               lighten($component-active-bg, 35%) !default;
+$custom-range-thumb-active-bg:               darken($primary, 5%) !default;
 $custom-range-thumb-disabled-bg:             $primary !default; // @todo
 
 $custom-file-height:                $input-height !default;
@@ -873,6 +931,19 @@ $custom-file-text: (
   en: "Browse"
 ) !default;
 
+
+// ------------------------------------------------------
+// Progress
+// ------------------------------------------------------
+
+$progress-height:                   1rem !default;
+$progress-font-size:                $font-size-base * .75 !default;
+$progress-bg:                       $bg-light !default;
+$progress-border-radius:            $border-radius !default;
+$progress-bar-color:                $white !default;
+$progress-bar-bg:                   theme-color("primary") !default;
+$progress-bar-animation-timing:     1s linear infinite !default;
+$progress-bar-transition:           width .6s ease !default;
 
 
 // ------------------------------------------------------
@@ -928,25 +999,25 @@ $selectbox-menu-border-weight:                $selectbox-border-weight;
 $selectbox-menu-border-transition-duration:   $selectbox-border-transition-duration;
 
 // selectbox menu item
-$selectbox-menu-item-padding-y:               $input-padding-y;
-$selectbox-menu-item-padding-x:               $input-padding-x;
-$selectbox-menu-item-border-weight:           1px;
-$selectbox-menu-item-border-color:            $input-border-color;
-$selectbox-menu-item-color:                   $body-color;
-$selectbox-menu-item-background:              $selectbox-menu-background;
-$selectbox-menu-item-hover-color:             inherit;
+$selectbox-menu-item-padding-y:               $input-padding-y !default;
+$selectbox-menu-item-padding-x:               $input-padding-x !default;
+$selectbox-menu-item-border-weight:           1px !default;
+$selectbox-menu-item-border-color:            $input-border-color !default;
+$selectbox-menu-item-color:                   $body-color !default;
+$selectbox-menu-item-background:              $selectbox-menu-background !default;
+$selectbox-menu-item-hover-color:             inherit !default;
 $selectbox-menu-item-hover-background:        $bg-light !default;
-$selectbox-menu-item-selected-color:          $white;
-$selectbox-menu-item-selected-background:     $primary;
+$selectbox-menu-item-selected-color:          $white !default;
+$selectbox-menu-item-selected-background:     $primary !default;
 
 // selectbox menu header
-$selectbox-menu-header-color:               #333;
+$selectbox-menu-header-color:               #333 !default;
 
 // selectbox menu divider
-$selectbox-menu-divider-border-color:       #333;
-$selectbox-menu-divider-border-weight:        1px;
+$selectbox-menu-divider-border-color:         $component-border-color !default;
+$selectbox-menu-divider-border-weight:        2px !default;
 
-$selectbox-menu-description-color:          #333;
+$selectbox-menu-description-color:          #333 !default;
 
 
 // ------------------------------------------------------
