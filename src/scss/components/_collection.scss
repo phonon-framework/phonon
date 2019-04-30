@@ -1,0 +1,154 @@
+.collection {
+  background-color: $white;
+  border: $collection-border-width $collection-border-style $collection-border-color;
+  margin-bottom: $collection-margin-bottom;
+
+  @if $enable-rounded {
+    border-radius: $collection-border-radius;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  // Inner collection
+  .collection {
+    margin-top: $collection-item-padding-y;
+  }
+}
+
+.collection-header {
+  padding: $collection-item-padding-y $collection-item-padding-x;
+  // margin: -$collection-border-width -$collection-border-width 0;
+  margin: -1px -1px 0;
+  background-color: $bg-light;
+  border-color: $collection-border-color;
+  border-style: $collection-border-style;
+  border-width: $collection-border-width;
+
+  @if $enable-rounded {
+    border-top-left-radius: $collection-border-radius;
+    border-top-right-radius: $collection-border-radius;
+  }
+}
+
+.collection-title {
+  font-size: $collection-title-font-size;
+  font-weight: $collection-title-font-weight;
+  margin-bottom: 0;
+}
+
+.collection-emphasis {
+  box-shadow: inset $collection-emphasis-size 0 0 $collection-emphasis-color;
+}
+
+.collection-body,
+.collection-row {
+  padding: $collection-item-padding-y $collection-item-padding-x;
+  border-bottom: $collection-border-width $collection-border-style $collection-border-color;
+
+  // Ensure good rendering if .collection-body is used without collection-footer
+  &:last-of-type {
+    margin-bottom: -($collection-border-width);
+
+    @if $enable-rounded {
+      border-bottom-right-radius: $collection-border-radius;
+      border-bottom-left-radius: $collection-border-radius;
+    }
+  }
+}
+
+.collection-footer {
+  padding: $collection-item-padding-y $collection-item-padding-x;
+  margin-top: -($collection-border-width); // remove double border if .collection-body is used
+  border-top: $collection-border-width $collection-border-style $collection-border-color;
+}
+
+.collection-row {
+  list-style-type: none; // support for <ul> list
+  border-bottom: $collection-border-width $collection-border-style $collection-row-border-color;
+
+  &:last-of-type {
+    border-bottom: 0;
+  }
+}
+
+.collection-clickable {
+  padding: 0;
+
+  .collection-clickable-link {
+    padding: $collection-item-padding-y $collection-item-padding-x;
+    display: block;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  // Inner collection
+  .collection {
+    margin: 0 $collection-item-padding-x $collection-item-padding-y $collection-item-padding-x;
+  }
+}
+
+.collection-sm {
+  line-height: $collection-sm-line-height;
+
+  .collection-header {
+    padding: $collection-item-sm-padding-y $collection-item-sm-padding-x;
+  }
+
+  .collection-body,
+  .collection-row {
+    padding: $collection-item-sm-padding-y $collection-item-sm-padding-x;
+  }
+
+  .collection-footer {
+    padding: $collection-item-sm-padding-y $collection-item-sm-padding-x;
+  }
+
+  .collection-clickable-link {
+    padding: $collection-item-sm-padding-y $collection-item-sm-padding-x;
+  }
+}
+
+.collection-lg {
+  line-height: $collection-lg-line-height;
+
+  .collection-header {
+    padding: $collection-item-lg-padding-y $collection-item-lg-padding-x;
+  }
+
+  .collection-body,
+  .collection-row {
+    padding: $collection-item-lg-padding-y $collection-item-lg-padding-x;
+  }
+
+  .collection-footer {
+    padding: $collection-item-lg-padding-y $collection-item-lg-padding-x;
+  }
+
+  .collection-clickable-link {
+    padding: $collection-item-lg-padding-y $collection-item-lg-padding-x;
+  }
+}
+
+
+@each $color, $value in $theme-colors {
+  .collection-#{$color} {
+    @include collection-variant(theme-color-level($color, $collection-bg-level), theme-color-level($color, $collection-color-level));
+  }
+
+  .collection-border-#{$color} {
+    &.collection {
+      border-color: $value;
+    }
+
+    .collection-header {
+      border-top-color: $value;
+      border-right-color: $value;
+      border-left-color: $value;
+    }
+  }
+}
