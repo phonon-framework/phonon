@@ -22,6 +22,7 @@ const components = {
   ModalPrompt: path.resolve(__dirname, `${rootPath}/src/js/components/modal-prompt.ts`),
   Notification: path.resolve(__dirname, `${rootPath}/src/js/components/notification.ts`),
   Offcanvas: path.resolve(__dirname, `${rootPath}/src/js/components/offcanvas.ts`),
+  Progress: path.resolve(__dirname, `${rootPath}/src/js/components/progress.ts`),
   Selectbox: path.resolve(__dirname, `${rootPath}/src/js/components/selectbox.ts`),
   Tab: path.resolve(__dirname, `${rootPath}/src/js/components/tab.ts`),
   // Fix
