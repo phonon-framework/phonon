@@ -59,8 +59,6 @@ export default class ModalLoader extends Modal {
   public show(): boolean {
     super.show();
 
-    console.log(this.getElement());
-
     this.loader = new Loader({ element: this.getElement().querySelector('.loader') });
     this.loader.animate(true);
 
