@@ -11,8 +11,19 @@
     "build:components": "node ./bin/build/components.js",
     "build:css": "node ./bin/build css",
     "lint": "tslint ./src/**/*.ts --exclude \"./node_modules\"",
-    "prettier": "prettier --check \"src/**/*.ts\""
+    "coverage:js-plugins": "cross-env NODE_ENV=test node ./bin/build/components.js",
+    "test:e2e": "testcafe chromium,firefox ./test/e2e/**",
+    "test:local": "./node_modules/trevor/cli.js"
   },
+  "keywords": [
+    "css",
+    "sass",
+    "mobile-first",
+    "responsive",
+    "front-end",
+    "framework",
+    "web"
+  ],
   "engines": {
     "node": ">= 10.0.0",
     "npm": ">= 6.0.0"
@@ -30,6 +41,8 @@
     "postcss": "^7.0.14",
     "rollup": "^1.1.2",
     "rollup-plugin-typescript2": "^0.19.2",
+    "testcafe": "^1.1.2",
+    "trevor": "^2.4.0",
     "tslint": "^5.12.1",
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.2.4",
