@@ -1,7 +1,3 @@
-// Name:            Range
-// ================================================================
-
-
 .custom-range {
   width: 100%;
   height: calc(#{$custom-range-thumb-height} + #{$custom-range-thumb-focus-box-shadow-width * 2});
@@ -27,10 +23,15 @@
     width: $custom-range-thumb-width;
     height: $custom-range-thumb-height;
     margin-top: ($custom-range-track-height - $custom-range-thumb-height) / 2; // Webkit specific
+    background-color: $custom-range-thumb-bg;
     border: $custom-range-thumb-border;
     @include border-radius($custom-range-thumb-border-radius);
     @include transition($custom-forms-transition);
     appearance: none;
+
+    &:active {
+      background-color: $custom-range-thumb-active-bg;
+    }
   }
 
   &::-webkit-slider-runnable-track {
@@ -46,10 +47,15 @@
   &::-moz-range-thumb {
     width: $custom-range-thumb-width;
     height: $custom-range-thumb-height;
+    background-color: $custom-range-thumb-bg;
     border: $custom-range-thumb-border;
     @include border-radius($custom-range-thumb-border-radius);
     @include transition($custom-forms-transition);
     appearance: none;
+
+    &:active {
+      background-color: $custom-range-thumb-active-bg;
+    }
   }
 
   &::-moz-range-track {
@@ -68,10 +74,15 @@
     margin-top: 0; // Edge specific
     margin-right: $custom-range-thumb-focus-box-shadow-width; // Workaround that overflowed box-shadow is hidden.
     margin-left: $custom-range-thumb-focus-box-shadow-width;  // Workaround that overflowed box-shadow is hidden.
+    background-color: $custom-range-thumb-bg;
     border: $custom-range-thumb-border;
     @include border-radius($custom-range-thumb-border-radius);
     @include transition($custom-forms-transition);
     appearance: none;
+
+    &:active {
+      background-color: $custom-range-thumb-active-bg;
+    }
   }
 
   &::-ms-track {
