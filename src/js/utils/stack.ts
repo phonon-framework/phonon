@@ -63,7 +63,7 @@ function getComponent(component: string|Component, options: any) {
   }
 
   if (options) {
-    existingComponent.updateProps(options);
+    existingComponent.setProps(options);
   }
 
   return existingComponent;
