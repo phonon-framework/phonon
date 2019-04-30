@@ -83,12 +83,18 @@ export default class Component {
     return typeof this.props[name] !== 'undefined' ? this.props[name] : defaultValue;
   }
 
-  public updateProps(props: object) {
+  public setProps(props: object) {
     // element is read-only
     const componentProps = (Object as any).assign({}, props); // shallow copy
-    delete componentProps.element;
-
     this.props = Object.assign(this.props, componentProps);
+  }
+
+  public setProp(name: string, value: any) {
+    if (typeof this.props[name] === 'undefined') {
+      throw new Error('Cannot set an invalid prop');
+    }
+
+    this.props[name] = value;
   }
 
   public registerElements(elements: IEventElement[]) {
