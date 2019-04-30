@@ -1,16 +1,17 @@
-/*
- * Polyfill from https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
- *
- */
+interface Element {
+  msMatchesSelector: any;
+}
+
 function closest(element: HTMLElement, selector: string) {
-  // avoid undefined property for ms
-  const matches = (Element as any).prototype.msMatchesSelector ||
-                  Element.prototype.webkitMatchesSelector;
+  // matches polyfill
+  // source from https://developer.mozilla.org/fr/docs/Web/API/Element/matches#Polyfill
+  if (!Element.prototype.matches) {
+    // Element.prototype.matches = Element.prototype.msMatchesSelector;
+  }
 
   let el: HTMLElement = element;
 
   do {
-
     if (el.matches(selector)) {
       return el;
     }
