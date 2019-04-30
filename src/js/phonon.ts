@@ -12,6 +12,7 @@ import ModalLoader from './components/modal-loader';
 import ModalPrompt from './components/modal-prompt';
 import Notification from './components/notification';
 import OffCanvas from './components/offcanvas';
+import Progress from './components/progress';
 import Selectbox from './components/selectbox';
 import Tab from './components/tab';
 
@@ -34,6 +35,7 @@ const api = {
   offCanvas: (options: any) => componentCreator(OffCanvas, options),
   tab: (options: any) => componentCreator(Tab, options),
   selectbox: (options: any) => componentCreator(Selectbox, options),
+  progress: (options: any) => componentCreator(Progress, options),
 };
 
 // rollup takes care to attach the API to window.phonon
