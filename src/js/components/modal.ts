@@ -47,10 +47,10 @@ export default class Modal extends Component {
         return;
       }
 
-      const dataToggleAttr = target.getAttribute('data-toggle');
+      const toggleEl = Util.Selector.closest(target, `[data-toggle="${className}"]`);
 
-      if (dataToggleAttr && dataToggleAttr === className) {
-        const selector: string|null = target.getAttribute('data-target');
+      if (toggleEl) {
+        const selector: string|null = toggleEl.getAttribute('data-target');
 
         if (!selector) {
           return;

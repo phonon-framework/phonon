@@ -8,8 +8,9 @@ import Util from '../util.js';
 
 interface IProps {
   element: HTMLElement|string; // the element must exist
-  container?: HTMLElement|HTMLDocument;
-  toggle?: false;
+  container?: HTMLElement|HTMLDocument|string;
+  toggle?: boolean;
+  setupContainer?: boolean;
   closableKeyCodes?: [
     27 // Escape
   ];
@@ -47,10 +48,10 @@ export default class OffCanvas extends Component {
         return;
       }
 
-      const dataToggleAttr = target.getAttribute('data-toggle');
+      const toggleEl = Util.Selector.closest(target, `[data-toggle="${className}"]`);
 
-      if (dataToggleAttr && dataToggleAttr === className) {
-        const selector: string|null = target.getAttribute('data-target');
+      if (toggleEl) {
+        const selector: string|null = toggleEl.getAttribute('data-target');
 
         if (!selector) {
           return;
@@ -93,6 +94,7 @@ export default class OffCanvas extends Component {
       toggle: false,
       closableKeyCodes: [27],
       container: document.body,
+      setupContainer: true,
       aside: {
         md: false,
         lg: true,
@@ -110,7 +112,10 @@ export default class OffCanvas extends Component {
     this.sizes = [sm, md, lg, xl].reverse();
 
     this.checkDirection();
-    this.checkWidth();
+
+    if (this.getProp('setupContainer')) {
+      this.checkWidth();
+    }
 
     const toggle = this.getProp('toggle');
 
@@ -152,20 +157,21 @@ export default class OffCanvas extends Component {
   }
 
   public setAside(sizeName): void {
-    if (this.currentWidthName === sizeName) {
+    const container = this.getContainer();
+
+    if (this.currentWidthName === sizeName || !container) {
       return;
     }
 
     this.currentWidthName = sizeName;
 
-    const content = this.getProp('container');
     const aside = this.getProp('aside');
 
     this.showAside = aside[sizeName] === true;
 
     if (aside[sizeName] === true) {
-      if (!content.classList.contains(`offcanvas-aside-${this.direction}`)) {
-        content.classList.add(`offcanvas-aside-${this.direction}`);
+      if (!container.classList.contains(`offcanvas-aside-${this.direction}`)) {
+        container.classList.add(`offcanvas-aside-${this.direction}`);
       }
 
       // avoid animation by setting animate to false
@@ -175,14 +181,16 @@ export default class OffCanvas extends Component {
         this.removeBackdrop();
       }
 
-      if (this.isVisible() && !content.classList.contains('show')) {
-        content.classList.add('show');
-      } else if (!this.isVisible() && content.classList.contains('show')) {
-        content.classList.remove('show');
+      const containerShowClass = this.getShowClass();
+
+      if (this.isVisible() && !container.classList.contains(containerShowClass)) {
+        container.classList.add(containerShowClass);
+      } else if (!this.isVisible() && container.classList.contains(containerShowClass)) {
+        container.classList.remove(containerShowClass);
       }
     } else {
-      if (content.classList.contains(`offcanvas-aside-${this.direction}`)) {
-        content.classList.remove(`offcanvas-aside-${this.direction}`);
+      if (container.classList.contains(`offcanvas-aside-${this.direction}`)) {
+        container.classList.remove(`offcanvas-aside-${this.direction}`);
       }
 
       this.animate = true;
@@ -240,9 +248,11 @@ export default class OffCanvas extends Component {
       };
 
       if (this.showAside) {
-        const container = this.getProp('container');
-        if (!container.classList.contains('show')) {
-          container.classList.add('show');
+        const container = this.getContainer();
+        const containerShowClass = this.getShowClass();
+
+        if (container && !container.classList.contains(containerShowClass)) {
+          container.classList.add(containerShowClass);
         }
       }
 
@@ -284,9 +294,11 @@ export default class OffCanvas extends Component {
     element.classList.remove('show');
 
     if (this.showAside) {
-      const container = this.getProp('container');
-      if (container.classList.contains('show')) {
-        container.classList.remove('show');
+      const container = this.getContainer();
+      const containerShowClass = this.getShowClass();
+
+      if (container && container.classList.contains(containerShowClass)) {
+        container.classList.remove(containerShowClass);
       }
     }
 
@@ -334,8 +346,11 @@ export default class OffCanvas extends Component {
 
     backdrop.classList.add(this.backdropSelector);
 
-    const content = this.getProp('container');
-    content.appendChild(backdrop);
+    const container = this.getContainer();
+
+    if (container) {
+      container.appendChild(backdrop);
+    }
   }
 
   public getBackdrop(): HTMLElement|null {
@@ -344,9 +359,9 @@ export default class OffCanvas extends Component {
 
   public removeBackdrop(): void {
     const backdrop = this.getBackdrop();
-    if (backdrop) {
-      const content = this.getProp('container');
-      content.removeChild(backdrop);
+
+    if (backdrop && backdrop.parentNode) {
+      backdrop.parentNode.removeChild(backdrop);
     }
   }
 
@@ -386,6 +401,22 @@ export default class OffCanvas extends Component {
     }
 
     this.unregisterElement({ target: document, event: 'keyup' });
+  }
+
+
+  private getContainer(): HTMLElement|null {
+    let container = this.getProp('container');
+
+    if (typeof container === 'string') {
+      container = document.querySelector(container);
+    }
+
+    return container;
+  }
+
+  // For the container
+  private getShowClass(): string {
+    return `show-${this.direction}`;
   }
 }
 
