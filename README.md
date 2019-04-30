@@ -2,9 +2,9 @@
 
 > Phonon: the light weight, scalable, flexible and customizable HTML5 Web - Mobile Framework.
 
-[![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-v18.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
+[![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
 [![Dependency Status](https://david-dm.org/quark-dev/Phonon-Framework.svg)](https://david-dm.org/quark-dev/Phonon-Framework)
-[![devDependencies Status](https://david-dm.org/quark-dev/Phonon-Framework)](https://david-dm.org/quark-dev/Phonon-Framework)
+[![devDependencies Status](https://david-dm.org/quark-dev/Phonon-Framework/dev-status.svg)](https://david-dm.org/quark-dev/Phonon-Framework)
 [![Build Status](https://img.shields.io/travis/quark-dev/Phonon-Framework.svg?style=flat-square)](https://travis-ci.org/quark-dev/Phonon-Framework)
 [![Codecov](https://img.shields.io/codecov/c/github/quark-dev/Phonon-Framework.svg?style=flat-square)](https://codecov.io/gh/quark-dev/Phonon-Framework)
 [![npm](https://img.shields.io/npm/v/phonon.svg?style=flat-square)]()
