@@ -1,5 +1,5 @@
 /*!
-  * Modal v2.0.0-alpha.1 (https://github.com/quark-dev/Phonon-Framework)
+  * ModalLoader v2.0.0-alpha.1 (https://github.com/quark-dev/Phonon-Framework)
   * Copyright 2015-2019 qathom
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
@@ -222,6 +222,86 @@ var Component = (function () {
     };
     return Component;
 }());
+
+var Size;
+(function (Size) {
+    Size["sm"] = "sm";
+    Size["md"] = "md";
+    Size["lg"] = "lg";
+    Size["xl"] = "xl";
+})(Size || (Size = {}));
+var Color;
+(function (Color) {
+    Color["primary"] = "primary";
+    Color["secondary"] = "secondary";
+    Color["success"] = "success";
+    Color["warning"] = "warning";
+    Color["danger"] = "danger";
+})(Color || (Color = {}));
+var Direction;
+(function (Direction) {
+    Direction["top"] = "top";
+    Direction["right"] = "right";
+    Direction["bottom"] = "bottom";
+    Direction["left"] = "left";
+})(Direction || (Direction = {}));
+
+var Loader = (function (_super) {
+    __extends(Loader, _super);
+    function Loader(props) {
+        if (props === void 0) { props = { color: Color.primary, size: Size.md }; }
+        return _super.call(this, 'loader', { fade: true, size: Size.md, color: Color.primary }, props) || this;
+    }
+    Loader.prototype.show = function () {
+        var element = this.getElement();
+        if (element.classList.contains('hide')) {
+            element.classList.remove('hide');
+        }
+        this.triggerEvent(Util.Event.SHOW);
+        var size = this.getProp('size');
+        Util.Selector.removeClasses(element, Object.values(Size), 'loader');
+        element.classList.add("loader-" + size);
+        var color = this.getProp('color');
+        var spinner = this.getSpinner();
+        Util.Selector.removeClasses(spinner, Object.values(Color), 'loader');
+        spinner.classList.add("loader-" + color);
+        this.triggerEvent(Util.Event.SHOWN);
+        return true;
+    };
+    Loader.prototype.animate = function (startAnimation) {
+        if (startAnimation === void 0) { startAnimation = true; }
+        if (startAnimation) {
+            this.show();
+        }
+        else {
+            this.hide();
+        }
+        var loaderSpinner = this.getSpinner();
+        if (startAnimation
+            && !loaderSpinner.classList.contains('loader-spinner-animated')) {
+            loaderSpinner.classList.add('loader-spinner-animated');
+            return true;
+        }
+        if (!startAnimation
+            && loaderSpinner.classList.contains('loader-spinner-animated')) {
+            loaderSpinner.classList.remove('loader-spinner-animated');
+        }
+        return true;
+    };
+    Loader.prototype.hide = function () {
+        var element = this.getElement();
+        if (!element.classList.contains('hide')) {
+            element.classList.add('hide');
+        }
+        this.triggerEvent(Util.Event.HIDE);
+        this.triggerEvent(Util.Event.HIDDEN);
+        return true;
+    };
+    Loader.prototype.getSpinner = function () {
+        return this.getElement().querySelector('.loader-spinner');
+    };
+    return Loader;
+}(Component));
 
 var Modal = (function (_super) {
     __extends(Modal, _super);
@@ -511,5 +591,61 @@ var Modal = (function (_super) {
 }(Component));
 Modal.attachDOM();
 
-module.exports = Modal;
-//# sourceMappingURL=modal.js.map
+var ModalLoader = (function (_super) {
+    __extends(ModalLoader, _super);
+    function ModalLoader(props) {
+        var _this = _super.call(this, Object.assign({
+            buttons: [
+                { event: 'cancel', text: 'Cancel', dismiss: true, class: 'btn btn-secondary' },
+                { event: 'confirm', text: 'Ok', dismiss: true, class: 'btn btn-primary' },
+            ],
+        }, props), false) || this;
+        _this.loader = null;
+        _this.setTemplate(''
+            + '<div class="modal" tabindex="-1" role="modal" data-no-boot>'
+            + '<div class="modal-inner" role="document">'
+            + '<div class="modal-content">'
+            + '<div class="modal-header">'
+            + '<h5 class="modal-title"></h5>'
+            + '<button type="button" class="icon-close" data-dismiss="modal" aria-label="Close">'
+            + '<span class="icon" aria-hidden="true"></span>'
+            + '</button>'
+            + '</div>'
+            + '<div class="modal-body">'
+            + '<p></p>'
+            + '<div class="mx-auto text-center">'
+            + '<div class="loader mx-auto d-block">'
+            + '<div class="loader-spinner"></div>'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '<div class="modal-footer">'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '</div>');
+        if (_this.getElement() === null) {
+            _this.build();
+        }
+        return _this;
+    }
+    ModalLoader.prototype.show = function () {
+        _super.prototype.show.call(this);
+        console.log(this.getElement());
+        this.loader = new Loader({ element: this.getElement().querySelector('.loader') });
+        this.loader.animate(true);
+        return true;
+    };
+    ModalLoader.prototype.hide = function () {
+        _super.prototype.hide.call(this);
+        if (this.loader) {
+            this.loader.animate(false);
+        }
+        this.loader = null;
+        return true;
+    };
+    return ModalLoader;
+}(Modal));
+
+module.exports = ModalLoader;
+//# sourceMappingURL=modalloader.js.map

@@ -89,10 +89,15 @@ var Component = (function () {
         var defaultValue = this.defaultProps[name];
         return typeof this.props[name] !== 'undefined' ? this.props[name] : defaultValue;
     };
-    Component.prototype.updateProps = function (props) {
+    Component.prototype.setProps = function (props) {
         var componentProps = Object.assign({}, props);
-        delete componentProps.element;
         this.props = Object.assign(this.props, componentProps);
+    };
+    Component.prototype.setProp = function (name, value) {
+        if (typeof this.props[name] === 'undefined') {
+            throw new Error('Cannot set an invalid prop');
+        }
+        this.props[name] = value;
     };
     Component.prototype.registerElements = function (elements) {
         var _this = this;
@@ -187,12 +192,16 @@ var Selectbox = (function (_super) {
         var _this = _super.call(this, 'selectbox', {
             name: null,
             selectable: true,
-            search: false,
             filterItems: null,
             multiple: false,
             tag: false,
-            initSelection: false,
         }, props) || this;
+        if (!_this.getProp('name')) {
+            var hiddenInput = _this.getElement().querySelector('input[type="hidden"]');
+            if (hiddenInput) {
+                _this.setProp('name', hiddenInput.getAttribute('name'));
+            }
+        }
         _this.filterItemsHandler = function (event) {
             var target = event.target;
             if (!target) {
@@ -217,10 +226,9 @@ var Selectbox = (function (_super) {
         _this.registerElement({ target: _this.getElement(), event: Util.Event.CLICK });
         _this.searchInputInContainer = _this.getElement()
             .querySelector('.selectbox-input-container .input-select-one') !== null;
-        if (_this.getProp('initSelection')) {
-            var item = _this.getItemData(_this.getElement().querySelector('[data-selected]'));
-            _this.setSelected(item.value, item.text);
-            return _this;
+        var selectedItem = _this.getItemData(_this.getElement().querySelector('[data-selected]'));
+        if (selectedItem) {
+            _this.setSelected(selectedItem.value, selectedItem.text);
         }
         return _this;
     }
@@ -371,7 +379,6 @@ var Selectbox = (function (_super) {
             if (item && !item.classList.contains('disabled')) {
                 var itemInfo = this.getItemData(item);
                 if (this.getSelected() !== itemInfo.value) {
-                    console.log('selected');
                     this.setSelected(itemInfo.value, itemInfo.text);
                     var selectInput = this.getElement().querySelector('.input-select-one').value = '';
                     var detail = { item: item, text: itemInfo.text, value: itemInfo.value };

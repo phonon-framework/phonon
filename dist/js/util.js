@@ -154,7 +154,8 @@ function removeClasses(element, classList, prefix) {
     });
 }
 function isElement(node) {
-    return node.nodeType === 1;
+    return node.nodeType === 1
+        && typeof node.className === 'string';
 }
 var selector = {
     attrConfig: attrConfig,
@@ -200,7 +201,7 @@ function getComponent(component, options) {
         return null;
     }
     if (options) {
-        existingComponent.updateProps(options);
+        existingComponent.setProps(options);
     }
     return existingComponent;
 }
@@ -232,16 +233,15 @@ function dispatchChangeEvent(subscriber, eventName) {
     }
     callback.apply(callback, args);
 }
-function nodeFn(node, added) {
+function nodeFn(element, added) {
     if (added === void 0) { added = true; }
-    var nodeElement = node;
-    var elementClasses = nodeElement.className.split(' ');
+    var elementClasses = element.className.split(' ');
     var subscriber = mutatorSubscribers.find(function (l) { return elementClasses.indexOf(l.componentClass) > -1; });
     if (!subscriber) {
         return;
     }
     var eventName = added ? 'onAdded' : 'onRemoved';
-    var args = added ? [nodeElement, stack.addComponent] : [nodeElement, stack.removeComponent];
+    var args = added ? [element, stack.addComponent] : [element, stack.removeComponent];
     dispatchChangeEvent.apply(void 0, [subscriber, eventName].concat(args));
 }
 function apply(node, added) {

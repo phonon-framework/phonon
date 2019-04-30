@@ -169,8 +169,7 @@
     };
 
     function closest(element, selector) {
-        var matches = Element.prototype.msMatchesSelector ||
-            Element.prototype.webkitMatchesSelector;
+        if (!Element.prototype.matches) ;
         var el = element;
         do {
             if (el.matches(selector)) {
@@ -224,7 +223,8 @@
         });
     }
     function isElement(node) {
-        return node.nodeType === 1;
+        return node.nodeType === 1
+            && typeof node.className === 'string';
     }
     var selector = {
         attrConfig: attrConfig,
@@ -270,7 +270,7 @@
             return null;
         }
         if (options) {
-            existingComponent.updateProps(options);
+            existingComponent.setProps(options);
         }
         return existingComponent;
     }
@@ -285,7 +285,7 @@
         mutatorSubscribers.push(subscriber);
         if (document.body) {
             Array.from(document.body.querySelectorAll("." + subscriber.componentClass) || [])
-                .filter(function (component) { return !component.getAttribute('data-no-boot'); })
+                .filter(function (component) { return component.getAttribute('data-no-boot') === null; })
                 .forEach(function (component) {
                 dispatchChangeEvent(subscriber, 'onAdded', component, stack.addComponent);
             });
@@ -302,16 +302,18 @@
         }
         callback.apply(callback, args);
     }
-    function nodeFn(node, added) {
+    function nodeFn(element, added) {
         if (added === void 0) { added = true; }
-        var nodeElement = node;
-        var elementClasses = nodeElement.className.split(' ');
+        if (element.getAttribute('data-no-boot') !== null) {
+            return;
+        }
+        var elementClasses = element.className.split(' ');
         var subscriber = mutatorSubscribers.find(function (l) { return elementClasses.indexOf(l.componentClass) > -1; });
         if (!subscriber) {
             return;
         }
         var eventName = added ? 'onAdded' : 'onRemoved';
-        var args = added ? [nodeElement, stack.addComponent] : [nodeElement, stack.removeComponent];
+        var args = added ? [element, stack.addComponent] : [element, stack.removeComponent];
         dispatchChangeEvent.apply(void 0, [subscriber, eventName].concat(args));
     }
     function apply(node, added) {
@@ -329,7 +331,7 @@
     function getElements(nodes) {
         return Array
             .from(nodes)
-            .filter(function (node) { return isElement(node) && !node.getAttribute('data-no-boot'); });
+            .filter(function (node) { return isElement(node); });
     }
     function observe() {
         (new MutationObserver(function (mutations) { return mutations.forEach(function (mutation) {
@@ -445,10 +447,15 @@
             var defaultValue = this.defaultProps[name];
             return typeof this.props[name] !== 'undefined' ? this.props[name] : defaultValue;
         };
-        Component.prototype.updateProps = function (props) {
+        Component.prototype.setProps = function (props) {
             var componentProps = Object.assign({}, props);
-            delete componentProps.element;
             this.props = Object.assign(this.props, componentProps);
+        };
+        Component.prototype.setProp = function (name, value) {
+            if (typeof this.props[name] === 'undefined') {
+                throw new Error('Cannot set an invalid prop');
+            }
+            this.props[name] = value;
         };
         Component.prototype.registerElements = function (elements) {
             var _this = this;
@@ -1026,9 +1033,9 @@
                 if (!target) {
                     return;
                 }
-                var dataToggleAttr = target.getAttribute('data-toggle');
-                if (dataToggleAttr && dataToggleAttr === className) {
-                    var selector = target.getAttribute('data-target');
+                var toggleEl = utils.Selector.closest(target, "[data-toggle=\"" + className + "\"]");
+                if (toggleEl) {
+                    var selector = toggleEl.getAttribute('data-target');
                     if (!selector) {
                         return;
                     }
@@ -1330,7 +1337,6 @@
         }
         ModalLoader.prototype.show = function () {
             _super.prototype.show.call(this);
-            console.log(this.getElement());
             this.loader = new Loader({ element: this.getElement().querySelector('.loader') });
             this.loader.animate(true);
             return true;
@@ -1609,6 +1615,7 @@
                 toggle: false,
                 closableKeyCodes: [27],
                 container: document.body,
+                setupContainer: true,
                 aside: {
                     md: false,
                     lg: true,
@@ -1628,7 +1635,9 @@
             var xl = { name: 'xl', media: window.matchMedia('(min-width: 1200px)') };
             _this.sizes = [sm, md, lg, xl].reverse();
             _this.checkDirection();
-            _this.checkWidth();
+            if (_this.getProp('setupContainer')) {
+                _this.checkWidth();
+            }
             var toggle = _this.getProp('toggle');
             if (toggle) {
                 _this.toggle();
@@ -1652,9 +1661,9 @@
                 if (!target) {
                     return;
                 }
-                var dataToggleAttr = target.getAttribute('data-toggle');
-                if (dataToggleAttr && dataToggleAttr === className) {
-                    var selector = target.getAttribute('data-target');
+                var toggleEl = utils.Selector.closest(target, "[data-toggle=\"" + className + "\"]");
+                if (toggleEl) {
+                    var selector = toggleEl.getAttribute('data-target');
                     if (!selector) {
                         return;
                     }
@@ -1697,31 +1706,32 @@
             this.setAside(size.name);
         };
         OffCanvas.prototype.setAside = function (sizeName) {
-            if (this.currentWidthName === sizeName) {
+            var container = this.getContainer();
+            if (this.currentWidthName === sizeName || !container) {
                 return;
             }
             this.currentWidthName = sizeName;
-            var content = this.getProp('container');
             var aside = this.getProp('aside');
             this.showAside = aside[sizeName] === true;
             if (aside[sizeName] === true) {
-                if (!content.classList.contains("offcanvas-aside-" + this.direction)) {
-                    content.classList.add("offcanvas-aside-" + this.direction);
+                if (!container.classList.contains("offcanvas-aside-" + this.direction)) {
+                    container.classList.add("offcanvas-aside-" + this.direction);
                 }
                 this.animate = false;
                 if (this.getBackdrop()) {
                     this.removeBackdrop();
                 }
-                if (this.isVisible() && !content.classList.contains('show')) {
-                    content.classList.add('show');
+                var containerShowClass = this.getShowClass();
+                if (this.isVisible() && !container.classList.contains(containerShowClass)) {
+                    container.classList.add(containerShowClass);
                 }
-                else if (!this.isVisible() && content.classList.contains('show')) {
-                    content.classList.remove('show');
+                else if (!this.isVisible() && container.classList.contains(containerShowClass)) {
+                    container.classList.remove(containerShowClass);
                 }
             }
             else {
-                if (content.classList.contains("offcanvas-aside-" + this.direction)) {
-                    content.classList.remove("offcanvas-aside-" + this.direction);
+                if (container.classList.contains("offcanvas-aside-" + this.direction)) {
+                    container.classList.remove("offcanvas-aside-" + this.direction);
                 }
                 this.animate = true;
                 this.hide();
@@ -1747,7 +1757,7 @@
                 this.createBackdrop();
             }
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var onShown, container, el;
+                var onShown, container, containerShowClass, el;
                 var _this = this;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
@@ -1764,9 +1774,10 @@
                                 }
                             };
                             if (this.showAside) {
-                                container = this.getProp('container');
-                                if (!container.classList.contains('show')) {
-                                    container.classList.add('show');
+                                container = this.getContainer();
+                                containerShowClass = this.getShowClass();
+                                if (container && !container.classList.contains(containerShowClass)) {
+                                    container.classList.add(containerShowClass);
                                 }
                             }
                             el = this.getElement();
@@ -1797,9 +1808,10 @@
             }
             element.classList.remove('show');
             if (this.showAside) {
-                var container = this.getProp('container');
-                if (container.classList.contains('show')) {
-                    container.classList.remove('show');
+                var container = this.getContainer();
+                var containerShowClass = this.getShowClass();
+                if (container && container.classList.contains(containerShowClass)) {
+                    container.classList.remove(containerShowClass);
                 }
             }
             if (!this.showAside) {
@@ -1835,17 +1847,18 @@
                 backdrop.setAttribute('data-id', id);
             }
             backdrop.classList.add(this.backdropSelector);
-            var content = this.getProp('container');
-            content.appendChild(backdrop);
+            var container = this.getContainer();
+            if (container) {
+                container.appendChild(backdrop);
+            }
         };
         OffCanvas.prototype.getBackdrop = function () {
             return document.querySelector("." + this.backdropSelector + "[data-id=\"" + this.getId() + "\"]");
         };
         OffCanvas.prototype.removeBackdrop = function () {
             var backdrop = this.getBackdrop();
-            if (backdrop) {
-                var content = this.getProp('container');
-                content.removeChild(backdrop);
+            if (backdrop && backdrop.parentNode) {
+                backdrop.parentNode.removeChild(backdrop);
             }
         };
         OffCanvas.prototype.attachEvents = function () {
@@ -1880,9 +1893,137 @@
             }
             this.unregisterElement({ target: document, event: 'keyup' });
         };
+        OffCanvas.prototype.getContainer = function () {
+            var container = this.getProp('container');
+            if (typeof container === 'string') {
+                container = document.querySelector(container);
+            }
+            return container;
+        };
+        OffCanvas.prototype.getShowClass = function () {
+            return "show-" + this.direction;
+        };
         return OffCanvas;
     }(Component));
     OffCanvas.attachDOM();
+
+    var Progress = (function (_super) {
+        __extends(Progress, _super);
+        function Progress(props) {
+            var _this = _super.call(this, 'progress', {
+                height: 8,
+                min: 0,
+                max: 100,
+                now: 0,
+                label: false,
+                striped: false,
+                animate: true,
+                background: null,
+            }, props) || this;
+            _this.onTransition = false;
+            _this.setHeight();
+            _this.setAccessibility();
+            if (_this.getProp('striped')) {
+                _this.setStriped();
+            }
+            if (_this.getProp('background')) {
+                _this.setBackground();
+            }
+            _this.set(_this.getProp('now'));
+            return _this;
+        }
+        Progress.attachDOM = function () {
+            utils.Observer.subscribe({
+                componentClass: 'progress',
+                onAdded: function (element, create) {
+                    create(new Progress({ element: element }));
+                },
+                onRemoved: function (element, remove) {
+                    remove('Progress', element);
+                },
+            });
+        };
+        Progress.prototype.set = function (value) {
+            if (value === void 0) { value = 0; }
+            var progressBar = this.getProgressBar();
+            var min = this.getProp('min');
+            var max = this.getProp('max');
+            var progress = Math.round((value / (min + max)) * 100);
+            if (value < min) {
+                console.error("Progress: Warning, " + value + " is under min value.");
+                return false;
+            }
+            if (value > max) {
+                console.error("Progress: Warning, " + value + " is above max value.");
+                return false;
+            }
+            progressBar.setAttribute('aria-valuenow', "" + value);
+            if (this.getProp('label')) {
+                progressBar.innerHTML = progress + "%";
+            }
+            progressBar.style.width = progress + "%";
+            return true;
+        };
+        Progress.prototype.animateProgressBar = function (startAnimation) {
+            if (startAnimation === void 0) { startAnimation = true; }
+            if (!this.getProp('striped')) {
+                throw new Error('Progress: Animation works only with striped progress.');
+                return false;
+            }
+            var progressBar = this.getProgressBar();
+            if (startAnimation && !progressBar.classList.contains('progress-bar-animated')) {
+                progressBar.classList.add('progress-bar-animated');
+            }
+            if (!startAnimation && progressBar.classList.contains('progress-bar-animated')) {
+                progressBar.classList.remove('progress-bar-animated');
+            }
+            return true;
+        };
+        Progress.prototype.show = function () {
+            var progress = this.getElement();
+            progress.style.height = this.getProp('height') + "px";
+            this.triggerEvent(utils.Event.SHOW);
+            this.triggerEvent(utils.Event.SHOWN);
+            return true;
+        };
+        Progress.prototype.hide = function () {
+            var progress = this.getElement();
+            progress.style.height = '0px';
+            this.triggerEvent(utils.Event.HIDE);
+            this.triggerEvent(utils.Event.HIDDEN);
+            return true;
+        };
+        Progress.prototype.destroy = function () {
+            this.unregisterElements();
+            this.hide();
+        };
+        Progress.prototype.setHeight = function () {
+            this.getElement().style.height = this.getProp('height') + "px";
+        };
+        Progress.prototype.setAccessibility = function () {
+            var progress = this.getElement();
+            progress.setAttribute('aria-valuemin', "" + this.getProp('min'));
+            progress.setAttribute('aria-valuemax', "" + this.getProp('max'));
+        };
+        Progress.prototype.setStriped = function () {
+            this.getProgressBar().classList.add('progress-bar-striped');
+            if (this.getProp('animate')) {
+                this.animateProgressBar();
+            }
+        };
+        Progress.prototype.setBackground = function () {
+            var progressBar = this.getProgressBar();
+            var background = this.getProp('background');
+            if (progressBar.classList.contains("bg-" + background)) {
+                progressBar.classList.add("bg-" + background);
+            }
+        };
+        Progress.prototype.getProgressBar = function () {
+            return this.getElement().querySelector('.progress-bar');
+        };
+        return Progress;
+    }(Component));
+    Progress.attachDOM();
 
     var Selectbox = (function (_super) {
         __extends(Selectbox, _super);
@@ -1890,12 +2031,16 @@
             var _this = _super.call(this, 'selectbox', {
                 name: null,
                 selectable: true,
-                search: false,
                 filterItems: null,
                 multiple: false,
                 tag: false,
-                initSelection: false,
             }, props) || this;
+            if (!_this.getProp('name')) {
+                var hiddenInput = _this.getElement().querySelector('input[type="hidden"]');
+                if (hiddenInput) {
+                    _this.setProp('name', hiddenInput.getAttribute('name'));
+                }
+            }
             _this.filterItemsHandler = function (event) {
                 var target = event.target;
                 if (!target) {
@@ -1920,10 +2065,9 @@
             _this.registerElement({ target: _this.getElement(), event: utils.Event.CLICK });
             _this.searchInputInContainer = _this.getElement()
                 .querySelector('.selectbox-input-container .input-select-one') !== null;
-            if (_this.getProp('initSelection')) {
-                var item = _this.getItemData(_this.getElement().querySelector('[data-selected]'));
-                _this.setSelected(item.value, item.text);
-                return _this;
+            var selectedItem = _this.getItemData(_this.getElement().querySelector('[data-selected]'));
+            if (selectedItem) {
+                _this.setSelected(selectedItem.value, selectedItem.text);
             }
             return _this;
         }
@@ -2074,7 +2218,6 @@
                 if (item && !item.classList.contains('disabled')) {
                     var itemInfo = this.getItemData(item);
                     if (this.getSelected() !== itemInfo.value) {
-                        console.log('selected');
                         this.setSelected(itemInfo.value, itemInfo.text);
                         var selectInput = this.getElement().querySelector('.input-select-one').value = '';
                         var detail = { item: item, text: itemInfo.text, value: itemInfo.value };
@@ -2395,6 +2538,7 @@
         offCanvas: function (options) { return componentCreator(OffCanvas, options); },
         tab: function (options) { return componentCreator(Tab, options); },
         selectbox: function (options) { return componentCreator(Selectbox, options); },
+        progress: function (options) { return componentCreator(Progress, options); },
     };
     var phonon = Object.assign(api, utils);
 

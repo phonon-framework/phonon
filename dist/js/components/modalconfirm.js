@@ -1,5 +1,5 @@
 /*!
-  * Offcanvas v2.0.0-alpha.1 (https://github.com/quark-dev/Phonon-Framework)
+  * ModalConfirm v2.0.0-alpha.1 (https://github.com/quark-dev/Phonon-Framework)
   * Copyright 2015-2019 qathom
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
@@ -223,52 +223,58 @@ var Component = (function () {
     return Component;
 }());
 
-var OffCanvas = (function (_super) {
-    __extends(OffCanvas, _super);
-    function OffCanvas(props) {
-        var _this = _super.call(this, 'off-canvas', {
-            toggle: false,
-            closableKeyCodes: [27],
-            container: document.body,
-            setupContainer: true,
-            aside: {
-                md: false,
-                lg: true,
-                xl: true,
-            },
+var Modal = (function (_super) {
+    __extends(Modal, _super);
+    function Modal(props, autoCreate) {
+        if (autoCreate === void 0) { autoCreate = true; }
+        var _this = _super.call(this, 'modal', {
+            title: null,
+            message: null,
+            cancelable: true,
+            background: null,
+            cancelableKeyCodes: [
+                27,
+                13,
+            ],
+            buttons: [
+                { event: 'confirm', text: 'Ok', dismiss: true, class: 'btn btn-primary' },
+            ],
+            center: true,
         }, props) || this;
-        _this.currentWidthName = null;
-        _this.animate = true;
-        _this.showAside = false;
-        _this.directions = ['left', 'right'];
-        _this.direction = null;
-        _this.sizes = [];
-        _this.backdropSelector = 'offcanvas-backdrop';
-        var sm = { name: 'sm', media: window.matchMedia('(min-width: 1px)') };
-        var md = { name: 'md', media: window.matchMedia('(min-width: 768px)') };
-        var lg = { name: 'lg', media: window.matchMedia('(min-width: 992px)') };
-        var xl = { name: 'xl', media: window.matchMedia('(min-width: 1200px)') };
-        _this.sizes = [sm, md, lg, xl].reverse();
-        _this.checkDirection();
-        if (_this.getProp('setupContainer')) {
-            _this.checkWidth();
+        _this.backdropSelector = 'modal-backdrop';
+        _this.elementGenerated = false;
+        _this.setTemplate(''
+            + '<div class="modal" tabindex="-1" role="modal" data-no-boot>'
+            + '<div class="modal-inner" role="document">'
+            + '<div class="modal-content">'
+            + '<div class="modal-header">'
+            + '<h5 class="modal-title"></h5>'
+            + '<button type="button" class="icon-close" data-dismiss="modal" aria-label="Close">'
+            + '<span class="icon" aria-hidden="true"></span>'
+            + '</button>'
+            + '</div>'
+            + '<div class="modal-body">'
+            + '<p></p>'
+            + '</div>'
+            + '<div class="modal-footer">'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '</div>');
+        if (autoCreate && _this.getElement() === null) {
+            _this.build();
         }
-        var toggle = _this.getProp('toggle');
-        if (toggle) {
-            _this.toggle();
-        }
-        window.addEventListener('resize', function () { return _this.checkWidth(); }, false);
         return _this;
     }
-    OffCanvas.attachDOM = function () {
-        var className = 'offcanvas';
+    Modal.attachDOM = function () {
+        var className = 'modal';
         Util.Observer.subscribe({
             componentClass: className,
             onAdded: function (element, create) {
-                create(new OffCanvas({ element: element }));
+                create(new Modal({ element: element }));
             },
             onRemoved: function (element, remove) {
-                remove('OffCanvas', element);
+                remove('Modal', element);
             },
         });
         document.addEventListener(Util.Event.CLICK, function (event) {
@@ -282,247 +288,263 @@ var OffCanvas = (function (_super) {
                 if (!selector) {
                     return;
                 }
-                var offCanvas = document.querySelector(selector);
-                if (!offCanvas) {
+                var modal = document.querySelector(selector);
+                if (!modal) {
                     return;
                 }
-                var offCanvasComponent = Util.Observer.getComponent(className, { element: offCanvas });
-                if (!offCanvasComponent) {
+                var modalComponent = Util.Observer.getComponent(className, { element: modal });
+                if (!modalComponent) {
                     return;
                 }
                 target.blur();
-                offCanvasComponent.toggle();
+                modalComponent.show();
             }
         });
     };
-    OffCanvas.prototype.getContainer = function () {
-        var container = this.getProp('container');
-        if (typeof container === 'string') {
-            container = document.querySelector(container);
-            if (!container) {
-                throw new Error('Off-canvas: Invalid container');
-            }
-        }
-        return container;
-    };
-    OffCanvas.prototype.getShowClass = function () {
-        return "show-" + this.direction;
-    };
-    OffCanvas.prototype.checkDirection = function () {
+    Modal.prototype.build = function () {
         var _this = this;
+        this.elementGenerated = true;
+        var builder = document.createElement('div');
+        builder.innerHTML = this.getTemplate();
+        this.setElement(builder.firstChild);
         var element = this.getElement();
-        this.directions.every(function (direction) {
-            if (element.classList.contains("offcanvas-" + direction)) {
-                _this.direction = direction;
-                return false;
-            }
-            return true;
-        });
-    };
-    OffCanvas.prototype.checkWidth = function () {
-        if (!('matchMedia' in window)) {
-            return;
+        var title = this.getProp('title');
+        if (title !== null) {
+            element.querySelector('.modal-title').innerHTML = title;
         }
-        var size = this.sizes.find(function (s) {
-            var mediaQuery = s.media;
-            var match = mediaQuery.media.match(/[a-z]?-width:\s?([0-9]+)/);
-            return match && mediaQuery.matches ? true : false;
-        });
-        if (!size) {
-            return;
-        }
-        this.setAside(size.name);
-    };
-    OffCanvas.prototype.setAside = function (sizeName) {
-        if (this.currentWidthName === sizeName) {
-            return;
-        }
-        this.currentWidthName = sizeName;
-        var content = this.getContainer();
-        var aside = this.getProp('aside');
-        this.showAside = aside[sizeName] === true;
-        if (aside[sizeName] === true) {
-            if (!content.classList.contains("offcanvas-aside-" + this.direction)) {
-                content.classList.add("offcanvas-aside-" + this.direction);
-            }
-            this.animate = false;
-            if (this.getBackdrop()) {
-                this.removeBackdrop();
-            }
-            var containerShowClass = this.getShowClass();
-            if (this.isVisible() && !content.classList.contains(containerShowClass)) {
-                content.classList.add(containerShowClass);
-            }
-            else if (!this.isVisible() && content.classList.contains(containerShowClass)) {
-                content.classList.remove(containerShowClass);
-            }
+        var message = this.getProp('message');
+        if (message !== null) {
+            element.querySelector('.modal-body').firstChild.innerHTML = message;
         }
         else {
-            if (content.classList.contains("offcanvas-aside-" + this.direction)) {
-                content.classList.remove("offcanvas-aside-" + this.direction);
-            }
-            this.animate = true;
-            this.hide();
+            this.removeTextBody();
         }
-    };
-    OffCanvas.prototype.onElementEvent = function (event) {
-        var closableKeyCodes = this.getProp('closableKeyCodes');
-        if (event.type === 'keyup' && !closableKeyCodes.find(function (k) { return k === event.keyCode; })) {
-            return;
+        var cancelable = this.getProp('cancelable');
+        if (!cancelable) {
+            element.querySelector('.close').style.display = 'none';
         }
-        this.hide();
+        var buttons = this.getProp('buttons');
+        if (Array.isArray(buttons) && buttons.length > 0) {
+            buttons.forEach(function (button) {
+                element.querySelector('.modal-footer').appendChild(_this.buildButton(button));
+            });
+        }
+        else {
+            this.removeFooter();
+        }
+        document.body.appendChild(element);
     };
-    OffCanvas.prototype.isVisible = function () {
-        return this.getElement().classList.contains('show');
-    };
-    OffCanvas.prototype.show = function () {
+    Modal.prototype.show = function () {
         var _this = this;
-        if (this.getElement().classList.contains('show')) {
+        var element = this.getElement();
+        if (element === null) {
+            this.build();
+        }
+        if (element.classList.contains('show')) {
             return false;
         }
-        this.triggerEvent(Util.Event.SHOW);
-        if (!this.showAside) {
-            this.createBackdrop();
-        }
+        document.body.style.overflow = 'hidden';
         (function () { return __awaiter(_this, void 0, void 0, function () {
-            var onShown, container, containerShowClass, el;
+            var onShown;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, Util.sleep(20)];
                     case 1:
                         _a.sent();
+                        this.triggerEvent(Util.Event.SHOW);
+                        this.buildBackdrop();
                         this.attachEvents();
                         onShown = function () {
                             _this.triggerEvent(Util.Event.SHOWN);
-                            if (_this.animate) {
-                                var element = _this.getElement();
-                                element.removeEventListener(Util.Event.TRANSITION_END, onShown);
-                                element.classList.remove('animate');
-                            }
+                            element.removeEventListener(Util.Event.TRANSITION_END, onShown);
                         };
-                        if (this.showAside) {
-                            container = this.getContainer();
-                            containerShowClass = this.getShowClass();
-                            if (!container.classList.contains(containerShowClass)) {
-                                container.classList.add(containerShowClass);
-                            }
+                        element.addEventListener(Util.Event.TRANSITION_END, onShown);
+                        if (this.getProp('center')) {
+                            this.center();
                         }
-                        el = this.getElement();
-                        if (this.animate) {
-                            el.addEventListener(Util.Event.TRANSITION_END, onShown);
-                            el.classList.add('animate');
-                        }
-                        else {
-                            onShown();
-                        }
-                        el.classList.add('show');
+                        element.classList.add('show');
                         return [2];
                 }
             });
         }); })();
         return true;
     };
-    OffCanvas.prototype.hide = function () {
+    Modal.prototype.hide = function () {
         var _this = this;
         var element = this.getElement();
         if (!element.classList.contains('show')) {
             return false;
         }
+        document.body.style.overflow = 'visible';
         this.triggerEvent(Util.Event.HIDE);
         this.detachEvents();
-        if (this.animate) {
-            element.classList.add('animate');
-        }
+        element.classList.add('hide');
         element.classList.remove('show');
-        if (this.showAside) {
-            var container = this.getContainer();
-            var containerShowClass = this.getShowClass();
-            if (container.classList.contains(containerShowClass)) {
-                container.classList.remove(containerShowClass);
+        var backdrop = this.getBackdrop();
+        var onHidden = function () {
+            if (backdrop) {
+                document.body.removeChild(backdrop);
+                backdrop.removeEventListener(Util.Event.TRANSITION_END, onHidden);
             }
-        }
-        if (!this.showAside) {
-            var backdrop_1 = this.getBackdrop();
-            if (!backdrop_1) {
-                return true;
+            element.classList.remove('hide');
+            _this.triggerEvent(Util.Event.HIDDEN);
+            if (_this.elementGenerated) {
+                document.body.removeChild(element);
             }
-            var onHidden_1 = function () {
-                if (_this.animate) {
-                    element.classList.remove('animate');
-                }
-                backdrop_1.removeEventListener(Util.Event.TRANSITION_END, onHidden_1);
-                _this.triggerEvent(Util.Event.HIDDEN);
-                _this.removeBackdrop();
-            };
-            if (backdrop_1) {
-                backdrop_1.addEventListener(Util.Event.TRANSITION_END, onHidden_1);
-                backdrop_1.classList.add('fadeout');
-            }
+        };
+        if (backdrop) {
+            backdrop.addEventListener(Util.Event.TRANSITION_END, onHidden);
+            backdrop.classList.add('fadeout');
         }
         return true;
     };
-    OffCanvas.prototype.toggle = function () {
-        if (this.isVisible()) {
-            return this.hide();
+    Modal.prototype.onElementEvent = function (event) {
+        if (event.type === 'keyup') {
+            var keycodes = this.getProp('cancelableKeyCodes');
+            if (keycodes.find(function (k) { return k === event.keyCode; })) {
+                this.hide();
+            }
+            return;
         }
-        return this.show();
+        if (event.type === Util.Event.START) {
+            this.hide();
+            return;
+        }
+        if (event.type === Util.Event.CLICK) {
+            var target = event.target;
+            var eventName = target.getAttribute('data-event');
+            if (eventName) {
+                this.triggerEvent(eventName);
+            }
+            var dismissButton = Util.Selector.closest(target, '[data-dismiss]');
+            if (dismissButton && dismissButton.getAttribute('data-dismiss') === 'modal') {
+                this.hide();
+            }
+        }
     };
-    OffCanvas.prototype.createBackdrop = function () {
+    Modal.prototype.setBackgroud = function () {
+        var element = this.getElement();
+        var background = this.getProp('background');
+        if (!background) {
+            return;
+        }
+        if (!element.classList.contains("modal-" + background)) {
+            element.classList.add("modal-" + background);
+        }
+        if (!element.classList.contains('text-white')) {
+            element.classList.add('text-white');
+        }
+    };
+    Modal.prototype.buildButton = function (buttonInfo) {
+        var button = document.createElement('button');
+        button.setAttribute('type', 'button');
+        button.setAttribute('class', buttonInfo.class || 'btn');
+        button.setAttribute('data-event', buttonInfo.event);
+        button.innerHTML = buttonInfo.text;
+        if (buttonInfo.dismiss) {
+            button.setAttribute('data-dismiss', 'modal');
+        }
+        return button;
+    };
+    Modal.prototype.buildBackdrop = function () {
         var backdrop = document.createElement('div');
-        var id = this.getId();
-        if (id) {
-            backdrop.setAttribute('data-id', id);
-        }
+        backdrop.setAttribute('data-id', this.getId());
         backdrop.classList.add(this.backdropSelector);
-        var content = this.getContainer();
-        content.appendChild(backdrop);
+        document.body.appendChild(backdrop);
     };
-    OffCanvas.prototype.getBackdrop = function () {
+    Modal.prototype.getBackdrop = function () {
         return document.querySelector("." + this.backdropSelector + "[data-id=\"" + this.getId() + "\"]");
     };
-    OffCanvas.prototype.removeBackdrop = function () {
-        var backdrop = this.getBackdrop();
-        if (backdrop) {
-            var content = this.getContainer();
-            content.removeChild(backdrop);
+    Modal.prototype.removeTextBody = function () {
+        var element = this.getElement();
+        element.querySelector('.modal-body')
+            .removeChild(element.querySelector('.modal-body').firstChild);
+    };
+    Modal.prototype.removeFooter = function () {
+        var element = this.getElement();
+        var footer = element.querySelector('.modal-footer');
+        element.querySelector('.modal-content').removeChild(footer);
+    };
+    Modal.prototype.center = function () {
+        var element = this.getElement();
+        var computedStyle = window.getComputedStyle(element);
+        if (computedStyle && computedStyle.height) {
+            var height = computedStyle.height.slice(0, computedStyle.height.length - 2);
+            var top_1 = (window.innerHeight / 2) - (parseFloat(height) / 2);
+            element.style.top = top_1 + "px";
         }
     };
-    OffCanvas.prototype.attachEvents = function () {
+    Modal.prototype.attachEvents = function () {
         var _this = this;
         var element = this.getElement();
-        Array.from(element.querySelectorAll('[data-dismiss]') || [])
-            .forEach(function (button) { return _this.registerElement({
+        var buttons = Array
+            .from(element.querySelectorAll('[data-dismiss], .modal-footer button') || []);
+        buttons.forEach(function (button) { return _this.registerElement({
             target: button,
             event: Util.Event.CLICK,
         }); });
+        var cancelable = this.getProp('cancelable');
         var backdrop = this.getBackdrop();
-        if (!this.showAside && backdrop) {
+        if (cancelable && backdrop) {
             this.registerElement({ target: backdrop, event: Util.Event.START });
+            this.registerElement({ target: document, event: 'keyup' });
         }
-        this.registerElement({ target: document, event: 'keyup' });
     };
-    OffCanvas.prototype.detachEvents = function () {
+    Modal.prototype.detachEvents = function () {
         var _this = this;
         var element = this.getElement();
-        var dismissButtons = element.querySelectorAll('[data-dismiss]');
-        if (dismissButtons) {
-            Array
-                .from(dismissButtons)
-                .forEach(function (button) { return _this.unregisterElement({
-                target: button,
-                event: Util.Event.CLICK,
-            }); });
-        }
-        var backdrop = this.getBackdrop();
-        if (!this.showAside && backdrop) {
+        var buttons = Array
+            .from(element.querySelectorAll('[data-dismiss], .modal-footer button') || []);
+        buttons.forEach(function (button) { return _this.unregisterElement({
+            target: button,
+            event: Util.Event.CLICK,
+        }); });
+        var cancelable = this.getProp('cancelable');
+        if (cancelable) {
+            var backdrop = this.getBackdrop();
             this.unregisterElement({ target: backdrop, event: Util.Event.START });
+            this.unregisterElement({ target: document, event: 'keyup' });
         }
-        this.unregisterElement({ target: document, event: 'keyup' });
     };
-    return OffCanvas;
+    return Modal;
 }(Component));
-OffCanvas.attachDOM();
+Modal.attachDOM();
 
-module.exports = OffCanvas;
-//# sourceMappingURL=offcanvas.js.map
+var ModalConfirm = (function (_super) {
+    __extends(ModalConfirm, _super);
+    function ModalConfirm(props) {
+        var _this = _super.call(this, Object.assign({
+            buttons: [
+                { event: 'cancel', text: 'Cancel', dismiss: true, class: 'btn btn-secondary' },
+                { event: 'confirm', text: 'Ok', dismiss: true, class: 'btn btn-primary' },
+            ],
+        }, props), false) || this;
+        _this.setTemplate(''
+            + '<div class="modal" tabindex="-1" role="modal" data-no-boot>'
+            + '<div class="modal-inner" role="document">'
+            + '<div class="modal-content">'
+            + '<div class="modal-header">'
+            + '<h5 class="modal-title"></h5>'
+            + '<button type="button" class="icon-close" data-dismiss="modal" aria-label="Close">'
+            + '<span class="icon" aria-hidden="true"></span>'
+            + '</button>'
+            + '</div>'
+            + '<div class="modal-body">'
+            + '<p></p>'
+            + '</div>'
+            + '<div class="modal-footer">'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '</div>');
+        if (_this.getElement() === null) {
+            _this.build();
+        }
+        return _this;
+    }
+    return ModalConfirm;
+}(Modal));
+
+module.exports = ModalConfirm;
+//# sourceMappingURL=modalconfirm.js.map

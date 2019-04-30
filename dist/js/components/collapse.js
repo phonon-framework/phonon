@@ -89,10 +89,15 @@ var Component = (function () {
         var defaultValue = this.defaultProps[name];
         return typeof this.props[name] !== 'undefined' ? this.props[name] : defaultValue;
     };
-    Component.prototype.updateProps = function (props) {
+    Component.prototype.setProps = function (props) {
         var componentProps = Object.assign({}, props);
-        delete componentProps.element;
         this.props = Object.assign(this.props, componentProps);
+    };
+    Component.prototype.setProp = function (name, value) {
+        if (typeof this.props[name] === 'undefined') {
+            throw new Error('Cannot set an invalid prop');
+        }
+        this.props[name] = value;
     };
     Component.prototype.registerElements = function (elements) {
         var _this = this;
