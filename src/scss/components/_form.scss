@@ -88,7 +88,7 @@
   }
 }
 
-
+// apply for all inputs
 .custom-control-label::before,
 .custom-file-label,
 .custom-select {
@@ -104,5 +104,6 @@
 @import "./form-range";
 @import "./form-select";
 @import "./form-textarea";
+@import "./form-floating-input";
 
 
