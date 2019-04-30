@@ -5,16 +5,21 @@
     "noImplicitAny": false,
     "outDir": "./dist",
     "declaration": false,
+    "declarationDir": "types",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es5",
     "module": "es2015",
     "lib": ["dom", "es2015"],
     "sourceMap": false,
+    "baseUrl": "./",
     "removeComments": true
   },
   "include": [
     "src/**/*"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "types/**/*.ts"
+  ]
 }
