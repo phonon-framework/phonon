@@ -10,11 +10,9 @@ interface IProps {
   element: HTMLElement|string; // the element must exist
   name?: null;
   selectable?: boolean;
-  search?: boolean;
   filterItems?: () => boolean;
   multiple?: boolean;
   tag?: boolean;
-  initSelection?: boolean;
 }
 
 interface ISelectboxItem {
@@ -48,14 +46,20 @@ export default class Selectbox extends Component {
     super('selectbox', {
       name: null,
       selectable: true,
-      search: false,
       filterItems: null,
       multiple: false,
       tag: false,
-      initSelection: false,
     },    props);
 
     // no-template: selectbox is not a dynamic component
+
+    if (!this.getProp('name')) {
+      // Get the name from the hidden input
+      const hiddenInput = this.getElement().querySelector('input[type="hidden"]');
+      if (hiddenInput) {
+        this.setProp('name', hiddenInput.getAttribute('name'));
+      }
+    }
 
     this.filterItemsHandler = (event: Event) => {
       const target: HTMLInputElement|null = event.target as HTMLInputElement;
@@ -88,11 +92,11 @@ export default class Selectbox extends Component {
     this.searchInputInContainer = this.getElement()
       .querySelector('.selectbox-input-container .input-select-one') !== null;
 
-    if (this.getProp('initSelection')) {
-      const item = this.getItemData(this.getElement().querySelector('[data-selected]'));
+    // init active item
+    const selectedItem = this.getItemData(this.getElement().querySelector('[data-selected]'));
 
-      this.setSelected(item.value, item.text);
-      return;
+    if (selectedItem) {
+      this.setSelected(selectedItem.value, selectedItem.text);
     }
   }
 
@@ -275,7 +279,6 @@ export default class Selectbox extends Component {
 
         if (this.getSelected() !== itemInfo.value) {
           // the user selected another value, we dispatch the event
-          console.log('selected');
           this.setSelected(itemInfo.value, itemInfo.text);
 
           // reset
