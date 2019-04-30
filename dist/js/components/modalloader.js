@@ -631,7 +631,6 @@ var ModalLoader = (function (_super) {
     }
     ModalLoader.prototype.show = function () {
         _super.prototype.show.call(this);
-        console.log(this.getElement());
         this.loader = new Loader({ element: this.getElement().querySelector('.loader') });
         this.loader.animate(true);
         return true;

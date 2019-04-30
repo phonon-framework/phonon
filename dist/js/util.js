@@ -99,8 +99,7 @@ var events = {
 };
 
 function closest(element, selector) {
-    var matches = Element.prototype.msMatchesSelector ||
-        Element.prototype.webkitMatchesSelector;
+    if (!Element.prototype.matches) ;
     var el = element;
     do {
         if (el.matches(selector)) {
@@ -216,7 +215,7 @@ function subscribe(subscriber) {
     mutatorSubscribers.push(subscriber);
     if (document.body) {
         Array.from(document.body.querySelectorAll("." + subscriber.componentClass) || [])
-            .filter(function (component) { return !component.getAttribute('data-no-boot'); })
+            .filter(function (component) { return component.getAttribute('data-no-boot') === null; })
             .forEach(function (component) {
             dispatchChangeEvent(subscriber, 'onAdded', component, stack.addComponent);
         });
@@ -235,6 +234,9 @@ function dispatchChangeEvent(subscriber, eventName) {
 }
 function nodeFn(element, added) {
     if (added === void 0) { added = true; }
+    if (element.getAttribute('data-no-boot') !== null) {
+        return;
+    }
     var elementClasses = element.className.split(' ');
     var subscriber = mutatorSubscribers.find(function (l) { return elementClasses.indexOf(l.componentClass) > -1; });
     if (!subscriber) {
@@ -259,7 +261,7 @@ function apply(node, added) {
 function getElements(nodes) {
     return Array
         .from(nodes)
-        .filter(function (node) { return isElement(node) && !node.getAttribute('data-no-boot'); });
+        .filter(function (node) { return isElement(node); });
 }
 function observe() {
     (new MutationObserver(function (mutations) { return mutations.forEach(function (mutation) {

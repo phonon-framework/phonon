@@ -295,19 +295,6 @@ var OffCanvas = (function (_super) {
             }
         });
     };
-    OffCanvas.prototype.getContainer = function () {
-        var container = this.getProp('container');
-        if (typeof container === 'string') {
-            container = document.querySelector(container);
-            if (!container) {
-                throw new Error('Off-canvas: Invalid container');
-            }
-        }
-        return container;
-    };
-    OffCanvas.prototype.getShowClass = function () {
-        return "show-" + this.direction;
-    };
     OffCanvas.prototype.checkDirection = function () {
         var _this = this;
         var element = this.getElement();
@@ -334,32 +321,32 @@ var OffCanvas = (function (_super) {
         this.setAside(size.name);
     };
     OffCanvas.prototype.setAside = function (sizeName) {
-        if (this.currentWidthName === sizeName) {
+        var container = this.getContainer();
+        if (this.currentWidthName === sizeName || !container) {
             return;
         }
         this.currentWidthName = sizeName;
-        var content = this.getContainer();
         var aside = this.getProp('aside');
         this.showAside = aside[sizeName] === true;
         if (aside[sizeName] === true) {
-            if (!content.classList.contains("offcanvas-aside-" + this.direction)) {
-                content.classList.add("offcanvas-aside-" + this.direction);
+            if (!container.classList.contains("offcanvas-aside-" + this.direction)) {
+                container.classList.add("offcanvas-aside-" + this.direction);
             }
             this.animate = false;
             if (this.getBackdrop()) {
                 this.removeBackdrop();
             }
             var containerShowClass = this.getShowClass();
-            if (this.isVisible() && !content.classList.contains(containerShowClass)) {
-                content.classList.add(containerShowClass);
+            if (this.isVisible() && !container.classList.contains(containerShowClass)) {
+                container.classList.add(containerShowClass);
             }
-            else if (!this.isVisible() && content.classList.contains(containerShowClass)) {
-                content.classList.remove(containerShowClass);
+            else if (!this.isVisible() && container.classList.contains(containerShowClass)) {
+                container.classList.remove(containerShowClass);
             }
         }
         else {
-            if (content.classList.contains("offcanvas-aside-" + this.direction)) {
-                content.classList.remove("offcanvas-aside-" + this.direction);
+            if (container.classList.contains("offcanvas-aside-" + this.direction)) {
+                container.classList.remove("offcanvas-aside-" + this.direction);
             }
             this.animate = true;
             this.hide();
@@ -404,7 +391,7 @@ var OffCanvas = (function (_super) {
                         if (this.showAside) {
                             container = this.getContainer();
                             containerShowClass = this.getShowClass();
-                            if (!container.classList.contains(containerShowClass)) {
+                            if (container && !container.classList.contains(containerShowClass)) {
                                 container.classList.add(containerShowClass);
                             }
                         }
@@ -438,7 +425,7 @@ var OffCanvas = (function (_super) {
         if (this.showAside) {
             var container = this.getContainer();
             var containerShowClass = this.getShowClass();
-            if (container.classList.contains(containerShowClass)) {
+            if (container && container.classList.contains(containerShowClass)) {
                 container.classList.remove(containerShowClass);
             }
         }
@@ -475,17 +462,18 @@ var OffCanvas = (function (_super) {
             backdrop.setAttribute('data-id', id);
         }
         backdrop.classList.add(this.backdropSelector);
-        var content = this.getContainer();
-        content.appendChild(backdrop);
+        var container = this.getContainer();
+        if (container) {
+            container.appendChild(backdrop);
+        }
     };
     OffCanvas.prototype.getBackdrop = function () {
         return document.querySelector("." + this.backdropSelector + "[data-id=\"" + this.getId() + "\"]");
     };
     OffCanvas.prototype.removeBackdrop = function () {
         var backdrop = this.getBackdrop();
-        if (backdrop) {
-            var content = this.getContainer();
-            content.removeChild(backdrop);
+        if (backdrop && backdrop.parentNode) {
+            backdrop.parentNode.removeChild(backdrop);
         }
     };
     OffCanvas.prototype.attachEvents = function () {
@@ -519,6 +507,16 @@ var OffCanvas = (function (_super) {
             this.unregisterElement({ target: backdrop, event: Util.Event.START });
         }
         this.unregisterElement({ target: document, event: 'keyup' });
+    };
+    OffCanvas.prototype.getContainer = function () {
+        var container = this.getProp('container');
+        if (typeof container === 'string') {
+            container = document.querySelector(container);
+        }
+        return container;
+    };
+    OffCanvas.prototype.getShowClass = function () {
+        return "show-" + this.direction;
     };
     return OffCanvas;
 }(Component));
