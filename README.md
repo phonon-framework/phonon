@@ -13,19 +13,15 @@
 
 Starting with v2.0, Phonon takes full advantage of ECMAScript.
 
-## Quick start
+## Installation
 
-Please refer to our documentation for more information.
+You have the following options to install Phonon v2:
 
-The installation can take place in several ways:
-
-- [Download the latest release](https://github.com/quark-dev/Phonon-Framework/releases) and use dist files.
-- Clone the repo: `git clone https://github.com/quark-dev/Phonon-Framework.git`.
-- Install with [npm](https://www.npmjs.com): `npm install phonon`.
-- Install with [yarn](https://yarnpkg.com/en/): `yarn add phonon`.
-- Install with [Bower](https://bower.io): `bower install phonon`.
-- Use [CDNJS](https://cdnjs.com/libraries/PhononJs).
-
+- Install with [npm](https://www.npmjs.com/package/phonon) `npm install phonon@2.0.0-alpha.1`
+- Install with [Yarn](https://yarnpkg.com/en/package/phonon) `yarn add phonon@2.0.0-alpha.1`
+- Deliver CDN cached version of Phonon compiled [CSS](https://unpkg.com/phonon@2.0.0-alpha.1/dist/css/) and [JavaScript](https://unpkg.com/phonon@2.0.0-alpha.1/dist/js/) to your project by using [UNPKG](https://unpkg.com/phonon@2.0.0-alpha.1/)
+- Clone the repository to get all source files and compile Phonon by using the scripts: `git clone https://github.com/phonon-framework/phonon.git`
+- Download the [latest release](https://github.com/phonon-framework/phonon/releases) and use compiled CSS and JavaScript files available in the dist folder
 
 ## Versioning
 
