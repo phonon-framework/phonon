@@ -1761,6 +1761,9 @@ input[type="button"].btn-block {
   .form-control::-webkit-input-placeholder {
     color: #999;
     opacity: 1; }
+  .form-control::-moz-placeholder {
+    color: #999;
+    opacity: 1; }
   .form-control:-ms-input-placeholder {
     color: #999;
     opacity: 1; }
@@ -3693,6 +3696,8 @@ textarea.form-control {
         outline: none; }
       .selectbox .selectbox-input-container .input-select-one::-webkit-input-placeholder {
         color: gray; }
+      .selectbox .selectbox-input-container .input-select-one::-moz-placeholder {
+        color: gray; }
       .selectbox .selectbox-input-container .input-select-one:-ms-input-placeholder {
         color: gray; }
       .selectbox .selectbox-input-container .input-select-one::-ms-input-placeholder {
@@ -3700,6 +3705,8 @@ textarea.form-control {
       .selectbox .selectbox-input-container .input-select-one::placeholder {
         color: gray; }
       .selectbox .selectbox-input-container .input-select-one.hide-placeholder::-webkit-input-placeholder {
+        color: transparent; }
+      .selectbox .selectbox-input-container .input-select-one.hide-placeholder::-moz-placeholder {
         color: transparent; }
       .selectbox .selectbox-input-container .input-select-one.hide-placeholder:-ms-input-placeholder {
         color: transparent; }
