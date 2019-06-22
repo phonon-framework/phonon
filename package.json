@@ -13,7 +13,8 @@
     "lint": "tslint ./src/**/*.ts --exclude \"./node_modules\"",
     "coverage:js-plugins": "cross-env NODE_ENV=test node ./bin/build/components.js",
     "test:e2e": "testcafe chromium,firefox ./test/e2e/**",
-    "test:local": "./node_modules/trevor/cli.js"
+    "test:local": "./node_modules/trevor/cli.js",
+    "release": "release-it minor --git.tagName='v${version}' --github.release"
   },
   "keywords": [
     "css",
@@ -39,6 +40,7 @@
     "clean-css": "^4.2.1",
     "node-sass": "^4.12.0",
     "postcss": "^7.0.15",
+    "release-it": "^12.3.0",
     "rollup": "^1.11.2",
     "rollup-plugin-typescript2": "^0.21.0",
     "testcafe": "^1.1.3",
