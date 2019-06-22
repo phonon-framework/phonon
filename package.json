@@ -14,7 +14,7 @@
     "coverage:js-plugins": "cross-env NODE_ENV=test node ./bin/build/components.js",
     "test:e2e": "testcafe chromium,firefox ./test/e2e/**",
     "test:local": "./node_modules/trevor/cli.js",
-    "release": "release-it minor --git.tagName='v${version}' --github.release"
+    "release": "./node_modules/release-it/bin/release-it minor --git.tagName='v${version}' --github.release"
   },
   "keywords": [
     "css",
