@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * Licensed under MIT (https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/phonon-framework/phonon/blob/master/LICENSE.md)
  * --------------------------------------------------------------------------
  */
 import Loader from './loader';

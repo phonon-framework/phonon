@@ -6,7 +6,7 @@ function onError() {
   window.addEventListener('error', (event: ErrorEvent) => {
     console.error('-- Phonon Error --');
     console.error('An error has occured!'
-      + ' ' + 'You can pen an issue here: https://github.com/quark-dev/Phonon-Framework/issues');
+      + ' ' + 'You can pen an issue here: https://github.com/phonon-framework/phonon/issues');
     console.error(JSON.stringify(event));
   });
 }

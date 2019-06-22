@@ -4,7 +4,7 @@
   "description": "Phonon is an open source HTML, CSS and JavaScript agnostic framework that allows to create a website or a hybrid Web app.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/quark-dev/Phonon-Framework.git"
+    "url": "https://github.com/phonon-framework/phonon.git"
   },
   "scripts": {
     "build:bundle": "node ./bin/build/bundle.js",
@@ -32,9 +32,9 @@
   "author": "qathom",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/quark-dev/Phonon-Framework/issues"
+    "url": "https://github.com/phonon-framework/phonon/issues"
   },
-  "homepage": "https://github.com/quark-dev/Phonon-Framework",
+  "homepage": "https://github.com/phonon-framework/phonon",
   "devDependencies": {
     "autoprefixer": "^9.5.1",
     "clean-css": "^4.2.1",
