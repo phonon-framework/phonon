@@ -12,21 +12,29 @@
     "build:css": "node ./bin/build css",
     "lint": "tslint ./src/**/*.ts --exclude \"./node_modules\"",
     "coverage:js-plugins": "cross-env NODE_ENV=test node ./bin/build/components.js",
-    "test:e2e": "testcafe chromium,firefox ./test/e2e/**",
     "test:local": "./node_modules/trevor/cli.js",
+    "test:e2e": "testcafe chromium,firefox ./test/e2e/**",
     "release": "./node_modules/release-it/bin/release-it minor --git.tagName='v${version}' --github.release"
   },
+  "hooks": {
+    "before:init": ["npm run build:bundle", "npm run build:components", "npm run build:css", "npm run lint", "npm run test:local", "npm run test:e2e"],
+    "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+  },
+  "style": "dist/css/phonon.css",
+  "sass": "src/scss/phonon.scss",
+  "main": "dist/js/phonon.js",
   "keywords": [
     "css",
     "sass",
-    "mobile-first",
+    "mobile",
+    "desktop",
     "responsive",
     "front-end",
     "framework",
     "web"
   ],
   "engines": {
-    "node": ">= 10.0.0",
+    "node": ">= 8",
     "npm": ">= 6.0.0"
   },
   "author": "qathom",
@@ -34,7 +42,8 @@
   "bugs": {
     "url": "https://github.com/phonon-framework/phonon/issues"
   },
-  "homepage": "https://github.com/phonon-framework/phonon",
+  "homepage": "https://phonon-framework.github.io",
+  "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^9.5.1",
     "clean-css": "^4.2.1",
@@ -49,5 +58,8 @@
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.4.5",
     "uglify-js": "^3.5.10"
-  }
+  },
+  "files": [
+    "dist/{css,js}/*.{css,js,map}"
+  ]
 }
