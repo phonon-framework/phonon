@@ -1,8 +1,8 @@
 // Use Phonon bundle
-// const phonon = require('../../../dist/js/phonon');
+// const phonon = require('phonon');
 
 // Or CommonJS component
-const Modal = require('../../../dist/js/components/modal');
+const Modal = require('phonon/dist/js/components/modal');
 
 function showModal() {
   const options = {
