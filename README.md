@@ -6,9 +6,10 @@
 [![Dependency Status](https://david-dm.org/phonon-framework/phonon.svg)](https://david-dm.org/phonon-framework/phonon)
 [![devDependencies Status](https://david-dm.org/phonon-framework/phonon/dev-status.svg)](https://david-dm.org/phonon-framework/phonon)
 [![Build Status](https://img.shields.io/travis/phonon-framework/phonon.svg?style=flat-square)](https://travis-ci.org/phonon-framework/phonon)
-[![Codecov](https://img.shields.io/codecov/c/github/phonon-framework/phonon.svg?style=flat-square)](https://codecov.io/gh/phonon-framework/phonon)
+[![Codecov](https://codecov.io/gh/phonon-framework/phonon/branch/master/graph/badge.svg)](https://codecov.io/gh/phonon-framework/phonon)
 [![npm](https://img.shields.io/npm/v/phonon.svg?style=flat-square)]()
 [![license](https://img.shields.io/github/license/quark-dev/phonon.svg?style=flat-square)]()
+
 
 Starting with v2.0, Phonon takes full advantage of ECMAScript.
 
