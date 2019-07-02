@@ -3,13 +3,12 @@
 > Phonon: the light weight, scalable, flexible and customizable HTML5 Web - Mobile Framework.
 
 [![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
-[![Dependency Status](https://david-dm.org/quark-dev/Phonon-Framework.svg)](https://david-dm.org/quark-dev/Phonon-Framework)
-[![devDependencies Status](https://david-dm.org/quark-dev/Phonon-Framework/dev-status.svg)](https://david-dm.org/quark-dev/Phonon-Framework)
-[![Build Status](https://img.shields.io/travis/quark-dev/Phonon-Framework.svg?style=flat-square)](https://travis-ci.org/quark-dev/Phonon-Framework)
-[![Codecov](https://img.shields.io/codecov/c/github/quark-dev/Phonon-Framework.svg?style=flat-square)](https://codecov.io/gh/quark-dev/Phonon-Framework)
+[![Dependency Status](https://david-dm.org/phonon-framework/phonon.svg)](https://david-dm.org/phonon-framework/phonon)
+[![devDependencies Status](https://david-dm.org/phonon-framework/phonon/dev-status.svg)](https://david-dm.org/phonon-framework/phonon)
+[![Build Status](https://img.shields.io/travis/phonon-framework/phonon.svg?style=flat-square)](https://travis-ci.org/phonon-framework/phonon)
+[![Codecov](https://img.shields.io/codecov/c/github/phonon-framework/phonon.svg?style=flat-square)](https://codecov.io/gh/phonon-framework/phonon)
 [![npm](https://img.shields.io/npm/v/phonon.svg?style=flat-square)]()
 [![license](https://img.shields.io/github/license/quark-dev/phonon.svg?style=flat-square)]()
-[![GitHub contributors](https://img.shields.io/github/contributors/quark-dev/phonon.svg?style=flat-square)]()
 
 Starting with v2.0, Phonon takes full advantage of ECMAScript.
 
@@ -30,11 +29,11 @@ Phonon Framework is maintained under the [Semantic Versioning guidelines](http:/
 
 ## Contributing
 
-**Don't hesitate** to contribute to this project! The Phonon team is completely open to any suggestions or improvements. Please, go to the [issues page](https://github.com/quark-dev/Phonon-Framework/issues) to open an issue.
+**Don't hesitate** to contribute to this project! The Phonon team is completely open to any suggestions or improvements. Please, go to the [issues page](https://github.com/phonon-framework/phonon/issues) to open an issue.
 Moreover, if your pull request contains JavaScript patches or features, you must include relevant unit tests.
-Editor preferences are available in the [editor config](https://github.com/quark-dev/Phonon-Framework/blob/master/.editorconfig) for easy use in common text editors.
+Editor preferences are available in the [editor config](https://github.com/phonon-framework/phonon/blob/master/.editorconfig) for easy use in common text editors.
 
 
 ## Copyright and license
 
-Code released under the [MIT License](https://github.com/quark-dev/Phonon-Framework/blob/master/LICENSE).
+Code released under the [MIT License](https://github.com/phonon-framework/phonon/blob/master/LICENSE).
