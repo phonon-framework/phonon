@@ -14,7 +14,7 @@ interface IModalButton {
 }
 
 export interface IProps {
-  element?: HTMLElement|string; // the element must exist
+  element?: HTMLElement|string|null; // the element is optional
   title?: null|string;
   message?: null|string;
   cancelable?: boolean;
@@ -268,7 +268,7 @@ export default class Modal extends Component {
   public onElementEvent(event: KeyboardEvent): void {
     // keyboard event (escape and enter)
     if (event.type === 'keyup') {
-      const keycodes = this.getProp('cancelableKeyCodes');
+      const keycodes: number[] = this.getProp('cancelableKeyCodes');
 
       if (keycodes.find(k => k === event.keyCode)) {
         this.hide();
@@ -297,23 +297,6 @@ export default class Modal extends Component {
       if (dismissButton && dismissButton.getAttribute('data-dismiss') === 'modal') {
         this.hide();
       }
-    }
-  }
-
-  private setBackgroud(): void {
-    const element = this.getElement();
-    const background = this.getProp('background');
-
-    if (!background) {
-      return;
-    }
-
-    if (!element.classList.contains(`modal-${background}`)) {
-      element.classList.add(`modal-${background}`);
-    }
-
-    if (!element.classList.contains('text-white')) {
-      element.classList.add('text-white');
     }
   }
 
