@@ -4,8 +4,8 @@
     "alwaysStrict": true,
     "noImplicitAny": false,
     "outDir": "./dist",
-    "declaration": false,
-    "declarationDir": "types",
+    "declaration": true,
+    "declarationDir": "./dist",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es5",
@@ -13,10 +13,15 @@
     "lib": ["dom", "es2015"],
     "sourceMap": false,
     "baseUrl": "./",
-    "removeComments": true
+    "removeComments": true,
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "test/unit"
   ],
   "exclude": [
     "node_modules",
