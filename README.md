@@ -22,10 +22,10 @@ Since the version **1.0.0** released in August 2015, Phonon became **browser-fri
 
 Several quick start options are available:
 
- - [Download the latest release](https://github.com/quark-dev/Phonon-Framework/releases) and use dist files.
- - Clone the repo: `git clone https://github.com/quark-dev/Phonon-Framework.git`. Do not forget to run `npm install`.
- - Install with [npm](https://www.npmjs.com): `npm install phonon`.
- - Install with [Bower](https://bower.io): `bower install phonon`.
+ - [Download the latest release](https://github.com/phonon-framework/phonon/releases) and use dist files.
+ - Clone the repo: `git clone https://github.com/phonon-framework/phonon.git -b v1`. Do not forget to run `npm install`.
+ - Install with [npm](https://www.npmjs.com): `npm install phonon@v1`.
+ - Install with [Bower](https://bower.io): `bower install phonon#v1`.
  - Use [CDNJS](https://cdnjs.com/libraries/PhononJs).
 
 The best place to start with Phonon is the [Getting Started section](http://phonon.quarkdev.com/#getting-started).
@@ -63,10 +63,10 @@ It is fine to use only one Phonon feature or component, but you will fall in lov
 
 Use your favorite design pattern (MVW, MVVM, MVC, ...) or a module loader with Phonon! For example, Phonon plays well with **RiotJS**, **AngularJS**, **RequireJS** and **VueJS**.
 
- - [Code example with RiotJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-riot)
- - [Code example with AngularJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-angular)
- - [Code example with RequireJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-require)
- - [Code example with VueJS](https://github.com/quark-dev/Phonon-Framework/tree/master/examples/pizza-app-with-vue)
+ - [Code example with RiotJS](https://github.com/phonon-framework/phonon/tree/master/examples/pizza-app-with-riot)
+ - [Code example with AngularJS](https://github.com/phonon-framework/phonon/tree/master/examples/pizza-app-with-angular)
+ - [Code example with RequireJS](https://github.com/phonon-framework/phonon/tree/master/examples/pizza-app-with-require)
+ - [Code example with VueJS](https://github.com/phonon-framework/phonon/tree/master/examples/pizza-app-with-vue)
 
 
 ### Internationalization
