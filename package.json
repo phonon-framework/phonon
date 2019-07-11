@@ -11,10 +11,11 @@
     "build:components": "node ./bin/build/components.js",
     "build:css": "node ./bin/build css",
     "lint": "tslint ./src/**/*.ts --exclude \"./node_modules\"",
-    "coverage:js-plugins": "cross-env NODE_ENV=test npm run build:components",
-    "test:local": "./node_modules/trevor/cli.js",
+    "test:unit": "jest ./test/unit",
+    "test:travis": "trevor/cli.js",
     "test:e2e": "testcafe chromium,firefox ./test/e2e/**",
-    "release": "./node_modules/release-it/bin/release-it minor --git.tagName='v${version}' --github.release"
+    "coverage": "codecov",
+    "release": "release-it/bin/release-it minor --git.tagName='v${version}' --github.release"
   },
   "hooks": {
     "before:init": [
@@ -50,21 +51,29 @@
     "url": "https://github.com/phonon-framework/phonon/issues"
   },
   "homepage": "https://phonon-framework.github.io",
-  "dependencies": {},
   "devDependencies": {
-    "autoprefixer": "^9.6.0",
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.15",
+    "autoprefixer": "^9.6.1",
+    "babel-jest": "^24.8.0",
     "clean-css": "^4.2.1",
+    "codecov": "^3.5.0",
     "cross-env": "^5.2.0",
+    "jest": "^24.8.0",
     "node-sass": "^4.12.0",
     "postcss": "^7.0.17",
-    "release-it": "^12.3.0",
-    "rollup": "^1.16.4",
+    "release-it": "^12.3.3",
+    "rollup": "^1.16.7",
+    "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-typescript2": "^0.21.2",
-    "testcafe": "^1.3.0",
+    "testcafe": "^1.3.2",
     "trevor": "^2.4.0",
+    "ts-jest": "^24.0.2",
     "tslint": "^5.18.0",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.5.2",
+    "typescript": "^3.5.3",
     "uglify-js": "^3.6.0"
   },
   "files": [
