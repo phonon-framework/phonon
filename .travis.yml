@@ -11,7 +11,8 @@ install:
   - npm install
 
 script:
-  - npm run coverage:js-plugins
+  - npm run test:unit
+  - npm run coverage
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
