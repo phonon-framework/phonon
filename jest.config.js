@@ -10,4 +10,6 @@ module.exports = {
       babelConfig: true,
     },
   },
+  coverageDirectory: "./coverage/",
+  collectCoverage: true
 };
