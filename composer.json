@@ -1,0 +1,19 @@
+{
+  "name": "phonon-framework/phonon",
+  "description": "Phonon is an open source HTML, CSS and JavaScript agnostic framework that allows to create a website or a hybrid Web app.",
+  "keywords": [
+    "css",
+    "sass",
+    "mobile",
+    "desktop",
+    "responsive",
+    "front-end",
+    "framework",
+    "web"
+  ],
+  "homepage": "https://phonon-framework.github.io",
+  "support": {
+    "issues": "https://github.com/phonon-framework/phonon/issues"
+  },
+  "license": "MIT"
+}
