@@ -6,32 +6,32 @@
 
 ### Bug Fixes
 
-* GET requests with parameters [#100](https://github.com/quark-dev/Phonon-Framework/issues/100)
+* GET requests with parameters [#100](https://github.com/phonon-framework/phonon/issues/100)
 
 ### 1.4.8 (2017-12-15)
 
 ### Features
 
-* Added the ability to position dynamic popovers [#274](https://github.com/quark-dev/Phonon-Framework/pull/274)
+* Added the ability to position dynamic popovers [#274](https://github.com/phonon-framework/phonon/pull/274)
 
 ### 1.4.7 (2017-11-29)
 
 ### Features
 
-* Added the ability to update the state of dynamically created inputs [#271](https://github.com/quark-dev/Phonon-Framework/issues/271)
+* Added the ability to update the state of dynamically created inputs [#271](https://github.com/phonon-framework/phonon/issues/271)
 
 ### 1.4.6 (2017-11-19)
 
 #### Features
 
-* Added the ability to disable dragging on a page by page basis [#268](https://github.com/quark-dev/Phonon-Framework/pull/268)
+* Added the ability to disable dragging on a page by page basis [#268](https://github.com/phonon-framework/phonon/pull/268)
 * Updated Angular2 example
 * Updated Vue2 example
 
 #### Bug Fixes
 
-* Fix i18n cache and parse [#267](https://github.com/quark-dev/Phonon-Framework/issues/267)
-* Demo can not be shown on chrome mobile [#264](https://github.com/quark-dev/Phonon-Framework/issues/264)
+* Fix i18n cache and parse [#267](https://github.com/phonon-framework/phonon/issues/267)
+* Demo can not be shown on chrome mobile [#264](https://github.com/phonon-framework/phonon/issues/264)
 * Update npm dependency [#261](Update npm dependency)
 * Fix example with VueJS v2
 
@@ -39,32 +39,32 @@
 
 #### Features
 
-* Dist folder added in NPM package [#237](https://github.com/quark-dev/Phonon-Framework/issues/237)
+* Dist folder added in NPM package [#237](https://github.com/phonon-framework/phonon/issues/237)
 
 ### 1.4.4 (2017-03-18)
 
 #### Bug Fixes
 
-* Fix bug where the text button in notifications is not shown  [#234](https://github.com/quark-dev/Phonon-Framework/issues/234)
-* Fix page dimensions and tabs [#231](https://github.com/quark-dev/Phonon-Framework/issues/231)
-* Fix text binding (i18n) with checkbox and radio inputs [#227](https://github.com/quark-dev/Phonon-Framework/issues/227)
+* Fix bug where the text button in notifications is not shown  [#234](https://github.com/phonon-framework/phonon/issues/234)
+* Fix page dimensions and tabs [#231](https://github.com/phonon-framework/phonon/issues/231)
+* Fix text binding (i18n) with checkbox and radio inputs [#227](https://github.com/phonon-framework/phonon/issues/227)
 * Update [Form documentation](http://phonon.quarkdev.com/docs/forms)
 
 ### 1.4.1, 1.4.2 and 1.4.3 (2017-03-08)
 
 #### Bug Fixes
 
-* Fix flat buttons [#208](https://github.com/quark-dev/Phonon-Framework/issues/208)
-* Fix bug where changePage does not deal with numbers as parameters [#214](https://github.com/quark-dev/Phonon-Framework/issues/214)
-* Fix bug when closing an active popover closes the active panel [#206](https://github.com/quark-dev/Phonon-Framework/issues/206)
-* Fix `tap` event on Windows with Chrome [#121](https://github.com/quark-dev/Phonon-Framework/issues/121) and [#184](https://github.com/quark-dev/Phonon-Framework/issues/184)
-* Improved native feeling for tabs [#222](https://github.com/quark-dev/Phonon-Framework/pull/222)
-* Fix dependency with Awesomplete [#224](https://github.com/quark-dev/Phonon-Framework/issues/224)
+* Fix flat buttons [#208](https://github.com/phonon-framework/phonon/issues/208)
+* Fix bug where changePage does not deal with numbers as parameters [#214](https://github.com/phonon-framework/phonon/issues/214)
+* Fix bug when closing an active popover closes the active panel [#206](https://github.com/phonon-framework/phonon/issues/206)
+* Fix `tap` event on Windows with Chrome [#121](https://github.com/phonon-framework/phonon/issues/121) and [#184](https://github.com/phonon-framework/phonon/issues/184)
+* Improved native feeling for tabs [#222](https://github.com/phonon-framework/phonon/pull/222)
+* Fix dependency with Awesomplete [#224](https://github.com/phonon-framework/phonon/issues/224)
 
 #### Features
 
-* Password type for dialogs added [#221](https://github.com/quark-dev/Phonon-Framework/pull/221)
-* DOM auto-generated element is now available with phonon.notif([...]) [#220](https://github.com/quark-dev/Phonon-Framework/pull/220)
+* Password type for dialogs added [#221](https://github.com/phonon-framework/phonon/pull/221)
+* DOM auto-generated element is now available with phonon.notif([...]) [#220](https://github.com/phonon-framework/phonon/pull/220)
 * For `tap` event, force click event if touch event is not supported by the browser
 * Improved Autocomplete component
 * Full [documentation for autocomplete](http://phonon.quarkdev.com/docs/autocomplete)
@@ -73,61 +73,61 @@
 
 #### Features
 
-* Vue2 example updated [#165](https://github.com/quark-dev/Phonon-Framework/issues/165)
+* Vue2 example updated [#165](https://github.com/phonon-framework/phonon/issues/165)
 * [platform.js](https://github.com/bestiejs/platform.js) is now used for [device](http://phonon.quarkdev.com/docs/device) information detection
 * NPM package created. You can now use `npm install phonon`
 
 #### Bug Fixes
 
-* Fix ajax content type [#195](https://github.com/quark-dev/Phonon-Framework/issues/195)
+* Fix ajax content type [#195](https://github.com/phonon-framework/phonon/issues/195)
 * Better i18n support
-* Remove autogenerated dialogs in DOM [#199](https://github.com/quark-dev/Phonon-Framework/issues/199)
-* Device info detection [#194](https://github.com/quark-dev/Phonon-Framework/issues/194)
+* Remove autogenerated dialogs in DOM [#199](https://github.com/phonon-framework/phonon/issues/199)
+* Device info detection [#194](https://github.com/phonon-framework/phonon/issues/194)
 
 ### 1.3.5 (2017-01-18)
 
 #### Features
 
 * RiotJS updated
-* Possibility to install Phonon with bower (bower install phonon) [#189](https://github.com/quark-dev/Phonon-Framework/issues/189)
+* Possibility to install Phonon with bower (bower install phonon) [#189](https://github.com/phonon-framework/phonon/issues/189)
 
 #### Bug Fixes
 
-* Position of floating buttons [#183](https://github.com/quark-dev/Phonon-Framework/pull/183)
-* Previous page sequence [#185](https://github.com/quark-dev/Phonon-Framework/issues/185) and [#186](https://github.com/quark-dev/Phonon-Framework/pull/186)
-* Fix docs for floating actions [#181](https://github.com/quark-dev/Phonon-Framework/issues/181)
-* Dialog unique ids [#192](https://github.com/quark-dev/Phonon-Framework/pull/192)
+* Position of floating buttons [#183](https://github.com/phonon-framework/phonon/pull/183)
+* Previous page sequence [#185](https://github.com/phonon-framework/phonon/issues/185) and [#186](https://github.com/phonon-framework/phonon/pull/186)
+* Fix docs for floating actions [#181](https://github.com/phonon-framework/phonon/issues/181)
+* Dialog unique ids [#192](https://github.com/phonon-framework/phonon/pull/192)
 
 ### 1.3.4 (2016-11-28)
 
 #### Features
 
-* Set color to notifications and preloaders (primary, negative or positive) [#172](https://github.com/quark-dev/Phonon-Framework/issues/172)
+* Set color to notifications and preloaders (primary, negative or positive) [#172](https://github.com/phonon-framework/phonon/issues/172)
 
 #### Bug Fixes
 
-* Error message added when a given page doesn't exist with side panels [#167](https://github.com/quark-dev/Phonon-Framework/issues/167)
-* Fix side panel close with touch/mouse events [#170](https://github.com/quark-dev/Phonon-Framework/issues/170)
+* Error message added when a given page doesn't exist with side panels [#167](https://github.com/phonon-framework/phonon/issues/167)
+* Fix side panel close with touch/mouse events [#170](https://github.com/phonon-framework/phonon/issues/170)
 
 ### 1.3.3 (2016-10-30)
 
 #### Features
 
-* Possibility to add dynamic tabs with: phonon.tab().init('pagename'), please [read the docs](http://phonon.quarkdev.com/docs/tabs) for more information [#166](https://github.com/quark-dev/Phonon-Framework/issues/166)
+* Possibility to add dynamic tabs with: phonon.tab().init('pagename'), please [read the docs](http://phonon.quarkdev.com/docs/tabs) for more information [#166](https://github.com/phonon-framework/phonon/issues/166)
 
 ### 1.3.2 (2016-10-01)
 
 #### Bug Fixes
 
-* Fix file loading with the i18n plugin [#156](https://github.com/quark-dev/Phonon-Framework/issues/156) and [#41](https://github.com/quark-dev/Phonon-Framework/issues/41)
-* Fix version in package.json file [#155](https://github.com/quark-dev/Phonon-Framework/issues/155)
-* Fix remove event `off` [#159](https://github.com/quark-dev/Phonon-Framework/issues/159)
+* Fix file loading with the i18n plugin [#156](https://github.com/phonon-framework/phonon/issues/156) and [#41](https://github.com/phonon-framework/phonon/issues/41)
+* Fix version in package.json file [#155](https://github.com/phonon-framework/phonon/issues/155)
+* Fix remove event `off` [#159](https://github.com/phonon-framework/phonon/issues/159)
 
 ### 1.3.1 (2016-08-08)
 
 #### Bug Fixes
 
-* Compatibility issue with JellyBean version [#151](https://github.com/quark-dev/Phonon-Framework/issues/151)
+* Compatibility issue with JellyBean version [#151](https://github.com/phonon-framework/phonon/issues/151)
 * tabs width with flex
 * panels animation on older Android versions
 * notifications animation
@@ -137,7 +137,7 @@
 #### Features
 
 * custom list item builder for popovers added, discussion:
-[#148](https://github.com/quark-dev/Phonon-Framework/issues/148)
+[#148](https://github.com/phonon-framework/phonon/issues/148)
 * page shortcut for page contents
 ```html
 <mypage>
@@ -153,17 +153,17 @@
 
 #### Bug Fixes
 
-* force the hide state with dialogs on iOS [#144](https://github.com/quark-dev/Phonon-Framework/issues/144)
-* tab width [#142](https://github.com/quark-dev/Phonon-Framework/issues/142/)
+* force the hide state with dialogs on iOS [#144](https://github.com/phonon-framework/phonon/issues/144)
+* tab width [#142](https://github.com/phonon-framework/phonon/issues/142/)
 * fix popover state
 
 ### 1.2.9 (2016-08-05)
 
 #### Features
 
-* support for "data-nocache" + "data-loader" + Form POST [#146](https://github.com/quark-dev/Phonon-Framework/pull/146)<br />
+* support for "data-nocache" + "data-loader" + Form POST [#146](https://github.com/phonon-framework/phonon/pull/146)<br />
 Thanks to [WietseWind](https://github.com/WietseWind)
-* possibility to add events through `on` with NodeList (querySelectorAll) [#147](https://github.com/quark-dev/Phonon-Framework/issues/147)
+* possibility to add events through `on` with NodeList (querySelectorAll) [#147](https://github.com/phonon-framework/phonon/issues/147)
 * more API functions for [popovers](http://phonon.quarkdev.com/docs/popovers)
 * jQuery/Zepto compatibility with tap event
 
@@ -179,14 +179,14 @@ $('.button').on('tap', myFunction) // jQuery
 
 #### Bug Fixes
 
-* fix popover examples [#148](https://github.com/quark-dev/Phonon-Framework/issues/148)
+* fix popover examples [#148](https://github.com/phonon-framework/phonon/issues/148)
 
 
 ### 1.2.8 (2016-07-29)
 
 #### Features
 
-* page events listener added [#145](https://github.com/quark-dev/Phonon-Framework/issues/145)
+* page events listener added [#145](https://github.com/phonon-framework/phonon/issues/145)
 
 ```js
 phonon.navigator().onPage('home').addEvent('create', function () {
@@ -217,22 +217,22 @@ phonon.navigator().onPage('home').addEvent('hashchanged', function (param) {
 
 #### Features
 
-* html binding for internationalization (i18n) module [#123](https://github.com/quark-dev/Phonon-Framework/issues/123)
+* html binding for internationalization (i18n) module [#123](https://github.com/phonon-framework/phonon/issues/123)
 * fix close icon on side-panel is not closing panel when opening via swipe gesture
-thanks to [oksiquatzel](https://github.com/oksiquatzel)  [#120](https://github.com/quark-dev/Phonon-Framework/issues/120)
-* fix iOS 8+ detection [#137](https://github.com/quark-dev/Phonon-Framework/issues/137)
+thanks to [oksiquatzel](https://github.com/oksiquatzel)  [#120](https://github.com/phonon-framework/phonon/issues/120)
+* fix iOS 8+ detection [#137](https://github.com/phonon-framework/phonon/issues/137)
 * checkboxes added in theme
-* fix vuejs example [#141](https://github.com/quark-dev/Phonon-Framework/issues/141)
+* fix vuejs example [#141](https://github.com/phonon-framework/phonon/issues/141)
 
 ### 1.2.6 (2016-05-05)
 
 #### Bug Fixes
 
-* attempt to fix scroll issue when the height of the viewport changes [#53](https://github.com/quark-dev/Phonon-Framework/issues/53),  [#124](https://github.com/quark-dev/Phonon-Framework/issues/124) and [#43](https://github.com/quark-dev/Phonon-Framework/issues/43)
-* accordion lists can be used in components such as side panels and panels [#125](https://github.com/quark-dev/Phonon-Framework/issues/125)
+* attempt to fix scroll issue when the height of the viewport changes [#53](https://github.com/phonon-framework/phonon/issues/53),  [#124](https://github.com/phonon-framework/phonon/issues/124) and [#43](https://github.com/phonon-framework/phonon/issues/43)
+* accordion lists can be used in components such as side panels and panels [#125](https://github.com/phonon-framework/phonon/issues/125)
 * bad accordion color in dark side panels
-* reset button handlers correctly [#117](https://github.com/quark-dev/Phonon-Framework/issues/117)
-* page navigation from side panels [#71](https://github.com/quark-dev/Phonon-Framework/issues/71)
+* reset button handlers correctly [#117](https://github.com/phonon-framework/phonon/issues/117)
+* page navigation from side panels [#71](https://github.com/phonon-framework/phonon/issues/71)
 
 #### Features
 
@@ -242,14 +242,14 @@ thanks to [oksiquatzel](https://github.com/oksiquatzel)  [#120](https://github.c
 
 #### Bug Fixes
 
-* attempt to fix elements in header bar (which are not centered vertically) on iOS [#110](https://github.com/quark-dev/Phonon-Framework/issues/110)
-* TapElement start/move when clientX/clientY is 0 throws js error [#119](https://github.com/quark-dev/Phonon-Framework/issues/119)
+* attempt to fix elements in header bar (which are not centered vertically) on iOS [#110](https://github.com/phonon-framework/phonon/issues/110)
+* TapElement start/move when clientX/clientY is 0 throws js error [#119](https://github.com/phonon-framework/phonon/issues/119)
 
 ### 1.2.4 (2016-04-01)
 
 #### Bug Fixes
 
-* tap event on Windows Phone (IE11 and IE10) [#107](https://github.com/quark-dev/Phonon-Framework/issues/107)
+* tap event on Windows Phone (IE11 and IE10) [#107](https://github.com/phonon-framework/phonon/issues/107)
 * header bar in panels always visible when closed
 
 ### 1.2.3 (2016-04-01)
@@ -260,18 +260,18 @@ thanks to [oksiquatzel](https://github.com/oksiquatzel)  [#120](https://github.c
 
 #### Features
 
-* JavaScript code is now executed in HTML templates (page templates) if it exists [#108](https://github.com/quark-dev/Phonon-Framework/issues/108)
+* JavaScript code is now executed in HTML templates (page templates) if it exists [#108](https://github.com/phonon-framework/phonon/issues/108)
 
 ### 1.2.2 (2016-03-08)
 
 #### Bug Fixes
 
-* position of checkboxes/radios [#101](https://github.com/quark-dev/Phonon-Framework/issues/101) & [#99](https://github.com/quark-dev/Phonon-Framework/issues/99)
+* position of checkboxes/radios [#101](https://github.com/phonon-framework/phonon/issues/101) & [#99](https://github.com/phonon-framework/phonon/issues/99)
 * items color from lists in side panels
 * missing overflow on accordion lists
 * fix rules for visibility
-* Putting HTML elements to an accordion list head label broke the show/hide function [#96](https://github.com/quark-dev/Phonon-Framework/issues/96)
-* If an accordion list is open, the content is still displayed in the side panel [#97](https://github.com/quark-dev/Phonon-Framework/issues/97)
+* Putting HTML elements to an accordion list head label broke the show/hide function [#96](https://github.com/phonon-framework/phonon/issues/96)
+* If an accordion list is open, the content is still displayed in the side panel [#97](https://github.com/phonon-framework/phonon/issues/97)
 
 ### 1.2.1 (2016-02-28)
 
@@ -283,11 +283,11 @@ thanks to [oksiquatzel](https://github.com/oksiquatzel)  [#120](https://github.c
 
 #### Bug Fixes
 
-* notification display with preloader [#73](https://github.com/quark-dev/Phonon-Framework/issues/73)
+* notification display with preloader [#73](https://github.com/phonon-framework/phonon/issues/73)
 * each panel has its own state (vs global state)
-[#64](https://github.com/quark-dev/Phonon-Framework/issues/64)
-* fix title length in header bars [#88](https://github.com/quark-dev/Phonon-Framework/issues/88)
-* fix backbutton on Cordova (default: app is closed) [#88](https://github.com/quark-dev/Phonon-Framework/issues/88)
+[#64](https://github.com/phonon-framework/phonon/issues/64)
+* fix title length in header bars [#88](https://github.com/phonon-framework/phonon/issues/88)
+* fix backbutton on Cordova (default: app is closed) [#88](https://github.com/phonon-framework/phonon/issues/88)
 
 ### 1.1.9 (2016-02-01)
 
@@ -308,41 +308,41 @@ thanks to [oksiquatzel](https://github.com/oksiquatzel)  [#120](https://github.c
 
 #### Bug Fixes
 
-* full panel and dialogs [#83](https://github.com/quark-dev/Phonon-Framework/issues/83)
+* full panel and dialogs [#83](https://github.com/phonon-framework/phonon/issues/83)
 
 ### 1.1.7 (2016-01-04)
 
 #### Bug Fixes
 
-* full panel and notifications [#54](https://github.com/quark-dev/Phonon-Framework/issues/54)
+* full panel and notifications [#54](https://github.com/phonon-framework/phonon/issues/54)
 
 ### 1.1.6 (2016-01-04)
 
 #### Features
 
-* theme file for CSS styling [#58](https://github.com/quark-dev/Phonon-Framework/issues/58)
+* theme file for CSS styling [#58](https://github.com/phonon-framework/phonon/issues/58)
 * **Autocomplete inputs v. alpha**
 
 ### 1.1.5 (2015-12-20)
 
 #### Bug Fixes
 
-* pre-populated inputs [#51](https://github.com/quark-dev/Phonon-Framework/pull/51)
+* pre-populated inputs [#51](https://github.com/phonon-framework/phonon/pull/51)
 
 ### 1.1.4 (2015-12-20)
 
 #### Bug Fixes
 
-* strange horizontal scroll with side panels on Android 5+ [#44](https://github.com/quark-dev/Phonon-Framework/issues/44)
-* progress bar are not showing sometimes in notifications [#46](https://github.com/quark-dev/Phonon-Framework/issues/46)
-* events inside tabs are not working (on create callback) [#52](https://github.com/quark-dev/Phonon-Framework/issues/52)
+* strange horizontal scroll with side panels on Android 5+ [#44](https://github.com/phonon-framework/phonon/issues/44)
+* progress bar are not showing sometimes in notifications [#46](https://github.com/phonon-framework/phonon/issues/46)
+* events inside tabs are not working (on create callback) [#52](https://github.com/phonon-framework/phonon/issues/52)
 
 ### 1.1.3 (2015-12-06)
 
 #### Bug Fixes
 
-* unable to scroll vertically with tabs [#41](https://github.com/quark-dev/Phonon-Framework/issues/41)
-* text length in list items [#42](https://github.com/quark-dev/Phonon-Framework/issues/42)
+* unable to scroll vertically with tabs [#41](https://github.com/phonon-framework/phonon/issues/41)
+* text length in list items [#42](https://github.com/phonon-framework/phonon/issues/42)
 
 ### 1.1.2 (2015-11-28)
 
@@ -354,7 +354,7 @@ thanks to [oksiquatzel](https://github.com/oksiquatzel)  [#120](https://github.c
 
 #### Bug Fixes
 
-* XMLHttpRequest does not return a status code when accessing local files in iOS 9.1 [#41](https://github.com/quark-dev/Phonon-Framework/issues/41)
+* XMLHttpRequest does not return a status code when accessing local files in iOS 9.1 [#41](https://github.com/phonon-framework/phonon/issues/41)
 
 ### 1.1.0 (2015-11-25)
 
@@ -368,7 +368,7 @@ thanks to [oksiquatzel](https://github.com/oksiquatzel)  [#120](https://github.c
 
 #### Bug Fixes
 
-* onHashChanged is now called after the DOM page receives its template [#38](https://github.com/quark-dev/Phonon-Framework/issues/38)
+* onHashChanged is now called after the DOM page receives its template [#38](https://github.com/phonon-framework/phonon/issues/38)
 
 ### 1.0.9 (2015-11-18)
 
@@ -385,30 +385,30 @@ thanks to [oksiquatzel](https://github.com/oksiquatzel)  [#120](https://github.c
 
 #### Features
 
-* accordion lists [#29](https://github.com/quark-dev/Phonon-Framework/issues/29)
+* accordion lists [#29](https://github.com/phonon-framework/phonon/issues/29)
 
 #### Bug Fixes
 
-* tab alignment and width is not correct on ipad [#32](https://github.com/quark-dev/Phonon-Framework/pull/32)
+* tab alignment and width is not correct on ipad [#32](https://github.com/phonon-framework/phonon/pull/32)
 
 
 ### 1.0.7 (2015-10-25)
 
 #### Bug Fixes
 
-* page navigation when a side panel is opened [#28](https://github.com/quark-dev/Phonon-Framework/issues/28)
+* page navigation when a side panel is opened [#28](https://github.com/phonon-framework/phonon/issues/28)
 
 ### 1.0.6 (2015-10-17)
 
 #### Bug Fixes
 
-* page navigation with $previous-page and parameters [#26](https://github.com/quark-dev/Phonon-Framework/issues/26)
+* page navigation with $previous-page and parameters [#26](https://github.com/phonon-framework/phonon/issues/26)
 
 ### 1.0.5 (2015-10-01)
 
 #### Bug Fixes
 
-* page navigation with links when the browser's back-button is disabled [#21](https://github.com/quark-dev/Phonon-Framework/issues/21)
+* page navigation with links when the browser's back-button is disabled [#21](https://github.com/phonon-framework/phonon/issues/21)
 
 #### Features
 
@@ -424,12 +424,12 @@ onHashChanged(function(req1, req2) {
 
 ```
 
-Thanks to [jsantari](https://github.com/jsantari) for this suggestion [#23](https://github.com/quark-dev/Phonon-Framework/issues/23).
+Thanks to [jsantari](https://github.com/jsantari) for this suggestion [#23](https://github.com/phonon-framework/phonon/issues/23).
 
 
 ### Using URLs - parameters
 
-it is now possible to use URLs - parameters to access other pages directly (without accessing the default page with a page redirection). Thanks to [HugoCrd](https://github.com/HugoCrd) for the [discussion](https://github.com/quark-dev/Phonon-Framework/issues/19).
+it is now possible to use URLs - parameters to access other pages directly (without accessing the default page with a page redirection). Thanks to [HugoCrd](https://github.com/HugoCrd) for the [discussion](https://github.com/phonon-framework/phonon/issues/19).
 
 
 ### 1.0.4 (2015-09-25)
@@ -443,13 +443,13 @@ it is now possible to use URLs - parameters to access other pages directly (with
 
 #### Bug Fixes
 
-* unable to call changePage() when a dialog is active [#9](https://github.com/quark-dev/Phonon-Framework/issues/9)
+* unable to call changePage() when a dialog is active [#9](https://github.com/phonon-framework/phonon/issues/9)
 
 ### 1.0.2 (2015-09-10)
 
 #### Bug Fixes
 
-* unable to fill inputs on Safari [#12](https://github.com/quark-dev/Phonon-Framework/issues/12)
+* unable to fill inputs on Safari [#12](https://github.com/phonon-framework/phonon/issues/12)
 * update dev dependencies (packages.json)
 
 ### 1.0.1 (2015-09-10)
@@ -474,7 +474,7 @@ it is now possible to use URLs - parameters to access other pages directly (with
 * tabs
 * floating labels
 * RiotJS support for tags
-* AngularJS support [#3](https://github.com/quark-dev/Phonon-Framework/issues/3)
-* flexible side panels [#2](https://github.com/quark-dev/Phonon-Framework/issues/2)
+* AngularJS support [#3](https://github.com/phonon-framework/phonon/issues/3)
+* flexible side panels [#2](https://github.com/phonon-framework/phonon/issues/2)
 
 **For older releases**: please visit the [old website](http://phonon.quarkdev.com/0.9/).
