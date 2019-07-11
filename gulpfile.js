@@ -1,31 +1,22 @@
-var gulp         = require('gulp');
-var stylus       = require('gulp-stylus');
-var cssnano 	 = require('gulp-cssnano');
-var rename       = require('gulp-rename');
-var concat       = require('gulp-concat');
-var uglify       = require('gulp-uglify');
-var postcss      = require('gulp-postcss');
-var autoprefixer = require('autoprefixer');
+const gulp         = require('gulp');
+const stylus       = require('gulp-stylus');
+const cssnano 	 = require('cssnano');
+const rename       = require('gulp-rename');
+const concat       = require('gulp-concat');
+const uglify       = require('gulp-uglify');
+const postcss      = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
 
-var nodeModules = './node_modules/'
+const nodeModules = './node_modules/'
 
-gulp.task('default', ['build'])
-
-gulp.task('build', [
-	'js-core',
-	'js-all',
-	'js-components',
-	'css-base',
-	'css-theme',
-	'css-all',
-	'css-components',
-	'fonts'
-]);
+const processors = [
+	autoprefixer(),
+];
 
 /**
  * Build Phonon core
 */
-gulp.task('js-core', function() {
+function jsCore() {
 	return gulp.src([
 		nodeModules + 'platform/platform.js',
 		'./src/js/core/wrap/prefix.js',
@@ -47,12 +38,12 @@ gulp.task('js-core', function() {
     	console.log(e);
     }))
 	.pipe(gulp.dest('./dist/js'));
-});
+}
 
 /**
  * Build all together
 */
-gulp.task('js-all', function() {
+function jsAll() {
 	return gulp.src([
 		'./dist/js/phonon-core.js',
 		'./src/js/ui/*.js',
@@ -63,12 +54,12 @@ gulp.task('js-all', function() {
     	console.log(e);
     }))
 	.pipe(gulp.dest('./dist/js'));
-});
+}
 
 /**
  * Build each JS component
 */
-gulp.task('js-components', function () {
+function javascriptComponents() {
 	return gulp.src(['./src/js/ui/*.js', nodeModules + 'awesomplete/awesomplete.js'])
 	.pipe(gulp.dest('./dist/js/components'))
 	.pipe(rename({suffix: '.min'}))
@@ -76,55 +67,69 @@ gulp.task('js-components', function () {
     	console.log(e);
     }))
 	.pipe(gulp.dest('./dist/js/components'));
-});
+}
 
 /**
  * Build the CSS base
 */
-gulp.task('css-base', function () {
+function cssBase() {
 	return gulp.src('./src/stylus/phonon-base.styl')
 	.pipe(stylus({compress: false, keepSpecialComments: 1}))
-	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions', 'ios 6', 'ios 7', 'ie 8', 'ie 9', 'android 4'] }) ]))
+	.pipe(postcss(processors))
 	.pipe(gulp.dest('./dist/css'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(cssnano({zindex: false}))
+	.pipe(postcss([...processors, cssnano({zindex: false})]))
 	.pipe(gulp.dest('./dist/css'));
-});
+};
 
 /**
  * Build the CSS theme
 */
-gulp.task('css-theme', function () {
+function cssTheme() {
 	return gulp.src('./src/stylus/theme.styl')
 	.pipe(stylus({compress: false}))
-	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions', 'ios 6', 'ios 7', 'ie 8', 'ie 9', 'android 4'] }) ]))
+	.pipe(postcss(processors))
 	.pipe(gulp.dest('./dist/css'));
-});
+}
 
 /**
  * Build the full CSS
 */
-gulp.task('css-all', function () {
+function cssAll() {
 	return gulp.src('./src/stylus/phonon.styl')
 	.pipe(stylus({compress: false}))
-	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions', 'ios 6', 'ios 7', 'ie 8', 'ie 9', 'android 4'] }) ]))
+	.pipe(postcss(processors))
 	.pipe(gulp.dest('./dist/css'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(cssnano({zindex: false}))
+	.pipe(postcss([...processors, cssnano({zindex: false})]))
 	.pipe(gulp.dest('./dist/css'));
-});
+}
 
-gulp.task('css-components', function () {
+function cssComponents() {
 	return gulp.src('./src/stylus/components/*.styl')
 	.pipe(stylus({compress: false}))
-	.pipe(postcss([ autoprefixer({ browsers: ['last 3 versions', 'ios 6', 'ios 7', 'ie 8', 'ie 9', 'android 4'] }) ]))
+	.pipe(postcss([ autoprefixer() ]))
 	.pipe(gulp.dest('./dist/css/components'))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(cssnano({zindex: false}))
+	.pipe(postcss([...processors, cssnano({zindex: false})]))
 	.pipe(gulp.dest('./dist/css/components'));
-});
+}
 
-gulp.task('fonts', function () {
+function fonts() {
 	return gulp.src('./src/fonts/**/*')
 	.pipe(gulp.dest('./dist/fonts'));
-});
+}
+
+const build = gulp.series(jsCore, jsAll, javascriptComponents, cssBase, cssTheme, cssAll, cssComponents, fonts);
+
+// export tasks
+exports['js-core'] = jsCore;
+exports['js-all'] = jsAll;
+exports['js-components'] = javascriptComponents;
+exports['css-base'] = cssBase;
+exports['css-theme'] = cssTheme;
+exports['css-all'] = cssAll;
+exports['css-components'] = cssComponents;
+exports.fonts = fonts;
+exports.build = build;
+exports.default = build;
