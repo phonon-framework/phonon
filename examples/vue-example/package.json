@@ -8,15 +8,15 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
+    "core-js": "^3.1.4",
     "phonon": "^2.0.0-alpha.1",
     "vue": "^2.6.10"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.1.0",
-    "@vue/cli-plugin-typescript": "^3.1.0",
-    "@vue/cli-service": "^3.1.0",
-    "typescript": "^3.4.3",
+    "@vue/cli-plugin-babel": "^3.9.2",
+    "@vue/cli-plugin-typescript": "^3.9.0",
+    "@vue/cli-service": "^3.9.2",
+    "typescript": "^3.5.3",
     "vue-template-compiler": "^2.6.10"
   }
 }

@@ -4,6 +4,9 @@
 // Or CommonJS component
 const Modal = require('phonon/dist/js/components/modal');
 
+// Import CSS
+import 'phonon/dist/css/phonon.css';
+
 function showModal() {
   const options = {
     title: 'Modal title',
