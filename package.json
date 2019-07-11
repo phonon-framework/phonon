@@ -4,28 +4,38 @@
   "description": "Phonon is a lightweight & scalable Javascript/CSS3/HTML5 mobile framework to develop a single page application based on Phonegap / Apache Cordova.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/quark-dev/Phonon-Framework.git"
+    "url": "https://github.com/phonon-framework/phonon.git"
   },
-  "author": "Quarkdev",
+  "scripts": {
+    "build": "gulp",
+    "lint": "eslint",
+    "lint:fix": "eslint src/js/**/*.js --fix"
+  },
+  "author": "qathom",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/quark-dev/Phonon-Framework/issues"
+    "url": "https://github.com/phonon-framework/phonon/issues"
   },
-  "homepage": "https://github.com/quark-dev/Phonon-Framework",
+  "homepage": "https://github.com/phonon-framework/phonon/tree/v1",
   "main": "dist/js/phonon.js",
   "dependencies": {
-    "awesomplete": "^1.1.2",
-    "platform": "^1.3.4"
+    "awesomplete": "^1.1.4",
+    "platform": "^1.3.5"
   },
   "devDependencies": {
-    "autoprefixer": "^7.2.3",
-    "eslint": "^4.13.1",
-    "gulp": "^3.9.1",
+    "autoprefixer": "^9.6.1",
+    "cssnano": "^4.1.10",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.2",
+    "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-postcss": "^7.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-stylus": "^2.6.0",
-    "gulp-uglify": "^3.0.0"
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-stylus": "^2.7.0",
+    "gulp-uglify": "^3.0.2"
   }
 }
