@@ -1,10 +1,12 @@
 const typescript = require('rollup-plugin-typescript2');
+const babel = require('rollup-plugin-babel');
 const path = require('path');
 const rollup = require('rollup');
 const fs = require('fs');
 const UglifyJS = require('uglify-js');
 const banner = require('./banner');
 
+const extensions = ['.js', '.ts'];
 const format = 'umd';
 const plugins = [
   typescript({
@@ -14,6 +16,7 @@ const plugins = [
       },
     },
   }),
+  babel({ extensions, include: ['src/**/*'] }),
 ];
 
 // global Util
