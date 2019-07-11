@@ -4,57 +4,51 @@
  * ========================================================================
  * Licensed under MIT (http://phonon.quarkdev.com)
  * ======================================================================== */
-;(function (window, phonon) {
+(function (window, phonon) {
+  function show(preloader) {
+    if (!preloader.classList.contains('active')) {
+      preloader.style.visibility = 'visible';
+      preloader.classList.add('active');
+    }
+  }
 
-	'use strict';
+  function onHide() {
+    this.style.visibility = 'hidden';
+    this.off(phonon.event.transitionEnd, onHide);
+  }
 
-	function show (preloader) {
-
-		if(!preloader.classList.contains('active')) {
-			preloader.style.visibility = 'visible';
-			preloader.classList.add('active');
-		}
-	}
-
-	function onHide() {
-		this.style.visibility = 'hidden';
-		this.off(phonon.event.transitionEnd, onHide);
-	}
-
-	/**
+  /**
 	 * @param {DOMElement | String} el
 	*/
-	function hide (preloader) {
+  function hide(preloader) {
+    if (preloader.classList.contains('active')) {
+      preloader.classList.remove('active');
+      preloader.on(phonon.event.transitionEnd, onHide);
+    }
+  }
 
-		if(preloader.classList.contains('active')) {
-			preloader.classList.remove('active');
-			preloader.on(phonon.event.transitionEnd, onHide);
-		}
-	}
 
+  phonon.preloader = function (el) {
+    const preloader = (typeof el === 'string' ? document.querySelector(el) : el);
+    if (preloader === null) {
+      throw new Error(`The preloader with ID ${el} does not exist`);
+    }
 
-	phonon.preloader = function (el) {
-		var preloader = (typeof el === 'string' ? document.querySelector(el) : el);
-		if(preloader === null) {
-			throw new Error('The preloader with ID ' + el + ' does not exist');
-		}
+    return {
+      show() {
+        show(preloader);
+      },
+      hide() {
+        hide(preloader);
+      },
+    };
+  };
 
-		return {
-			show: function () {
-				show(preloader);
-			},
-			hide: function () {
-				hide(preloader);
-			}
-		};
-	};
+  window.phonon = phonon;
 
-	window.phonon = phonon;
-
-	if(typeof exports === 'object') {
-		module.exports = phonon.preloader;
-	} else if(typeof define === 'function' && define.amd) {
-		define(function() { return phonon.preloader });
-	}
-
+  if (typeof exports === 'object') {
+    module.exports = phonon.preloader;
+  } else if (typeof define === 'function' && define.amd) {
+    define(() => phonon.preloader);
+  }
 }(typeof window !== 'undefined' ? window : this, window.phonon || {}));

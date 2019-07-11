@@ -4,297 +4,289 @@
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-;(function (window, phonon) {
+(function (window, phonon) {
+  const notifs = [];
 
-	'use strict'
+  function onShow() {
+    const self = this;
 
-	var notifs = []
+    const timeout = self.getAttribute('data-timeout');
+    if (timeout) {
+      if (isNaN(parseInt(timeout, 10))) {
+        console.error('Attribute data-timeout must be a number');
+        return;
+      }
 
-	function onShow() {
-		var self = this
+      const progress = self.querySelector('.progress');
 
-		var timeout = self.getAttribute('data-timeout')
-		if(timeout) {
+      if (progress) {
+        if (!progress.classList.contains('active')) {
+          progress.classList.add('active');
+        }
 
-			if(isNaN(parseInt(timeout, 10))) {
-				console.error('Attribute data-timeout must be a number')
-				return
-			}
+        const progressBar = progress.querySelector('.determinate');
 
-			var progress = self.querySelector('.progress')
+        progressBar.style.width = '0';
 
-			if(progress) {
+        progressBar.style.webkitTransitionDuration = `${timeout}ms`;
+        progressBar.style.MozTransitionDuration = `${timeout}ms`;
+        progressBar.style.msTransitionDuration = `${timeout}ms`;
+        progressBar.style.OTransitionDuration = `${timeout}ms`;
+        progressBar.style.transitionDuration = `${timeout}ms`;
 
-				if(!progress.classList.contains('active')) {
-					progress.classList.add('active')
-				}
+        window.setTimeout(() => {
+          progressBar.style.width = '100%';
+        }, 10);
+      }
 
-				var progressBar = progress.querySelector('.determinate')
+      window.setTimeout(() => {
+        hide(self);
+      }, parseInt(timeout, 10) + 10);
+    }
 
-				progressBar.style.width = '0'
+    self.off(phonon.event.transitionEnd, onShow, false);
+  }
 
-				progressBar.style.webkitTransitionDuration = timeout + 'ms'
-				progressBar.style.MozTransitionDuration = timeout + 'ms'
-				progressBar.style.msTransitionDuration = timeout + 'ms'
-				progressBar.style.OTransitionDuration = timeout + 'ms'
-				progressBar.style.transitionDuration = timeout + 'ms'
+  function onHide() {
+    const self = this;
 
-				window.setTimeout(function() {
-					progressBar.style.width = '100%'
-				}, 10)
-			}
+    // reset
+    self.style.zIndex = 28;
 
-			window.setTimeout(function() {
-				hide(self);
-			}, parseInt(timeout, 10) + 10);
-		}
+    const height = self.clientHeight;
 
-		self.off(phonon.event.transitionEnd, onShow, false)
-	}
+    // for the notif
+    self.style.webkitTransform = `translateY(${height}px)`;
+    self.style.MozTransform = `translateY(${height}px)`;
+    self.style.msTransform = `translateY(${height}px)`;
+    self.style.OTransform = `translateY(${height}px)`;
+    self.style.transform = `translateY(${height}px)`;
 
-	function onHide() {
-		var self = this
+    const index = getIndex(self);
+    if (index >= 0) notifs.splice(index, 1);
 
-		// reset
-		self.style.zIndex = 28
+    // for others
+    let i = notifs.length - 1;
+    for (; i >= 0; i--) {
+      const valueUpdated = (i * height);
+      notifs[i].style.webkitTransform = `translateY(-${valueUpdated}px)`;
+      notifs[i].style.MozTransform = `translateY(-${valueUpdated}px)`;
+      notifs[i].style.msTransform = `translateY(-${valueUpdated}px)`;
+      notifs[i].style.OTransform = `translateY(-${valueUpdated}px)`;
+      notifs[i].style.transform = `translateY(-${valueUpdated}px)`;
 
-		var height = self.clientHeight
+      if (needsFixedSupport()) {
+        notifs[i].style.bottom = `${valueUpdated}px`;
+      }
+    }
 
-		// for the notif
-		self.style.webkitTransform = 'translateY('+height+'px)'
-		self.style.MozTransform = 'translateY('+height+'px)'
-		self.style.msTransform = 'translateY('+height+'px)'
-		self.style.OTransform = 'translateY('+height+'px)'
-		self.style.transform = 'translateY('+height+'px)'
+    const progressBar = self.querySelector('.determinate');
+    if (progressBar) {
+      progressBar.style.width = '0';
 
-		var index = getIndex(self)
-		if(index >= 0) notifs.splice(index, 1)
+      progressBar.style.webkitTransitionDuration = '0ms';
+      progressBar.style.MozTransitionDuration = '0ms';
+      progressBar.style.msTransitionDuration = '0ms';
+      progressBar.style.OTransitionDuration = '0ms';
+      progressBar.style.transitionDuration = '0ms';
+    }
 
-		// for others
-		var i = notifs.length - 1
-		for(; i >= 0; i--) {
-			var valueUpdated = (i * height)
-			notifs[i].style.webkitTransform = 'translateY(-'+valueUpdated+'px)'
-			notifs[i].style.MozTransform = 'translateY(-'+valueUpdated+'px)'
-			notifs[i].style.msTransform = 'translateY(-'+valueUpdated+'px)'
-			notifs[i].style.OTransform = 'translateY(-'+valueUpdated+'px)'
-			notifs[i].style.transform = 'translateY(-'+valueUpdated+'px)'
+    self.off(phonon.event.transitionEnd, onHide, false);
 
-			if(needsFixedSupport()) {
-				notifs[i].style.bottom = valueUpdated + 'px'
-			}
-		}
+    if (self.getAttribute('data-autodestroy') === 'true') {
+      window.setTimeout(() => {
+        document.body.removeChild(self);
+      }, 500);
+    }
+  }
 
-		var progressBar = self.querySelector('.determinate')
-		if(progressBar) {
-			progressBar.style.width = '0'
+  function getIndex(notif) {
+    let i = notifs.length - 1;
+    for (; i >= 0; i--) {
+      if (notifs[i] === notif) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
-			progressBar.style.webkitTransitionDuration = '0ms'
-			progressBar.style.MozTransitionDuration = '0ms'
-			progressBar.style.msTransitionDuration = '0ms'
-			progressBar.style.OTransitionDuration = '0ms'
-			progressBar.style.transitionDuration = '0ms'
-		}
+  const getNotification = function (target) {
+    for (; target && target !== document; target = target.parentNode) {
+      if (target.classList.contains('notification')) {
+        return target;
+      }
+    }
+  };
 
-		self.off(phonon.event.transitionEnd, onHide, false)
+  const generateId = function () {
+    let text = '';
+    const possible = 'abcdefghijklmnopqrstuvwxyz';
+    let i = 0;
+    for (; i < 8; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  };
 
-		if(self.getAttribute('data-autodestroy') === 'true') {
-			window.setTimeout(function() {
-				document.body.removeChild(self)
-			}, 500)
-		}
-	}
+  const buildNotif = function (text, timeout, showButton, textButton) {
+    if (typeof text !== 'string') text = '';
+    timeout = (typeof timeout === 'number' ? timeout : 5000);
+    textButton = (typeof textButton === 'string' ? textButton : 'CANCEL');
 
-	function getIndex(notif) {
-		var i = notifs.length - 1
-		for (; i >= 0; i--) {
-			if(notifs[i] === notif) {
-				return i
-			}
-		}
-		return -1
-	}
+    const progress = '<div class="progress"><div class="determinate"></div></div>';
+    const btn = (showButton === true ? `<button class="btn pull-right" data-hide-notif="true">${textButton}</button>` : '');
 
-	var getNotification = function(target) {
-		for (; target && target !== document; target = target.parentNode) {
-			if(target.classList.contains('notification')) {
-				return target
-			}
-		}
-	};
+    const div = document.createElement('div');
+    div.setAttribute('class', 'notification');
+    div.setAttribute('data-autodestroy', 'true');
+    if (timeout) div.setAttribute('data-timeout', timeout);
+    div.id = generateId();
 
-	var generateId = function() {
-		var text = ""
-		var possible = "abcdefghijklmnopqrstuvwxyz"
-		var i = 0
-		for(; i < 8; i++) {
-			text += possible.charAt(Math.floor(Math.random() * possible.length))
-		}
-		return text
-	}
+    div.innerHTML = progress + btn + text;
 
-	var buildNotif = function(text, timeout, showButton, textButton) {
-		if(typeof text !== 'string') text = ''
-		timeout = (typeof timeout === 'number' ? timeout : 5000)
-		textButton = (typeof textButton === 'string' ? textButton : 'CANCEL')
+    document.body.appendChild(div);
 
-		var progress = '<div class="progress"><div class="determinate"></div></div>'
-		var btn = (showButton === true ? '<button class="btn pull-right" data-hide-notif="true">' + textButton + '</button>' : '')
+    return document.querySelector(`#${div.id}`);
+  };
 
-		var div = document.createElement('div')
-		div.setAttribute('class', 'notification')
-		div.setAttribute('data-autodestroy', 'true')
-		if(timeout) div.setAttribute('data-timeout', timeout)
-		div.id = generateId()
+  document.on('tap', (evt) => {
+    const { target } = evt;
 
-		div.innerHTML = progress + btn + text
+    if (target.getAttribute('data-hide-notif') === 'true') {
+      const notification = getNotification(target);
+      if (notification) hide(notification);
+    }
+  });
 
-		document.body.appendChild(div)
-
-		return document.querySelector('#' + div.id)
-	};
-
-	document.on('tap', function(evt) {
-		var target = evt.target
-
-		if(target.getAttribute('data-hide-notif') === 'true') {
-			var notification = getNotification(target)
-			if(notification) hide(notification)
-		}
-	});
-
-	/**
+  /**
 	 *
 	 * Android JellyBean does not support
 	 * X,Y,Z translations with fixed elements
 	 */
-	function needsFixedSupport () {
-		var version = parseFloat(phonon.device.osVersion)
-		if(phonon.device.os === phonon.device.ANDROID
+  function needsFixedSupport() {
+    const version = parseFloat(phonon.device.osVersion);
+    if (phonon.device.os === phonon.device.ANDROID
 			&& !isNaN(version) && version < 4.4) {
-			return true
-		}
-		return false
-	}
+      return true;
+    }
+    return false;
+  }
 
-	/*
+  /*
 	* Public API
 	*/
 
-	function show(notification) {
-		if (notification.classList.contains('show')) return false
+  function show(notification) {
+    if (notification.classList.contains('show')) return false;
 
-		window.setTimeout(function() {
-			notification.classList.add('show')
-		}, 10)
+    window.setTimeout(() => {
+      notification.classList.add('show');
+    }, 10);
 
-		// Fix animation
-		notification.style.zIndex = (28 + notifs.length)
+    // Fix animation
+    notification.style.zIndex = (28 + notifs.length);
 
-		// Fix space
-		var value = 0
-		if(notifs.length > 0) {
-			var lastNotif = notifs[notifs.length - 1]
-			value = (notifs.length * lastNotif.clientHeight)
-		}
+    // Fix space
+    let value = 0;
+    if (notifs.length > 0) {
+      const lastNotif = notifs[notifs.length - 1];
+      value = (notifs.length * lastNotif.clientHeight);
+    }
 
-		notification.style.webkitTransform = 'translateY(-'+value+'px)'
-		notification.style.MozTransform = 'translateY(-'+value+'px)'
-		notification.style.msTransform = 'translateY(-'+value+'px)'
-		notification.style.OTransform = 'translateY(-'+value+'px)'
-		notification.style.transform = 'translateY(-'+value+'px)'
+    notification.style.webkitTransform = `translateY(-${value}px)`;
+    notification.style.MozTransform = `translateY(-${value}px)`;
+    notification.style.msTransform = `translateY(-${value}px)`;
+    notification.style.OTransform = `translateY(-${value}px)`;
+    notification.style.transform = `translateY(-${value}px)`;
 
-		if(needsFixedSupport()) {
-			notification.style.bottom = value + 'px'
-		}
+    if (needsFixedSupport()) {
+      notification.style.bottom = `${value}px`;
+    }
 
-		notifs.push(notification)
+    notifs.push(notification);
 
-		// push floating actions
-		var fla = document.querySelector('.app-active .floating-action')
-		if(fla) {
-			fla.style.webkitTransform = 'translateY(-48px)'
-			fla.style.MozTransform = 'translateY(-48px)'
-			fla.style.msTransform = 'translateY(-48px)'
-			fla.style.OTransform = 'translateY(-48px)'
-			fla.style.transform = 'translateY(-48px)'
-		}
+    // push floating actions
+    const fla = document.querySelector('.app-active .floating-action');
+    if (fla) {
+      fla.style.webkitTransform = 'translateY(-48px)';
+      fla.style.MozTransform = 'translateY(-48px)';
+      fla.style.msTransform = 'translateY(-48px)';
+      fla.style.OTransform = 'translateY(-48px)';
+      fla.style.transform = 'translateY(-48px)';
+    }
 
-		notification.on(phonon.event.transitionEnd, onShow, false)
-	}
+    notification.on(phonon.event.transitionEnd, onShow, false);
+  }
 
-	function hide(notification) {
-		if(notification.classList.contains('show')) {
+  function hide(notification) {
+    if (notification.classList.contains('show')) {
+      notification.classList.remove('show');
 
-			notification.classList.remove('show')
+      notification.on(phonon.event.transitionEnd, onHide, false);
 
-			notification.on(phonon.event.transitionEnd, onHide, false)
+      // put floating actions back in their place
+      const fla = document.querySelector('.app-active .floating-action');
+      if (fla) {
+        fla.style.webkitTransform = 'translateY(0)';
+        fla.style.MozTransform = 'translateY(0)';
+        fla.style.msTransform = 'translateY(0)';
+        fla.style.OTransform = 'translateY(0)';
+        fla.style.transform = 'translateY(0)';
+      }
+    }
+  }
 
-			// put floating actions back in their place
-			var fla = document.querySelector('.app-active .floating-action')
-			if(fla) {
-				fla.style.webkitTransform = 'translateY(0)'
-				fla.style.MozTransform = 'translateY(0)'
-				fla.style.msTransform = 'translateY(0)'
-				fla.style.OTransform = 'translateY(0)'
-				fla.style.transform = 'translateY(0)'
-			}
-		}
-	}
+  function setColor(notif, color) {
+    if (typeof color !== 'string') {
+      throw new Error(`color must be a string, ${typeof color} given`);
+    }
+    notif.classList.add(color);
+    const progress = notif.querySelector('.progress');
+    if (progress) {
+      progress.classList.add(color);
+    }
+  }
 
-	function setColor(notif, color) {
-		if (typeof color !== 'string') {
-			throw new Error('color must be a string, ' + typeof color + ' given');
-		}
-		notif.classList.add(color);
-		var progress = notif.querySelector('.progress');
-		if (progress) {
-			progress.classList.add(color);
-		}
-	}
+  phonon.notif = function (el, timeout, showButton, textButton) {
+    if (arguments.length > 1) {
+      // el is text
+      const generatedNotif = buildNotif(el, timeout, showButton, textButton);
+      show(generatedNotif);
+      return {
+        element: generatedNotif,
+        setColor(color) {
+          setColor(generatedNotif, color);
+        },
+      };
+    }
 
-	phonon.notif = function(el, timeout, showButton, textButton) {
+    const notif = (typeof el === 'string' ? document.querySelector(el) : el);
+    if (notif === null) {
+      throw new Error(`The notification with ID ${el} does not exist`);
+    }
 
-		if(arguments.length > 1) {
-			// el is text
-			var generatedNotif = buildNotif(el, timeout, showButton, textButton);
-			show(generatedNotif);
-			return {
-				element: generatedNotif,
-				setColor: function (color) {
-					setColor(generatedNotif, color);
-				}
-			}
-		}
+    return {
+      element: notif,
+      show() {
+        show(notif);
+        return this;
+      },
+      hide() {
+        hide(notif);
+        return this;
+      },
+      setColor(color) {
+        setColor(notif, color);
+        return this;
+      },
+    };
+  };
 
-		var notif = (typeof el === 'string' ? document.querySelector(el) : el)
-		if(notif === null) {
-			throw new Error('The notification with ID ' + el + ' does not exist')
-		}
+  window.phonon = phonon;
 
-		return {
-			element: notif,
-			show: function () {
-				show(notif)
-				return this
-			},
-			hide: function () {
-				hide(notif)
-				return this
-			},
-			setColor: function (color) {
-				setColor(notif, color)
-				return this
-			}
-		}
-	}
-
-	window.phonon = phonon
-
-	if(typeof exports === 'object') {
-		module.exports = phonon.notif
-	} else if(typeof define === 'function' && define.amd) {
-		define(function() { return phonon.notif })
-	}
-
+  if (typeof exports === 'object') {
+    module.exports = phonon.notif;
+  } else if (typeof define === 'function' && define.amd) {
+    define(() => phonon.notif);
+  }
 }(typeof window !== 'undefined' ? window : this, window.phonon || {}));
