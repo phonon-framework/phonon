@@ -1,6 +1,6 @@
-# [Phonon](http://phonon.quarkdev.com)
+# [Phonon](https://phonon-framework.github.io)
 
-> Phonon: the light weight, scalable, flexible and customizable HTML5 Web - Mobile Framework.
+> Phonon is a responsive front-end framework with a focus on simplicity and flexibility
 
 [![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
 [![Dependency Status](https://david-dm.org/phonon-framework/phonon.svg)](https://david-dm.org/phonon-framework/phonon)
@@ -10,8 +10,8 @@
 [![npm](https://img.shields.io/npm/v/phonon.svg?style=flat-square)]()
 [![license](https://img.shields.io/github/license/quark-dev/phonon.svg?style=flat-square)]()
 
+Starting with v2, Phonon is written in [Sass](https://sass-lang.com) and [TypeScript](https://www.typescriptlang.org).
 
-Starting with v2.0, Phonon takes full advantage of ECMAScript.
 
 ## Installation
 
@@ -19,9 +19,29 @@ You have the following options to install Phonon v2:
 
 - Install with [npm](https://www.npmjs.com/package/phonon) `npm install phonon@2.0.0-alpha.1`
 - Install with [Yarn](https://yarnpkg.com/en/package/phonon) `yarn add phonon@2.0.0-alpha.1`
+- Install with [Composer](https://packagist.org/packages/phonon-framework/phonon) `composer require phonon-framework/phonon`
+
 - Deliver CDN cached version of Phonon compiled [CSS](https://unpkg.com/phonon@2.0.0-alpha.1/dist/css/) and [JavaScript](https://unpkg.com/phonon@2.0.0-alpha.1/dist/js/) to your project by using [UNPKG](https://unpkg.com/phonon@2.0.0-alpha.1/)
 - Clone the repository to get all source files and compile Phonon by using the scripts: `git clone https://github.com/phonon-framework/phonon.git`
 - Download the [latest release](https://github.com/phonon-framework/phonon/releases) and use compiled CSS and JavaScript files available in the dist folder
+
+
+## Framework compatibility
+
+Phonon uses a DOM [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) which enables to react to DOM changes.
+This explains the ease of use of Phonon with Angular, React and Vue, etc.
+Please see [Examples](https://github.com/phonon-framework/phonon/tree/master#examples) for more information.
+
+
+## Examples
+
+We have several examples to share with you to show you how easy it is to integrate Phonon for your project.
+All examples are available in `examples/`.
+
+- [Phonon and React](https://github.com/phonon-framework/phonon/tree/master/examples/react-example)
+- [Phonon and Vue](https://github.com/phonon-framework/phonon/tree/master/examples/vue-example)
+- [Phonon and Webpack](https://github.com/phonon-framework/phonon/tree/master/examples/webpack-example)
+
 
 ## Versioning
 
