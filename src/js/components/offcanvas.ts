@@ -156,7 +156,7 @@ export default class OffCanvas extends Component {
     this.setAside(size.name);
   }
 
-  public setAside(sizeName): void {
+  public setAside(sizeName: string): void {
     const container = this.getContainer();
 
     if (this.currentWidthName === sizeName || !container) {
