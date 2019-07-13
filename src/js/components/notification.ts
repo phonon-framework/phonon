@@ -42,7 +42,7 @@ export default class Notification extends Component {
    *
    * @param props
    */
-  constructor(props: IProps = { element: null, title: '', button: true }) {
+  constructor(props: IProps) {
     super('notification', {
       button: true,
       timeout: null,
@@ -80,7 +80,7 @@ export default class Notification extends Component {
 
     const builder = document.createElement('div');
 
-    builder.innerHTML = this.getTemplate();
+    builder.innerHTML = this.getTemplate() as string;
 
     this.setElement(builder.firstChild as HTMLElement);
 
