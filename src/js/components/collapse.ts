@@ -76,7 +76,7 @@ export default class Collapse extends Component {
    *
    * @param props
    */
-  constructor(props: IProps = { toggle: false }) {
+  constructor(props: IProps) {
     super('collapse', { toggle: false }, props);
     // no-template: collapse is not a dynamic component
 

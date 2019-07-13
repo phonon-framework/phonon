@@ -14,7 +14,7 @@ export default class Loader extends Component {
    *
    * @param props
    */
-  constructor(props: IProps = { color: Color.primary, size: Size.md }) {
+  constructor(props: IProps) {
     super('loader', { fade: true, size: Size.md, color: Color.primary }, props);
 
     // no-template: loader is not a dynamic component
