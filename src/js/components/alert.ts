@@ -7,7 +7,7 @@ import Component from '../component';
 import Util from '../util.js';
 
 interface IProps {
-  element?: HTMLElement|string; // the element must exist
+  element: HTMLElement|string; // the element must exist
   fade?: boolean;
 }
 
@@ -36,7 +36,7 @@ export default class Alert extends Component {
    *
    * @param props
    */
-  constructor(props: IProps = { fade: true }) {
+  constructor(props: IProps) {
     super('alert', { fade: true }, props);
     // no-template: alert is not a dynamic component
 
@@ -74,7 +74,7 @@ export default class Alert extends Component {
         element.classList.remove('fade');
       }
 
-      // button
+      // Button
       const target = Util.Selector.closest(this.getElement(), '[data-dismiss="alert"]');
 
       if (target) {
@@ -155,7 +155,7 @@ export default class Alert extends Component {
       return;
     }
 
-    // dismiss
+    // Dismiss
     this.hide();
   }
 
@@ -171,5 +171,5 @@ export default class Alert extends Component {
   }
 }
 
-// static boot
+// Static boot
 Alert.attachDOM();
