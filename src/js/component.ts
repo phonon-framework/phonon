@@ -16,7 +16,7 @@ interface IMainProps {
 
 export default class Component {
   private name: string;
-  private template: string = '';
+  private template: string|null = null;
   private props: object;
   private defaultProps: object;
   private id: string|null = null;
@@ -50,7 +50,7 @@ export default class Component {
     this.template = template;
   }
 
-  public getTemplate(): string {
+  public getTemplate(): string|null {
     return this.template;
   }
 
@@ -62,11 +62,11 @@ export default class Component {
     (this.props as IMainProps).element = element;
   }
 
-  public getId() {
+  public getId(): string|null {
     return this.id;
   }
 
-  public uid() {
+  public uid(): string {
     return Math.random().toString(36).substr(2, 10);
   }
 
