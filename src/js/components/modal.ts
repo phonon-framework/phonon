@@ -128,7 +128,7 @@ export default class Modal extends Component {
 
     const builder = document.createElement('div');
 
-    builder.innerHTML = this.getTemplate();
+    builder.innerHTML = this.getTemplate() as string;
 
     this.setElement(builder.firstChild as HTMLElement);
 
@@ -155,7 +155,7 @@ export default class Modal extends Component {
     const cancelable = this.getProp('cancelable');
 
     if (!cancelable) {
-      element.querySelector('.close').style.display = 'none';
+      element.querySelector('.icon-close').style.display = 'none';
     }
 
     // buttons
