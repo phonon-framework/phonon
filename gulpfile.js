@@ -36,6 +36,7 @@ function jsCore() {
     './src/js/core/i18n.js',
     './src/js/core/navigator.js',
   ]).pipe(concat('phonon-core.js'))
+    .pipe(babel(babelConfig))
     .pipe(gulp.dest('./dist/js'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify().on('error', (e) => {
