@@ -1,5 +1,5 @@
 <template>
-  <div data-page="true" :data-alias="$options.name">
+  <div class="app-page" data-page="true" :data-alias="$options.name">
     <header class="header-bar">
       <div class="center">
         <h1 class="title">Phonon + Vue</h1>
@@ -22,16 +22,16 @@
 </template>
 
 <script>
-  export default {
-    name: 'home',
-    props: {
-      app: {
-        type: Object,
-        require: true
-      }
+export default {
+  name: 'home',
+  props: {
+    app: {
+      type: Object,
+      require: true,
     },
-    mounted () {
-      this.app.on({page: 'home', preventClose: false, content: null})
-    }
-  }
+  },
+  mounted() {
+    this.app.on({ page: 'home', preventClose: false, content: null });
+  },
+};
 </script>

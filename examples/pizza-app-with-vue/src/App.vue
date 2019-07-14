@@ -6,34 +6,34 @@
 </template>
 
 <script>
-import 'phonon/dist/css/phonon.css'
+import 'phonon/dist/css/phonon.css';
 
-import phonon from 'phonon/dist/js/phonon-core'
-import Home from './components/Home.vue'
-import PageTwo from './components/PageTwo.vue'
+import phonon from 'phonon/dist/js/phonon-core';
+import Home from './components/Home.vue';
+import PageTwo from './components/PageTwo.vue';
 
 export default {
   name: 'app',
-  data () {
-    return {
-      app: phonon.navigator()
-    }
+  components: {
+    Home,
+    PageTwo,
   },
-  mounted () {
+  data() {
+    return {
+      app: phonon.navigator(),
+    };
+  },
+  async created() {
     phonon.options({
       navigator: {
         defaultPage: 'home',
         animatePages: true,
-        enableBrowserBackButton: true
+        enableBrowserBackButton: true,
       },
-      i18n: null // for this example, we do not use internationalization
-    })
+      i18n: null, // for this example, we do not use internationalization
+    });
 
-    this.app.start()
+    this.app.start();
   },
-  components: {
-    Home,
-    PageTwo
-  }
-}
+};
 </script>
