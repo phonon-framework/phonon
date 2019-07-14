@@ -12,6 +12,15 @@
   backdrop.classList.add('backdrop-popover');
   const onChangeCallbacks = [];
 
+  const findPopover = function (target) {
+    for (; target && target !== document; target = target.parentNode) {
+      if (target.classList.contains('popover')) {
+        return target;
+      }
+    }
+    return null;
+  }
+
   const findTrigger = function (target) {
     const res = { target: null, id: null, direction: null };
 
@@ -67,6 +76,11 @@
     return false;
   };
 
+  const setActiveItem = function (popover, value, text) {
+    popover.setAttribute('data-value', value);
+    popover.setAttribute('data-text', text);
+  };
+
   document.on(phonon.event.start, (e) => {
     e = e.originalEvent || e;
 
@@ -104,11 +118,17 @@
     if (onItem(target) && !touchMove) {
       close(previousPopover);
 
+      const text = target.innerText || target.textContent;
+      const value = target.getAttribute('data-value');
+
       const changeData = {
-        text: target.textContent,
-        value: target.getAttribute('data-value'),
+        text,
+        value,
         target: evt.target,
       };
+
+      const srcPopover = findPopover(target);
+      setActiveItem(srcPopover, value, text);
 
       evt = new CustomEvent('itemchanged', {
         detail: changeData,
@@ -354,6 +374,18 @@
       attachButton(button, autoBind) {
         attachButton(popover, button, autoBind);
         return this;
+      },
+      setActiveItem(value = '', text = '') {
+        setActiveItem(popover, value, text);
+      },
+      getActiveItem() {
+        const activeData = {
+          text: popover.getAttribute('data-text'),
+          value: popover.getAttribute('data-value'),
+          target: popover,
+        };
+
+        return activeData;
       },
     };
   }
