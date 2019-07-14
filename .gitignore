@@ -31,3 +31,5 @@ node_modules
 
 # Yarn
 yarn.lock
+
+test/**/*
