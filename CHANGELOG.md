@@ -1,3 +1,13 @@
+### 1.5.0 (2019-07-14)
+
+* Updated [Vue example](https://github.com/phonon-framework/phonon/tree/v1/examples/pizza-app-with-vue) by using Vue CLI [#298](https://github.com/phonon-framework/phonon/issues/298).
+* Added `getActiveItem()` and `setActiveItem()` for popovers [#252](https://github.com/phonon-framework/phonon/issues/252).
+* Migrated to Gulp v4.
+* Added npm scripts.
+* Fix font path with `icons.css` [#281](https://github.com/phonon-framework/phonon/issues/281) & [#154](https://github.com/phonon-framework/phonon/issues/154)
+* Fix Snap import [#239](https://github.com/phonon-framework/phonon/issues/239)
+* Get side panel state (`isShown()`) [#290](https://github.com/phonon-framework/phonon/issues/290)
+
 ### 1.4.9 (2018-01-14)
 
 ### Features
