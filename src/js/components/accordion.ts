@@ -52,17 +52,19 @@ export default class Accordion extends Component {
         throw new Error('Accordion: collapse is missing href or data-target attribute');
       }
 
-      const collapse = document.querySelector(collapseId);
+      const collapse: HTMLElement|null = document.querySelector(collapseId);
 
-      if (collapse) {
-        this.addCollapse(collapse);
+      if (!collapse) {
+        throw new Error('Accordion: the collapse element does not exist');
       }
+
+      this.addCollapse(collapse);
     });
 
     this.registerElement({ target: element, event: Util.Event.CLICK });
   }
 
-  public addCollapse(element): Collapse {
+  public addCollapse(element: string|HTMLElement): Collapse {
     const collapse = new Collapse({
       element,
     });
@@ -71,7 +73,7 @@ export default class Accordion extends Component {
     return collapse;
   }
 
-  public getCollapse(element): Collapse {
+  public getCollapse(element: HTMLElement): Collapse {
     const el = this.getElement();
     let collapse = this.collapses.find(c => el.getAttribute('id') === element.getAttribute('id'));
 
@@ -91,7 +93,7 @@ export default class Accordion extends Component {
    * Shows the collapse element and hides the other active collapse elements
    * @param {Element} showCollapse
    */
-  public setCollapses(showCollapse): void {
+  private setCollapses(showCollapse: HTMLElement): void {
     const element = this.getElement();
     const collapse = this.getCollapse(showCollapse);
     const multipleOpen = this.getProp('multiple');
@@ -141,7 +143,7 @@ export default class Accordion extends Component {
     this.show(collapseEl);
   }
 
-  public toggleIcon(collapse: HTMLElement, remove: string, add: string): void {
+  private toggleIcon(collapse: HTMLElement, remove: string, add: string): void {
     const id = collapse.getAttribute('id');
     const selector = `[data-toggle="accordion"][href="#${id}"] .collapse-toggle`;
     const iconEl = document.querySelector(selector) as HTMLElement;
@@ -164,12 +166,12 @@ export default class Accordion extends Component {
   public show(collapseEl: string|HTMLElement): boolean {
     let collapse: string|HTMLElement|null = collapseEl;
 
-    if (typeof collapseEl === 'string') {
-      collapse = document.querySelector(collapseEl) as HTMLElement|null;
+    if (typeof collapse === 'string') {
+      collapse = document.querySelector(collapse) as HTMLElement|null;
     }
 
     if (!collapse) {
-      throw new Error(`The collapsible ${collapseEl} is an invalid HTMLElement.`);
+      throw new Error(`The collapsible ${collapse} is an invalid HTMLElement.`);
     }
 
     this.setCollapses(collapse);
