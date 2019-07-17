@@ -9,7 +9,7 @@
  * Version: 1.9.3
  */
 /* jslint browser: true */
-/* global define, module, ender */
+/* global define, module */
 (function (win, doc) {
   let backdrop = null;
 
@@ -599,11 +599,12 @@
   if ((typeof module !== 'undefined') && module.exports) {
     module.exports = Snap;
   }
-  if (typeof ender === 'undefined') {
-    this.Snap = Snap;
-  }
   if ((typeof define === 'function') && define.amd) {
     define('snap', [], () => Snap);
+  }
+
+  if (win) {
+    win.Snap = Snap;
   }
 }).call(this, window, document);
 
@@ -614,7 +615,7 @@
  * ========================================================================
  * Licensed under MIT (http://phonon.quarkdev.com)
  * ======================================================================== */
-(function (window, phonon) {
+(function (window, phonon, Snap) {
   let isPhone = !matchMedia('only screen and (min-width: 641px)').matches;
   const sidePanels = [];
   let sidePanelActive = null;
@@ -793,6 +794,11 @@
     document.off(phonon.event.end, onBackdrop);
   }
 
+  function isShown(sb) {
+    const { state } = sb.snapper.state();
+    return state !== 'closed';
+  }
+
   function onSidebar(target) {
     let isSidebar = false;
     for (; target && target !== document; target = target.parentNode) {
@@ -893,10 +899,13 @@
 
     return {
       open() {
-        open(sidePanel);
+        return open(sidePanel);
       },
       close() {
-        close(sidePanel);
+        return close(sidePanel);
+      },
+      isShown() {
+        return isShown(sidePanel);
       },
     };
   };
@@ -907,4 +916,4 @@
 
   window.on('resize', resize);
   document.on('pageopened', render);
-}(typeof window !== 'undefined' ? window : this, window.phonon || {}));
+}(typeof window !== 'undefined' ? window : this, window.phonon || {}, window.Snap || undefined));
