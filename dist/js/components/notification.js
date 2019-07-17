@@ -1,7 +1,7 @@
 /*!
-  * Notification v2.0.0-alpha.1 (https://github.com/quark-dev/Phonon-Framework)
+  * Notification v2.0.0-alpha.1 (https://phonon-framework.github.io)
   * Copyright 2015-2019 qathom
-  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * Licensed under MIT (https://github.com/phonon-framework/phonon/blob/master/LICENSE.md)
   */
 'use strict';
 
@@ -75,360 +75,471 @@ function __generator(thisArg, body) {
     }
 }
 
-var Component = (function () {
-    function Component(name, defaultProps, props) {
-        var _this = this;
-        this.template = '';
-        this.id = null;
-        this.eventHandlers = [];
-        this.registeredElements = [];
-        this.name = name;
-        var element = typeof props.element === 'string'
-            ? document.querySelector(props.element) : props.element;
-        var config = {};
-        if (element) {
-            var dataConfig = Util.Selector.attrConfig(element);
-            if (dataConfig) {
-                config = dataConfig;
-            }
-        }
-        this.defaultProps = defaultProps;
-        this.props = Object.assign(defaultProps, config, props, { element: element });
-        this.id = this.uid();
-        this.elementListener = function (event) { return _this.onBeforeElementEvent(event); };
-        this.setEventsHandler();
+var Component = function () {
+  function Component(name, defaultProps, props) {
+    var _this = this;
+
+    this.template = '';
+    this.id = null;
+    this.eventHandlers = [];
+    this.registeredElements = [];
+    this.name = name;
+    var element = typeof props.element === 'string' ? document.querySelector(props.element) : props.element;
+    var config = {};
+
+    if (element) {
+      var dataConfig = Util.Selector.attrConfig(element);
+
+      if (dataConfig) {
+        config = dataConfig;
+      }
     }
-    Component.prototype.setTemplate = function (template) {
-        this.template = template;
+
+    this.defaultProps = defaultProps;
+    this.props = Object.assign(defaultProps, config, props, {
+      element: element
+    });
+    this.id = this.uid();
+
+    this.elementListener = function (event) {
+      return _this.onBeforeElementEvent(event);
     };
-    Component.prototype.getTemplate = function () {
-        return this.template;
-    };
-    Component.prototype.getElement = function () {
-        return this.getProp('element') || null;
-    };
-    Component.prototype.setElement = function (element) {
-        this.props.element = element;
-    };
-    Component.prototype.getId = function () {
-        return this.id;
-    };
-    Component.prototype.uid = function () {
-        return Math.random().toString(36).substr(2, 10);
-    };
-    Component.prototype.getName = function () {
-        return this.name;
-    };
-    Component.prototype.getProps = function () {
-        return this.props;
-    };
-    Component.prototype.getProp = function (name) {
-        var defaultValue = this.defaultProps[name];
-        return typeof this.props[name] !== 'undefined' ? this.props[name] : defaultValue;
-    };
-    Component.prototype.setProps = function (props) {
-        var componentProps = Object.assign({}, props);
-        this.props = Object.assign(this.props, componentProps);
-    };
-    Component.prototype.setProp = function (name, value) {
-        if (typeof this.props[name] === 'undefined') {
-            throw new Error('Cannot set an invalid prop');
-        }
-        this.props[name] = value;
-    };
-    Component.prototype.registerElements = function (elements) {
-        var _this = this;
-        elements.forEach(function (element) { return _this.registerElement(element); });
-    };
-    Component.prototype.registerElement = function (element) {
-        element.target.addEventListener(element.event, this.elementListener);
-        this.registeredElements.push(element);
-    };
-    Component.prototype.unregisterElements = function () {
-        var _this = this;
-        this.registeredElements.forEach(function (element) {
-            _this.unregisterElement(element);
-        });
-    };
-    Component.prototype.unregisterElement = function (element) {
-        var registeredElementIndex = this.registeredElements
-            .findIndex(function (el) { return el.target === element.target && el.event === element.event; });
-        if (registeredElementIndex > -1) {
-            element.target.removeEventListener(element.event, this.elementListener);
-            this.registeredElements.splice(registeredElementIndex, 1);
-        }
-        else {
-            console.error('Warning! Could not remove element:'
-                + ' ' + (element.target + " with event: " + element.event + "."));
-        }
-    };
-    Component.prototype.triggerEvent = function (eventName, detail, objectEventOnly) {
-        var _this = this;
-        if (detail === void 0) { detail = {}; }
-        if (objectEventOnly === void 0) { objectEventOnly = false; }
-        var eventNameObject = eventName.split('.').reduce(function (acc, current, index) {
-            if (index === 0) {
-                return current;
-            }
-            return acc + current.charAt(0).toUpperCase() + current.slice(1);
-        });
-        var eventNameAlias = "on" + eventNameObject
-            .charAt(0).toUpperCase() + eventNameObject.slice(1);
-        var props = this.getProps();
-        this.eventHandlers.forEach(function (scope) {
-            if (typeof scope[eventNameObject] === 'function') {
-                scope[eventNameObject].apply(_this, [detail]);
-            }
-            if (typeof scope[eventNameAlias] === 'function') {
-                props[eventNameAlias].apply(_this, [detail]);
-            }
-        });
-        if (objectEventOnly) {
-            return;
-        }
-        var element = this.getElement();
-        if (element) {
-            Util.Dispatch.elementEvent(element, eventName, this.name, detail);
-        }
-        else {
-            Util.Dispatch.winDocEvent(eventName, this.name, detail);
-        }
-    };
-    Component.prototype.preventClosable = function () {
-        return false;
-    };
-    Component.prototype.destroy = function () {
-        this.unregisterElements();
-    };
-    Component.prototype.onElementEvent = function (event) {
-    };
-    Component.prototype.setEventsHandler = function () {
-        var props = this.getProps();
-        var scope = Object.keys(props).reduce(function (cur, key) {
-            if (typeof props[key] === 'function') {
-                cur[key] = props[key];
-            }
-            return cur;
-        }, {});
-        if (Object.keys(scope).length > 0) {
-            this.eventHandlers.push(scope);
-        }
-    };
-    Component.prototype.onBeforeElementEvent = function (event) {
-        if (this.preventClosable()) {
-            return;
-        }
-        this.onElementEvent(event);
-    };
-    return Component;
-}());
+
+    this.setEventsHandler();
+  }
+
+  Component.prototype.setTemplate = function (template) {
+    this.template = template;
+  };
+
+  Component.prototype.getTemplate = function () {
+    return this.template;
+  };
+
+  Component.prototype.getElement = function () {
+    return this.getProp('element') || null;
+  };
+
+  Component.prototype.setElement = function (element) {
+    this.props.element = element;
+  };
+
+  Component.prototype.getId = function () {
+    return this.id;
+  };
+
+  Component.prototype.uid = function () {
+    return Math.random().toString(36).substr(2, 10);
+  };
+
+  Component.prototype.getName = function () {
+    return this.name;
+  };
+
+  Component.prototype.getProps = function () {
+    return this.props;
+  };
+
+  Component.prototype.getProp = function (name) {
+    var defaultValue = this.defaultProps[name];
+    return typeof this.props[name] !== 'undefined' ? this.props[name] : defaultValue;
+  };
+
+  Component.prototype.setProps = function (props) {
+    var componentProps = Object.assign({}, props);
+    this.props = Object.assign(this.props, componentProps);
+  };
+
+  Component.prototype.setProp = function (name, value) {
+    if (typeof this.props[name] === 'undefined') {
+      throw new Error('Cannot set an invalid prop');
+    }
+
+    this.props[name] = value;
+  };
+
+  Component.prototype.registerElements = function (elements) {
+    var _this = this;
+
+    elements.forEach(function (element) {
+      return _this.registerElement(element);
+    });
+  };
+
+  Component.prototype.registerElement = function (element) {
+    element.target.addEventListener(element.event, this.elementListener);
+    this.registeredElements.push(element);
+  };
+
+  Component.prototype.unregisterElements = function () {
+    var _this = this;
+
+    this.registeredElements.forEach(function (element) {
+      _this.unregisterElement(element);
+    });
+  };
+
+  Component.prototype.unregisterElement = function (element) {
+    var registeredElementIndex = this.registeredElements.findIndex(function (el) {
+      return el.target === element.target && el.event === element.event;
+    });
+
+    if (registeredElementIndex > -1) {
+      element.target.removeEventListener(element.event, this.elementListener);
+      this.registeredElements.splice(registeredElementIndex, 1);
+    } else {
+      console.error('Warning! Could not remove element:' + ' ' + (element.target + " with event: " + element.event + "."));
+    }
+  };
+
+  Component.prototype.triggerEvent = function (eventName, detail, objectEventOnly) {
+    var _this = this;
+
+    if (detail === void 0) {
+      detail = {};
+    }
+
+    if (objectEventOnly === void 0) {
+      objectEventOnly = false;
+    }
+
+    var eventNameObject = eventName.split('.').reduce(function (acc, current, index) {
+      if (index === 0) {
+        return current;
+      }
+
+      return acc + current.charAt(0).toUpperCase() + current.slice(1);
+    });
+    var eventNameAlias = "on" + eventNameObject.charAt(0).toUpperCase() + eventNameObject.slice(1);
+    var props = this.getProps();
+    this.eventHandlers.forEach(function (scope) {
+      if (typeof scope[eventNameObject] === 'function') {
+        scope[eventNameObject].apply(_this, [detail]);
+      }
+
+      if (typeof scope[eventNameAlias] === 'function') {
+        props[eventNameAlias].apply(_this, [detail]);
+      }
+    });
+
+    if (objectEventOnly) {
+      return;
+    }
+
+    var element = this.getElement();
+
+    if (element) {
+      Util.Dispatch.elementEvent(element, eventName, this.name, detail);
+    } else {
+      Util.Dispatch.winDocEvent(eventName, this.name, detail);
+    }
+  };
+
+  Component.prototype.preventClosable = function () {
+    return false;
+  };
+
+  Component.prototype.destroy = function () {
+    this.unregisterElements();
+  };
+
+  Component.prototype.onElementEvent = function (event) {};
+
+  Component.prototype.setEventsHandler = function () {
+    var props = this.getProps();
+    var scope = Object.keys(props).reduce(function (cur, key) {
+      if (typeof props[key] === 'function') {
+        cur[key] = props[key];
+      }
+
+      return cur;
+    }, {});
+
+    if (Object.keys(scope).length > 0) {
+      this.eventHandlers.push(scope);
+    }
+  };
+
+  Component.prototype.onBeforeElementEvent = function (event) {
+    if (this.preventClosable()) {
+      return;
+    }
+
+    this.onElementEvent(event);
+  };
+
+  return Component;
+}();
 
 var Size;
+
 (function (Size) {
-    Size["sm"] = "sm";
-    Size["md"] = "md";
-    Size["lg"] = "lg";
-    Size["xl"] = "xl";
+  Size["sm"] = "sm";
+  Size["md"] = "md";
+  Size["lg"] = "lg";
+  Size["xl"] = "xl";
 })(Size || (Size = {}));
+
 var Color;
+
 (function (Color) {
-    Color["primary"] = "primary";
-    Color["secondary"] = "secondary";
-    Color["success"] = "success";
-    Color["warning"] = "warning";
-    Color["danger"] = "danger";
+  Color["primary"] = "primary";
+  Color["secondary"] = "secondary";
+  Color["success"] = "success";
+  Color["warning"] = "warning";
+  Color["danger"] = "danger";
 })(Color || (Color = {}));
+
 var Direction;
+
 (function (Direction) {
-    Direction["top"] = "top";
-    Direction["right"] = "right";
-    Direction["bottom"] = "bottom";
-    Direction["left"] = "left";
+  Direction["top"] = "top";
+  Direction["right"] = "right";
+  Direction["bottom"] = "bottom";
+  Direction["left"] = "left";
 })(Direction || (Direction = {}));
 
-var Notification = (function (_super) {
-    __extends(Notification, _super);
-    function Notification(props) {
-        if (props === void 0) { props = { element: null, title: '', button: true }; }
-        var _this = _super.call(this, 'notification', {
-            button: true,
-            timeout: null,
-            title: '',
-            message: null,
-            background: 'primary',
-            appendIn: document.body,
-            directionX: 'right',
-            directionY: 'top',
-            offsetX: 0,
-            offsetY: 0,
-        }, props) || this;
-        _this.timeoutCallback = null;
-        _this.elementGenerated = false;
-        _this.setTemplate(''
-            + '<div class="notification" data-no-boot>'
-            + '<div class="notification-inner">'
-            + '<div class="notification-header">'
-            + '<h5 class="notification-title"></h5>'
-            + '<button type="button" class="icon-close" data-dismiss="notification" aria-label="Close">'
-            + '<span class="icon" aria-hidden="true"></span>'
-            + '</button>'
-            + '</div>'
-            + '<div class="notification-body"></div>'
-            + '</div>'
-            + '</div>');
-        if (_this.getElement() === null) {
-            _this.build();
-        }
-        return _this;
+var Notification = function (_super) {
+  __extends(Notification, _super);
+
+  function Notification(props) {
+    if (props === void 0) {
+      props = {
+        element: null,
+        title: '',
+        button: true
+      };
     }
-    Notification.attachDOM = function () {
-        Util.Observer.subscribe({
-            componentClass: 'notification',
-            onAdded: function (element, create) {
-                create(new Notification({ element: element }));
-            },
-            onRemoved: function (element, remove) {
-                remove('Notification', element);
-            },
-        });
-    };
-    Notification.prototype.build = function () {
-        this.elementGenerated = true;
-        var builder = document.createElement('div');
-        builder.innerHTML = this.getTemplate();
-        this.setElement(builder.firstChild);
-        var element = this.getElement();
-        element.querySelector('.notification-title').innerHTML = this.getProp('title');
-        if (this.getProp('message')) {
-            element.querySelector('.notification-body').innerHTML = this.getProp('message');
-        }
-        else {
-            element.querySelector('.notification-body').style.display = 'none';
-        }
-        if (!this.getProp('button')) {
-            element.querySelector('button').style.display = 'none';
-        }
-        var container = this.getProp('appendIn');
-        container.appendChild(element);
-    };
-    Notification.prototype.setPosition = function () {
-        var x = this.getProp('directionX');
-        var y = this.getProp('directionY');
-        var offsetX = this.getProp('offsetX');
-        var offsetY = this.getProp('offsetY');
-        var notification = this.getElement();
-        Util.Selector.removeClasses(notification, Object.values(Direction));
-        notification.style.marginLeft = '0px';
-        notification.style.marginRight = '0px';
-        notification.classList.add("notification-" + x);
-        notification.classList.add("notification-" + y);
-        var activeNotifications = Array
-            .from(document.querySelectorAll('.notification.show') || []);
-        var totalNotifY = 0;
-        activeNotifications.forEach(function (n) {
-            if (notification !== n) {
-                var style = getComputedStyle(n);
-                var top_1 = parseInt(style.marginTop, 10);
-                var bottom = parseInt(style.marginBottom, 10);
-                totalNotifY += n.offsetHeight + top_1 + bottom;
-            }
-        });
-        notification.style.transform = "translateY(" + (y === 'top' ? '' : '-') + totalNotifY + "px)";
-        notification.style["margin" + x.replace(/^\w/, function (c) { return c.toUpperCase(); })] = offsetX + "px";
-        notification.style["margin" + y.replace(/^\w/, function (c) { return c.toUpperCase(); })] = offsetY + "px";
-    };
-    Notification.prototype.show = function () {
+
+    var _this = _super.call(this, 'notification', {
+      button: true,
+      timeout: null,
+      title: '',
+      message: null,
+      background: 'primary',
+      appendIn: document.body,
+      directionX: 'right',
+      directionY: 'top',
+      offsetX: 0,
+      offsetY: 0
+    }, props) || this;
+
+    _this.timeoutCallback = null;
+    _this.elementGenerated = false;
+
+    _this.setTemplate('' + '<div class="notification" data-no-boot>' + '<div class="notification-inner">' + '<div class="notification-header">' + '<h5 class="notification-title"></h5>' + '<button type="button" class="icon-close" data-dismiss="notification" aria-label="Close">' + '<span class="icon" aria-hidden="true"></span>' + '</button>' + '</div>' + '<div class="notification-body"></div>' + '</div>' + '</div>');
+
+    if (_this.getElement() === null) {
+      _this.build();
+    }
+
+    return _this;
+  }
+
+  Notification.attachDOM = function () {
+    Util.Observer.subscribe({
+      componentClass: 'notification',
+      onAdded: function onAdded(element, create) {
+        create(new Notification({
+          element: element
+        }));
+      },
+      onRemoved: function onRemoved(element, remove) {
+        remove('Notification', element);
+      }
+    });
+  };
+
+  Notification.prototype.build = function () {
+    this.elementGenerated = true;
+    var builder = document.createElement('div');
+    builder.innerHTML = this.getTemplate();
+    this.setElement(builder.firstChild);
+    var element = this.getElement();
+    element.querySelector('.notification-title').innerHTML = this.getProp('title');
+
+    if (this.getProp('message')) {
+      element.querySelector('.notification-body').innerHTML = this.getProp('message');
+    } else {
+      element.querySelector('.notification-body').style.display = 'none';
+    }
+
+    if (!this.getProp('button')) {
+      element.querySelector('button').style.display = 'none';
+    }
+
+    var container = this.getProp('appendIn');
+    container.appendChild(element);
+  };
+
+  Notification.prototype.setPosition = function () {
+    var x = this.getProp('directionX');
+    var y = this.getProp('directionY');
+    var offsetX = this.getProp('offsetX');
+    var offsetY = this.getProp('offsetY');
+    var notification = this.getElement();
+    Util.Selector.removeClasses(notification, Object.values(Direction));
+    notification.style.marginLeft = '0px';
+    notification.style.marginRight = '0px';
+    notification.classList.add("notification-" + x);
+    notification.classList.add("notification-" + y);
+    var activeNotifications = Array.from(document.querySelectorAll('.notification.show') || []);
+    var totalNotifY = 0;
+    activeNotifications.forEach(function (n) {
+      if (notification !== n) {
+        var style = getComputedStyle(n);
+        var top_1 = parseInt(style.marginTop, 10);
+        var bottom = parseInt(style.marginBottom, 10);
+        totalNotifY += n.offsetHeight + top_1 + bottom;
+      }
+    });
+    notification.style.transform = "translateY(" + (y === 'top' ? '' : '-') + totalNotifY + "px)";
+    notification.style["margin" + x.replace(/^\w/, function (c) {
+      return c.toUpperCase();
+    })] = offsetX + "px";
+    notification.style["margin" + y.replace(/^\w/, function (c) {
+      return c.toUpperCase();
+    })] = offsetY + "px";
+  };
+
+  Notification.prototype.show = function () {
+    var _this = this;
+
+    if (this.getElement() === null) {
+      this.build();
+    }
+
+    var element = this.getElement();
+
+    if (element.classList.contains('show')) {
+      return false;
+    }
+
+    var background = this.getProp('background');
+
+    if (background) {
+      element.removeAttribute('class');
+      element.setAttribute('class', 'notification');
+      element.classList.add("notification-" + background);
+      element.querySelector('button').classList.add("btn-" + background);
+    }
+
+    var buttonElement = element.querySelector('button[data-dismiss]');
+    var button = this.getProp('button');
+
+    if (button && buttonElement) {
+      this.registerElement({
+        target: buttonElement,
+        event: Util.Event.CLICK
+      });
+    }
+
+    var toggleButton = element.querySelector('button[data-dismiss]');
+    this.registerElement({
+      target: buttonElement,
+      event: Util.Event.CLICK
+    });
+
+    (function () {
+      return __awaiter(_this, void 0, void 0, function () {
+        var timeout, _onShown;
+
         var _this = this;
-        if (this.getElement() === null) {
-            this.build();
-        }
-        var element = this.getElement();
-        if (element.classList.contains('show')) {
-            return false;
-        }
-        var background = this.getProp('background');
-        if (background) {
-            element.removeAttribute('class');
-            element.setAttribute('class', 'notification');
-            element.classList.add("notification-" + background);
-            element.querySelector('button').classList.add("btn-" + background);
-        }
-        var buttonElement = element.querySelector('button[data-dismiss]');
-        var button = this.getProp('button');
-        if (button && buttonElement) {
-            this.registerElement({ target: buttonElement, event: Util.Event.CLICK });
-        }
-        var toggleButton = element.querySelector('button[data-dismiss]');
-        this.registerElement({ target: buttonElement, event: Util.Event.CLICK });
-        (function () { return __awaiter(_this, void 0, void 0, function () {
-            var timeout, onShown;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4, Util.sleep(20)];
-                    case 1:
-                        _a.sent();
-                        this.setPosition();
-                        timeout = this.getProp('timeout');
-                        if (Number.isInteger(timeout) && timeout > 0) {
-                            this.timeoutCallback = setTimeout(function () {
-                                _this.hide();
-                            }, timeout + 1);
-                        }
-                        element.classList.add('show');
-                        this.triggerEvent(Util.Event.SHOW);
-                        onShown = function () {
-                            _this.triggerEvent(Util.Event.SHOWN);
-                            element.removeEventListener(Util.Event.TRANSITION_END, onShown);
-                        };
-                        element.addEventListener(Util.Event.TRANSITION_END, onShown);
-                        return [2];
-                }
-            });
-        }); })();
-        return true;
+
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4, Util.sleep(20)];
+
+            case 1:
+              _a.sent();
+
+              this.setPosition();
+              timeout = this.getProp('timeout');
+
+              if (Number.isInteger(timeout) && timeout > 0) {
+                this.timeoutCallback = setTimeout(function () {
+                  _this.hide();
+                }, timeout + 1);
+              }
+
+              element.classList.add('show');
+              this.triggerEvent(Util.Event.SHOW);
+
+              _onShown = function onShown() {
+                _this.triggerEvent(Util.Event.SHOWN);
+
+                element.removeEventListener(Util.Event.TRANSITION_END, _onShown);
+              };
+
+              element.addEventListener(Util.Event.TRANSITION_END, _onShown);
+              return [2];
+          }
+        });
+      });
+    })();
+
+    return true;
+  };
+
+  Notification.prototype.hideBody = function () {
+    var body = this.getElement().querySelector('.notification-body');
+
+    if (body.classList.contains('show')) {
+      body.classList.remove('show');
+    }
+  };
+
+  Notification.prototype.hide = function () {
+    var _this = this;
+
+    if (this.timeoutCallback) {
+      clearTimeout(this.timeoutCallback);
+      this.timeoutCallback = null;
+    }
+
+    var element = this.getElement();
+
+    if (!element.classList.contains('show')) {
+      return false;
+    }
+
+    this.triggerEvent(Util.Event.HIDE);
+    var button = this.getProp('button');
+    var buttonElement = element.querySelector('button[data-dismiss]');
+
+    if (button && buttonElement) {
+      this.unregisterElement({
+        target: buttonElement,
+        event: Util.Event.CLICK
+      });
+    }
+
+    element.classList.remove('show');
+    element.classList.add('hide');
+    this.hideBody();
+
+    var onHidden = function onHidden() {
+      element.removeEventListener(Util.Event.TRANSITION_END, onHidden);
+      element.classList.remove('hide');
+
+      _this.triggerEvent(Util.Event.HIDDEN);
+
+      if (_this.elementGenerated) {
+        document.body.removeChild(element);
+      }
     };
-    Notification.prototype.hideBody = function () {
-        var body = this.getElement().querySelector('.notification-body');
-        if (body.classList.contains('show')) {
-            body.classList.remove('show');
-        }
-    };
-    Notification.prototype.hide = function () {
-        var _this = this;
-        if (this.timeoutCallback) {
-            clearTimeout(this.timeoutCallback);
-            this.timeoutCallback = null;
-        }
-        var element = this.getElement();
-        if (!element.classList.contains('show')) {
-            return false;
-        }
-        this.triggerEvent(Util.Event.HIDE);
-        var button = this.getProp('button');
-        var buttonElement = element.querySelector('button[data-dismiss]');
-        if (button && buttonElement) {
-            this.unregisterElement({ target: buttonElement, event: Util.Event.CLICK });
-        }
-        element.classList.remove('show');
-        element.classList.add('hide');
-        this.hideBody();
-        var onHidden = function () {
-            element.removeEventListener(Util.Event.TRANSITION_END, onHidden);
-            element.classList.remove('hide');
-            _this.triggerEvent(Util.Event.HIDDEN);
-            if (_this.elementGenerated) {
-                document.body.removeChild(element);
-            }
-        };
-        element.addEventListener(Util.Event.TRANSITION_END, onHidden);
-        return true;
-    };
-    Notification.prototype.onElementEvent = function () {
-        this.hide();
-    };
-    return Notification;
-}(Component));
+
+    element.addEventListener(Util.Event.TRANSITION_END, onHidden);
+    return true;
+  };
+
+  Notification.prototype.onElementEvent = function () {
+    this.hide();
+  };
+
+  return Notification;
+}(Component);
 
 module.exports = Notification;
 //# sourceMappingURL=notification.js.map

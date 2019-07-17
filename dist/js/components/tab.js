@@ -1,7 +1,7 @@
 /*!
-  * Tab v2.0.0-alpha.1 (https://github.com/quark-dev/Phonon-Framework)
+  * Tab v2.0.0-alpha.1 (https://phonon-framework.github.io)
   * Copyright 2015-2019 qathom
-  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * Licensed under MIT (https://github.com/phonon-framework/phonon/blob/master/LICENSE.md)
   */
 'use strict';
 
@@ -75,275 +75,369 @@ function __generator(thisArg, body) {
     }
 }
 
-var Component = (function () {
-    function Component(name, defaultProps, props) {
-        var _this = this;
-        this.template = '';
-        this.id = null;
-        this.eventHandlers = [];
-        this.registeredElements = [];
-        this.name = name;
-        var element = typeof props.element === 'string'
-            ? document.querySelector(props.element) : props.element;
-        var config = {};
-        if (element) {
-            var dataConfig = Util.Selector.attrConfig(element);
-            if (dataConfig) {
-                config = dataConfig;
-            }
-        }
-        this.defaultProps = defaultProps;
-        this.props = Object.assign(defaultProps, config, props, { element: element });
-        this.id = this.uid();
-        this.elementListener = function (event) { return _this.onBeforeElementEvent(event); };
-        this.setEventsHandler();
-    }
-    Component.prototype.setTemplate = function (template) {
-        this.template = template;
-    };
-    Component.prototype.getTemplate = function () {
-        return this.template;
-    };
-    Component.prototype.getElement = function () {
-        return this.getProp('element') || null;
-    };
-    Component.prototype.setElement = function (element) {
-        this.props.element = element;
-    };
-    Component.prototype.getId = function () {
-        return this.id;
-    };
-    Component.prototype.uid = function () {
-        return Math.random().toString(36).substr(2, 10);
-    };
-    Component.prototype.getName = function () {
-        return this.name;
-    };
-    Component.prototype.getProps = function () {
-        return this.props;
-    };
-    Component.prototype.getProp = function (name) {
-        var defaultValue = this.defaultProps[name];
-        return typeof this.props[name] !== 'undefined' ? this.props[name] : defaultValue;
-    };
-    Component.prototype.setProps = function (props) {
-        var componentProps = Object.assign({}, props);
-        this.props = Object.assign(this.props, componentProps);
-    };
-    Component.prototype.setProp = function (name, value) {
-        if (typeof this.props[name] === 'undefined') {
-            throw new Error('Cannot set an invalid prop');
-        }
-        this.props[name] = value;
-    };
-    Component.prototype.registerElements = function (elements) {
-        var _this = this;
-        elements.forEach(function (element) { return _this.registerElement(element); });
-    };
-    Component.prototype.registerElement = function (element) {
-        element.target.addEventListener(element.event, this.elementListener);
-        this.registeredElements.push(element);
-    };
-    Component.prototype.unregisterElements = function () {
-        var _this = this;
-        this.registeredElements.forEach(function (element) {
-            _this.unregisterElement(element);
-        });
-    };
-    Component.prototype.unregisterElement = function (element) {
-        var registeredElementIndex = this.registeredElements
-            .findIndex(function (el) { return el.target === element.target && el.event === element.event; });
-        if (registeredElementIndex > -1) {
-            element.target.removeEventListener(element.event, this.elementListener);
-            this.registeredElements.splice(registeredElementIndex, 1);
-        }
-        else {
-            console.error('Warning! Could not remove element:'
-                + ' ' + (element.target + " with event: " + element.event + "."));
-        }
-    };
-    Component.prototype.triggerEvent = function (eventName, detail, objectEventOnly) {
-        var _this = this;
-        if (detail === void 0) { detail = {}; }
-        if (objectEventOnly === void 0) { objectEventOnly = false; }
-        var eventNameObject = eventName.split('.').reduce(function (acc, current, index) {
-            if (index === 0) {
-                return current;
-            }
-            return acc + current.charAt(0).toUpperCase() + current.slice(1);
-        });
-        var eventNameAlias = "on" + eventNameObject
-            .charAt(0).toUpperCase() + eventNameObject.slice(1);
-        var props = this.getProps();
-        this.eventHandlers.forEach(function (scope) {
-            if (typeof scope[eventNameObject] === 'function') {
-                scope[eventNameObject].apply(_this, [detail]);
-            }
-            if (typeof scope[eventNameAlias] === 'function') {
-                props[eventNameAlias].apply(_this, [detail]);
-            }
-        });
-        if (objectEventOnly) {
-            return;
-        }
-        var element = this.getElement();
-        if (element) {
-            Util.Dispatch.elementEvent(element, eventName, this.name, detail);
-        }
-        else {
-            Util.Dispatch.winDocEvent(eventName, this.name, detail);
-        }
-    };
-    Component.prototype.preventClosable = function () {
-        return false;
-    };
-    Component.prototype.destroy = function () {
-        this.unregisterElements();
-    };
-    Component.prototype.onElementEvent = function (event) {
-    };
-    Component.prototype.setEventsHandler = function () {
-        var props = this.getProps();
-        var scope = Object.keys(props).reduce(function (cur, key) {
-            if (typeof props[key] === 'function') {
-                cur[key] = props[key];
-            }
-            return cur;
-        }, {});
-        if (Object.keys(scope).length > 0) {
-            this.eventHandlers.push(scope);
-        }
-    };
-    Component.prototype.onBeforeElementEvent = function (event) {
-        if (this.preventClosable()) {
-            return;
-        }
-        this.onElementEvent(event);
-    };
-    return Component;
-}());
+var Component = function () {
+  function Component(name, defaultProps, props) {
+    var _this = this;
 
-var Tab = (function (_super) {
-    __extends(Tab, _super);
-    function Tab(props) {
-        var _this = _super.call(this, 'tab', {}, props) || this;
-        _this.tabSelector = 'tab';
-        _this.tabItemSelector = 'tab-item';
-        _this.tabContentSelector = 'tab-pane';
-        _this.onAnimation = false;
-        _this.registerElement({ target: _this.getElement(), event: Util.Event.CLICK });
-        return _this;
+    this.template = '';
+    this.id = null;
+    this.eventHandlers = [];
+    this.registeredElements = [];
+    this.name = name;
+    var element = typeof props.element === 'string' ? document.querySelector(props.element) : props.element;
+    var config = {};
+
+    if (element) {
+      var dataConfig = Util.Selector.attrConfig(element);
+
+      if (dataConfig) {
+        config = dataConfig;
+      }
     }
-    Tab.attachDOM = function () {
-        Util.Observer.subscribe({
-            componentClass: 'tabs',
-            onAdded: function (element, create) {
-                create(new Tab({ element: element }));
-            },
-            onRemoved: function (element, remove) {
-                remove('Tab', element);
-            },
+
+    this.defaultProps = defaultProps;
+    this.props = Object.assign(defaultProps, config, props, {
+      element: element
+    });
+    this.id = this.uid();
+
+    this.elementListener = function (event) {
+      return _this.onBeforeElementEvent(event);
+    };
+
+    this.setEventsHandler();
+  }
+
+  Component.prototype.setTemplate = function (template) {
+    this.template = template;
+  };
+
+  Component.prototype.getTemplate = function () {
+    return this.template;
+  };
+
+  Component.prototype.getElement = function () {
+    return this.getProp('element') || null;
+  };
+
+  Component.prototype.setElement = function (element) {
+    this.props.element = element;
+  };
+
+  Component.prototype.getId = function () {
+    return this.id;
+  };
+
+  Component.prototype.uid = function () {
+    return Math.random().toString(36).substr(2, 10);
+  };
+
+  Component.prototype.getName = function () {
+    return this.name;
+  };
+
+  Component.prototype.getProps = function () {
+    return this.props;
+  };
+
+  Component.prototype.getProp = function (name) {
+    var defaultValue = this.defaultProps[name];
+    return typeof this.props[name] !== 'undefined' ? this.props[name] : defaultValue;
+  };
+
+  Component.prototype.setProps = function (props) {
+    var componentProps = Object.assign({}, props);
+    this.props = Object.assign(this.props, componentProps);
+  };
+
+  Component.prototype.setProp = function (name, value) {
+    if (typeof this.props[name] === 'undefined') {
+      throw new Error('Cannot set an invalid prop');
+    }
+
+    this.props[name] = value;
+  };
+
+  Component.prototype.registerElements = function (elements) {
+    var _this = this;
+
+    elements.forEach(function (element) {
+      return _this.registerElement(element);
+    });
+  };
+
+  Component.prototype.registerElement = function (element) {
+    element.target.addEventListener(element.event, this.elementListener);
+    this.registeredElements.push(element);
+  };
+
+  Component.prototype.unregisterElements = function () {
+    var _this = this;
+
+    this.registeredElements.forEach(function (element) {
+      _this.unregisterElement(element);
+    });
+  };
+
+  Component.prototype.unregisterElement = function (element) {
+    var registeredElementIndex = this.registeredElements.findIndex(function (el) {
+      return el.target === element.target && el.event === element.event;
+    });
+
+    if (registeredElementIndex > -1) {
+      element.target.removeEventListener(element.event, this.elementListener);
+      this.registeredElements.splice(registeredElementIndex, 1);
+    } else {
+      console.error('Warning! Could not remove element:' + ' ' + (element.target + " with event: " + element.event + "."));
+    }
+  };
+
+  Component.prototype.triggerEvent = function (eventName, detail, objectEventOnly) {
+    var _this = this;
+
+    if (detail === void 0) {
+      detail = {};
+    }
+
+    if (objectEventOnly === void 0) {
+      objectEventOnly = false;
+    }
+
+    var eventNameObject = eventName.split('.').reduce(function (acc, current, index) {
+      if (index === 0) {
+        return current;
+      }
+
+      return acc + current.charAt(0).toUpperCase() + current.slice(1);
+    });
+    var eventNameAlias = "on" + eventNameObject.charAt(0).toUpperCase() + eventNameObject.slice(1);
+    var props = this.getProps();
+    this.eventHandlers.forEach(function (scope) {
+      if (typeof scope[eventNameObject] === 'function') {
+        scope[eventNameObject].apply(_this, [detail]);
+      }
+
+      if (typeof scope[eventNameAlias] === 'function') {
+        props[eventNameAlias].apply(_this, [detail]);
+      }
+    });
+
+    if (objectEventOnly) {
+      return;
+    }
+
+    var element = this.getElement();
+
+    if (element) {
+      Util.Dispatch.elementEvent(element, eventName, this.name, detail);
+    } else {
+      Util.Dispatch.winDocEvent(eventName, this.name, detail);
+    }
+  };
+
+  Component.prototype.preventClosable = function () {
+    return false;
+  };
+
+  Component.prototype.destroy = function () {
+    this.unregisterElements();
+  };
+
+  Component.prototype.onElementEvent = function (event) {};
+
+  Component.prototype.setEventsHandler = function () {
+    var props = this.getProps();
+    var scope = Object.keys(props).reduce(function (cur, key) {
+      if (typeof props[key] === 'function') {
+        cur[key] = props[key];
+      }
+
+      return cur;
+    }, {});
+
+    if (Object.keys(scope).length > 0) {
+      this.eventHandlers.push(scope);
+    }
+  };
+
+  Component.prototype.onBeforeElementEvent = function (event) {
+    if (this.preventClosable()) {
+      return;
+    }
+
+    this.onElementEvent(event);
+  };
+
+  return Component;
+}();
+
+var Tab = function (_super) {
+  __extends(Tab, _super);
+
+  function Tab(props) {
+    var _this = _super.call(this, 'tab', {}, props) || this;
+
+    _this.tabSelector = 'tab';
+    _this.tabItemSelector = 'tab-item';
+    _this.tabContentSelector = 'tab-pane';
+    _this.onAnimation = false;
+
+    _this.registerElement({
+      target: _this.getElement(),
+      event: Util.Event.CLICK
+    });
+
+    return _this;
+  }
+
+  Tab.attachDOM = function () {
+    Util.Observer.subscribe({
+      componentClass: 'tabs',
+      onAdded: function onAdded(element, create) {
+        create(new Tab({
+          element: element
+        }));
+      },
+      onRemoved: function onRemoved(element, remove) {
+        remove('Tab', element);
+      }
+    });
+  };
+
+  Tab.prototype.onElementEvent = function (event) {
+    var target = event.target;
+
+    if (!target) {
+      return;
+    }
+
+    var dataToggleAttr = target.getAttribute('data-toggle');
+
+    if (dataToggleAttr) {
+      var id = target.getAttribute('href') || target.getAttribute('data-target');
+
+      if (!id) {
+        return;
+      }
+
+      event.preventDefault();
+      this.show(target);
+    }
+  };
+
+  Tab.prototype.show = function (tabLink) {
+    var _this = this;
+
+    if (this.onAnimation) {
+      return false;
+    }
+
+    var tabItem = Util.Selector.closest(tabLink, "." + this.tabItemSelector);
+
+    if (!tabItem || tabItem.classList.contains('active')) {
+      return false;
+    }
+
+    var id = tabLink.getAttribute('href') || tabLink.getAttribute('data-target');
+
+    if (!id) {
+      return false;
+    }
+
+    var tabContainer = this.getElement();
+    var tabItems = Array.from(tabContainer.querySelectorAll('.tab-item') || []);
+    tabItems.forEach(function (tab) {
+      if (tab.classList.contains('active')) {
+        tab.classList.remove('active');
+      }
+
+      var link = tab.querySelector('.tab-link');
+
+      if (link) {
+        link.setAttribute('aria-selected', 'false');
+      }
+    });
+    this.onAnimation = true;
+    tabItem.classList.add('active');
+    tabLink.setAttribute('aria-selected', 'true');
+    var tabContent = document.querySelector(id);
+
+    if (!tabContent) {
+      return false;
+    }
+
+    var tabContentParent = tabContent.parentNode;
+
+    if (!tabContentParent) {
+      return false;
+    }
+
+    var tabContents = Array.from(tabContentParent.querySelectorAll("." + this.tabContentSelector) || []);
+    var prevTabItem = tabContainer.querySelector('.tab-item.active');
+    tabContents.forEach(function (tab) {
+      if (tab.classList.contains('active')) {
+        tab.classList.remove('active');
+      }
+    });
+    tabContent.classList.add('showing');
+    this.triggerEvent(Util.Event.SHOW, this.getTabEvent(tabLink));
+
+    if (prevTabItem) {
+      this.triggerEvent(Util.Event.HIDE, this.getTabEvent(prevTabItem));
+    }
+
+    var onShowed = function onShowed() {
+      tabContent.classList.remove('animate');
+      tabContent.classList.add('active');
+      tabContent.classList.remove('showing');
+
+      _this.triggerEvent(Util.Event.SHOWN, _this.getTabEvent(tabLink));
+
+      if (prevTabItem) {
+        _this.triggerEvent(Util.Event.HIDDEN, _this.getTabEvent(prevTabItem));
+      }
+
+      _this.onAnimation = false;
+      tabContent.removeEventListener(Util.Event.TRANSITION_END, onShowed);
+    };
+
+    (function () {
+      return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4, Util.sleep(20)];
+
+            case 1:
+              _a.sent();
+
+              tabContent.addEventListener(Util.Event.TRANSITION_END, onShowed);
+              tabContent.classList.add('animate');
+              return [2];
+          }
         });
+      });
+    })();
+
+    return true;
+  };
+
+  Tab.prototype.getTabEvent = function (tabLink) {
+    return {
+      id: tabLink.getAttribute('href') || tabLink.getAttribute('data-target'),
+      target: tabLink
     };
-    Tab.prototype.onElementEvent = function (event) {
-        var target = event.target;
-        if (!target) {
-            return;
-        }
-        var dataToggleAttr = target.getAttribute('data-toggle');
-        if (dataToggleAttr) {
-            var id = target.getAttribute('href') || target.getAttribute('data-target');
-            if (!id) {
-                return;
-            }
-            event.preventDefault();
-            this.show(target);
-        }
-    };
-    Tab.prototype.show = function (tabLink) {
-        var _this = this;
-        if (this.onAnimation) {
-            return false;
-        }
-        var tabItem = Util.Selector.closest(tabLink, "." + this.tabItemSelector);
-        if (!tabItem || tabItem.classList.contains('active')) {
-            return false;
-        }
-        var id = tabLink.getAttribute('href') || tabLink.getAttribute('data-target');
-        if (!id) {
-            return false;
-        }
-        var tabContainer = this.getElement();
-        var tabItems = Array.from(tabContainer.querySelectorAll('.tab-item') || []);
-        tabItems.forEach(function (tab) {
-            if (tab.classList.contains('active')) {
-                tab.classList.remove('active');
-            }
-            var link = tab.querySelector('.tab-link');
-            if (link) {
-                link.setAttribute('aria-selected', 'false');
-            }
-        });
-        this.onAnimation = true;
-        tabItem.classList.add('active');
-        tabLink.setAttribute('aria-selected', 'true');
-        var tabContent = document.querySelector(id);
-        if (!tabContent) {
-            return false;
-        }
-        var tabContentParent = tabContent.parentNode;
-        if (!tabContentParent) {
-            return false;
-        }
-        var tabContents = Array
-            .from(tabContentParent.querySelectorAll("." + this.tabContentSelector) || []);
-        var prevTabItem = tabContainer.querySelector('.tab-item.active');
-        tabContents.forEach(function (tab) {
-            if (tab.classList.contains('active')) {
-                tab.classList.remove('active');
-            }
-        });
-        tabContent.classList.add('showing');
-        this.triggerEvent(Util.Event.SHOW, this.getTabEvent(tabLink));
-        if (prevTabItem) {
-            this.triggerEvent(Util.Event.HIDE, this.getTabEvent(prevTabItem));
-        }
-        var onShowed = function () {
-            tabContent.classList.remove('animate');
-            tabContent.classList.add('active');
-            tabContent.classList.remove('showing');
-            _this.triggerEvent(Util.Event.SHOWN, _this.getTabEvent(tabLink));
-            if (prevTabItem) {
-                _this.triggerEvent(Util.Event.HIDDEN, _this.getTabEvent(prevTabItem));
-            }
-            _this.onAnimation = false;
-            tabContent.removeEventListener(Util.Event.TRANSITION_END, onShowed);
-        };
-        (function () { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4, Util.sleep(20)];
-                    case 1:
-                        _a.sent();
-                        tabContent.addEventListener(Util.Event.TRANSITION_END, onShowed);
-                        tabContent.classList.add('animate');
-                        return [2];
-                }
-            });
-        }); })();
-        return true;
-    };
-    Tab.prototype.getTabEvent = function (tabLink) {
-        return {
-            id: tabLink.getAttribute('href') || tabLink.getAttribute('data-target'),
-            target: tabLink,
-        };
-    };
-    Tab.prototype.destroy = function () {
-        this.registerElement({ target: this.getElement(), event: Util.Event.CLICK });
-    };
-    return Tab;
-}(Component));
+  };
+
+  Tab.prototype.destroy = function () {
+    this.registerElement({
+      target: this.getElement(),
+      event: Util.Event.CLICK
+    });
+  };
+
+  return Tab;
+}(Component);
 Tab.attachDOM();
 
 module.exports = Tab;

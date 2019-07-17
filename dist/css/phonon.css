@@ -2233,8 +2233,7 @@ textarea.form-control {
     transition: all .3s ease-in-out;
     font-size: 0.875rem; }
   .floating-label-group input:not(:placeholder-shown) + label {
-    -webkit-transform: translateY(-10px);
-            transform: translateY(-10px);
+    transform: translateY(-10px);
     opacity: .7; }
 
 .input-group {
@@ -2538,19 +2537,15 @@ textarea.form-control {
 
 @-webkit-keyframes loader-spinner-animate {
   0% {
-    -webkit-transform: rotate(0deg) translateZ(0);
-            transform: rotate(0deg) translateZ(0); }
+    transform: rotate(0deg) translateZ(0); }
   100% {
-    -webkit-transform: rotate(360deg) translateZ(0);
-            transform: rotate(360deg) translateZ(0); } }
+    transform: rotate(360deg) translateZ(0); } }
 
 @keyframes loader-spinner-animate {
   0% {
-    -webkit-transform: rotate(0deg) translateZ(0);
-            transform: rotate(0deg) translateZ(0); }
+    transform: rotate(0deg) translateZ(0); }
   100% {
-    -webkit-transform: rotate(360deg) translateZ(0);
-            transform: rotate(360deg) translateZ(0); } }
+    transform: rotate(360deg) translateZ(0); } }
 
 .container {
   width: 100%;
@@ -3175,11 +3170,8 @@ textarea.form-control {
   top: 100px;
   right: 0;
   left: 0;
-  -webkit-transform: translate3d(0, 0, 0) scale(1.125);
-          transform: translate3d(0, 0, 0) scale(1.125);
-  transition: -webkit-transform 300ms ease-in-out;
+  transform: translate3d(0, 0, 0) scale(1.125);
   transition: transform 300ms ease-in-out;
-  transition: transform 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
   visibility: hidden;
   opacity: 0;
   z-index: 1080;
@@ -3189,8 +3181,7 @@ textarea.form-control {
   width: auto;
   height: auto; }
   .modal.show {
-    -webkit-transform: translate3d(0, 0, 0) scale(1);
-            transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
     visibility: visible;
     opacity: 1; }
   .modal.hide {
@@ -3278,22 +3269,18 @@ textarea.form-control {
 
 @-webkit-keyframes hideModal {
   0% {
-    -webkit-transform: translate3d(0, 0, 0) scale(1);
-            transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
     opacity: 1; }
   100% {
-    -webkit-transform: translate3d(0, 0, 0) scale(0.815);
-            transform: translate3d(0, 0, 0) scale(0.815);
+    transform: translate3d(0, 0, 0) scale(0.815);
     opacity: 0; } }
 
 @keyframes hideModal {
   0% {
-    -webkit-transform: translate3d(0, 0, 0) scale(1);
-            transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
     opacity: 1; }
   100% {
-    -webkit-transform: translate3d(0, 0, 0) scale(0.815);
-            transform: translate3d(0, 0, 0) scale(0.815);
+    transform: translate3d(0, 0, 0) scale(0.815);
     opacity: 0; } }
 
 .modal {
@@ -3530,21 +3517,16 @@ textarea.form-control {
   .offcanvas.offcanvas-left {
     border-right: 1px solid #f6f8fa;
     left: 0;
-    -webkit-transform: translate3d(-20.38rem, 0, 0);
-            transform: translate3d(-20.38rem, 0, 0); }
+    transform: translate3d(-20.38rem, 0, 0); }
   .offcanvas.offcanvas-right {
     border-left: 1px solid #f6f8fa;
     right: 0;
-    -webkit-transform: translate3d(20.38rem, 0, 0);
-            transform: translate3d(20.38rem, 0, 0); }
+    transform: translate3d(20.38rem, 0, 0); }
   .offcanvas.animate {
-    transition: -webkit-transform 300ms ease-in-out;
     transition: transform 300ms ease-in-out;
-    transition: transform 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
     visibility: visible; }
   .offcanvas.show {
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
     visibility: visible; }
   .offcanvas.hide {
     visibility: visible; }
@@ -3586,8 +3568,7 @@ textarea.form-control {
 
 @media (min-width: 768px) {
   .offcanvas {
-    -webkit-transform: translate3d(-16.63rem, 0, 0);
-            transform: translate3d(-16.63rem, 0, 0);
+    transform: translate3d(-16.63rem, 0, 0);
     width: 15.63rem; }
   .offcanvas-aside-left.show-left {
     margin-left: 15.63rem;
@@ -3602,8 +3583,7 @@ textarea.form-control {
 
 @media (min-width: 992px) {
   .offcanvas {
-    -webkit-transform: translate3d(-20rem, 0, 0);
-            transform: translate3d(-20rem, 0, 0);
+    transform: translate3d(-20rem, 0, 0);
     width: 20rem; }
   .offcanvas-aside-left.show-left {
     margin-left: 20rem;
@@ -3619,8 +3599,7 @@ textarea.form-control {
 .selectbox {
   display: inline-block;
   position: relative;
-  -webkit-transform: rotateZ(0deg);
-          transform: rotateZ(0deg);
+  transform: rotateZ(0deg);
   transition: border-color 300ms ease-in-out;
   outline: none;
   border: 1px solid #ddd;
@@ -3643,8 +3622,7 @@ textarea.form-control {
     height: auto;
     z-index: 10; }
     .selectbox.active .selectbox-icon {
-      -webkit-transform: rotate(180deg);
-              transform: rotate(180deg); }
+      transform: rotate(180deg); }
     .selectbox.active .selectbox-menu {
       display: block;
       border-top: 0; }
@@ -3807,9 +3785,7 @@ textarea.form-control {
     border-color: #000 transparent transparent transparent;
     top: calc(50% - 4px);
     right: 0;
-    transition: -webkit-transform 300ms ease-in-out;
     transition: transform 300ms ease-in-out;
-    transition: transform 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
     z-index: 3;
     cursor: pointer;
     text-align: center;

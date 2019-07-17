@@ -1,0 +1,24 @@
+declare const _default: {
+    TOUCH_SCREEN: boolean;
+    NETWORK_ONLINE: string;
+    NETWORK_OFFLINE: string;
+    NETWORK_RECONNECTING: string;
+    NETWORK_RECONNECTING_SUCCESS: string;
+    NETWORK_RECONNECTING_FAILURE: string;
+    SHOW: string;
+    SHOWN: string;
+    HIDE: string;
+    HIDDEN: string;
+    HASH: string;
+    START: string;
+    MOVE: string;
+    END: string;
+    CANCEL: string | null;
+    CLICK: string;
+    TRANSITION_START: string;
+    TRANSITION_END: string;
+    ANIMATION_START: string;
+    ANIMATION_END: string;
+    ITEM_SELECTED: string;
+};
+export default _default;
