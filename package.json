@@ -1,6 +1,6 @@
 {
   "name": "phonon",
-  "version": "2.0.0",
+  "version": "2.0.1-0",
   "description": "Phonon is an open source HTML, CSS and JavaScript agnostic framework that allows to create a website or a hybrid Web app.",
   "repository": {
     "type": "git",
