@@ -13,29 +13,28 @@
         PageTwo,
       },
       onMounted() {
-        setTimeout(() => {
-          phonon.options({
-            navigator: {
-              defaultPage: 'home',
-              animatePages: true,
-              enableBrowserBackButton: true,
-              templateRootDirectory: './tpl',
-            },
-            i18n: null, // for this example, we do not use internationalization
-          });
-          const app = phonon.navigator();
+        phonon.options({
+          navigator: {
+            defaultPage: 'home',
+            animatePages: true,
+            enableBrowserBackButton: true,
+            templateRootDirectory: './tpl',
+          },
+          i18n: null, // for this example, we do not use internationalization
+        });
 
-          app.on({ page: 'home', preventClose: false, content: null });
+        const app = phonon.navigator();
 
-          app.on({
-            page: 'pagetwo',
-            preventClose: true,
-            content: null,
-            readyDelay: 1,
-          });
+        app.on({ page: 'home', preventClose: false, content: null });
 
-          app.start();
-        }, 1000);
+        app.on({
+          page: 'pagetwo',
+          preventClose: true,
+          content: null,
+          readyDelay: 1,
+        });
+
+        app.start();
       },
     };
   </script>
