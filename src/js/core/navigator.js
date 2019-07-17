@@ -4,6 +4,8 @@
  * ========================================================================
  * Licensed under MIT (http://phonon.quarkdev.com)
  * ======================================================================== */
+
+// Support for older Riot versions below v4
 (function (window, riot, phonon) {
   window.phononDOM = {};
 
@@ -802,6 +804,7 @@
           started = true;
 
           const el = getPageEl(pageName);
+
           if (!el.classList.contains('app-active')) {
             el.classList.add('app-active');
           }
