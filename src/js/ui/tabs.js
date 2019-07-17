@@ -1021,7 +1021,7 @@
 	 */
   const setCurrentTab = function (pageName, tabNumber) {
     if (typeof pageName !== 'string') {
-      throw new Error(`The first argument must be a string, ${typeof tabNumber} given`);
+      throw new Error(`The first argument must be a string, ${typeof pageName} given`);
     }
     if (typeof tabNumber !== 'number') {
       throw new Error(`The second argument must be a number, ${typeof tabNumber} given`);
