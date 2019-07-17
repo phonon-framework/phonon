@@ -1046,7 +1046,6 @@
     }
 
     return {
-
       currentPage,
       previousPage,
       start,
