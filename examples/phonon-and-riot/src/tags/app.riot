@@ -1,0 +1,42 @@
+<app>
+  <home />
+  <page-two />
+
+  <script>
+    import Home from './home.riot';
+    import PageTwo from './pagetwo.riot';
+    import phonon from 'phonon/dist/js/phonon-core';
+
+    export default {
+      components: {
+        Home,
+        PageTwo,
+      },
+      onMounted() {
+        setTimeout(() => {
+          phonon.options({
+            navigator: {
+              defaultPage: 'home',
+              animatePages: true,
+              enableBrowserBackButton: true,
+              templateRootDirectory: './tpl',
+            },
+            i18n: null, // for this example, we do not use internationalization
+          });
+          const app = phonon.navigator();
+
+          app.on({ page: 'home', preventClose: false, content: null });
+
+          app.on({
+            page: 'pagetwo',
+            preventClose: true,
+            content: null,
+            readyDelay: 1,
+          });
+
+          app.start();
+        }, 1000);
+      },
+    };
+  </script>
+</app>

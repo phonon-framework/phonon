@@ -1,0 +1,27 @@
+{
+  "name": "phonon-and-riot",
+  "version": "1.0.0",
+  "description": "Example of Phonon and riot",
+  "scripts": {
+    "serve": "webpack-dev-server --inline --watch --hot --colors -d --port 3000"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "phonon": "^1.4.9",
+    "riot": "^4.3.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "@riotjs/compiler": "^4.3.5",
+    "@riotjs/hot-reload": "^4.0.0",
+    "@riotjs/webpack-loader": "^4.0.1",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.0.0",
+    "file-loader": "^4.0.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
+  }
+}
