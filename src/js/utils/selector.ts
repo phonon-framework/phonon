@@ -40,7 +40,7 @@ function attrConfig(element): null|object {
   }
 
   const keys = (attr.match(/(\w+)\s*:\s*(["'])?/igm) || [])
-    .map(e => e.replace(/(\w+)\s*:\s*(["'])?/igm, '$1'));
+    .map((e: string) => e.replace(/(\w+)\s*:\s*(["'])?/igm, '$1'));
   const values = attr.match(/[^:]+(?=,|$)/igm) || [];
   const json = {};
 
