@@ -13,7 +13,6 @@
   z-index: 20;
   opacity: 0;
   -webkit-transition: opacity 0.65s ease;
-  -o-transition: opacity 0.65s ease;
   transition: opacity 0.65s ease;
   background-color: #fff;
   border-radius: 50%;
@@ -82,7 +81,6 @@
   bottom: 0;
   background-color: #0084e7;
   -webkit-transition: width 0.2s linear;
-  -o-transition: width 0.2s linear;
   transition: width 0.2s linear;
 }
 .progress.primary .determinate {

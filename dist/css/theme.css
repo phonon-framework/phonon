@@ -28,8 +28,7 @@
 .dialog {
   background-color: #fff;
   border-radius: 2px;
-  -webkit-box-shadow: 0 2px 4px #8a8a8a;
-          box-shadow: 0 2px 4px #8a8a8a;
+  box-shadow: 0 2px 4px #8a8a8a;
 }
 /*
  * Tabs
@@ -150,7 +149,6 @@
           transform: translate3d(0, 72px, 0);
   -webkit-transition: opacity 200ms, -webkit-transform 0.3s;
   transition: opacity 200ms, -webkit-transform 0.3s;
-  -o-transition: transform 0.3s, opacity 200ms;
   transition: transform 0.3s, opacity 200ms;
   transition: transform 0.3s, opacity 200ms, -webkit-transform 0.3s;
 }

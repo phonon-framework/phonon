@@ -75,8 +75,7 @@ figure {
   margin: 1em 40px;
 }
 hr {
-  -webkit-box-sizing: content-box;
-          box-sizing: content-box;
+  box-sizing: content-box;
   height: 0;
 }
 pre {
@@ -119,8 +118,7 @@ input {
 }
 input[type="checkbox"],
 input[type="radio"] {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box; /* 1 */
+  box-sizing: border-box; /* 1 */
   padding: 0; /* 2 */
 }
 input[type="number"]::-webkit-inner-spin-button,
@@ -129,8 +127,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 input[type="search"] {
   -webkit-appearance: textfield; /* 1 */
-  -webkit-box-sizing: content-box;
-          box-sizing: content-box; /* 2 */
+  box-sizing: content-box; /* 2 */
 }
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
@@ -162,8 +159,7 @@ th {
 *,
 *:before,
 *:after {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 html,
 body {
@@ -173,7 +169,6 @@ body {
   overflow-x: hidden;
 }
 html {
-  -ms-touch-action: pan-y;
   touch-action: pan-y;
 }
 body {
@@ -414,7 +409,6 @@ button {
   border-radius: 3px;
   background-color: #f1f1f1;
   -webkit-transition: background-color 250ms ease-in-out;
-  -o-transition: background-color 250ms ease-in-out;
   transition: background-color 250ms ease-in-out;
 }
 .btn .icon {
@@ -437,13 +431,11 @@ button {
   position: fixed;
   padding: 16px;
   border-radius: 50%;
-  -webkit-box-shadow: 0 2px 3px #8a8a8a;
-          box-shadow: 0 2px 3px #8a8a8a;
+  box-shadow: 0 2px 3px #8a8a8a;
   z-index: 30;
   color: #fff;
   opacity: 0.5;
   -webkit-transform: 300ms, opacity 0.25s linear;
-      -ms-transform: 300ms, opacity 0.25s linear;
           transform: 300ms, opacity 0.25s linear;
 }
 .floating-action.active,
@@ -722,36 +714,23 @@ button {
 }
 .tabs .tab-items {
   display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   box-orient: horizontal;
 }
 .tabs .tab-items .tab-item {
   display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-flex-basis: 100%;
-      -ms-flex-preferred-size: 100%;
-          flex-basis: 100%;
+  flex-basis: 100%;
   -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-      -ms-flex-positive: 1;
           flex-grow: 1;
   -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
           justify-content: center;
   height: 50px;
   line-height: 50px;
   white-space: nowrap;
-  -o-text-overflow: ellipsis;
-     text-overflow: ellipsis;
+  text-overflow: ellipsis;
   overflow: hidden;
   color: #0084e7;
   text-align: center;
@@ -1048,7 +1027,6 @@ i.icon {
   display: block;
   color: #000;
   -webkit-transition: background-color 250ms ease-in-out;
-  -o-transition: background-color 250ms ease-in-out;
   transition: background-color 250ms ease-in-out;
 }
 .list li a:active {
@@ -1073,7 +1051,6 @@ i.icon {
   height: auto;
   display: none;
   -webkit-transition: max-height 300ms ease-in-out;
-  -o-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
   padding: 0 16px;
   background-color: #f9f9f9;
@@ -1082,7 +1059,6 @@ i.icon {
   position: static;
   display: block;
   -webkit-transition: max-height 300ms ease-in-out;
-  -o-transition: max-height 300ms ease-in-out;
   transition: max-height 300ms ease-in-out;
 }
 .list li .title,
@@ -1201,7 +1177,6 @@ label {
 .checkbox span:not(.text),
 .radio span:not(.text) {
   -webkit-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   content: "";
   position: absolute;
@@ -1215,7 +1190,6 @@ label {
 .checkbox :checked + span:not(.text),
 .radio :checked + span:not(.text) {
   -webkit-transform: rotate(-45deg);
-      -ms-transform: rotate(-45deg);
           transform: rotate(-45deg);
   border-radius: 0;
   height: 0.65rem;
@@ -1249,7 +1223,6 @@ label {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   -webkit-transition: all 200ms;
-  -o-transition: all 200ms;
   transition: all 200ms;
 }
 .with-label:focus + .floating-label,
@@ -1315,7 +1288,6 @@ table,
 .backdrop-dialog.fadeout {
   opacity: 0;
   -webkit-transition: opacity 0.45s linear;
-  -o-transition: opacity 0.45s linear;
   transition: opacity 0.45s linear;
 }
 .dialog {
@@ -1330,14 +1302,12 @@ table,
   margin: 0 auto;
   z-index: 28;
   border-radius: 2px;
-  -webkit-box-shadow: 0 2px 4px #8a8a8a;
-          box-shadow: 0 2px 4px #8a8a8a;
+  box-shadow: 0 2px 4px #8a8a8a;
   background-color: #fff;
   -webkit-transform: translate3d(0, 0, 0) scale(1.185);
           transform: translate3d(0, 0, 0) scale(1.185);
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
-  -o-transition: transform 0.3s, opacity 0.3s;
   transition: transform 0.3s, opacity 0.3s;
   transition: transform 0.3s, opacity 0.3s, -webkit-transform 0.3s;
 }
@@ -1414,7 +1384,6 @@ table,
           transform: translate3d(0, 72px, 0);
   -webkit-transition: opacity 200ms, -webkit-transform 0.3s;
   transition: opacity 200ms, -webkit-transform 0.3s;
-  -o-transition: transform 0.3s, opacity 200ms;
   transition: transform 0.3s, opacity 200ms;
   transition: transform 0.3s, opacity 200ms, -webkit-transform 0.3s;
 }
@@ -1452,7 +1421,6 @@ table,
 .backdrop-panel.fadeout {
   background-color: transparent;
   -webkit-transition: background-color 450ms ease-in-out;
-  -o-transition: background-color 450ms ease-in-out;
   transition: background-color 450ms ease-in-out;
 }
 .panel,
@@ -1475,7 +1443,6 @@ table,
           transform: translate3d(0, 100%, 0);
   -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
-  -o-transition: transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
@@ -1509,7 +1476,6 @@ table,
           transform: translate3d(0, 0, 0);
   -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
-  -o-transition: transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
@@ -1518,14 +1484,12 @@ table,
           transform: translate3d(0, 50%, 0);
   -webkit-transition: -webkit-transform 300ms;
   transition: -webkit-transform 300ms;
-  -o-transition: transform 300ms;
   transition: transform 300ms;
   transition: transform 300ms, -webkit-transform 300ms;
 }
 .panel-closing {
   -webkit-transition: -webkit-transform 300ms !important;
   transition: -webkit-transform 300ms !important;
-  -o-transition: transform 300ms !important;
   transition: transform 300ms !important;
   transition: transform 300ms, -webkit-transform 300ms !important;
 }
@@ -1549,17 +1513,14 @@ table,
   background-color: #fff;
   border-radius: 2px;
   visibility: hidden;
-  -webkit-box-shadow: 0 0 4px #8a8a8a;
-          box-shadow: 0 0 4px #8a8a8a;
+  box-shadow: 0 0 4px #8a8a8a;
   -webkit-transition: opacity 0.2s linear;
-  -o-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 .popover.active {
   visibility: visible;
   opacity: 1;
   -webkit-transition: opacity 0.2s linear;
-  -o-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 .popover .list {
@@ -1583,7 +1544,6 @@ table,
   z-index: 20;
   opacity: 0;
   -webkit-transition: opacity 0.65s ease;
-  -o-transition: opacity 0.65s ease;
   transition: opacity 0.65s ease;
   background-color: #fff;
   border-radius: 50%;
@@ -1652,7 +1612,6 @@ table,
   bottom: 0;
   background-color: #0084e7;
   -webkit-transition: width 0.2s linear;
-  -o-transition: width 0.2s linear;
   transition: width 0.2s linear;
 }
 .progress.primary .determinate {
@@ -1697,7 +1656,6 @@ table,
   -webkit-overflow-scrolling: touch;
   background-color: #333;
   -webkit-transition: width 0.3s ease;
-  -o-transition: width 0.3s ease;
   transition: width 0.3s ease;
 }
 .side-panel .list {
@@ -1755,8 +1713,7 @@ table,
 .awesomplete > ul {
   position: absolute;
   z-index: 1;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   list-style: none;
   padding: 0;
   margin: 0 auto;
@@ -1783,10 +1740,8 @@ table,
 .awesomplete > ul:empty {
   opacity: 0;
   -webkit-transform: scale(0);
-      -ms-transform: scale(0);
           transform: scale(0);
   display: block;
   -webkit-transition-timing-function: ease;
-       -o-transition-timing-function: ease;
           transition-timing-function: ease;
 }

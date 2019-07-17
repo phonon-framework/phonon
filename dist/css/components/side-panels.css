@@ -11,7 +11,6 @@
   -webkit-overflow-scrolling: touch;
   background-color: #333;
   -webkit-transition: width 0.3s ease;
-  -o-transition: width 0.3s ease;
   transition: width 0.3s ease;
 }
 .side-panel .list {

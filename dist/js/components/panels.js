@@ -1,223 +1,232 @@
+"use strict";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 /* ========================================================================
 * Phonon: panels.js v0.1.3
 * http://phonon.quarkdev.com
 * ========================================================================
 * Licensed under MIT (http://phonon.quarkdev.com)
 * ======================================================================== */
-;(function (window, document, phonon, undefined) {
+(function (window, document, phonon, undefined) {
+  var _activeObjects = [];
 
-	'use strict'
+  var createBackdrop = function createBackdrop(id) {
+    var backdrop = document.createElement('div');
+    backdrop.classList.add('backdrop-panel');
+    backdrop.setAttribute('data-backdrop-for', id);
+    return backdrop;
+  };
 
-	var _activeObjects = []
+  var findTrigger = function findTrigger(target) {
+    var triggers = document.querySelectorAll('[data-panel-id], [data-panel-close]');
+    var i;
 
-	var createBackdrop = function (id) {
-		var backdrop = document.createElement('div')
-		backdrop.classList.add('backdrop-panel')
-		backdrop.setAttribute('data-backdrop-for', id)
-		return backdrop
-	}
+    for (; target && target !== document; target = target.parentNode) {
+      for (i = triggers.length; i--;) {
+        if (triggers[i] === target) {
+          return target;
+        }
+      }
+    }
+  };
 
-	var findTrigger = function (target) {
-		var triggers = document.querySelectorAll('[data-panel-id], [data-panel-close]'), i
-		for (; target && target !== document; target = target.parentNode) {
-			for (i = triggers.length; i--;) {
-				if (triggers[i] === target) {
-					return target
-				}
-			}
-		}
-	}
+  var getPanel = function getPanel(event) {
+    var panelToggle = findTrigger(event.target);
 
-	var getPanel = function (event) {
-		var panelToggle = findTrigger(event.target)
-		if (panelToggle) {
-			var panelId = panelToggle.getAttribute('data-panel-id')
-			if(panelId) {
-				return document.querySelector('#'+panelId)
-			} else {
-				return findDOMPanel(event.target)
-			}
-		}
-	}
+    if (panelToggle) {
+      var panelId = panelToggle.getAttribute('data-panel-id');
 
-	var findObject = function(panelId) {
-		var length = _activeObjects.length
-		var i = 0
-		for (; i < length; i++) {
-			if(_activeObjects[i].panel.getAttribute('id') === panelId) {
-				var found = _activeObjects[i]
-				found.index = i
-				return found
-			}
-		}
-		return null
-	}
+      if (panelId) {
+        return document.querySelector("#".concat(panelId));
+      }
 
-	var findDOMPanel = function (target) {
-		var panels = document.querySelectorAll('.panel, .panel-full'), i
+      return findDOMPanel(event.target);
+    }
+  };
 
-		for (; target && target !== document; target = target.parentNode) {
-			for (i = panels.length; i--;) {
-				if (panels[i] === target && target.classList.contains('active')) {
-					return target
-				}
-			}
-		}
-	}
+  var findObject = function findObject(panelId) {
+    var length = _activeObjects.length;
+    var i = 0;
 
-	/**
-	* Used to find an opened dialog or an opened popover
-	* in front of a panel
-	* @todo clean this
-	*/
-	var onDialog = function (target) {
-		for (; target && target !== document; target = target.parentNode) {
-			if (target.classList.contains('dialog') || target.classList.contains('backdrop-dialog') ||
-			target.classList.contains('popover') || target.classList.contains('backdrop-popover')) {
-				return true;
-			}
-		}
-		return false;
-	};
+    for (; i < length; i++) {
+      if (_activeObjects[i].panel.getAttribute('id') === panelId) {
+        var found = _activeObjects[i];
+        found.index = i;
+        return found;
+      }
+    }
 
-	document.on(phonon.event.start, function (evt) {
-		evt = evt.originalEvent || evt;
+    return null;
+  };
 
-		// don't close panels if notifications are pressed
-		if(evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return
-		// don't close panels if a dialog is opened
-		if(onDialog(evt.target)) return;
+  var findDOMPanel = function findDOMPanel(target) {
+    var panels = document.querySelectorAll('.panel, .panel-full');
+    var i;
 
-		if(_activeObjects.length > 0) {
-			var previousPanel = _activeObjects[_activeObjects.length - 1].panel, p = findDOMPanel(evt.target);
+    for (; target && target !== document; target = target.parentNode) {
+      for (i = panels.length; i--;) {
+        if (panels[i] === target && target.classList.contains('active')) {
+          return target;
+        }
+      }
+    }
+  };
+  /**
+  * Used to find an opened dialog or an opened popover
+  * in front of a panel
+  * @todo clean this
+  */
 
-			if (!p) {
-				close(previousPanel);
-			}
 
-			if (p && p !== previousPanel) {
-				// Case where there are two active panels
-				if (p.id !== previousPanel.id) {
-					close(previousPanel);
-				}
-			}
-		}
-	});
+  var onDialog = function onDialog(target) {
+    for (; target && target !== document; target = target.parentNode) {
+      if (target.classList.contains('dialog') || target.classList.contains('backdrop-dialog') || target.classList.contains('popover') || target.classList.contains('backdrop-popover')) {
+        return true;
+      }
+    }
 
-	document.on(phonon.event.tap, function (evt) {
+    return false;
+  };
 
-		// don't close panels if notifications are pressed
-		if(evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return
-		// don't close panels if a dialog is opened
-		if(onDialog(evt.target)) return;
+  document.on(phonon.event.start, function (evt) {
+    evt = evt.originalEvent || evt; // don't close panels if notifications are pressed
 
-		var trigger = findTrigger(evt.target), panel = null;
+    if (evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return; // don't close panels if a dialog is opened
 
-		if (trigger) {
-			panel = getPanel(evt);
+    if (onDialog(evt.target)) return;
 
-			if(panel) {
-				panel.classList.contains('active') ? close(panel) : open(panel);
-			}
-		}
+    if (_activeObjects.length > 0) {
+      var previousPanel = _activeObjects[_activeObjects.length - 1].panel;
+      var p = findDOMPanel(evt.target);
 
-		panel = findDOMPanel(evt.target);
+      if (!p) {
+        _close(previousPanel);
+      }
 
-		if(!panel && !trigger) {
-			if(_activeObjects.length > 0) {
-				var previousPanel = _activeObjects[_activeObjects.length - 1].panel, p = findDOMPanel(evt.target);
-				close(previousPanel);
-			}
-		}
-	});
+      if (p && p !== previousPanel) {
+        // Case where there are two active panels
+        if (p.id !== previousPanel.id) {
+          _close(previousPanel);
+        }
+      }
+    }
+  });
+  document.on(phonon.event.tap, function (evt) {
+    // don't close panels if notifications are pressed
+    if (evt.target.classList.contains('notification') || evt.parentNode && evt.target.parentNode.classList.contains('notification')) return; // don't close panels if a dialog is opened
 
-	function onHide() {
-		document.body.removeChild(this);
+    if (onDialog(evt.target)) return;
+    var trigger = findTrigger(evt.target);
+    var panel = null;
 
-		var object = findObject(this.getAttribute('data-backdrop-for'))
+    if (trigger) {
+      panel = getPanel(evt);
 
-		_activeObjects.splice(object.index, 1)
+      if (panel) {
+        panel.classList.contains('active') ? _close(panel) : _open(panel);
+      }
+    }
 
-		this.off(phonon.event.transitionEnd, onHide, false);
-	}
+    panel = findDOMPanel(evt.target);
 
-	/**
-	* Public API
-	*/
+    if (!panel && !trigger) {
+      if (_activeObjects.length > 0) {
+        var previousPanel = _activeObjects[_activeObjects.length - 1].panel;
+        var p = findDOMPanel(evt.target);
 
-	function open (panel) {
-		if(!panel.classList.contains('active')) {
-			panel.style.display = 'block';
+        _close(previousPanel);
+      }
+    }
+  });
 
-			window.setTimeout(function () {
-				panel.classList.add('active');
-			}, 10);
+  function onHide() {
+    document.body.removeChild(this);
+    var object = findObject(this.getAttribute('data-backdrop-for'));
 
-			var backdrop = createBackdrop(panel.getAttribute('id'));
+    _activeObjects.splice(object.index, 1);
 
-			document.body.appendChild(backdrop);
+    this.off(phonon.event.transitionEnd, onHide, false);
+  }
+  /**
+  * Public API
+  */
 
-			_activeObjects.push({panel: panel, backdrop: backdrop});
-		}
-	}
 
-	function close (panel) {
-		if(panel.classList.contains('active')) {
-			panel.classList.remove('active');
-			panel.classList.add('panel-closing');
+  function _open(panel) {
+    if (!panel.classList.contains('active')) {
+      panel.style.display = 'block';
+      window.setTimeout(function () {
+        panel.classList.add('active');
+      }, 10);
+      var backdrop = createBackdrop(panel.getAttribute('id'));
+      document.body.appendChild(backdrop);
 
-			var closePanel = function () {
-				panel.classList.remove('panel-closing');
-				panel.style.display = 'none';
-				panel.off(phonon.event.transitionEnd, closePanel);
-			};
+      _activeObjects.push({
+        panel: panel,
+        backdrop: backdrop
+      });
+    }
+  }
 
-			panel.on(phonon.event.transitionEnd, closePanel);
+  function _close(panel) {
+    if (panel.classList.contains('active')) {
+      panel.classList.remove('active');
+      panel.classList.add('panel-closing');
 
-			var pObject = findObject(panel.getAttribute('id'))
+      var closePanel = function closePanel() {
+        panel.classList.remove('panel-closing');
+        panel.style.display = 'none';
+        panel.off(phonon.event.transitionEnd, closePanel);
+      };
 
-			if(pObject) {
-				pObject.backdrop.classList.add('fadeout');
-				pObject.backdrop.on(phonon.event.transitionEnd, onHide, false);
-			}
+      panel.on(phonon.event.transitionEnd, closePanel);
+      var pObject = findObject(panel.getAttribute('id'));
 
-		}
-	}
+      if (pObject) {
+        pObject.backdrop.classList.add('fadeout');
+        pObject.backdrop.on(phonon.event.transitionEnd, onHide, false);
+      }
+    }
+  }
 
-	function closeActive() {
-		var closable = (_activeObjects.length > 0 ? true : false);
-		if(closable) {
-			close(_activeObjects[_activeObjects.length - 1].panel);
-		}
-		return closable;
-	}
+  function closeActive() {
+    var closable = _activeObjects.length > 0;
 
-	phonon.panel = function (el) {
-		var panel = (typeof el === 'string' ? document.querySelector(el) : el);
-		if(panel === null) {
-			throw new Error('The panel with ID ' + el + ' does not exist');
-		}
+    if (closable) {
+      _close(_activeObjects[_activeObjects.length - 1].panel);
+    }
 
-		return {
-			open: function () {
-				open(panel);
-			},
-			close: function () {
-				close(panel);
-			}
-		};
-	};
+    return closable;
+  }
 
-	phonon.panelUtil = {
-		closeActive: closeActive
-	};
+  phonon.panel = function (el) {
+    var panel = typeof el === 'string' ? document.querySelector(el) : el;
 
-	window.phonon = phonon;
+    if (panel === null) {
+      throw new Error("The panel with ID ".concat(el, " does not exist"));
+    }
 
-	if(typeof exports === 'object') {
-		module.exports = phonon.panel;
-	} else if(typeof define === 'function' && define.amd) {
-		define(function() { return phonon.panel });
-	}
+    return {
+      open: function open() {
+        _open(panel);
+      },
+      close: function close() {
+        _close(panel);
+      }
+    };
+  };
 
-}(window, document, window.phonon || {}));
+  phonon.panelUtil = {
+    closeActive: closeActive
+  };
+  window.phonon = phonon;
+
+  if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object') {
+    module.exports = phonon.panel;
+  } else if (typeof define === 'function' && define.amd) {
+    define(function () {
+      return phonon.panel;
+    });
+  }
+})(window, document, window.phonon || {});

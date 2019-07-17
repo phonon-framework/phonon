@@ -85,7 +85,6 @@ label {
 .checkbox span:not(.text),
 .radio span:not(.text) {
   -webkit-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   content: "";
   position: absolute;
@@ -99,7 +98,6 @@ label {
 .checkbox :checked + span:not(.text),
 .radio :checked + span:not(.text) {
   -webkit-transform: rotate(-45deg);
-      -ms-transform: rotate(-45deg);
           transform: rotate(-45deg);
   border-radius: 0;
   height: 0.65rem;
@@ -133,7 +131,6 @@ label {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   -webkit-transition: all 200ms;
-  -o-transition: all 200ms;
   transition: all 200ms;
 }
 .with-label:focus + .floating-label,
