@@ -2199,6 +2199,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
  * ========================================================================
  * Licensed under MIT (http://phonon.quarkdev.com)
  * ======================================================================== */
+// Support for older Riot versions below v4
 
 
 (function (window, riot, phonon) {
