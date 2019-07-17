@@ -15,7 +15,7 @@
     "test:travis": "trevor/cli.js",
     "test:e2e": "testcafe chromium,firefox ./test/e2e/**",
     "coverage": "codecov",
-    "release": "release-it/bin/release-it minor --git.tagName='v${version}' --github.release"
+    "release": "release-it minor --git.tagName='v${version}' --github.release"
   },
   "hooks": {
     "before:init": [
