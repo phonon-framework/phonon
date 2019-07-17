@@ -124,7 +124,9 @@ function cssComponents() {
 
 function fonts() {
   return gulp.src('./src/fonts/**/*')
-    .pipe(gulp.dest('./dist/fonts'));
+    .pipe(gulp.dest('./dist/fonts'))
+    // Also copy the fonts if icons.css is used
+    .pipe(gulp.dest('./dist/css/fonts'));
 }
 
 const build = gulp.series(jsCore, jsAll, javascriptComponents, cssBase, cssTheme, cssAll, cssComponents, fonts);
