@@ -1,5 +1,9 @@
 @require '../_variables.styl';
 
+.backdrop-panel
+  &.backdrop-side-panel
+    z-index 0 !important
+
 .side-panel
   position absolute
   top 0
@@ -9,6 +13,9 @@
   width side-panel-width-phone
   height 100%
   visibility hidden // improves rendering
+
+  // Same z-index value as .panel (see panels.styl)
+  z-index 25
 
   overflow auto
 

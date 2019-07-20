@@ -84,11 +84,13 @@
       // @phonon
       createBackdrop() {
         if (!backdrop) {
+          // Create backdrop element
           const bd = document.createElement('div');
           bd.classList.add('backdrop-panel');
+          bd.classList.add('backdrop-side-panel');
           backdrop = bd;
 
-          settings.element.appendChild(backdrop);
+          document.body.appendChild(backdrop);
         }
       },
       removeBackdrop() {
@@ -101,8 +103,11 @@
           if (!backdrop) {
             return;
           }
+
           backdrop.classList.remove('fadeout');
-          settings.element.removeChild(backdrop);
+
+          document.body.removeChild(backdrop);
+
           backdrop.off(phonon.event.transitionEnd, closed);
           backdrop = null;
         };
