@@ -39,19 +39,20 @@
 			line-height  list-expanded-item-height
 
 		.accordion-content
-			position absolute
 			height auto
 			display none
 			transition max-height 300ms ease-in-out
 			padding 0 padding-phone
 			background-color #f9f9f9
+      overflow hidden
+      white-space nowrap
 
 		.accordion-active
-			position static
 			display block
 			transition max-height 300ms ease-in-out
 
-		.title, .body
+		.title,
+    .body
 			line-height ((list-expanded-item-height - (list-cell-content-padding*2))/2)
 			display block
 
