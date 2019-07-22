@@ -1,3 +1,9 @@
+### 1.5.1 (2019-07-22)
+
+* Solved bug when using one side panel with several pages [#170](https://github.com/phonon-framework/phonon/issues/170)
+* Improved Accordion overflow
+* Removed user-select by defaut [#276](https://github.com/phonon-framework/phonon/issues/276)
+
 ### 1.5.0 (2019-07-14)
 
 * Updated [Vue example](https://github.com/phonon-framework/phonon/tree/v1/examples/pizza-app-with-vue) by using Vue CLI [#298](https://github.com/phonon-framework/phonon/issues/298).
