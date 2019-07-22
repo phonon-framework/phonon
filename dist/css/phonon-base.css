@@ -188,10 +188,6 @@ body {
   -webkit-user-drag: none;
   -ms-content-zooming: none;
   background-color: #fff;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -255,10 +251,6 @@ input,
 textarea,
 select {
   -webkit-touch-callout: default;
-  -moz-user-select: all;
-   -ms-user-select: all;
-       user-select: all;
-  -webkit-user-select: auto;
 }
 a {
   color: #0084e7;
