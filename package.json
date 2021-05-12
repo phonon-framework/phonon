@@ -63,7 +63,7 @@
     "cross-env": "^5.2.0",
     "jest": "^24.8.0",
     "node-sass": "^4.12.0",
-    "postcss": "^7.0.17",
+    "postcss": "^8.2.10",
     "release-it": "^12.3.3",
     "rollup": "^1.17.0",
     "rollup-plugin-babel": "^4.3.3",
